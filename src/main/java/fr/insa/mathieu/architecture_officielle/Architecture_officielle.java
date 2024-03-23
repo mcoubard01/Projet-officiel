@@ -1,7 +1,7 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
-// verification test
+// verification test et essai de merge 
 
 package fr.insa.mathieu.architecture_officielle;
 
