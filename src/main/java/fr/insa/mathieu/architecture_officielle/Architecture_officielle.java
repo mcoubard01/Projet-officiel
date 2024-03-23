@@ -1,7 +1,7 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
-
+// verification du code 
 package fr.insa.mathieu.architecture_officielle;
 
 /*
