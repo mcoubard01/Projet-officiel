@@ -31,7 +31,6 @@ public class Mur {
         double surface = longueur(d,f)*(etage.getHauteur_etage());////////////LE COMMENTAIRE TEST
         return surface;
     }
- 
     public String getId() {
         return id;
     }

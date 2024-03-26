@@ -20,11 +20,18 @@ public class Architecture_officielle {
     public static String [][] donnee_enregistree;
 
     public static void main(String[] args) {
+   
         
     System.out.println("Donnez le nom de votre fichier :");
     String nom_fichier = Lire.S();
     donnee_enregistree=new String[100][100];
-    donnee_enregistree = lecture(nom_fichier);
+    //donnee_enregistree = lecture(nom_fichier);
+    String chaine = "123;456789";
+    String[] mots = chaine.split(";");// Séparateur de mots "-"
+    
+    System.out.println("partie 1 : "+mots[0]);
+    System.out.println("partie 2 : "+mots[1]);
+    
     /*
     System.out.println("ligne :");
     int l = Lire.i();
@@ -67,6 +74,7 @@ public class Architecture_officielle {
     public static String[][] lecture(String nom_fichier){
     String ligne;//chaîne de caractères pour enregistrer les lignes du document texte
     ArrayList data = new ArrayList();
+    ArrayList fich = new ArrayList();
     int nbr_ligne=1;
     try {
         BufferedReader entre=new BufferedReader(new FileReader(nom_fichier));
@@ -76,25 +84,27 @@ public class Architecture_officielle {
             nbr_ligne=nbr_ligne+1; // l'objectif ici est de connaître le nombre de ligne du fichier texte pour faire un tableau à la bonne dimension
         }
         entre.close();
-        String [][] donnee_ligne = new String[nbr_ligne][12]; 
+//String [][] donnee_ligne = new String[nbr_ligne][12]; 
 // crréation d'une matrice qui fonctionnera de la manière suivante. 
 // Chaque ligne de la matrice sera une ligne du fichier texte
 // chaque colonne correspondra aux informations suivantes : id, désignation, application, prix unitaire
 //System.out.println("AVT PATTERN");
-        Pattern separateur = Pattern.compile("\\d+(\\.\\d{1,2})?|\\w*"); // veut dire un nombre avec la possibilité de mettre une virgule ou un mot.
-            
+//Pattern separateur = Pattern.compile("\\d+(\\.\\d{1,2})?|\\w*"); // veut dire un nombre avec la possibilité de mettre une virgule ou un mot.
 //System.out.println("AVT BOUCLE FOR");
         for (int k = 1;k< nbr_ligne;k++){ // pour chaque indice de ArrayList => recherche de l'information nombre
           //System.out.println("RENTRE DANS LA BOUCLE FOR, k= "+k);
-            Matcher matcher = separateur.matcher((CharSequence) data.get(k-1));//data.get correspond à l'indice : l'endroit ou je recherhce l'information 
-            int nbr_find=0;
-            while (matcher.find()){                    
+          //Matcher matcher = separateur.matcher((CharSequence) data.get(k-1));//data.get correspond à l'indice : l'endroit ou je recherhce l'information 
+          String[] sep = (data.get(k)).split(";");
+          
+            //int nbr_find=0;
+            /*while (matcher.find()){                    
               //System.out.println("Rentre dans la boucle while");
               //System.out.println("nbr_find :"+nbr_find+" matcher : "+matcher.group()); // PB il fait 12 étapes pour trouver 6 correspondance
                 donnee_ligne[k][nbr_find] = matcher.group();
               //System.out.println("ligne "+k+" ,colonne "+nbr_find+" : "+donnee_ligne[k][nbr_find]);
                 nbr_find = nbr_find +1;        
             }
+          */
             //System.out.println("nbr de correspondance entre pattern et l'indice "+k+" de la liste : "+nbr_find);
                 
         }
