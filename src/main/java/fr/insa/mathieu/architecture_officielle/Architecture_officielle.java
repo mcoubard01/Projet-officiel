@@ -8,6 +8,7 @@ package fr.insa.mathieu.architecture_officielle;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
+import static fr.insa.mathieu.architecture_officielle.Mur.longueur;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -30,6 +31,18 @@ public class Architecture_officielle {
     int c = Lire.i();
     System.out.println("résultat : "+donnee_enregistree[l][c]);
    */
+   
+    Coin a = new Coin(2,3);
+    Coin b = new Coin(8,3);
+    Coin c= new Coin (2,6);
+    Sol sol =new Sol (a,b,c);
+        System.out.println("longueur a et b  : "+longueur(a,b));
+        System.out.println("longueur a et b  : "+longueur(a,c));
+    // COMMENTAIRE TEST FONCTION SURFACE
+  
+    System.out.println("la surface du sol   : "+sol.surface(a,b,c));
+    
+    
     
     // TEST pour savoir si ça marche ca n'aide pas au programme mais ça permet de savoir si le programme marche : est ce que la classe revêtement peut me renvoyer les attributs 
     /*System.out.println("choisi une identité entre 1 et 8");
