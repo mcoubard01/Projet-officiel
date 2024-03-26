@@ -4,7 +4,6 @@
  */
 package fr.insa.mathieu.architecture_officielle;
 import static fr.insa.mathieu.architecture_officielle.Mur.longueur;
-import static java.lang.Math.sqrt;
 /**
  *
  * @author stard

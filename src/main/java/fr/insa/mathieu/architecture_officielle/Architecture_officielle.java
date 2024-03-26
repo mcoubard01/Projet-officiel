@@ -49,7 +49,7 @@ public class Architecture_officielle {
     // COMMENTAIRE TEST FONCTION SURFACE
   
     System.out.println("la surface du sol   : "+sol.surface(a,b,c));
-     System.out.println("le prix du sol au m² est  : "+sol.prix(sol));
+    System.out.println("le prix du sol au m² est  : "+sol.prix());
     
     
     
@@ -73,7 +73,7 @@ public class Architecture_officielle {
 
     public static String[][] lecture(String nom_fichier){
     String ligne;//chaîne de caractères pour enregistrer les lignes du document texte
-    ArrayList data = new ArrayList();
+    ArrayList <String>data = new ArrayList();
     ArrayList fich = new ArrayList();
     int nbr_ligne=1;
     try {
