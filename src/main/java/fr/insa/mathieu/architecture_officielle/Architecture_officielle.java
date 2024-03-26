@@ -41,6 +41,9 @@ public class Architecture_officielle {
     // COMMENTAIRE TEST FONCTION SURFACE
   
     System.out.println("la surface du sol   : "+sol.surface(a,b,c));
+     System.out.println("le prix du sol au m² est  : "+sol.prix(sol));
+    
+    
     
     
     

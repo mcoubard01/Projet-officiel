@@ -35,8 +35,8 @@ public class Sol {
         // Il faudrait ajouter le prix, mais pour ça il faut la surface du mur
     }
     
-     public static double prix (Sol sol,Revêtement rev){
-        double prix= surface (sol.getSupg(),sol.getSupd() ,sol.getInfg())* rev.getPrix_unitaire();
+     public double prix (){
+        double prix= surface (this.getSupg(),this.getSupd() ,this.getInfg())* (this.getRevêtement_sol().getPrix_unitaire());
         return prix;
      }
 
@@ -70,6 +70,10 @@ public class Sol {
 
     public void setInfg(Coin infg) {
         this.infg = infg;
+    }
+
+    public Revêtement getRevêtement_sol() {
+        return revêtement_sol;
     }
 
 
