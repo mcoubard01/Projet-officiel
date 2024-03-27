@@ -12,7 +12,7 @@ public class Mur {
     private Revêtement revêtement_mur;
     private Etage étage_mur;
 
-    public Mur(Coin debut, Coin fin) {
+    public Mur(Coin debut, Coin fin) {  //test commentaire thomas 27/03
         this.id = "idc"; // INTEGRER LES ID AUTOMATIQUES
         this.debut = debut;
         this.fin = fin;
