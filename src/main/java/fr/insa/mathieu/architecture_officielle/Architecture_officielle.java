@@ -16,9 +16,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class Architecture_officielle {
+public class Architecture_officielle { // TEST 27/03
     public static ArrayList<String[]> donnee_enregistree; // Liste de tableau de chaine de caractère qui est utilisé pour le stockage des Revêtements
-
+    
     public static void main(String[] args) {
    //LECTURE FICHIER. IL s'appelle Revêtement_test.txt
     System.out.println("Donnez le nom de votre fichier :");
