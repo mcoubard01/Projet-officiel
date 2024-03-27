@@ -5,7 +5,7 @@
 package fr.insa.mathieu.architecture_officielle;
 import static java.lang.Math.sqrt;
 
-public class Mur {
+public class Mur {  //test 3 thomas
     private String id;
     private Coin debut;
     private Coin fin;
