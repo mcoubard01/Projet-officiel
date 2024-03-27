@@ -31,10 +31,12 @@ public class Mur {
         double surface = longueur(d,f)*(etage.getHauteur_etage());////////////LE COMMENTAIRE TEST
         return surface;
     }
+ oscar
       public double prix(){  //prix est repris dans pièce
         return surface(this.getDebut(),this.getFin(),this.getÉtage())*(this.getRevêtement_mur().getPrix_unitaire());
     }
  
+ master
     public String getId() {
         return id;
     }
