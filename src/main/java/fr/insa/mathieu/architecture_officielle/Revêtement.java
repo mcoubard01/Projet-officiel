@@ -29,9 +29,10 @@ public class Revêtement extends Architecture_officielle {
         return finalvalue;
     }
     public Revêtement(int id) {
-        this.id = id;
+        int a = id -1;
+        this.id = a;
         // A CHANGER pour récupérer les bonnes données
-        String[] info= donnee_enregistree.get(id);
+        String[] info= donnee_enregistree.get(a);
         this.désignation = info[1];
         this.pourMur = info[2];
         this.pourSol = info[3];
