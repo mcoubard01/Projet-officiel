@@ -13,7 +13,7 @@ public class Mur {
     private Etage étage_mur;
 
     //le constructeur officiel pour le mur
-    public Mur(Coin debut, Coin fin, Etage etage, Revêtement revêtement){
+    public Mur(Coin debut, Coin fin, Etage étage, Revêtement revêtement){
         this.id = "idc"; // INTEGRER LES ID AUTOMATIQUES
         this.debut = debut;
         this.fin = fin;
@@ -36,9 +36,19 @@ public class Mur {
     }
     
     
+    public double longueur(){ //appeler "mur.longueur()" renvoie la longeueur du mur
+        return sqrt(((this.getFin().getX()-this.getDebut().getX())*(this.getFin().getX()-this.getDebut().getX())+(this.getFin().getY()-this.getDebut().getY())*(this.getFin().getY()-this.getDebut().getY())));
+    }
+   
     public static double longueur(Coin d,Coin f){
         double L=sqrt(((f.getX()-d.getX())*(f.getX()-d.getX())+(f.getY()-d.getY())*(f.getY()-d.getY())));
         return L;   
+    }
+    
+    //la méthode principale du surface
+    public double surface(){ //appeler : mur.surface() renvoie la surface de l'objet mur
+     return this.longueur()*(this.getÉtage().getHauteur_etage()); //this désigne l'objet instancié (le mur)
+    
     }
     public static double surface(Coin d, Coin f, Etage etage){
         double surface = longueur(d,f)*(etage.getHauteur_etage());
@@ -84,8 +94,9 @@ public class Mur {
         debut1= new Coin(2,1);
         fin1 = new Coin(5,1);
         Etage etageTest = new Etage(5);
-        Mur mur = new Mur(debut1,fin1); 
-        System.out.println("l = " + longueur(debut1, fin1)+"surface is " + surface(debut1,fin1,etageTest) + "price is " + mur.prix());
+        Revêtement test=new Revêtement();
+        Mur mur = new Mur(debut1,fin1, etageTest, test); 
+        System.out.println("length = " + longueur(debut1, fin1)+"surface is " + surface(debut1,fin1,etageTest) + "price is " + mur.prix());
         
     }
        
