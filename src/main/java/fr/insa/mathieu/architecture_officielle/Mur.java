@@ -5,14 +5,14 @@
 package fr.insa.mathieu.architecture_officielle;
 import static java.lang.Math.sqrt;
 
-public class Mur {  //test 3 thomas
+public class Mur {  
     private String id;
     private Coin debut;
     private Coin fin;
     private Revêtement revêtement_mur;
     private Etage étage_mur;
 
-    public Mur(Coin debut, Coin fin) {  //test commentaire thomas 27/03
+    public Mur(Coin debut, Coin fin) { 
         
         //test thomas 2
         this.id = "idc"; // INTEGRER LES ID AUTOMATIQUES
@@ -30,7 +30,7 @@ public class Mur {  //test 3 thomas
         return L;   
     }
     public static double surface(Coin d, Coin f, Etage etage){
-        double surface = longueur(d,f)*(etage.getHauteur_etage());////////////LE COMMENTAIRE TEST
+        double surface = longueur(d,f)*(etage.getHauteur_etage());
         return surface;
     }
       public double prix(){  //prix est repris dans pièce
@@ -73,7 +73,7 @@ public class Mur {  //test 3 thomas
         debut1= new Coin(2,1);
         fin1 = new Coin(5,1);
         Etage etageTest = new Etage(5);
-        Mur mur = new Mur(debut1,fin1); //test:ceci est la master
+        Mur mur = new Mur(debut1,fin1); 
         System.out.println("l = " + longueur(debut1, fin1)+"surface is " + surface(debut1,fin1,etageTest) + "price is " + mur.prix());
         
     }
