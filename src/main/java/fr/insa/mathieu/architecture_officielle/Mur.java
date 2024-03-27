@@ -74,7 +74,7 @@ public class Mur {
         fin1 = new Coin(5,1);
         Etage etageTest = new Etage(5);
         Mur mur = new Mur(debut1,fin1);
-        System.out.println("l = " + longueur(debut1, fin1)+"surface is " + surface(debut1,fin1,etageTest) + "price is " + mur.prix(etageTest));
+        System.out.println("l = " + longueur(debut1, fin1)+"surface is " + surface(debut1,fin1,etageTest) + "price is " + mur.prix());
         
     }
        
