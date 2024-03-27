@@ -54,8 +54,8 @@ public class Mur {
         double surface = longueur(d,f)*(etage.getHauteur_etage());
         return surface;
     }
-      public double prix(){  //prix est repris dans pièce
-        return surface(this.getDebut(),this.getFin(),this.getÉtage())*(this.getRevêtement_mur().getPrix_unitaire());
+      public double prix(){  //appeler "mur.prix()" !! : il faut que le prix_unitaire du revêtement soit défini (ou bien, temporairement écrire revetment.setPrix_unitaire([nombre]) )
+        return this.surface()*(this.getRevêtement_mur().getPrix_unitaire());
     }
  
     public String getId() {
