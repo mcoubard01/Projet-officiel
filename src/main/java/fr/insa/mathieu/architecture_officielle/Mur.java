@@ -13,6 +13,8 @@ public class Mur {
     private Etage étage_mur;
 
     public Mur(Coin debut, Coin fin) {  //test commentaire thomas 27/03
+        
+        //test thomas 2
         this.id = "idc"; // INTEGRER LES ID AUTOMATIQUES
         this.debut = debut;
         this.fin = fin;
