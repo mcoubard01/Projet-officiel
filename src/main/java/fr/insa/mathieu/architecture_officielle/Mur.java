@@ -90,13 +90,17 @@ public class Mur {
     }
        
         public static void main(String [] args){   //un main pour tester longueur et surface
+        //test 27/03/24 (thomas)
         Coin debut1 , fin1;
         debut1= new Coin(2,1);
         fin1 = new Coin(5,1);
         Etage etageTest = new Etage(5);
         Revêtement test=new Revêtement();
+        test.setPrix_unitaire(5.0);
         Mur mur = new Mur(debut1,fin1, etageTest, test); 
-        System.out.println("length = " + longueur(debut1, fin1)+"surface is " + surface(debut1,fin1,etageTest) + "price is " + mur.prix());
+        System.out.println("length = " + mur.longueur()+", surface is " + mur.surface() + ", price is " + mur.prix());
+        //résultat : "length = 3.0, surface is 15.0, price is 75.0"
+        
         
     }
        
