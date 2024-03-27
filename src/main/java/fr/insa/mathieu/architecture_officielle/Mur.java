@@ -12,6 +12,16 @@ public class Mur {
     private Revêtement revêtement_mur;
     private Etage étage_mur;
 
+    //le constructeur officiel pour le mur
+    public Mur(Coin debut, Coin fin, Etage etage, Revêtement revêtement){
+        this.id = "idc"; // INTEGRER LES ID AUTOMATIQUES
+        this.debut = debut;
+        this.fin = fin;
+        this.revêtement_mur = revêtement;
+        this.étage_mur = étage;
+    }
+    
+    //un constructeur annexe, simplifié mais incomplet
     public Mur(Coin debut, Coin fin) { 
         
         //test thomas 2
@@ -19,12 +29,13 @@ public class Mur {
         this.debut = debut;
         this.fin = fin;
     }
-
+    
+    //un constructeur annexe, simplifié mais incomplet
     public Mur(Revêtement revêtement) {
         this.revêtement_mur = revêtement;
-        // Il faudrait ajouter le prix, mais pour ça il faut la surface du mur
     }
-   
+    
+    
     public static double longueur(Coin d,Coin f){
         double L=sqrt(((f.getX()-d.getX())*(f.getX()-d.getX())+(f.getY()-d.getY())*(f.getY()-d.getY())));
         return L;   
