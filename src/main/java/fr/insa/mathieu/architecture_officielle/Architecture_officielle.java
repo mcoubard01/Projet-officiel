@@ -16,7 +16,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class Architecture_officielle { // TEST 27/03
+public class Architecture_officielle { // TEST 27/03 + thomas's test
     public static ArrayList<String[]> donnee_enregistree; // Liste de tableau de chaine de caractère qui est utilisé pour le stockage des Revêtements
     
     public static void main(String[] args) {
