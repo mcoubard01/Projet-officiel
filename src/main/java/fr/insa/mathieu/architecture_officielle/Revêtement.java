@@ -30,11 +30,13 @@ public class Revêtement extends Architecture_officielle {
     }
     public Revêtement(int id) {
         this.id = id;
-        this.désignation = donnee_enregistree[id][2];
-        this.pourMur = donnee_enregistree[id][4];
-        this.pourSol = donnee_enregistree[id][6];
-        this.pourPlafond = donnee_enregistree[id][8];
-        this.prix_unitaire = todouble(donnee_enregistree[id][10]);
+        // A CHANGER pour récupérer les bonnes données
+        String[] info= donnee_enregistree.get(id);
+        this.désignation = info[1];
+        this.pourMur = info[2];
+        this.pourSol = info[3];
+        this.pourPlafond = info[4];
+        this.prix_unitaire = todouble(info[5]);
     }
 
     public int getId() {

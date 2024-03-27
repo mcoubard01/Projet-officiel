@@ -17,21 +17,15 @@ import java.util.regex.Pattern;
 
 
 public class Architecture_officielle {
-    public static String [][] donnee_enregistree;
+    public static ArrayList<String[]> donnee_enregistree;
 
     public static void main(String[] args) {
    
         
     System.out.println("Donnez le nom de votre fichier :");
     String nom_fichier = Lire.S();
-    donnee_enregistree=new String[100][100];
-    //donnee_enregistree = lecture(nom_fichier);
-    String chaine = "123;456789";
-    String[] mots = chaine.split(";");// Séparateur de mots "-"
     
-    System.out.println("partie 1 : "+mots[0]);
-    System.out.println("partie 2 : "+mots[1]);
-    
+    donnee_enregistree = lecture(nom_fichier);
     /*
     System.out.println("ligne :");
     int l = Lire.i();
@@ -40,6 +34,8 @@ public class Architecture_officielle {
     System.out.println("résultat : "+donnee_enregistree[l][c]);
    */
    
+    //////////////TEST SURFACE PIECE
+    /*
     Coin a = new Coin(2,3);
     Coin b = new Coin(8,3);
     Coin c= new Coin (2,6);
@@ -50,13 +46,13 @@ public class Architecture_officielle {
   
     System.out.println("la surface du sol   : "+sol.surface(a,b,c));
     System.out.println("le prix du sol au m² est  : "+sol.prix());
+    */
     
     
     
     
-    
-    // TEST pour savoir si ça marche ca n'aide pas au programme mais ça permet de savoir si le programme marche : est ce que la classe revêtement peut me renvoyer les attributs 
-    /*System.out.println("choisi une identité entre 1 et 8");
+    // TEST Classe revêtement peut me renvoyer les attributs 
+    System.out.println("choisi une identité entre 1 et 8");
     int id=Lire.i();
     Revêtement a = new Revêtement(id);
     System.out.println("Désignation de a :"+a.getDésignation() );
@@ -64,17 +60,18 @@ public class Architecture_officielle {
     System.out.println("pour sol de a :"+a.getPourSol() );
     System.out.println("pour plafond de a :"+a.getPourPlafond() );
     System.out.println("prix unitaire de a :"+a.getPrix_unitaire() );
-    */
+    
     // System.out.println("opération "+a.getPrix_unitaire()/4); // TEST pour la conversion du prix
         //
         
         
     }
 
-    public static String[][] lecture(String nom_fichier){
+    public static ArrayList<String[]> lecture(String nom_fichier){
     String ligne;//chaîne de caractères pour enregistrer les lignes du document texte
     ArrayList <String>data = new ArrayList();
-    ArrayList fich = new ArrayList();
+    ArrayList colonne=new ArrayList();
+    ArrayList<String[]>ligne_array = new ArrayList<>();
     int nbr_ligne=1;
     try {
         BufferedReader entre=new BufferedReader(new FileReader(nom_fichier));
@@ -91,10 +88,13 @@ public class Architecture_officielle {
 //System.out.println("AVT PATTERN");
 //Pattern separateur = Pattern.compile("\\d+(\\.\\d{1,2})?|\\w*"); // veut dire un nombre avec la possibilité de mettre une virgule ou un mot.
 //System.out.println("AVT BOUCLE FOR");
-        for (int k = 1;k< nbr_ligne;k++){ // pour chaque indice de ArrayList => recherche de l'information nombre
-          //System.out.println("RENTRE DANS LA BOUCLE FOR, k= "+k);
-          //Matcher matcher = separateur.matcher((CharSequence) data.get(k-1));//data.get correspond à l'indice : l'endroit ou je recherhce l'information 
-          String[] sep = (data.get(k)).split(";");
+        System.out.println("nombre de ligne :"+nbr_ligne);
+        for (int k = 0; k <= nbr_ligne+1; k++) { 
+            
+            String[] elements =data.get(k).split(";");
+            ligne_array.add(k, elements);
+        
+
           
             //int nbr_find=0;
             /*while (matcher.find()){                    
@@ -124,7 +124,7 @@ public class Architecture_officielle {
         int c = Lire.i();
         System.out.println("résultat : "+donnee_ligne[l][c]);
         */
-        return donnee_ligne;
+        return (ligne_array) ;
             
     }
     catch(FileNotFoundException err){
