@@ -39,6 +39,9 @@ public class Revêtement extends Architecture_officielle {
         this.pourPlafond = info[4];
         this.prix_unitaire = todouble(info[5]);
     }
+    
+    //un constructeur neutre : 
+    public Revêtement(){}
 
     public int getId() {
         return id;
@@ -63,6 +66,12 @@ public class Revêtement extends Architecture_officielle {
     public double getPrix_unitaire() {
         return prix_unitaire;
     }
+
+    public void setPrix_unitaire(double prix_unitaire) { //ce setter permet tester des méthodes sans connaître le revêtement utilisé. (voir mur (27/03/24) ) .
+        this.prix_unitaire = prix_unitaire;
+    }
+    
+    
     
     
 }
