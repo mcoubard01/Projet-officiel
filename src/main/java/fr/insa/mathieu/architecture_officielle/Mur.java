@@ -5,7 +5,7 @@
 package fr.insa.mathieu.architecture_officielle;
 import static java.lang.Math.sqrt;
 
-public class Mur {
+public class Mur {  //test 3 thomas
     private String id;
     private Coin debut;
     private Coin fin;
@@ -73,7 +73,7 @@ public class Mur {
         debut1= new Coin(2,1);
         fin1 = new Coin(5,1);
         Etage etageTest = new Etage(5);
-        Mur mur = new Mur(debut1,fin1);
+        Mur mur = new Mur(debut1,fin1); //test:ceci est la master
         System.out.println("l = " + longueur(debut1, fin1)+"surface is " + surface(debut1,fin1,etageTest) + "price is " + mur.prix());
         
     }
