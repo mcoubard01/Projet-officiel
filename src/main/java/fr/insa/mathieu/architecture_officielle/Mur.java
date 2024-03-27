@@ -10,7 +10,7 @@ public class Mur {
     private Coin debut;
     private Coin fin;
     private Revêtement revêtement_mur;
-    
+    private Etage étage_mur;
 
     public Mur(Coin debut, Coin fin) {
         this.id = "idc"; // INTEGRER LES ID AUTOMATIQUES
@@ -31,6 +31,12 @@ public class Mur {
         double surface = longueur(d,f)*(etage.getHauteur_etage());////////////LE COMMENTAIRE TEST
         return surface;
     }
+ oscar
+      public double prix(){  //prix est repris dans pièce
+        return surface(this.getDebut(),this.getFin(),this.getÉtage())*(this.getRevêtement_mur().getPrix_unitaire());
+    }
+ 
+ master
     public String getId() {
         return id;
     }
@@ -55,6 +61,23 @@ public class Mur {
         this.fin = fin;
     }
     
-    
-    
+     public Revêtement getRevêtement_mur() {
+        return revêtement_mur;
+    }
+       public Etage getÉtage() {
+        return étage_mur;
+    }
+       
+        public static void main(String [] args){   //un main pour tester longueur et surface
+        Coin debut1 , fin1;
+        debut1= new Coin(2,1);
+        fin1 = new Coin(5,1);
+        Etage etageTest = new Etage(5);
+        Mur mur = new Mur(debut1,fin1);
+        System.out.println("l = " + longueur(debut1, fin1)+"surface is " + surface(debut1,fin1,etageTest) + "price is " + mur.prix(etageTest));
+        
+    }
+       
+       
+       
 }
