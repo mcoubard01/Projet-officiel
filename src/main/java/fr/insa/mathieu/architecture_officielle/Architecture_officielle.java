@@ -12,32 +12,51 @@ package fr.insa.mathieu.architecture_officielle;
 import static fr.insa.mathieu.architecture_officielle.Mur.longueur;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 public class Architecture_officielle { // TEST 27/03 + thomas's test +nouveau commentaire
     public static ArrayList<String[]> donnee_enregistree; // Liste de tableau de chaine de caractère qui est utilisé pour le stockage des Revêtements
     
     public static void main(String[] args) {
-   //LECTURE FICHIER. IL s'appelle Revêtement_test.txt
+   //////////////LECTURE FICHIER. IL s'appelle Revêtement_test.txt
     System.out.println("Donnez le nom de votre fichier :");
     String nom_fichier = Lire.S();
     donnee_enregistree = lecture(nom_fichier); // Lecture est ici une fonction qui renverra une ArrayList de tableau de chaînes de caractères
+
    
-    //////////////TEST SURFACE PIECE
-    /*
-    Coin a = new Coin(2,3);
-    Coin b = new Coin(8,3);
-    Coin c= new Coin (2,6);
-    Sol sol =new Sol (a,b,c);
+   //////////////TEST SURFACE PIECE + PRIX
+   /*
+    Coin a = new Coin(2,6);
+    Coin b = new Coin(4,6);
+    Coin c= new Coin(2,0);
+    Revêtement e = new Revêtement(2); // gazon normalement
+    System.out.println("Le nom du revêtement est : "+e.getDésignation());
+    System.out.println("Le prix du ce revêtement est : "+ e.getPrix_unitaire());
+    Sol sol =new Sol (a,b,c,e);
     System.out.println("longueur a et b  : "+longueur(a,b));
     System.out.println("longueur a et b  : "+longueur(a,c));  
-    System.out.println("la surface du sol   : "+sol.surface(a,b,c));
+    System.out.println("la surface du sol   : "+Sol.surface(a,b,c));
     System.out.println("le prix du sol au m² est  : "+sol.prix());
     */
+   
+    //////////////TEST PRIX MUR
+    /*
+    Coin debut1 , fin1;
+    debut1= new Coin(2,1);
+    fin1 = new Coin(5,1);
+        
+    Etage etage1 = new Etage(5);
+    Revêtement test=new Revêtement(2);
+    Mur mur = new Mur(debut1,fin1, etage1, test);
+        
+    System.out.println("Le prix du revêtement est : "+test.getPrix_unitaire());
+    System.out.println("Length = " + mur.longueur());
+    System.out.println("Hauteur du mur : "+etage1.getHauteur_etage());
+    System.out.println("Surface is " + mur.surface());
+    System.out.println("Price is " + mur.prix());
+    */ 
     
-    // TEST Classe revêtement peut me renvoyer les attributs
+    ////////////// TEST Classe revêtement peut me renvoyer les attributs
     // Le numéro à rentrer pour tester le code correspond à l'identifiant sur le fichier text Revêtement_test.txt
     /*
     System.out.println("choisi une identité entre 1 et 8");
@@ -66,13 +85,13 @@ public class Architecture_officielle { // TEST 27/03 + thomas's test +nouveau co
             nbr_ligne=nbr_ligne+1;                  //Connaître le nombre de ligne du fichier pour faciliter la gestion de l'ArrayList
         }
         entre.close();                              //On ferme le BufferedReader
-        System.out.println("nombre de ligne :"+nbr_ligne);
-        for (int k = 1; k <= nbr_ligne; k++) { 
-            int a = k-1;
-            String[] elements =data.get(a).split(";");
-            ligne_array.add(a, elements);     
+        System.out.println("nombre de ligne :"+nbr_ligne); // Affichage du nombre de ligne dans le fichier text lu par le BufferedReader
+        for (int k = 1; k <= nbr_ligne; k++) {      // Debut boucle utile pour la réalisation du stockage dans les listes
+            int a = k-1;                            // 1ere ligne du fichier texte corresond à l'indice 0 de la liste data
+            String[] elements =data.get(a).split(";"); //Création d'un tableau pour chaque indice de 'data' avec chaque case du tableau un élèment se situant entre les ";"
+            ligne_array.add(a, elements);// ajout à l'indice a le tableau créé et rempli juste avant.
         }
-        return (ligne_array) ;
+        return (ligne_array) ;                      // Lorsque toutes les lignes du fichier texte ont été lu, nous retournons l'Arraylist de tableau de String
             
     }
     catch(FileNotFoundException err){

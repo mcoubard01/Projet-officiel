@@ -24,6 +24,7 @@ public class Coin {
         this.y = y;
     }
 
+    // GET
     public String getId() {
         return id;
     }
@@ -36,6 +37,7 @@ public class Coin {
         return y;
     }
 
+    // SET
     public void setId(String id) {
         this.id = id;
     }
