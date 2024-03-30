@@ -13,16 +13,20 @@ import java.util.*;
 public class IDManager {
     
     private static ArrayList<Integer> listeDeMurs = new ArrayList<>();
-    
-    public static void addID(Object obj, int id){  //obj peut-être un mur, un étage, une pièce...     
+    static int currentWallId = 0;
+    public static void addID(Object obj){  //obj peut-être un mur, un étage, une pièce...     
         
            
         if (obj instanceof Etage){  
         } 
         
         if (obj instanceof Mur){
-            listeDeMurs.add(listeDeMurs.size()+1);
-            System.out.println(listeDeMurs.size());
+            listeDeMurs.add(currentWallId);
+            int id = currentWallId;
+            currentWallId++;
+            System.out.println("size of ArrayList is " + listeDeMurs.size() + ", id of wall is : " + id);
+            
+            
         } 
         if (obj instanceof Pièce){}
         if (obj instanceof Plafond){}
@@ -32,9 +36,13 @@ public class IDManager {
         
     }
     
+    public static int IdDuDernierMur(){
+        return listeDeMurs.size()-1;
+    }
+    
     public static void main(String[] args){
         Mur mur1 = new Mur();
-        addID(mur1,3);
+        addID(mur1);
     }
     
     
