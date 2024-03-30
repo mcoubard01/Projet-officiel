@@ -25,6 +25,11 @@ public class Mur {
         this.debut = debut;
         this.fin = fin;
     }
+
+    public Mur() {  //Constructeur vide servant à faire des tests (p.ex.)
+    }   
+    
+    
     
     // FUNCTIONS
     public double longueur(){ //appeler "mur.longueur()" renvoie la longeueur du mur
