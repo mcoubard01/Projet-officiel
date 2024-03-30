@@ -11,10 +11,15 @@ package fr.insa.mathieu.architecture_officielle;
 public class Etage {
     private int hauteur_etage;
     private double prix_etage;
+    private double id;
     
-      public Etage(int hauteur_etage) {
+//CONSTRUCTOR
+    public Etage(int hauteur_etage) {
         this.hauteur_etage = hauteur_etage;
     }
+    
+//FUNCTIONS
+    
 // GET
     public int getHauteur_etage() {
         return hauteur_etage;
@@ -22,6 +27,12 @@ public class Etage {
     public double getPrix_etage() {
         return prix_etage; // A COMPLETER
     }
+
+    public Etage(double id) {
+        this.id = id;
+    }
+    
+    
 // SET
     public void setHauteur_etage(int hauteur_etage) {
         this.hauteur_etage = hauteur_etage;
