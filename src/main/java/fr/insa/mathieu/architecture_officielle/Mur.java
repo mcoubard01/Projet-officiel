@@ -82,16 +82,16 @@ public class Mur {
        
        
         public static void main(String [] args){   //un main pour tester longueur et surface
-        //test 27/03/24 (thomas)
+        //test 30/03/24 (thomas) (merci de ne pas y toucher sans vérifier qu'il fonctionne encore)
         Coin debut1 , fin1;
         debut1= new Coin(2,1);
         fin1 = new Coin(5,1);
         
         Etage etage1 = new Etage(5);
-        Revêtement test=new Revêtement(2);
+        Revêtement test=new Revêtement(9999);  //id=9999 est un raccourci pour mettre définir prix_unitaire à 5.55 et c'est tout (pas de lecture de donnee enregistree
         Mur mur = new Mur(debut1,fin1, etage1, test);
         
-        System.out.println("Le prix du revêtement est : "+test.getPrix_unitaire());
+        System.out.println("Le prix du revêtement est : "+test.getPrix_unitaire());  //test.getPrix_unitaire ne fonctionne pas sans la lgne ci-dessus car le fichier n'est pas encore lu
         System.out.println("Length = " + mur.longueur());
         System.out.println("Hauteur du mur : "+etage1.getHauteur_etage());
         System.out.println("Surface is " + mur.surface());
