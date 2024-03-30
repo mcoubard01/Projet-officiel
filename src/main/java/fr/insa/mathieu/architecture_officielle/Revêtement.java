@@ -42,12 +42,19 @@ public class Revêtement extends Architecture_officielle {
         // 3 : application sur le sol
         // 4 : application sur le plafond
         // 5 : prix unitaire que je converti en double grâce à la fonction "todouble"
+        
+        if (id==9999){this.prix_unitaire = 5.55;}  //cette propriété permet de faire des tests dans les classes individuelles : 
+        //en effet, dans celles ci, donnee_enregistree n'ets pas appelée et on ne peut pas appeler un revêtement (voir Mur, 30/03/24,thomas)
+        else{
         String[] info= donnee_enregistree.get(a);
         this.désignation = info[1];
         this.pourMur = info[2];
         this.pourSol = info[3];
         this.pourPlafond = info[4];
         this.prix_unitaire = todouble(info[5]);
+                }
+        
+        
     }
     
     // GET 
