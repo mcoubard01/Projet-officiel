@@ -10,6 +10,10 @@ package fr.insa.mathieu.architecture_officielle;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
 import static fr.insa.mathieu.architecture_officielle.Mur.longueur;
+//Sachant que l' "import" n'est pas nécessaire ici : 
+//il suffit dans le texte d'écrire "Mur.longueur()", qui fait appel à la classe 
+//(comme Lire.i() au lieu de "import fr.insa.mathieu.architecture_officielle.Lire.i;")
+
 import java.io.*;
 import java.util.ArrayList;
 
@@ -33,7 +37,7 @@ public class Architecture_officielle { // TEST 27/03 + thomas's test +nouveau co
     System.out.println("Le nom du revêtement est : "+e.getDésignation());
     System.out.println("Le prix du ce revêtement est : "+ e.getPrix_unitaire());
     Sol sol =new Sol (a,b,c,e);
-    System.out.println("longueur a et b  : "+longueur(a,b));
+    System.out.println("longueur a et b  : "+longueur(a,b));   //l'appel de "longueur" ici aurait pu être "Mur.longeur(a,b)"
     System.out.println("longueur a et b  : "+longueur(a,c));  
     System.out.println("la surface du sol   : "+Sol.surface(a,b,c));
     System.out.println("le prix du sol au m² est  : "+sol.prix());
@@ -71,6 +75,8 @@ public class Architecture_officielle { // TEST 27/03 + thomas's test +nouveau co
     */        
     }
 
+    
+    //à terme, il faudrait créer une classe séparée contenant les méthodes lecture, écriture, sauvegarde...
     public static ArrayList<String[]> lecture(String nom_fichier){
     String ligne;                                   //chaîne de caractères pour enregistrer les lignes du document texte
     ArrayList <String>data = new ArrayList();       //Création de l'ArrayList qui sera utilisé pour récupérer le fichier lu dans la boucle WHILE
