@@ -18,7 +18,7 @@ public class IDManager {
         
            
         if (obj instanceof Etage){  
-        }
+        } 
         
         if (obj instanceof Mur){
             listeDeMurs.add(listeDeMurs.size()+1);
