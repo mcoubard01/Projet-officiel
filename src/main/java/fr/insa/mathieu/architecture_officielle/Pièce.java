@@ -11,7 +11,7 @@ public class Pièce {
    /* private Mur a;
     private Mur b;
     private Mur c; 
-    private Mur d;
+    private Mur td;
     inutile?*/
     private double prix;
     
