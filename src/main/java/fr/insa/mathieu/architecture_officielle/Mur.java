@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package fr.insa.mathieu.architecture_officielle;
+import static fr.insa.mathieu.architecture_officielle.Architecture_officielle.donnee_enregistree;
+import static fr.insa.mathieu.architecture_officielle.Architecture_officielle.lecture;
 import static java.lang.Math.sqrt;
 
 public class Mur {  
@@ -11,7 +13,7 @@ public class Mur {
     private Coin fin;
     private Revêtement revêtement_mur;
     private Etage étage_mur;
-
+    
     //CONSTRUCTOR
     public Mur(Coin debut, Coin fin, Etage étage, Revêtement revêtement){
         this.id = "idc"; // INTEGRER LES ID AUTOMATIQUES
@@ -21,9 +23,11 @@ public class Mur {
         this.étage_mur = étage;
     }
     public Mur(Coin debut, Coin fin) {  // INCOMPLET
+        Revêtement revêtement_standard = new Revêtement(1);
         this.id = "idc"; // INTEGRER LES ID AUTOMATIQUES
         this.debut = debut;
         this.fin = fin;
+        this.revêtement_mur=revêtement_standard;
     }
     
     // FUNCTIONS
@@ -48,6 +52,10 @@ public class Mur {
       public double prix(){  //appeler "mur.prix()" !! : il faut que le prix_unitaire du revêtement soit défini (ou bien, temporairement écrire revetment.setPrix_unitaire([nombre]) )
         double p = this.surface()*((this.getRevêtement_mur()).getPrix_unitaire());
         return p;
+    }
+    public boolean contrôle(Revêtement r){
+        boolean result=(r.getPourMur()).equals("1");
+        return result;
     }
  
     // GET  
@@ -81,22 +89,30 @@ public class Mur {
      
        
        
-        public static void main(String [] args){   //un main pour tester longueur et surface
-        //test 30/03/24 (thomas) (merci de ne pas y toucher sans vérifier qu'il fonctionne encore)
-        Coin debut1 , fin1;
-        debut1= new Coin(2,1);
-        fin1 = new Coin(5,1);
-        
-        Etage etage1 = new Etage(5);
-        Revêtement test=new Revêtement(9999);  //id=9999 est un raccourci pour mettre définir prix_unitaire à 5.55 et c'est tout (pas de lecture de donnee enregistree
-        Mur mur = new Mur(debut1,fin1, etage1, test);
-        
-        System.out.println("Le prix du revêtement est : "+test.getPrix_unitaire());  //test.getPrix_unitaire ne fonctionne pas sans la lgne ci-dessus car le fichier donnee_enregristree n'est pas encore lu
-        System.out.println("Length = " + mur.longueur());
-        System.out.println("Hauteur du mur : "+etage1.getHauteur_etage());
-        System.out.println("Surface is " + mur.surface());
-        System.out.println("Price is " + mur.prix());
-        
+    public static void main(String [] args){   //un main pour tester longueur et surface
+    //test 30/03/24 (thomas) (merci de ne pas y toucher sans vérifier qu'il fonctionne encore)
+    //////////////LECTURE FICHIER. IL s'appelle Revêtement_test.txt
+    System.out.println("Donnez le nom de votre fichier :");
+    String nom_fichier = Lire.S();
+    donnee_enregistree = lecture(nom_fichier); // Lecture est ici une fonction qui renverra une ArrayList de tableau de chaînes de caractères
+
+    //Création des coins pour faire le mur 
+    Coin debut1 , fin1;
+    debut1= new Coin(2,1);
+    fin1 = new Coin(5,1);  
+    Etage etage1 = new Etage(5);
+    //Revêtement test=new Revêtement(9999);  //id=9999 est un raccourci pour mettre définir prix_unitaire à 5.55 et c'est tout (pas de lecture de donnee enregistree
+    System.out.println("numéros revêtement : ");
+    int id = Lire.i();
+    Revêtement test=new Revêtement(id);  
+    Mur mur = new Mur(debut1,fin1, etage1, test);
+      
+    System.out.println("Le prix du revêtement est : "+test.getPrix_unitaire());  //test.getPrix_unitaire ne fonctionne pas sans la lgne ci-dessus car le fichier donnee_enregristree n'est pas encore lu
+    System.out.println("Length = " + mur.longueur());
+    System.out.println("Hauteur du mur : "+etage1.getHauteur_etage());
+    System.out.println("Surface is " + mur.surface());
+    System.out.println("Price is " + mur.prix());
+    System.out.println("contrôle result :"+ mur.contrôle(test)); // renvoie true si le revêtement est applicable, false sinon
         
     }
        

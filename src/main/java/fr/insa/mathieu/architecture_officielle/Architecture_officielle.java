@@ -23,16 +23,6 @@ public class Architecture_officielle { // TEST 27/03 + thomas's test +nouveau co
     String nom_fichier = Lire.S();
     donnee_enregistree = lecture(nom_fichier); // Lecture est ici une fonction qui renverra une ArrayList de tableau de chaînes de caractères
 
-   
-      Coin a = new Coin(2,6);
-    Coin b = new Coin(4,6);
-    Coin c= new Coin(2,0);
-    Revêtement r =new Revêtement(2);
-    Sol sol = new Sol(a,b,c,r);
-    System.out.println("le prix est de teyteytyg"+sol.prix());
-    
-
-    
    //////////////TEST SURFACE PIECE + PRIX
    /*
     Coin a = new Coin(2,6);
@@ -67,7 +57,7 @@ public class Architecture_officielle { // TEST 27/03 + thomas's test +nouveau co
     
     ////////////// TEST Classe revêtement peut me renvoyer les attributs
     // Le numéro à rentrer pour tester le code correspond à l'identifiant sur le fichier text Revêtement_test.txt
-    /*
+    
     System.out.println("choisi une identité entre 1 et 8");
     int id=Lire.i();
     Revêtement a = new Revêtement(id);
@@ -77,7 +67,8 @@ public class Architecture_officielle { // TEST 27/03 + thomas's test +nouveau co
     System.out.println("pour plafond de a :"+a.getPourPlafond() );
     System.out.println("prix unitaire de a :"+a.getPrix_unitaire() );
     System.out.println("opération "+a.getPrix_unitaire()/4); // TEST pour la conversion du prix, afin de savoir si on peut manipuler le nombre
-    */        
+    
+    
     }
 
     public static ArrayList<String[]> lecture(String nom_fichier){

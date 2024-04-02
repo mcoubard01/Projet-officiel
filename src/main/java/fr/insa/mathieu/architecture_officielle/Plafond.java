@@ -8,12 +8,21 @@ package fr.insa.mathieu.architecture_officielle; //test commentaire
  *
  * @author stard
  */
-public class Plafond {
+public class Plafond extends sol_plafond{
+    /*
     private String id;
-    private double surface_plaf;
-    private double prix_plaf;
+    private Coin supg;// coin supérieur gauche
+    private Coin supd;// coin supérieur droit
+    private Coin infg;// coin inférieur gauche
+    private Coin infd;
+    */
     private Revêtement revêtement_plaf;
 
+//CONSTRUCTOR
+    public Plafond(Coin supg, Coin supd, Coin infg, Coin infd, Revêtement revêtement_sol) {
+        super(supg, supd, infg, infd, revêtement_sol);
+    }
+        
 // FUNCTION
 public boolean contrôle(Revêtement r){
     boolean result=(r.getPourPlafond()).equals("1");
