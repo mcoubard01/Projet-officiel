@@ -1,0 +1,8 @@
+1;Peinture;1;0;1;10.95
+2;Gazon;0;0;1;15.00
+3;Peinture;1;0;1;10.95
+4;Peinture;1;0;1;10.95
+5;Peinture;1;0;1;10.95
+6;Peinture;1;0;1;10.95
+7;Peinture;1;0;1;10.95
+8;Tuasreussi;1;0;1;10.95
