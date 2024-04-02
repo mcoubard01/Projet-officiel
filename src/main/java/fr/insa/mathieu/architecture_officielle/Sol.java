@@ -8,7 +8,7 @@ import static fr.insa.mathieu.architecture_officielle.Mur.longueur;
  *
  * @author stard
  */
-public class Sol {
+public class Sol extends Abstract_sol_plafond {
     private String id;
     private Coin supg;// coin supérieur gauche
     private Coin supd;// coin supérieur droit
@@ -17,63 +17,11 @@ public class Sol {
     private Revêtement revêtement_sol;
     Revêtement standard = new Revêtement(1); // Mise en place d'un revêtement standard
     
-    // CONSTRUCTOR
-    public Sol(Coin supg, Coin supd, Coin infg){
-        this.id ="idc";
-        this.supg = supg;
-        this.supd = supd;
-        this.infg = infg;
-        this.revêtement_sol=standard;
-        
+    public Sol(String id, Coin supg, Coin supd, Coin infg, Revêtement revêtement_sol) {
+      super(id,supg,supd,infg,revêtement_sol);
     }
-    public Sol(Coin supg, Coin supd, Coin infg, Revêtement revêtement_sol) {
-        this.supg = supg;
-        this.supd = supd;
-        this.infg = infg;
-        this.revêtement_sol = revêtement_sol;
+ public Sol(Coin supg, Coin supd, Coin infg, Revêtement revêtement_sol) {
+      super(supg,supd,infg,revêtement_sol);
     }
-    
 
-    
-    // FONCTIONS
-  public static double surface (Coin supg, Coin supd, Coin infg){
-      double surface = longueur(supg,supd)*longueur (supg,infg);
-      return surface; 
-  }
-    
-     public double prix (){
-        double prix= surface (this.getSupg(),this.getSupd() ,this.getInfg())* (this.getRevêtement_sol().getPrix_unitaire());
-        return prix;
-     }
-
-    // GET 
-     public String getId() {
-        return id;
-    }
-    public Coin getSupg() {
-        return supg;
-    }
-    public Coin getInfg() {
-        return infg;
-    }
-    public Coin getSupd() {
-        return supd;
-    }
-    public Revêtement getRevêtement_sol() {
-        return revêtement_sol;
-    }
-    
-    // SET
-    public void setId(String id) {
-        this.id = id;
-    }
-    public void setSupg(Coin supg) {
-        this.supg = supg;
-    }
-    public void setSupd(Coin supd) {
-        this.supd = supd;
-    }
-    public void setInfg(Coin infg) {
-        this.infg = infg;
-    }
 }
