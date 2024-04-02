@@ -13,4 +13,10 @@ public class Plafond {
     private double surface_plaf;
     private double prix_plaf;
     private Revêtement revêtement_plaf;
+
+// FUNCTION
+public boolean contrôle(Revêtement r){
+    boolean result=(r.getPourPlafond()).equals("1");
+    return result;
+}
 }
