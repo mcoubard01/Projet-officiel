@@ -91,7 +91,7 @@ public class Mur {
         Revêtement test=new Revêtement(9999);  //id=9999 est un raccourci pour mettre définir prix_unitaire à 5.55 et c'est tout (pas de lecture de donnee enregistree
         Mur mur = new Mur(debut1,fin1, etage1, test);
         
-        System.out.println("Le prix du revêtement est : "+test.getPrix_unitaire());  //test.getPrix_unitaire ne fonctionne pas sans la lgne ci-dessus car le fichier n'est pas encore lu
+        System.out.println("Le prix du revêtement est : "+test.getPrix_unitaire());  //test.getPrix_unitaire ne fonctionne pas sans la lgne ci-dessus car le fichier donnee_enregristree n'est pas encore lu
         System.out.println("Length = " + mur.longueur());
         System.out.println("Hauteur du mur : "+etage1.getHauteur_etage());
         System.out.println("Surface is " + mur.surface());
