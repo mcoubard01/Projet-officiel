@@ -24,6 +24,15 @@ public class Architecture_officielle { // TEST 27/03 + thomas's test +nouveau co
     donnee_enregistree = lecture(nom_fichier); // Lecture est ici une fonction qui renverra une ArrayList de tableau de chaînes de caractères
 
    
+      Coin a = new Coin(2,6);
+    Coin b = new Coin(4,6);
+    Coin c= new Coin(2,0);
+    Revêtement r =new Revêtement(2);
+    Sol sol = new Sol(a,b,c,r);
+    System.out.println("le prix est de teyteytyg"+sol.prix());
+    
+
+    
    //////////////TEST SURFACE PIECE + PRIX
    /*
     Coin a = new Coin(2,6);
