@@ -33,7 +33,7 @@ public class Pièce {
     // Fonctions
     public static double prix (Mur a,Mur b, Mur c, Mur d, Plafond e, Sol f){
         double p;
-        p=a.prix + b.prix + c.prix + d.prix + e.prix + f.prix;
+        p=a.prix() + b.prix() + c.prix() + d.prix() + e.prix() + f.prix();
         return p;
     }
     
