@@ -57,6 +57,7 @@ public class Mur {
         boolean result=(r.getPourMur()).equals("1");
         return result;
     }
+    
  
     // GET  
     public String getId() {
@@ -92,28 +93,33 @@ public class Mur {
     public static void main(String [] args){   //un main pour tester longueur et surface
     //test 30/03/24 (thomas) (merci de ne pas y toucher sans vérifier qu'il fonctionne encore)
     //////////////LECTURE FICHIER. IL s'appelle Revêtement_test.txt
+    /*
     System.out.println("Donnez le nom de votre fichier :");
     String nom_fichier = Lire.S();
     donnee_enregistree = lecture(nom_fichier); // Lecture est ici une fonction qui renverra une ArrayList de tableau de chaînes de caractères
-
+*/
     //Création des coins pour faire le mur 
     Coin debut1 , fin1;
-    debut1= new Coin(2,1);
-    fin1 = new Coin(5,1);  
+    debut1= new Coin(2,4);
+    fin1 = new Coin(2,1);  
     Etage etage1 = new Etage(5);
-    //Revêtement test=new Revêtement(9999);  //id=9999 est un raccourci pour mettre définir prix_unitaire à 5.55 et c'est tout (pas de lecture de donnee enregistree
-    System.out.println("numéros revêtement : ");
-    int id = Lire.i();
-    Revêtement test=new Revêtement(id);  
+    Etage etage2 = new Etage(5);
+    Revêtement test=new Revêtement(9999);  //id=9999 est un raccourci pour mettre définir prix_unitaire à 5.55 et c'est tout (pas de lecture de donnee enregistree
+    //System.out.println("numéros revêtement : ");
+    //int id = Lire.i();
+    //Revêtement test=new Revêtement(id);  
     Mur mur = new Mur(debut1,fin1, etage1, test);
-      
+    /*  
     System.out.println("Le prix du revêtement est : "+test.getPrix_unitaire());  //test.getPrix_unitaire ne fonctionne pas sans la lgne ci-dessus car le fichier donnee_enregristree n'est pas encore lu
     System.out.println("Length = " + mur.longueur());
     System.out.println("Hauteur du mur : "+etage1.getHauteur_etage());
     System.out.println("Surface is " + mur.surface());
     System.out.println("Price is " + mur.prix());
     System.out.println("contrôle result :"+ mur.contrôle(test)); // renvoie true si le revêtement est applicable, false sinon
-        
+    */
+    Fenêtre fen= new Fenêtre(2,1.5,'N',etage2);
+    Porte porte= new Porte(2,1.5,'S',etage2);
+    System.out.println(" l'ouverture appartient au mur ? "+porte.appartenance(mur));
     }
        
        

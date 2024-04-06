@@ -9,21 +9,36 @@ package fr.insa.mathieu.architecture_officielle;
  * @author stard
  */
 public abstract class Ouverture {
-    private int ori_x;
-    private int ori_y;
+    private double ori_x;
+    private double ori_y;
     private char orientation;
+    private Etage etage;
 
     //CONSTRUCTOR
-    public Ouverture(int ori_x ,int ori_y ,char orientation ) {
+
+    public Ouverture(double ori_x, double ori_y, char orientation, Etage etage) {
         this.ori_x = ori_x;
-        this.ori_y =ori_y;
-        this.orientation =orientation;
+        this.ori_y = ori_y;
+        this.orientation = orientation;
+        this.etage = etage;
     }
     
+    
     //FONCTION
-    public static double surface(){
-        
-        return ;
+    public abstract boolean appartenance(Mur mur);
+    
+    // GET
+    public double getOri_x() {
+        return ori_x;
+    }
+    public double getOri_y() {
+        return ori_y;
+    }
+    public char getOrientation() {
+        return orientation;
+    }
+    public Etage getEtage() {
+        return etage;
     }
     
     

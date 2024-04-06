@@ -18,11 +18,11 @@ public class Architecture_officielle { // TEST 27/03 + thomas's test +nouveau co
     public static ArrayList<String[]> donnee_enregistree; // Liste de tableau de chaine de caractère qui est utilisé pour le stockage des Revêtements
     
     public static void main(String[] args) {
-   //////////////LECTURE FICHIER. IL s'appelle Revêtement_test.txt
+   /////////////LECTURE FICHIER. IL s'appelle Revêtement_test.txt
     System.out.println("Donnez le nom de votre fichier :");
     String nom_fichier = Lire.S();
     donnee_enregistree = lecture(nom_fichier); // Lecture est ici une fonction qui renverra une ArrayList de tableau de chaînes de caractères
-
+    
    //////////////TEST SURFACE PIECE + PRIX
    /*
     Coin a = new Coin(2,6);
