@@ -43,6 +43,7 @@ public class Mur {
         double s = this.longueur()*((this.getÉtage()).getHauteur_etage()); //this désigne l'objet instancié (le mur)
         return s;
     }
+    //TO DO controle si ouverture pour recalcul de surface
     /* PAS TRES UTILE vu que tu as déjà le calcul de surface d'avant qui est nickel. A voir si on garde cette fonction ( si on en a besoin)
     public static double surface(Coin d, Coin f, Etage etage){
         double surface = longueur(d,f)*(etage.getHauteur_etage());
@@ -117,9 +118,9 @@ public class Mur {
     System.out.println("Price is " + mur.prix());
     System.out.println("contrôle result :"+ mur.contrôle(test)); // renvoie true si le revêtement est applicable, false sinon
     */
-    Fenêtre fen= new Fenêtre(2,1.5,'N',etage2);
-    Porte porte= new Porte(2,1.5,'S',etage2);
-    System.out.println(" l'ouverture appartient au mur ? "+porte.appartenance(mur));
+    Fenêtre fen= new Fenêtre(2,1.5,'E',etage2);
+    Porte porte= new Porte(2,2,'E',etage2);
+    System.out.println(" l'ouverture appartient au mur ? "+fen.appartenance(mur));
     }
        
        
