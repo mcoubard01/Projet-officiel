@@ -11,6 +11,7 @@ package fr.insa.mathieu.architecture_officielle;
 public class Etage {
     private int hauteur_etage;
     private double prix_etage;
+    //private int niveau;
     private double id;
     
 //CONSTRUCTOR
