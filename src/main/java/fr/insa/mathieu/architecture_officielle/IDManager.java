@@ -7,19 +7,134 @@ import java.util.*;
 
 
 /**
- *
+ * @version 1.1
  * @author thomas beverly
   branche de thomas
  */
+
 public class IDManager {
-    static HashMap<String,Integer> mapEtage = new HashMap<String,Integer>(); //pourquoi un hashmap? je ne sais pas. d'après ce que je comprends, on ne peut pas créer de "map = new Map<>()" (Map est abstraite et ne peut doc être instanciée, d'après le messsge de debug
     //Je veux une map pour chaque classe
     //Qui prend en entrée un object, et lui associe un identifiant
     //Dans les constructeurs des objets, on pourra assigner l'attribut id à la valeur associée à this, l'obejt en question.
     //Ainsi, dans le constructeur, l'attribut Id se verra assigner l'int associé à l'objet dans la map : "this.id=mapObjet.get(this)"
     //on pourra récupérer l'ID d'un objet grâce à obj.getId()
     //on crééra une méthode qui permet d'incrémenter l'ID dans le map (située à  l'intérieur de IDManager) voir p.ex. la méthode addId ci-dessous
-    //
+    
+//pour les Appartments
+    //static private HashMap<Mur,Integer> mapAppartement = new HashMap<>();
+    //static int compteurAppartement = 0;
+    
+    
+//pour les étages
+    static private HashMap<Etage,Integer> mapEtage = new HashMap<>(); //pourquoi un hashmap? je ne sais pas. d'après ce que je comprends, on ne peut pas créer de "map = new Map<>()" (Map est abstraite et ne peut doc être instanciée, d'après le messsge de debug
+    static int compteurEtage = 0;
+    
+//pour les pièces
+    static private HashMap<Pièce,Integer> mapPièce = new HashMap<>();
+    static int compteurPièce = 0;  //TODO faire une méthode où la pièce a le numéro de l'étage devant
+    
+//pour les murs
+    static private HashMap<Mur,Integer> mapMur = new HashMap<>();
+    static int compteurMur = 0;
+    
+//pour les coins
+    static private HashMap<Coin,Integer> mapCoin = new HashMap<>();
+    static int compteurCoin = 0;
+    
+//pour les fenêtres
+    static private HashMap<Fenêtre,Integer> mapFenêtre = new HashMap<>();
+    static int compteurFenêtre = 0;
+    
+//pour les portes
+    static private HashMap<Porte,Integer> mapPorte = new HashMap<>();
+    static int compteurPorte = 0;
+    
+    
+
+    
+    /* POURQUOI "STATIC" ? voir ci-dessous : 
+    //excellente explication de static https://www.freecodecamp.org/news/static-variables-in-java/ 
+    //"Whenever a variable is declared as static, this means there is only one copy of it for the entire class,
+    rather than each instance (object of the class) having its own copy. 
+    A static method means it can be called without creating an instance of the class. "
+    c'est exactement ce qu'on recherche!! compteurID sera une varaible qui ne dépend pas des objets créés.
+    */
+
+    
+    
+    //CONSTRUCTOR
+    //pas de constructeurs dans cette classe. On ajoute un id en appelant IDManager.newId(Etage etage) (ou mur, ou fenêtre...)
+    public IDManager(){} //contructeur test mais INUTILISé (fait acte de présence)
+    
+    
+    //FUNCTIONS
+    //j'avais en tête la structure suivante, mais soit instanceof ne fonctionne pas, soit "Object can't be converted to Etage"...
+    /*
+    public static int newId(Object obj){
+        if (obj instanceof Etage){  
+        mapEtage.put(obj,compteurEtage);
+        compteurEtage++;
+        return mapEtage.get(obj);
+        }
+    //répéter le test
+    }
+    */
+    //sauf que ça ne fonctionne pas. pour l'instant, il faut faire chque classse manuellement.
+    
+    //TODO : serait -il utile de créer une Arraylist des maps, voire même une map de maps? à refléchir
+    
+    //même méthode que ci-dessous pour les appartements
+    
+    public static int newId(Etage etage){
+        mapEtage.put(etage,compteurEtage); //rdc : 0 , 1er étage : 1 ,etc. 
+        compteurEtage++;
+        return mapEtage.get(etage);
+    }
+    
+    public static int newId(Pièce pièce){
+        int idDeLaPièce = compteurMur + 1000* pièce.getListe_mur()[0].getÉtage().getId(); //étage auquel la pièce se trouve
+//ainsi, pour l'étage ézéro, 0<=idDeLaPièce<=999 ; pour l'étage 1, 1000<= idDeLaPièce <=1999 ,etc.
+        mapPièce.put(pièce,idDeLaPièce);
+        compteurPièce++;
+        return mapPièce.get(pièce);
+    }
+    
+    public static int newId(Mur mur){
+        int idDuMur = compteurMur + 1000*mur.getÉtage().getId();  
+//ainsi, pour l'étage ézéro, 0<=idDuMur<=999 ; pour l'étage 1, 1000<= idDuMur <=1999 ,etc.
+        mapMur.put(mur,idDuMur);
+        compteurMur++;
+        return mapMur.get(mur);
+    }
+    
+    public static int newId(Coin coin){
+        //TODO : à réfléchir : Peut-être coin devrait il utiliser un compteru similaire à mur? (id supérieur à 1000 pour le 1er étage...)
+        mapCoin.put(coin,compteurCoin);
+        compteurCoin++;
+        return mapCoin.get(coin);
+    }
+    
+    public static int newId(Fenêtre fenêtre){
+        mapFenêtre.put(fenêtre,compteurFenêtre);
+        compteurFenêtre++;
+        return mapFenêtre.get(fenêtre);
+    }
+    
+    public static int newId(Porte porte){
+        mapPorte.put(porte,compteurPorte);
+        compteurPorte++;
+        return mapPorte.get(porte);
+    }
+    
+    //GET
+    //TODO : faire des méthodes permettant de manipuler la map (en fonction de nos besoins)
+    //les maps est actuellement en privé
+    
+    
+    //SET
+
+    
+    
     
     /*
     private static ArrayList<Integer> listeDeMurs = new ArrayList<>();
@@ -56,10 +171,9 @@ public class IDManager {
         addID(mur1);
 */
         Etage etage1 = new Etage(5);
-        mapEtage.put("hello",100);
-        mapEtage.put("hi",100);
-        //System.out.println("key 100 is assoc to " + mapEtage.get(100));
-        System.out.print(mapEtage);
+        //int id = IDManager.setId(etage1);
+        //System.out.println("etage1 is assoc to " + mapEtage.get(etage1));
+        //System.out.print(mapEtage.get(etage1));
     }
     
     
