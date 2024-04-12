@@ -114,6 +114,7 @@ public class IDManager {
         return mapCoin.get(coin);
     }
     
+    //il n'y a pas d'Id pour les ouvertures actuellement. Les méthodes ci-dessous n'ont donc pas d'utilité à ce jour (12/04/24)
     public static int newId(Fenêtre fenêtre){
         mapFenêtre.put(fenêtre,compteurFenêtre);
         compteurFenêtre++;
@@ -128,52 +129,42 @@ public class IDManager {
     
     //GET
     //TODO : faire des méthodes permettant de manipuler la map (en fonction de nos besoins)
-    //les maps est actuellement en privé
+    //les maps sont actuellement en privé
     
+    public boolean containsValue(int IdARechercher, String typeDeObjet){ //cette méthode permet de chercher dans une map une valeur d'identifiant
+        switch (typeDeObjet){
+            
+            case "Etage": //TODO : idée : Ecrire le test tel que la fonction comprenne les paramètres Etage, Étage, étage, etage, etc. pour plus de facilité d'usage? (case-insensitive test)
+                return mapEtage.containsValue(IdARechercher);
+            //case "Appartement"
+            case "Pièce":
+                 return mapPièce.containsValue(IdARechercher);
+            case "Mur":
+                 return mapMur.containsValue(IdARechercher);
+            case "Coin":
+                 return mapCoin.containsValue(IdARechercher);
+            case "Fenêtre":
+                 return mapFenêtre.containsValue(IdARechercher);
+            case "Porte":
+                 return mapPorte.containsValue(IdARechercher);
+        } 
+        return false;
+    }    
     
     //SET
-
+    //pas de "set" car cela dérèglerait le compteur automatique
     
     
     
-    /*
-    private static ArrayList<Integer> listeDeMurs = new ArrayList<>();
-    static int currentWallId = 0;
     
-    public static void addID(Object obj){  //obj peut-être un mur, un étage, une pièce...     
-        
-           
-        if (obj instanceof Etage){  
-        } 
-        
-        if (obj instanceof Mur){
-            listeDeMurs.add(currentWallId);
-            int id = currentWallId;
-            currentWallId++;
-            System.out.println("size of ArrayList is " + listeDeMurs.size() + ", id of wall is : " + id);
-            
-            
-        } 
-        if (obj instanceof Pièce){}
-        if (obj instanceof Plafond){}
-        if (obj instanceof Sol){}
-        
-        
-        
-    }
-    
-    public static int IdDuDernierMur(){
-        return listeDeMurs.size()-1;
-    }
-    */
     public static void main(String[] args){
-        /*Mur mur1 = new Mur();
-        addID(mur1);
-*/
+        
+        
         Etage etage1 = new Etage(5);
-        //int id = IDManager.setId(etage1);
-        //System.out.println("etage1 is assoc to " + mapEtage.get(etage1));
-        //System.out.print(mapEtage.get(etage1));
+        Mur mur1 = new Mur();
+        mur1.setEtage(etage1);
+        System.out.println("etage1 is assoc to " + mapEtage.get(etage1) +", which is its ID. "); //etage1.getId() fonctionne aussi, donc
+        System.out.print("mur 1 has an Id of "+ mur1.getId());
     }
     
     
