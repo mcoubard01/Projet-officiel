@@ -8,7 +8,7 @@ import static fr.insa.mathieu.architecture_officielle.Mur.longueur;
  *
  * @author oscar
  */
-public abstract class sol_plafond {
+public abstract class sol_plafond {  //ça marche même si ce n'est pas une majuscule?
     
     private String id;
     private Coin supg;// coin supérieur gauche
