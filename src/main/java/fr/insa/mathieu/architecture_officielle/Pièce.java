@@ -5,7 +5,7 @@
 package fr.insa.mathieu.architecture_officielle;
 
 public class Pièce {
-    private String id;
+    private int id;
     //private ArrayList <Mur> liste_mur;
     private Mur[] liste_mur = new Mur[4];
    /* private Mur a;
@@ -19,6 +19,7 @@ public class Pièce {
     public Pièce(Mur a, Mur b, Mur c, Mur d) { //temporaire : on veut à terme avoir autant de murs que l'on souhaite
         //contrôle d'entrée : les murs a,b,c,d se suivent ils strictement et forment ils une pièce fermée?
         //while ((a.getDebut()).equals(d.getFin())){System.out.println("hello");} 
+        this.id = IDManager.newId(this);
         this.liste_mur[0]= a;
         this.liste_mur[1]=b;
         this.liste_mur[2]=c;
