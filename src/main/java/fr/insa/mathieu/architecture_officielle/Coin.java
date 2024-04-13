@@ -9,7 +9,7 @@ package fr.insa.mathieu.architecture_officielle;
  * @author stard
  */
 public class Coin {  
-    private String id; 
+    private int id; 
     private int x;
     private int y;
 
@@ -18,14 +18,14 @@ public class Coin {
         this.y = y;
     }
 
-    public Coin(String id, int x, int y) {
-        this.id = id;
+    public Coin(int id, int x, int y) {
+        this.id = IDManager.newId(this);
         this.x = x;
         this.y = y;
     }
 
     // GET
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -38,7 +38,7 @@ public class Coin {
     }
 
     // SET
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
