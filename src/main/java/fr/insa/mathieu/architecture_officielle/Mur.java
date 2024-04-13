@@ -8,15 +8,20 @@ import static fr.insa.mathieu.architecture_officielle.Architecture_officielle.le
 import static java.lang.Math.sqrt;
 
 public class Mur {  
-    private String id;
+    private int id;
     private Coin debut;
     private Coin fin;
     private Revêtement revêtement_mur;
     private Etage étage_mur;
+//On utilise la méthode avec les maps (classe IDManager). Toutefois, on pourrait créer un ID dans la classe mur qui s'incrémante tout seul.
+    //private static int compteurID = 0;
+//dans le constructeur : 
+    //this.id = compteurID;    
+    //compteurID++;
     
     //CONSTRUCTOR
     public Mur(Coin debut, Coin fin, Etage étage, Revêtement revêtement){
-        this.id = "idc"; // INTEGRER LES ID AUTOMATIQUES
+        this.id = IDManager.newId(this); //renvoie un int. !!! cet int est entre 0 et 999 si c'est au RDC, entre 1000 et 1999 si c'etst au 1er étage...
         this.debut = debut;
         this.fin = fin;
         this.revêtement_mur = revêtement;
@@ -24,7 +29,11 @@ public class Mur {
     }
     public Mur(Coin debut, Coin fin) {  // INCOMPLET
         Revêtement revêtement_standard = new Revêtement(1);
-        this.id = "idc"; // INTEGRER LES ID AUTOMATIQUES
+        //this.id = IDManager.newId(this); //l'étage est nécessaire à cette méthode
+        //ici on ne crée pas d'ID car on connaît pas l'étage
+        
+        //TODO : une fonction qui détecte sur quel étage on se trouve actuellement dans l'éxécution.
+        
         this.debut = debut;
         this.fin = fin;
         this.revêtement_mur=revêtement_standard;
@@ -66,7 +75,7 @@ public class Mur {
     
  
     // GET  
-    public String getId() {
+    public int getId() {
         return id;
     }
     public Coin getDebut() {
@@ -83,7 +92,7 @@ public class Mur {
     }
     
     // SET
-    public void setId(String id) {
+    public void setId(int id) { //ne pas utiliser setID car cela interférerait avec compteurID qui s'incrément automatiquement
         this.id = id;
     }
     public void setDebut(Coin debut) {
@@ -91,6 +100,9 @@ public class Mur {
     }
     public void setFin(Coin fin) {
         this.fin = fin;
+    }
+    public void setEtage(Etage etage){
+        this.étage_mur = etage;
     }
     
      
@@ -110,11 +122,11 @@ public class Mur {
     fin1 = new Coin(2,1);  
     Etage etage1 = new Etage(5);
     Etage etage2 = new Etage(5);
-    Revêtement test=new Revêtement(9999);  //id=9999 est un raccourci pour mettre définir prix_unitaire à 5.55 et c'est tout (pas de lecture de donnee enregistree
+    //Revêtement test=new Revêtement(9999);  //id=9999 est un raccourci pour mettre définir prix_unitaire à 5.55 et c'est tout (pas de lecture de donnee enregistree
     //System.out.println("numéros revêtement : ");
     //int id = Lire.i();
     //Revêtement test=new Revêtement(id);  
-    Mur mur = new Mur(debut1,fin1, etage1, test);
+    Mur mur = new Mur(debut1,fin1);
     /*  
     System.out.println("Le prix du revêtement est : "+test.getPrix_unitaire());  //test.getPrix_unitaire ne fonctionne pas sans la lgne ci-dessus car le fichier donnee_enregristree n'est pas encore lu
     System.out.println("Length = " + mur.longueur());
