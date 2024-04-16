@@ -24,8 +24,15 @@ public class Plafond extends sol_plafond{
     }
         
 // FUNCTION
-public boolean contrôle(Revêtement r){
+    @Override
+    public boolean contrôle(Revêtement r){
     boolean result=(r.getPourPlafond()).equals("1");
     return result;
 }
+    // GET
+
+    public Revêtement getRevêtement_plaf() {
+        return revêtement_plaf;
+    }
+    
 }

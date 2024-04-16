@@ -31,6 +31,7 @@ public class Sol extends sol_plafond {
     }
  
 // FONCTION
+    @Override
     public boolean contrôle(Revêtement r){ // Contrôle
     boolean result=(r.getPourSol()).equals("1");
     return result;
@@ -41,7 +42,7 @@ public class Sol extends sol_plafond {
  
  //////// MAIN du test pour le sol
  public static void main(String []args ){
-     //////////////LECTURE FICHIER. IL s'appelle Revêtement_test.txt
+    //////////////LECTURE FICHIER. IL s'appelle Revêtement_test.txt
     System.out.println("Donnez le nom de votre fichier :");
     String nom_fichier = Lire.S();
     donnee_enregistree = lecture(nom_fichier); // Lecture est ici une fonction qui renverra une ArrayList de tableau de chaînes de caractères
@@ -54,9 +55,11 @@ public class Sol extends sol_plafond {
     Coin infg = new Coin(2,1); // inf gauche
     Coin infd = new Coin(5,1); // inf droit
     Sol sol = new Sol(supg,supd,infg,infd,r); // Création de mon sol
-    
-    System.out.println("contrôle sol :"+sol.contrôle(r));
-    System.out.println("surface du sol :"+sol.surface(supg,supd,infg));
+    Plafond plafond = new Plafond(supg,supd,infg,infd,r);
+    System.out.println("revêtement du plafond : "+plafond.getRevêtement_plaf());
+    System.out.println("contrôle sol :"+plafond.contrôle(r));
+    System.out.println("surface du sol :"+plafond.surface(supg,supd,infg));
+    //System.out.println("Prix total = "+plafond.prix()+" € !");
  }
 
 }
