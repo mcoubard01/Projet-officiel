@@ -18,32 +18,28 @@ import java.io.*;
 import java.util.ArrayList;
 
 
-public class Architecture_officielle { // TEST 27/03 + thomas's test +nouveau commentaire
-    public static ArrayList<String[]> donnee_enregistree; // Liste de tableau de chaine de caractère qui est utilisé pour le stockage des Revêtements
+public class Architecture_officielle { 
+    public static ArrayList<String[]> donnee_enregistree; // Liste de tableaux de chaines de caractère qui est utilisée pour le stockage des Revêtements
     
-    public static void main(String[] args) {
-   /////////////LECTURE FICHIER. IL s'appelle Revêtement_test.txt
-    System.out.println("Donnez le nom de votre fichier :");
-    String nom_fichier = Lire.S();
-    donnee_enregistree = lecture(nom_fichier); // Lecture est ici une fonction qui renverra une ArrayList de tableau de chaînes de caractères
+    public static void test_surfacePiece_et_Prix(){
+        //////////////TEST SURFACE PIECE + PRIX
+        Coin a = new Coin(2,6);
+        Coin b = new Coin(4,6);
+        Coin c= new Coin(2,0);
+        Coin d= new Coin(4,0);
+        Revêtement e = new Revêtement(2); // gazon normalement
+        System.out.println("Le nom du revêtement est : "+e.getDésignation());
+        System.out.println("Le prix du ce revêtement est : "+ e.getPrix_unitaire());
+        Sol sol =new Sol (a,b,c,d,e);
+        System.out.println("longueur a et b  : "+longueur(a,b));   //l'appel de "longueur" ici aurait pu être "Mur.longeur(a,b)"
+        System.out.println("longueur a et b  : "+longueur(a,c));  
+        System.out.println("la surface du sol   : "+Sol.surface(a,b,c));
+        System.out.println("le prix du sol au m² est  : "+sol.prix());
+        System.out.println("hello");
+    }
     
-   //////////////TEST SURFACE PIECE + PRIX
-   /*
-    Coin a = new Coin(2,6);
-    Coin b = new Coin(4,6);
-    Coin c= new Coin(2,0);
-    Revêtement e = new Revêtement(2); // gazon normalement
-    System.out.println("Le nom du revêtement est : "+e.getDésignation());
-    System.out.println("Le prix du ce revêtement est : "+ e.getPrix_unitaire());
-    Sol sol =new Sol (a,b,c,e);
-    System.out.println("longueur a et b  : "+longueur(a,b));   //l'appel de "longueur" ici aurait pu être "Mur.longeur(a,b)"
-    System.out.println("longueur a et b  : "+longueur(a,c));  
-    System.out.println("la surface du sol   : "+Sol.surface(a,b,c));
-    System.out.println("le prix du sol au m² est  : "+sol.prix());
-    */
-   
-    //////////////TEST PRIX MUR
-    /*
+    public static void test_prixMur(){
+        //////////////TEST PRIX MUR
     Coin debut1 , fin1;
     debut1= new Coin(2,1);
     fin1 = new Coin(5,1);
@@ -57,11 +53,12 @@ public class Architecture_officielle { // TEST 27/03 + thomas's test +nouveau co
     System.out.println("Hauteur du mur : "+etage1.getHauteur_etage());
     System.out.println("Surface is " + mur.surface());
     System.out.println("Price is " + mur.prix());
-    */ 
+        }
     
-    ////////////// TEST Classe revêtement peut me renvoyer les attributs
+    public static void test_Revêtement(){
+        ////////////// TEST Classe revêtement peut me renvoyer les attributs
     // Le numéro à rentrer pour tester le code correspond à l'identifiant sur le fichier text Revêtement_test.txt
-    
+
     System.out.println("choisi une identité entre 1 et 8");
     int id=Lire.i();
     Revêtement a = new Revêtement(id);
@@ -72,11 +69,32 @@ public class Architecture_officielle { // TEST 27/03 + thomas's test +nouveau co
     System.out.println("prix unitaire de a :"+a.getPrix_unitaire() );
     System.out.println("opération "+a.getPrix_unitaire()/4); // TEST pour la conversion du prix, afin de savoir si on peut manipuler le nombre
     
-    
     }
+    
+    
+    public static void faireDesTests(){   //cette méthode permet de nettoyer un peu le main, et permettra plsu tard de faire des tests selon nos besoins.
+        System.out.println("""
+                Quel test voulez vous effectuer?
+                entrez 1 pour le TEST SURFACE PIECE + PRIX
+                entrez 2 pour le TEST PRIX MUR
+                entrez 3 poour le Test de la classe revêtement
+                entrez 0 pour sortir d'ici
+                """);
+        int testAFaire = Lire.i();
+        if (testAFaire == 1){ test_surfacePiece_et_Prix(); }
+        if (testAFaire == 2) { test_prixMur(); }
+        if (testAFaire == 3) { test_Revêtement(); }
 
+        if (testAFaire == 0) { System.out.println("non? passons à la suite alors...\n"); }
+
+        else {System.out.println("pas compris, dsl");}
+    }
     
     //à terme, il faudrait créer une classe séparée contenant les méthodes lecture, écriture, sauvegarde...
+    
+    //TODO : la méthode "lecture" est peut-être trop spécialisée (lecture de Revêtements_test.txt), pas assez "flexible", non? 
+    //à voir dans notre utilisation
+    
     public static ArrayList<String[]> lecture(String nom_fichier){
     String ligne;                                   //chaîne de caractères pour enregistrer les lignes du document texte
     ArrayList <String>data = new ArrayList();       //Création de l'ArrayList qui sera utilisé pour récupérer le fichier lu dans la boucle WHILE
@@ -91,13 +109,13 @@ public class Architecture_officielle { // TEST 27/03 + thomas's test +nouveau co
             nbr_ligne=nbr_ligne+1;                  //Connaître le nombre de ligne du fichier pour faciliter la gestion de l'ArrayList
         }
         entre.close();                              //On ferme le BufferedReader
-        System.out.println("nombre de ligne :"+nbr_ligne); // Affichage du nombre de ligne dans le fichier text lu par le BufferedReader
+        System.out.println("FFnombre de ligne :"+nbr_ligne); // Affichage du nombre de ligne dans le fichier text lu par le BufferedReader
         for (int k = 1; k <= nbr_ligne; k++) {      // Debut boucle utile pour la réalisation du stockage dans les listes
-            int a = k-1;                            // 1ere ligne du fichier texte corresond à l'indice 0 de la liste data
+            int a = k-1;                            // 1ere ligne du fichier texte correspond à l'indice 0 de la liste data
             String[] elements =data.get(a).split(";"); //Création d'un tableau pour chaque indice de 'data' avec chaque case du tableau un élèment se situant entre les ";"
             ligne_array.add(a, elements);// ajout à l'indice a le tableau créé et rempli juste avant.
         }
-        return (ligne_array) ;                      // Lorsque toutes les lignes du fichier texte ont été lu, nous retournons l'Arraylist de tableau de String
+        return (ligne_array) ;                      // Lorsque toutes les lignes du fichier texte ont été lues, nous retournons l'Arraylist de tableau de String
             
     }
     catch(FileNotFoundException err){
@@ -109,4 +127,27 @@ public class Architecture_officielle { // TEST 27/03 + thomas's test +nouveau co
         return null;
     }
     }
+    
+    public static ArrayList<String[]> ecriture(String nom_fichier){
+        System.out.print("helloworld");
+        return null; //temporaire
+    }
+
+
+public static void main(String[] args) {
+   /////////////LECTURE FICHIER. IL s'appelle Revêtement_test.txt
+    System.out.println("Donnez le nom de votre fichier :");
+    String nom_fichier = Lire.S();
+    donnee_enregistree = lecture(nom_fichier); // lecture est ici une fonction qui renverra une ArrayList de tableau de chaînes de caractères
+    
+    //La méthode ci-dessous est utilisée surtout pour vider le main des tests menés.
+    faireDesTests(); //une méthode qui permet de nettoyer le main. Voir plus haut : elle est utilisée pour regrouper les tests que l'on veut faire.
+    
+    
+   
+    
+    
+    
+    }
+
 }
