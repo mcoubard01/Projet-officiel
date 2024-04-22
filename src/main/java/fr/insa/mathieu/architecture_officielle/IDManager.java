@@ -128,6 +128,9 @@ public class IDManager {
     }
     
     //GET
+    
+    
+    
     //TODO : faire des méthodes permettant de manipuler la map (en fonction de nos besoins)
     //les maps sont actuellement en privé
     

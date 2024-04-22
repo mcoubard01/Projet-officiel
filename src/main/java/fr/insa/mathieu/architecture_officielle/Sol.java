@@ -31,7 +31,7 @@ public class Sol extends sol_plafond {
     }
  
 // FONCTION
-    @Override
+   // @Override
     public boolean contrôle(Revêtement r){ // Contrôle
     boolean result=(r.getPourSol()).equals("1");
     return result;
