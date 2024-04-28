@@ -9,7 +9,7 @@ package fr.insa.mathieu.architecture_officielle;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
-import static fr.insa.mathieu.architecture_officielle.Mur.longueur;
+import fr.insa.mathieu.architecture_officielle.Mur.longueur;
 //Sachant que l' "import" n'est pas nécessaire ici : 
 //il suffit dans le texte d'écrire "Mur.longueur()", qui fait appel à la classe 
 //(comme Lire.i() au lieu de "import fr.insa.mathieu.architecture_officielle.Lire.i;")
