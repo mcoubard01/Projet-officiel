@@ -12,8 +12,12 @@ public class Coin {
     private int id; 
     private int x;
     private int y;
+     private Pièce pièce;
+     private String nom_coin;
+
 
     public Coin(int x, int y) {
+           this.id = IDManager.newId(this);
         this.x = x;
         this.y = y;
     }
@@ -23,7 +27,11 @@ public class Coin {
         this.x = x;
         this.y = y;
     }
-
+   public Coin(String nom_coin, int x, int y) {
+       this.nom_coin = nom_coin;
+        this.x = x;
+        this.y = y;
+    }
     // GET
     public int getId() {
         return id;
@@ -35,6 +43,10 @@ public class Coin {
 
     public int getY() {
         return y;
+    }
+
+    public String getNom_coin() {
+        return nom_coin;
     }
 
     // SET
@@ -49,7 +61,21 @@ public class Coin {
     public void setY(int y) {
         this.y = y;
     }
-    
+
+    public Pièce getPièce() {
+        return pièce;
+    }
+
+    public void setPièce(Pièce pièce) {
+        this.pièce = pièce;
+    }
+
+    @Override
+    public String toString() {
+        return "Coin{" + "x=" + x + ", y=" + y + '}';
+    }
+
+ 
     
     
     

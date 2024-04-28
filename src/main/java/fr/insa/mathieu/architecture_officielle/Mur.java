@@ -13,6 +13,13 @@ public class Mur {
     private Coin fin;
     private Revêtement revêtement_mur;
     private Etage étage_mur;
+    
+    private Pièce pièce;
+
+   
+   
+    
+    
 //On utilise la méthode avec les maps (classe IDManager). Toutefois, on pourrait créer un ID dans la classe mur qui s'incrémante tout seul.
     //private static int compteurID = 0;
 //dans le constructeur : 
@@ -21,24 +28,33 @@ public class Mur {
     
     //CONSTRUCTOR
     public Mur(Coin debut, Coin fin, Etage étage, Revêtement revêtement){
-        this.id = IDManager.newId(this); //renvoie un int. !!! cet int est entre 0 et 999 si c'est au RDC, entre 1000 et 1999 si c'etst au 1er étage...
+       // this.id = IDManager.newId(this); //renvoie un int. !!! cet int est entre 0 et 999 si c'est au RDC, entre 1000 et 1999 si c'etst au 1er étage...
         this.debut = debut;
         this.fin = fin;
         this.revêtement_mur = revêtement;
         this.étage_mur = étage;
     }
-    public Mur(Coin debut, Coin fin) {  // INCOMPLET
-        Revêtement revêtement_standard = new Revêtement(1);
+    public Mur(Coin debut, Coin fin) {  // INCOMPLET  
+       // Revêtement revêtement_standard = new Revêtement(1);
         //this.id = IDManager.newId(this); //l'étage est nécessaire à cette méthode
         //ici on ne crée pas d'ID car on connaît pas l'étage
         
         //TODO : une fonction qui détecte sur quel étage on se trouve actuellement dans l'éxécution.
-        
+     
         this.debut = debut;
         this.fin = fin;
-        this.revêtement_mur=revêtement_standard;
+       // this.revêtement_mur=revêtement_standard;
     }
 
+    public Mur (Coin debut, Coin fin, Etage étage){
+        this.debut = debut;
+        this.fin = fin;
+        this.étage_mur =étage;
+        Revêtement revêtement_standard = new Revêtement(9999);// le 9999 permet de tester avec le programme que Thomas avit créé quand on veut éviter de lire le fichier 
+        this.revêtement_mur=revêtement_standard;
+    }
+    
+    
     public Mur() {  //Constructeur vide servant à faire des tests (p.ex.)
     }   
     
@@ -54,7 +70,7 @@ public class Mur {
     }
     //la méthode principale du surface
     public double surface(){ //appeler : mur.surface() renvoie la surface de l'objet mur
-        double s = this.longueur()*((this.getÉtage()).getHauteur_etage()); //this désigne l'objet instancié (le mur)
+        double s = this.longueur()*(this.getÉtage().getHauteur_etage()); //this désigne l'objet instancié (le mur)
         return s;
     }
     //TO DO controle si ouverture pour recalcul de surface
@@ -90,7 +106,11 @@ public class Mur {
     public Etage getÉtage() {
         return étage_mur;
     }
-    
+
+    public Pièce getPièce() {
+        return pièce;
+    }
+
     // SET
     public void setId(int id) { //ne pas utiliser setID car cela interférerait avec compteurID qui s'incrément automatiquement
         this.id = id;
@@ -101,8 +121,13 @@ public class Mur {
     public void setFin(Coin fin) {
         this.fin = fin;
     }
-    public void setEtage(Etage etage){
-        this.étage_mur = etage;
+
+    public void setÉtage_mur(Etage étage_mur) {
+        this.étage_mur = étage_mur;
+    }
+    
+     void setPièce(Pièce pièce) {
+        this.pièce = pièce;
     }
     
      
@@ -122,23 +147,31 @@ public class Mur {
     fin1 = new Coin(2,1);  
     Etage etage1 = new Etage(5);
     Etage etage2 = new Etage(5);
-    //Revêtement test=new Revêtement(9999);  //id=9999 est un raccourci pour mettre définir prix_unitaire à 5.55 et c'est tout (pas de lecture de donnee enregistree
+    Revêtement test=new Revêtement(9999);  //id=9999 est un raccourci pour mettre définir prix_unitaire à 5.55 et c'est tout (pas de lecture de donnee enregistree
     //System.out.println("numéros revêtement : ");
     //int id = Lire.i();
     //Revêtement test=new Revêtement(id);  
-    Mur mur = new Mur(debut1,fin1);
-    /*  
+    Mur mur = new Mur(debut1,fin1,etage1);
+     
     System.out.println("Le prix du revêtement est : "+test.getPrix_unitaire());  //test.getPrix_unitaire ne fonctionne pas sans la lgne ci-dessus car le fichier donnee_enregristree n'est pas encore lu
-    System.out.println("Length = " + mur.longueur());
+     System.out.println("Length = " + mur.longueur());
     System.out.println("Hauteur du mur : "+etage1.getHauteur_etage());
-    System.out.println("Surface is " + mur.surface());
+ System.out.println("Surface is " + mur.surface());
     System.out.println("Price is " + mur.prix());
-    System.out.println("contrôle result :"+ mur.contrôle(test)); // renvoie true si le revêtement est applicable, false sinon
-    */
+   /* System.out.println("contrôle result :"+ mur.contrôle(test)); // renvoie true si le revêtement est applicable, false sinon
+   
     Fenêtre fen= new Fenêtre(2,1.5,'E',etage2);
     Porte porte= new Porte(2,2,'E',etage2);
-    System.out.println(" l'ouverture appartient au mur ? "+fen.appartenance(mur));
+    System.out.println(" l'ouverture appartient au mur ? "+fen.appartenance(mur)); 
+    */
     }
+
+    @Override
+    public String toString() {
+        return "Mur{" + "debut=" + debut + ", fin=" + fin + '}';
+    }
+
+   
        
        
        
