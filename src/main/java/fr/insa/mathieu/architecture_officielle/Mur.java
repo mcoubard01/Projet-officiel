@@ -96,7 +96,8 @@ public class Mur {
 
     @Override
     public String toString() {
-        return "Mur{" + "id=" + id + ", debut=" + debut + ", fin=" + fin + ", \u00e9tage_mur=" + étage_mur.getId() + '}'; // + ", rev\u00eatement_mur=" + revêtement_mur + 
+        return "Mur{" + "id=" + this.id + ", Coin debut=" + this.debut.toString() + ", Coin fin=" + this.fin.toString()
+                + "étage_mur.getId()= " + this.étage_mur.getId() + '}'; // + ", rev\u00eatement_mur=" + revêtement_mur + 
     }
     
     
@@ -166,6 +167,7 @@ public class Mur {
     //Revêtement test=new Revêtement(id);  
 
     Mur mur = new Mur(debut1,fin1, etage1);
+    Mur mur1 = new Mur(debut1,fin1);
 
     /*  
     System.out.println("Le prix du revêtement est : "+test.getPrix_unitaire());  //test.getPrix_unitaire ne fonctionne pas sans la lgne ci-dessus car le fichier donnee_enregristree n'est pas encore lu
