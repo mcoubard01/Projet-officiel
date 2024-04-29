@@ -30,12 +30,13 @@ public class Mur {
         this.étage_mur = étage;
         this.liste_ouverture=new ArrayList<Ouverture>();
     }
+
     public Mur(Coin debut, Coin fin) {  // INCOMPLET TO incorporer l'étage automatiquement
-        Revêtement revêtement_standard = new Revêtement(1);
+        Revêtement revêtement_standard = new Revêtement(1); 
         //this.id = IDManager.newId(this); //l'étage est nécessaire à cette méthode
         //ici on ne crée pas d'ID car on connaît pas l'étage
         
-        //TODO : une fonction qui détecte sur quel étage on se trouve actuellement dans l'éxécution.
+        //TODO : une fonction qui détecte sur quel étage on se trouve actuellement dans l'éxécution,, afin que the IDManager.newId() fonctionne
         // Solution : Juste un get qui renvoie l'étage du mur selectionné => FAIT
         this.debut = debut;
         this.fin = fin;
@@ -45,6 +46,18 @@ public class Mur {
         //etage.getListe_mur().add(this); TO DO à améliorer mais l'id est de ajouter automatique le mur qu'on créer à la liste de mur de l'étage.
     }
 
+    public Mur(Coin debut, Coin fin, Etage étage_mur) {
+        this.étage_mur = étage_mur;
+        this.debut = debut;
+        this.fin = fin;
+        this.id = IDManager.newId(this);
+       
+        
+    }
+
+    
+    
+    
     public Mur() {  //Constructeur vide servant à faire des tests (p.ex.)
     }   
     
@@ -80,6 +93,12 @@ public class Mur {
         boolean result=(r.getPourMur()).equals("1");
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Mur{" + "id=" + id + ", debut=" + debut + ", fin=" + fin + ", \u00e9tage_mur=" + étage_mur.getId() + '}'; // + ", rev\u00eatement_mur=" + revêtement_mur + 
+    }
+    
     
  
     // GET  
@@ -145,8 +164,9 @@ public class Mur {
     //System.out.println("numéros revêtement : ");
     //int id = Lire.i();
     //Revêtement test=new Revêtement(id);  
-    Mur mur = new Mur(debut1,fin1);
-    Mur mur1 = new Mur(debut1,fin1);
+
+    Mur mur = new Mur(debut1,fin1, etage1);
+
     /*  
     System.out.println("Le prix du revêtement est : "+test.getPrix_unitaire());  //test.getPrix_unitaire ne fonctionne pas sans la lgne ci-dessus car le fichier donnee_enregristree n'est pas encore lu
     System.out.println("Length = " + mur.longueur());
@@ -168,6 +188,10 @@ public class Mur {
     System.out.println("mur 2 :"+porte.getMur2());
 
     System.out.println(" l'ouverture appartient au mur ? "+fen.appartenance(mur));
+
+        System.out.println(mur);
+
+
     System.out.println("fen.getMur1() : "+fen.getMur1());
 */
     System.out.println("taille de la liste_ouverture :"+mur.getListe_ouverture().size());
@@ -179,6 +203,7 @@ public class Mur {
     for (int i=0;i<mur1.getListe_ouverture().size();i++){
         System.out.println("i = "+i+" =>"+mur1.getListe_ouverture().get(i));
     }
+
     }
        
        
