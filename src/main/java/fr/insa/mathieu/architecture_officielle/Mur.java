@@ -28,17 +28,28 @@ public class Mur {
         this.étage_mur = étage;
     }
     public Mur(Coin debut, Coin fin) {  // INCOMPLET
-        Revêtement revêtement_standard = new Revêtement(1);
+        Revêtement revêtement_standard = new Revêtement(1); //ce constructeur n'est donc accessible que depuis Architecture_officielle
         //this.id = IDManager.newId(this); //l'étage est nécessaire à cette méthode
         //ici on ne crée pas d'ID car on connaît pas l'étage
-        
-        //TODO : une fonction qui détecte sur quel étage on se trouve actuellement dans l'éxécution.
+        //TODO : une fonction qui détecte sur quel étage on se trouve actuellement dans l'éxécution, afin que the IDManager.newId() fonctionne
         
         this.debut = debut;
         this.fin = fin;
         this.revêtement_mur=revêtement_standard;
     }
 
+    public Mur(Coin debut, Coin fin, Etage étage_mur) {
+        this.étage_mur = étage_mur;
+        this.debut = debut;
+        this.fin = fin;
+        this.id = IDManager.newId(this);
+       
+        
+    }
+
+    
+    
+    
     public Mur() {  //Constructeur vide servant à faire des tests (p.ex.)
     }   
     
@@ -72,6 +83,12 @@ public class Mur {
         boolean result=(r.getPourMur()).equals("1");
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Mur{" + "id=" + id + ", debut=" + debut + ", fin=" + fin + ", \u00e9tage_mur=" + étage_mur.getId() + '}'; // + ", rev\u00eatement_mur=" + revêtement_mur + 
+    }
+    
     
  
     // GET  
@@ -126,7 +143,7 @@ public class Mur {
     //System.out.println("numéros revêtement : ");
     //int id = Lire.i();
     //Revêtement test=new Revêtement(id);  
-    Mur mur = new Mur(debut1,fin1);
+    Mur mur = new Mur(debut1,fin1, etage1);
     /*  
     System.out.println("Le prix du revêtement est : "+test.getPrix_unitaire());  //test.getPrix_unitaire ne fonctionne pas sans la lgne ci-dessus car le fichier donnee_enregristree n'est pas encore lu
     System.out.println("Length = " + mur.longueur());
@@ -138,6 +155,8 @@ public class Mur {
     Fenêtre fen= new Fenêtre(2,1.5,'E',etage2);
     Porte porte= new Porte(2,2,'E',etage2);
     System.out.println(" l'ouverture appartient au mur ? "+fen.appartenance(mur));
+        System.out.println(mur);
+
     }
        
        
