@@ -1,15 +1,13 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
-// verification test et essai de merge (oscar)
-// Verification push pour Mathieu
 
 package fr.insa.mathieu.architecture_officielle;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
-import fr.insa.mathieu.architecture_officielle.Mur.longueur;
+//import fr.insa.mathieu.architecture_officielle.Mur.longueur;
 //Sachant que l' "import" n'est pas nécessaire ici : 
 //il suffit dans le texte d'écrire "Mur.longueur()", qui fait appel à la classe 
 //(comme Lire.i() au lieu de "import fr.insa.mathieu.architecture_officielle.Lire.i;")
@@ -21,6 +19,9 @@ import java.util.ArrayList;
 public class Architecture_officielle { 
     public static ArrayList<String[]> donnee_enregistree; // Liste de tableaux de chaines de caractère qui est utilisée pour le stockage des Revêtements
     
+    
+    
+    
     public static void test_surfacePiece_et_Prix(){
         //////////////TEST SURFACE PIECE + PRIX
         Coin a = new Coin(2,6);
@@ -31,8 +32,8 @@ public class Architecture_officielle {
         System.out.println("Le nom du revêtement est : "+e.getDésignation());
         System.out.println("Le prix du ce revêtement est : "+ e.getPrix_unitaire());
         Sol sol =new Sol (a,b,c,d,e);
-        System.out.println("longueur a et b  : "+longueur(a,b));   //l'appel de "longueur" ici aurait pu être "Mur.longeur(a,b)"
-        System.out.println("longueur a et b  : "+longueur(a,c));  
+        System.out.println("longueur a et b  : "+Mur.longueur(a,b));   //l'appel de "longueur" ici aurait pu être "Mur.longeur(a,b)"
+        System.out.println("longueur a et b  : "+Mur.longueur(a,c));  
         System.out.println("la surface du sol   : "+Sol.surface(a,b,c));
         System.out.println("le prix du sol au m² est  : "+sol.prix());
         System.out.println("hello");
@@ -172,11 +173,12 @@ public class Architecture_officielle {
                     
                     break;
                 case 4 : //créer un nouveau mur avec des coins existants
-                    System.out.println("helloworld");
+                    System.out.println("Cette option n'a pas été encore configurée");
                     break;
                 case 5 :
                     System.out.print("quel étage voulez vous modifier? ");
                     System.out.println("(il y a actuellement " + IDManager.mapEtage.size() + " étages (rdc : 0). Entrez un numéro plus grand pour en créer un nouveau et s'y placer.)");
+                    //TODO : vérifirer que IDManager.mapEtage fonctionne encore une fois la forme définitive de IDManager atteinte.
                     int IdEtageSouhaité = Lire.i();
                     if (IdEtageSouhaité > IDManager.mapEtage.size()){//si size() = 3, on entre 4 pour créer l'étage 3.
                         System.out.println("quelle hauteur pour ce nouvel étage? entrez un int."); //TODO : Il faudrait plus tard transformer hauteru_etage en double.
@@ -195,6 +197,8 @@ public class Architecture_officielle {
     
     //TODO : la méthode "lecture" est peut-être trop spécialisée (lecture de Revêtements_test.txt), pas assez "flexible", non? 
     //à voir dans notre utilisation
+    
+    
     
     public static ArrayList<String[]> lecture(String nom_fichier){
     String ligne;                                   //chaîne de caractères pour enregistrer les lignes du document texte

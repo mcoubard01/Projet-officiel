@@ -9,6 +9,82 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <exec.mainClass>fr.insa.mathieu.architecture_officielle.Architecture_officielle</exec.mainClass>
+        <exec.mainClass>fr.insa.mathieu.architecture_officielle.gui.Main</exec.mainClass>
+        <!-- écrire " <exec.mainClass>fr.insa.mathieu.architecture_officielle.Architecture_officielle</exec.mainClass> " 
+dans la ligne ci-dessus lorsque notre Main de javaFX sera opérationnel-->
     </properties>
+    
+    <dependencies>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>18</version>
+        </dependency>
+        
+    </dependencies>
+    <build>
+        
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.2.0</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.1</version>
+             </plugin>
+            
+            <!-- voir https://github.com/openjfx/javafx-maven-plugin
+            https://dev.to/cherrychain/javafx-jlink-and-jpackage-h9 
+            maven goals : 
+            pour run : javafx:run
+            pour creer programme standalone : javafx:jlink 
+            voir aussi JPackage pour une alternative avec jdk 16-->
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <compress>2</compress>
+                    <noHeaderFiles>true</noHeaderFiles>
+                    <stripDebug>true</stripDebug>
+                    <noManPages>true</noManPages>
+                    <mainClass>fr.insa.mathieu.architecture_officielle.gui.Main</mainClass>
+                    <launcher>TutoVideoDessin</launcher>
+                    <jlinkImageName>TutoVideoDessin</jlinkImageName>
+<!-- pour zipper le dossier image
+ je ne le fais pas car je veux créer d'abord un raccourci vers le launcher
+                <jlinkZipName>TutoVideoDessin</jlinkZipName>
+-->
+                    <vendor>FdB</vendor>
+                </configuration>
+                <executions>
+                    <execution>
+                        <!-- Default configuration for running -->
+                        <!-- Usage: mvn clean javafx:run -->
+                        <id>default-cli</id>
+                    </execution>
+                </executions>
+            </plugin>        
+
+        </plugins>
+        
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <filtering>false</filtering>
+                <includes>
+                    <include>**/*.png</include>
+                </includes>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </resource>
+        </resources>
+        
+
+    </build>
 </project>
