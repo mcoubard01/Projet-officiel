@@ -62,6 +62,13 @@ public void add( Plafond p){
         p=a.prix() + b.prix() + c.prix() + d.prix() ;//+ e.prix() + f.prix();
         return p;
     }
+   
+   public double prix() {
+        double p;
+        p=this.composition.get(0).prix() + this.composition.get(1).prix() + this.composition.get(2).prix() + this.composition.get(3).prix() + sol.prix() + plafond.prix();
+        return p;
+    }
+   
 public static String indente (String toIndente, String prefix){
     return prefix +toIndente.replaceAll("\n","\n"+ prefix);
 }
