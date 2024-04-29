@@ -45,6 +45,22 @@ public class Etage {
 
     
 //FUNCTIONS
+
+    @Override
+    public String toString() {
+        String résultat = "";
+        résultat = "Etage n." + this.getId() + "(id), hauteur: " + hauteur_etage + " {\n";
+        //méthode d'itération vue sur https://www.geeksforgeeks.org/iterate-map-java/?ref=ml_lbp
+        for (Mur murATester : IDManager.mapMur.keySet()){ //la méthode keySet() permet de tester pour chaque clé (ici, des murs)
+            if (murATester.getÉtage().getId() == this.getId()){ //"Si le mur-clé est sur l'étage actuel"
+                résultat += murATester.toString() + "\n";
+            }
+        }
+        résultat += "\n}\n";
+        return résultat;
+    }
+    
+    
     
     
 // GET
