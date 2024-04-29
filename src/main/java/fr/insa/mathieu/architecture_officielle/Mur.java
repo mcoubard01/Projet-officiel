@@ -12,6 +12,7 @@ public class Mur {
     private Coin debut;
     private Coin fin;
     private Revêtement revêtement_mur;
+    //les trois la dessous j'ai du les rajoutez mais je suis pas sur que ce que j'ai fait soit juste .
     private Etage étage_mur;
        private String nom_mur;
     private Pièce pièce;

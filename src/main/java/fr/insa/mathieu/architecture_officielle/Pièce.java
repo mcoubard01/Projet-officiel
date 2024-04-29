@@ -16,8 +16,9 @@ public class Pièce {
  private static Plafond plafond;
  private String nom_pièce;
  
-
- public Pièce(){
+// Constructor
+ 
+ public Pièce(){// permet de crféér une pièce a partir d'une liste de coin de mur et d'un plafond et d'un sol 
  this.composition =new ArrayList<Mur>();
  this.coins= new ArrayList<Coin>();
  this.sol = new Sol(this.coins);
@@ -32,15 +33,15 @@ public class Pièce {
     }
 
 
- 
-public void add(Mur m){
+ // fonction 
+public void add(Mur m){//permet d'ajouter un mur dans la liste 
  if (m.getPièce()!= this){ 
        
     this.composition.add(m);
     m.setPièce (this);
   }
 }
-public void add(Coin c){
+public void add(Coin c){// permet d'ajouetr un coin dans la liste 
  if (c.getPièce()!= this){ 
      
     this.coins.add(c);
@@ -51,49 +52,24 @@ public void add(Coin c){
 }
 
 
-public void add(Sol s){
 
-}
-public void add( Plafond p){
-    
-}
    public static double prix (Mur a,Mur b, Mur c, Mur d) {//Plafond e, Sol f)
         double p;
         p=a.prix() + b.prix() + c.prix() + d.prix() ;//+ e.prix() + f.prix();
         return p;
     }
    
-   public double prix() {
+   // TODO tester si ca marche dèes que le la surface des sol et plafond est capable de se faire automatiquement a partir des liste de coins 
+   public double prix() {// méthode permettant de calculer le prix total d'une pièce 
         double p;
         p=this.composition.get(0).prix() + this.composition.get(1).prix() + this.composition.get(2).prix() + this.composition.get(3).prix() + sol.prix() + plafond.prix();
         return p;
     }
    
-public static String indente (String toIndente, String prefix){
+public static String indente (String toIndente, String prefix){// meme machin que dans la premièrer vidéo du prof. 
     return prefix +toIndente.replaceAll("\n","\n"+ prefix);
 }
-    @Override
-    public String toString() {
-        String res = "Pièce: "+ nom_pièce+" {\n";
-        for (int i=0; i<this.composition.size();i++){
-            res=res+indente(this.composition.get(i).toString()," ")+ "\n";
-        }
-      
-             String ess =""; // a modier plus tard c ar cela ne sert pas c'était juste opour tester si on pouvait rajouetz des choses
-        for (int i=0; i<this.coins.size();i++){
-            ess=ess+indente(this.coins.get(i).toString()," ")+ "\n";
-        }
-
-         String essai ="";
-        if (this.sol != null) {
-        essai = indente(this.sol.toString(), " ") + "\n";
-    }
-          String essais ="";
-        if (this.plafond != null) {
-        essais = indente(this.plafond.toString(), " ") + "\n";
-    }
-          return res + ess+ essai+essais+")";
-    }
+  
 
 
     
@@ -126,7 +102,7 @@ public static void  piècetest(){
     pièce1.add(m3);
     pièce1.add(m4);
     System.out.println(pièce1);
-    System.out.println("la surface est du sol est de : "+sol.trouverEtCalculerSurface() ); 
+    System.out.println("la surface est du sol est de : "+sol.trouverEtCalculerSurface() ); // pas automatique pour le moment donc très chiant a éxécuté 
      System.out.println( "le prix est du sol  :"+ sol.trouverEtCalculerPrix()+" €");
       //   System.out.println("la surface est du plafond est de : "+plafond.trouverEtCalculerSurface() );   // ceci n'est pas nécessaire
    //System.out.println( "le prix est du plafond  :"+ plafond.trouverEtCalculerPrix()+" €");
@@ -158,4 +134,27 @@ public static void main (String[] args){
   
 }
 
+
+  @Override
+    public String toString() {
+        String res = "Pièce: "+ nom_pièce+" {\n";
+        for (int i=0; i<this.composition.size();i++){
+            res=res+indente(this.composition.get(i).toString()," ")+ "\n";
+        }
+      
+             String ess =""; // a modier plus tard c ar cela ne sert pas c'était juste opour tester si on pouvait rajouetz des choses
+        for (int i=0; i<this.coins.size();i++){
+            ess=ess+indente(this.coins.get(i).toString()," ")+ "\n";
+        }
+
+         String essai ="";
+        if (this.sol != null) {
+        essai = indente(this.sol.toString(), " ") + "\n";
+    }
+          String essais ="";
+        if (this.plafond != null) {
+        essais = indente(this.plafond.toString(), " ") + "\n";
+    }
+          return res + ess+ essai+essais+")";
+    }
 }

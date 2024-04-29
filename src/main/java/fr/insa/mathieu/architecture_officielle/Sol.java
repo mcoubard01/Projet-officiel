@@ -45,6 +45,7 @@ public class Sol extends sol_plafond {
         this.coins =new ArrayList<Coin>();
         
     }
+    
 // FONCTION
    // @Override
     /*
@@ -53,6 +54,27 @@ public class Sol extends sol_plafond {
     return result;
 }
  */
+public static String indente (String toIndente, String prefix){// présenter dans la vidéo 1 du prof 
+    return prefix +toIndente.replaceAll("\n","\n"+ prefix);
+}
+
+// permet de faire un test dans le main plus bas (permet seulement d'initialiser une liste de coin
+public static Sol soltest(){
+    Sol sol= new Sol(coins);
+    sol.add(new Coin("coin1", 0, 0));
+    sol.add(new Coin("coin2", 0, 2));
+    sol.add(new Coin("coin3", 2, 2));
+    return  sol;
+}
+
+// méthode permettant l'ajout de coins dans une liste 
+public void add(Coin c){
+ if (c.getSol()!= this){ 
+     
+    this.coins.add(c);
+    c.setSol (this);
+  }
+}
 
     public Coin getSupg() {
         return supg;
@@ -109,9 +131,7 @@ public class Sol extends sol_plafond {
     public void setPièce(Pièce pièce) {
         this.pièce = pièce;
     }
-public static String indente (String toIndente, String prefix){
-    return prefix +toIndente.replaceAll("\n","\n"+ prefix);
-}
+
   
 @Override
 public String toString() {
@@ -127,21 +147,9 @@ public String toString() {
     return liste_coin.toString();
 }
 
-public void add(Coin c){
- if (c.getSol()!= this){ 
-     
-    this.coins.add(c);
-    c.setSol (this);
-  }
-}
+
   
-public static Sol soltest(){
-    Sol sol= new Sol(coins);
-    sol.add(new Coin("coin1", 0, 0));
-    sol.add(new Coin("coin2", 0, 2));
-    sol.add(new Coin("coin3", 2, 2));
-    return  sol;
-}
+
 
  
  //////// MAIN du test pour le sol

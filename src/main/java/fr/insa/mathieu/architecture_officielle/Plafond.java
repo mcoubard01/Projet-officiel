@@ -23,21 +23,23 @@ public class Plafond extends sol_plafond{
      private Revêtement revêtement_plaf;   
     private static List<Coin> coins;
      private Pièce pièce;
+     
      Revêtement standard = new Revêtement(9999);//Revêtement standard
    // private Revêtement revêtement_plaf;
-public Plafond(List<Coin> coins){
+
+//CONSTRUCTOR
+    public Plafond(Coin supg, Coin supd, Coin infg, Coin infd, Revêtement revêtement_sol) {
+        super(supg, supd, infg, infd, revêtement_sol);
+    }
+    
+    public Plafond(List<Coin> coins){// permet de creer un plafond a partir d'une liste de coin 
         super (coins);
          Revêtement revêtement_standard = new Revêtement(9999);// le 9999 permet de tester avec le programme que Thomas avit créé quand on veut éviter de lire le fichier 
         this.revêtement_plaf=revêtement_standard;
         this.coins = new ArrayList<Coin>();
         
         
-    }
-//CONSTRUCTOR
-    public Plafond(Coin supg, Coin supd, Coin infg, Coin infd, Revêtement revêtement_sol) {
-        super(supg, supd, infg, infd, revêtement_sol);
-    }
-        
+    }    
 // FUNCTION
     //@Override
   /*  public boolean contrôle(Revêtement r){
@@ -45,47 +47,32 @@ public Plafond(List<Coin> coins){
     return result;
 }
 */
-    // GET
-public static String indente (String toIndente, String prefix){
+    public static String indente (String toIndente, String prefix){// meme methode que dans la 1er vidéo du cours.
     return prefix +toIndente.replaceAll("\n","\n"+ prefix);
 }
- @Override
-public String toString() {
-    StringBuilder liste_coin = new StringBuilder("Plafond {\n");
-    if (coins != null && !coins.isEmpty()) {
-        for (Coin coin : coins) {
-            liste_coin.append(indente(coin.toString(), "    ")).append("\n");
-        }
-    } else {
-        liste_coin.append("    Aucun coin n'est défini\n");
-    }
-    liste_coin.append("}");
-    return liste_coin.toString();
-}
-public void add(Coin c){
+    // permet d'ajouter un coin dans une liste 
+    public void add(Coin c){
  if (c.getPlafond()!= this){ 
        
     this.coins.add(c);
     c.setPlafond (this);
   }
 }
-public static Plafond plafondtest(){
+    // permet d'ffectuer un test pour vérifier que ca marche dans le main. 
+    public static Plafond plafondtest(){
     Plafond plafond = new Plafond(coins);
     plafond.add(new Coin("coin1", 0, 0));
     plafond.add(new Coin("coin2", 0, 2));
     plafond.add(new Coin("coin3", 2, 2));
     return  plafond;
 }
+    // GET
+
+
+
+
   
-     public static void main(String []args ){
-        Plafond plafond = plafondtest();
-    System.out.println("Pièce test : \n" + plafond); 
-    System.out.println("Est-ce que ça marche ?");
-        System.out.println("La surface calculée est : " + plafondtest().trouverEtCalculerSurface());
-        System.out.println("le prix est de : "+ plafondtest().trouverEtCalculerPrix());
- 
-     }
-     
+   
    public Revêtement getRevêtement_plaf() {
         return revêtement_plaf;
     }
@@ -108,6 +95,11 @@ public static Plafond plafondtest(){
     public Pièce getPièce() {
         return pièce;
     }
+    
+    
+    
+    
+    
 
     public void setSupg(Coin supg) {
         this.supg = supg;
@@ -137,8 +129,29 @@ public static Plafond plafondtest(){
         this.pièce = pièce;
     }
     
-    
-    
+    @Override
+public String toString() {
+    StringBuilder liste_coin = new StringBuilder("Plafond {\n");
+    if (coins != null && !coins.isEmpty()) {
+        for (Coin coin : coins) {
+            liste_coin.append(indente(coin.toString(), "    ")).append("\n");
+        }
+    } else {
+        liste_coin.append("    Aucun coin n'est défini\n");
+    }
+    liste_coin.append("}");
+    return liste_coin.toString();
+} 
+
+    public static void main(String []args ){
+        Plafond plafond = plafondtest();
+    System.out.println("Pièce test : \n" + plafond); 
+    System.out.println("Est-ce que ça marche ?");
+        System.out.println("La surface calculée est : " + plafondtest().trouverEtCalculerSurface());
+        System.out.println("le prix est de : "+ plafondtest().trouverEtCalculerPrix());
+ 
+     }
+       
     
     
     

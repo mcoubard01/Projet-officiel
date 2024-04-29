@@ -12,10 +12,12 @@ public class Coin {
     private int id; 
     private int x;
     private int y;
-    private Pièce pièce;
+      private String nom_coin; // il faudra le replacer par la suite car cela correspond un  l'identifiant 
+//les trois la dessous j'ai du les rajoutez mais je suis pas sur que ce que j'ai fait soit juste .
+    private Pièce pièce; 
     private Plafond plafond; 
     private Sol sol;
-    private String nom_coin; 
+  
 
 
     public Coin(int x, int y) {
@@ -93,7 +95,7 @@ public Coin(int id, int x, int y) {
 
     @Override
     public String toString() {
-        return "Coin: "+nom_coin+"{ x=" + x + ", y=" + y + '}';
+        return "Coin: "+nom_coin+"{ x=" + x + ", y=" + y + '}';// le nom_coin correspond a l'identifiant 
     }
 
  

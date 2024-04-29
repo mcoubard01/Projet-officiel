@@ -42,7 +42,7 @@ import java.util.Scanner;
         this.infd = infd;
         this.revêtement_sol = revêtement_sol;// la fonction de mathieu a redéfinir dans sol et plafond 
     }
-    public sol_plafond( List<Coin> coins){// pour l'insatnt avec un revetement standard 
+    public sol_plafond( List<Coin> coins){// pour l'insatnt avec un revetement standard prend en entré la liste de coin
         this.coins = coins;
         Revêtement revêtement_standard = new Revêtement(9999);// le 9999 permet de tester avec le programme que Thomas avit créé quand on veut éviter de lire le fichier 
         this.revêtement_sol=revêtement_standard;
@@ -66,7 +66,7 @@ import java.util.Scanner;
         return null; // Retourne null si aucun Coin correspondant n'est trouvé
 }
     */
-     private static Coin trouverCoin(Scanner scanner, String message) {
+     private static Coin trouverCoin(Scanner scanner, String message) { // cela permet de retrouver un coin dans la liste des coins pour récupérer ces coordoné ou permettre de faire correspondre le coin selectionné avec les coins pour le calcul de surface 
         System.out.println(message);
         String nomCoin = scanner.nextLine();
         return coins.stream()
@@ -74,8 +74,10 @@ import java.util.Scanner;
                     .findFirst()
                     .orElse(null);
     }
-public  static double trouverEtCalculerSurface() {// c'est aussi une méthode pour calculer la surface sur le long terme je pense qu'on utilisera plus celle la que l'autre en dessouis 
-         double surface = -9999;// obliger d'initialiser la variable car sinon j'ai une erreur a la fin pour le return 
+// TO DO : rendra le truc ci dessous automatique ( ne pas demander a l'utilisateur les coins mais les chercher dans la liste tout seul.  
+     public  static double trouverEtCalculerSurface() {// c'est aussi une méthode pour calculer la surface sur le long terme je pense qu'on utilisera plus celle la que l'autre en dessouis 
+      
+    double surface = -9999;// obliger d'initialiser la variable car sinon j'ai une erreur a la fin pour le return 
         // plus facile pour detecter les erreur si on a -9999 comme valeur de surface. 
         
         Scanner scanner = new Scanner(System.in);// obliger d'utiliser un scanner car Lire renvoyait une erreur. 
