@@ -4,6 +4,8 @@
  */
 package fr.insa.mathieu.architecture_officielle;
 
+import java.util.ArrayList;
+
 /**
  * 
  * @author stard
@@ -12,16 +14,15 @@ public class Coin {
     private int id; 
     private int x;
     private int y;
-
+    
     public Coin(int x, int y) {
+        this.id = IDManager.newId(this);
         this.x = x;
         this.y = y;
     }
 
-    public Coin(int id, int x, int y) {
+    public Coin(){
         this.id = IDManager.newId(this);
-        this.x = x;
-        this.y = y;
     }
 
     // GET

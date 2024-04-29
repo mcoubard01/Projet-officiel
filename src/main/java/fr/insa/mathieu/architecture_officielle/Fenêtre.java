@@ -13,10 +13,17 @@ public class Fenêtre extends Ouverture {
     private final double hauteur=1.20;
 
     //CONSTRUCTOR
-    public Fenêtre(double ori_x, double ori_y, char orientation, Etage etage) {
-        super(ori_x, ori_y, orientation, etage, 1.20);
+    
+    public Fenêtre(double ori_x, double ori_y, char orientation,Mur mur1, Mur mur2) {
+        super(ori_x, ori_y, orientation, 1.20,mur1,mur2);
     }
+    public Fenêtre(double ori_x, double ori_y, char orientation, Mur mur) {
+        super(ori_x, ori_y, orientation, 1.20, mur);
+    }
+    
     //FUNCTION 
     // GET
+
+    
     
 }

@@ -4,6 +4,7 @@
  */
 package fr.insa.mathieu.architecture_officielle;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -15,7 +16,7 @@ import java.util.HashMap;
 */
 public class Etage {
     private int hauteur_etage;
-    private double prix_etage;
+    private ArrayList<Mur> liste_mur;
     //private int niveau;
     private int id;
     
@@ -36,7 +37,7 @@ public class Etage {
         this.id=IDManager.newId(this);
         //this.id = MapEtage.setIdInMapEtage(this);
         this.hauteur_etage = hauteur;
-        
+        this.liste_mur=new ArrayList<Mur>();
         //System.out.println("map size is" + mapEtage.size() );        
         System.out.println("id is" + id );
     }
@@ -68,21 +69,25 @@ public class Etage {
         return hauteur_etage;
     }
     public double getPrix_etage() {
-        return prix_etage; // A COMPLETER
+        double prix_etage=0;// TO DO A COMPLETER (mis 0 car pour le moment pas fait)
+        return prix_etage; 
+    }
+
+    public ArrayList<Mur> getListe_mur() {
+        return liste_mur;
+    }
+    public int getId(){
+        return id;
     }
     
-    public int getId(){return id;}
     
-    
-    /*public Etage(int id) {
-        this.id = id;
-    }
-    */
+  
     
 // SET
     public void setHauteur_etage(int hauteur_etage) {
         this.hauteur_etage = hauteur_etage;
     }
+    
    
     
     public static void main(String[] args){

@@ -35,6 +35,7 @@ public abstract class sol_plafond {  //ça marche même si ce n'est pas une maju
         this.infg = infg;
         this.infd = infd;
         this.revêtement_sol = revêtement_sol;// la fonction de mathieu a redéfinir dans sol et plafond 
+        revêtement_sol.getListe_sol_plafond().add(this);
     }
     
     //FUNCTION
