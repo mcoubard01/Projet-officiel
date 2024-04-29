@@ -126,7 +126,10 @@ public static void  piècetest(){
     pièce1.add(m3);
     pièce1.add(m4);
     System.out.println(pièce1);
-    
+    System.out.println("la surface est du sol est de : "+sol.trouverEtCalculerSurface() ); 
+     System.out.println( "le prix est du sol  :"+ sol.trouverEtCalculerPrix()+" €");
+      //   System.out.println("la surface est du plafond est de : "+plafond.trouverEtCalculerSurface() );   // ceci n'est pas nécessaire
+   //System.out.println( "le prix est du plafond  :"+ plafond.trouverEtCalculerPrix()+" €");
     Pièce pièce2= new Pièce("p2");
    
     pièce2.add(c3);
@@ -139,8 +142,10 @@ public static void  piècetest(){
     pièce2.add(m7);
     
        System.out.println(pièce2);
-
-    
+ //System.out.println("la surface est du sol est de : "+sol.trouverEtCalculerSurface() ); 
+     //System.out.println( "le prix est du sol  :"+ sol.trouverEtCalculerPrix()+" €");
+      System.out.println("la surface est du plafond est de : "+plafond.trouverEtCalculerSurface() );   // ceci n'est pas nécessaire
+   System.out.println( "le prix est du plafond  :"+ plafond.trouverEtCalculerPrix()+" €");
 
 }
 
@@ -161,7 +166,7 @@ public static void test1(){
 public static void main (String[] args){
   System.out.println ("est c e que ca marche"); 
   piècetest();
-  System.out.println("la surface est du sol est de : "+sol.trouverEtCalculerSurface() ); 
+  
 }
 
 }
