@@ -12,10 +12,10 @@ public class Coin {
     private int id; 
     private int x;
     private int y;
-     private Pièce pièce;
-     private Plafond plafond; 
-     private Sol sol;
-     private String nom_coin;
+    private Pièce pièce;
+    private Plafond plafond; 
+    private Sol sol;
+    private String nom_coin; 
 
 
     public Coin(int x, int y) {
