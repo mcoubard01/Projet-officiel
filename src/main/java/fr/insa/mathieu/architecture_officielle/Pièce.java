@@ -122,9 +122,9 @@ public static void test1(){
 Pièce.piècetest();
 
         System.out.println("pièce test : \n"+ Pièce.piècetest());   
-    System.out.println("la surface est du sol est de : "+sol.trouverEtCalculerSurface() );   
+    System.out.println("la surface est du sol est de : "+sol.trouverEtCalculerSurface() );   // ceci n'est pas nécessaire 
    System.out.println( "le prix est du sol  :"+ sol.trouverEtCalculerPrix()+"€");
-   System.out.println("la surface est du plafond est de : "+plafond.trouverEtCalculerSurface() );   
+   System.out.println("la surface est du plafond est de : "+plafond.trouverEtCalculerSurface() );   // ceci n'est pas nécessaire
    System.out.println( "le prix est du plafond  :"+ plafond.trouverEtCalculerPrix()+"€");
    
     System.out.println();
