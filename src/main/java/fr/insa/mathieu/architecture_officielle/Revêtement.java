@@ -21,7 +21,8 @@ public class Revêtement extends Architecture_officielle {
     private String pourSol;
     private String pourPlafond;
     private double prix_unitaire;
-    
+    private ArrayList<Mur> liste_mur;
+    private ArrayList<sol_plafond> liste_sol_plafond;
     // id correspond à l'information de la première colonne de notre tableau donnée_ligne.
     // L'id du revêtement correspond = numéro de ligne
     // ex : id = 1 nous donne les informations pour la ligne 1
@@ -31,7 +32,7 @@ public class Revêtement extends Architecture_officielle {
     public Revêtement(int id) {
         int a = id -1;
         this.id = a;
-        // A CHANGER pour récupérer les bonnes données 
+        // TO DO A CHANGER pour récupérer les bonnes données 
         // LISTE DES INDICES de l'arraylist donnee_enregistrée : 
         // 0 : numéros d'identifiant
         // 1 : désignation 
@@ -51,6 +52,8 @@ public class Revêtement extends Architecture_officielle {
         this.pourSol = info[3];
         this.pourPlafond = info[4];
         this.prix_unitaire = todouble(info[5]);
+        this.liste_mur=new ArrayList();
+        this.liste_sol_plafond=new ArrayList();
         }
         
         
@@ -112,13 +115,18 @@ public class Revêtement extends Architecture_officielle {
     public double getPrix_unitaire() {
         return prix_unitaire;
     }
+    public ArrayList<Mur> getListe_mur() {
+        return liste_mur;
+    }
+    public ArrayList<sol_plafond> getListe_sol_plafond() {
+        return liste_sol_plafond;
+    }
+    
 
     // SET
     public void setPrix_unitaire(double prix_unitaire) { //ce setter permet tester des méthodes sans connaître le revêtement utilisé. (voir mur (27/03/24) ) .
         this.prix_unitaire = prix_unitaire;
     }
-    
-    
     
     // MAIN
     public static void main(String[]args){

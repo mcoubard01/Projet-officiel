@@ -6,7 +6,7 @@ package fr.insa.mathieu.architecture_officielle;
 import static fr.insa.mathieu.architecture_officielle.Architecture_officielle.donnee_enregistree;
 import static fr.insa.mathieu.architecture_officielle.Architecture_officielle.lecture;
 import static fr.insa.mathieu.architecture_officielle.Mur.longueur;
- import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 //ATTENTION ATTENTION tous n'est pas dans lordre les set et get ne sont pas bien placé tout est un peu melangé mais ca marche ( a peu prèes).

@@ -4,7 +4,8 @@
  */
 package fr.insa.mathieu.architecture_officielle;
 
-//import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -15,7 +16,7 @@ package fr.insa.mathieu.architecture_officielle;
 */
 public class Etage {
     private int hauteur_etage;
-    private double prix_etage;
+    private ArrayList<Mur> liste_mur;
     //private int niveau;
    // private int id;
     
@@ -36,7 +37,7 @@ public class Etage {
         //  this.id=IDManager.newId(this);
         //this.id = MapEtage.setIdInMapEtage(this);
         this.hauteur_etage = hauteur;
-        
+        this.liste_mur=new ArrayList<Mur>();
         //System.out.println("map size is" + mapEtage.size() );        
        // System.out.println("id is" + id );
     }
@@ -45,6 +46,22 @@ public class Etage {
 
     
 //FUNCTIONS
+
+    @Override
+    public String toString() {
+        String résultat = "";
+        résultat = "Etage n." + this.getId() + "(id), hauteur: " + hauteur_etage + " {\n";
+        //méthode d'itération vue sur https://www.geeksforgeeks.org/iterate-map-java/?ref=ml_lbp
+        for (Mur murATester : IDManager.mapMur.keySet()){ //la méthode keySet() permet de tester pour chaque clé (ici, des murs)
+            if (murATester.getÉtage().getId() == this.getId()){ //"Si le mur-clé est sur l'étage actuel"
+                résultat += murATester.toString() + "\n";
+            }
+        }
+        résultat += "\n}\n";
+        return résultat;
+    }
+    
+    
     
     
 // GET
@@ -52,21 +69,28 @@ public class Etage {
         return hauteur_etage;
     }
     public double getPrix_etage() {
-        return prix_etage; // A COMPLETER
+        double prix_etage=0;// TO DO A COMPLETER (mis 0 car pour le moment pas fait)
+        return prix_etage; 
     }
-    
-  //  public int getId(){return id;}
-    
-    
-    /*public Etage(int id) {
-        this.id = id;
+
+    public ArrayList<Mur> getListe_mur() {
+        return liste_mur;
     }
-    */
-    
+    public int getId(){
+        return id;
+    }
+
+  /*  QUELLE est l'UTILITE ??????
+    public int getId(){
+        return id;
+    }
+    */ 
+
 // SET
     public void setHauteur_etage(int hauteur_etage) {
         this.hauteur_etage = hauteur_etage;
     }
+    
    
     /*
     public static void main(String[] args){

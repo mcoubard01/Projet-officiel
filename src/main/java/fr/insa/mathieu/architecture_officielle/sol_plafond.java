@@ -41,6 +41,7 @@ import java.util.Scanner;
         this.infg = infg;
         this.infd = infd;
         this.revêtement_sol = revêtement_sol;// la fonction de mathieu a redéfinir dans sol et plafond 
+        revêtement_sol.getListe_sol_plafond().add(this);
     }
     public sol_plafond( List<Coin> coins){// pour l'insatnt avec un revetement standard prend en entré la liste de coin
         this.coins = coins;

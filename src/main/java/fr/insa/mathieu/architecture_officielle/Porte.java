@@ -14,8 +14,11 @@ public class Porte extends Ouverture {
     private final double hauteur =2.10;
     
     // CONSTRUCTOR
-    public Porte(double ori_x, double ori_y, char orientation, Etage etage) {
-        super(ori_x, ori_y, orientation, etage,0.90);
+    public Porte(double ori_x, double ori_y, char orientation,Mur mur1, Mur mur2) {
+        super(ori_x, ori_y,orientation,0.90,mur1, mur2);
+    }
+    public Porte(double ori_x, double ori_y, char orientation, Mur mur) {
+        super(ori_x, ori_y, orientation, 0.90, mur);
     }
     
  

@@ -1,15 +1,13 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
-// verification test et essai de merge (oscar)
-// Verification push pour Mathieu
 
 package fr.insa.mathieu.architecture_officielle;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
-import static fr.insa.mathieu.architecture_officielle.Mur.longueur;
+//import fr.insa.mathieu.architecture_officielle.Mur.longueur;
 //Sachant que l' "import" n'est pas nécessaire ici : 
 //il suffit dans le texte d'écrire "Mur.longueur()", qui fait appel à la classe 
 //(comme Lire.i() au lieu de "import fr.insa.mathieu.architecture_officielle.Lire.i;")
@@ -21,6 +19,9 @@ import java.util.ArrayList;
 public class Architecture_officielle { 
     public static ArrayList<String[]> donnee_enregistree; // Liste de tableaux de chaines de caractère qui est utilisée pour le stockage des Revêtements
     
+    
+    
+    
     public static void test_surfacePiece_et_Prix(){
         //////////////TEST SURFACE PIECE + PRIX
         Coin a = new Coin(2,6);
@@ -31,8 +32,8 @@ public class Architecture_officielle {
         System.out.println("Le nom du revêtement est : "+e.getDésignation());
         System.out.println("Le prix du ce revêtement est : "+ e.getPrix_unitaire());
         Sol sol =new Sol (a,b,c,d,e);
-        System.out.println("longueur a et b  : "+longueur(a,b));   //l'appel de "longueur" ici aurait pu être "Mur.longeur(a,b)"
-        System.out.println("longueur a et b  : "+longueur(a,c));  
+        System.out.println("longueur a et b  : "+Mur.longueur(a,b));   //l'appel de "longueur" ici aurait pu être "Mur.longeur(a,b)"
+        System.out.println("longueur a et b  : "+Mur.longueur(a,c));  
         System.out.println("la surface du sol   : "+Sol.surface(a,b,c));
         System.out.println("le prix du sol au m² est  : "+sol.prix());
         System.out.println("hello");
@@ -90,10 +91,114 @@ public class Architecture_officielle {
         else {System.out.println("pas compris, dsl");}
     }
     
+    public static void launchProgramm(){
+        boolean run = true;
+        
+        /**
+         * IdEtageActuel est l'étage dans lequel on se trouve actuellement. 
+         * On peut changer ceci (temporairement) quand on est dans la boucle (run == true). ( voir plus bas)
+         */
+        int IdEtageActuel = 0;  
+        
+        Etage etageActuel; //voir l'option "5", "3"...
+        
+        Coin coinTest1 = new Coin(2,3); //des objets de test 
+        Coin coinTest2 = new Coin(2,0);
+        Etage etageTest1 = new Etage(5);
+        Mur murTest1 = new Mur(coinTest1,coinTest2,etageTest1);
+        
+        ArrayList<String> objetsCréés = new ArrayList<>(){{
+        add(etageTest1.toString());
+        add(coinTest1.toString());
+        add(coinTest2.toString());
+        add(murTest1.toString());
+        
+        }};
+        
+        
+        while (run){
+            System.out.println("""
+                               Que voulez vous faire? 
+                               1 : consulter les objets créés
+                               2 : créer un nouveau coin 
+                               3 : créer un nouveau mur avec de nouveaux coins
+                               4 : créer un nouveau mur avec des coins existants
+                               5 : se placer à un étage, créer un nouvel étage
+                               """);
+            int optionChoisie = Lire.i();
+            switch (optionChoisie){
+                case 1 : 
+                    System.out.println(objetsCréés);
+                    break;
+                case 2 :  //créer un nouveau coin
+                    System.out.println("entrez sa coordonnée x");
+                    int coordX = Lire.i();
+                    System.out.println("entrez sa coordonnée y");
+                    int coordY = Lire.i();
+                    Coin coin = new Coin(coordX,coordY);
+                    objetsCréés.add(coin.toString());
+                    //jusqu'ici, on ajoute archaïquement les objets créees à l'ArrayList. Possibles améliorations : 
+                    
+                    //TODO : créer l'Arraylist "objetsCréés" depuis les maps contenant les identifiants
+                    //afin " d'automatiser" le processus.  --> faie en sorte que l'Arratlist se se recrée pas à chaque nouvel objet, pour ne pas alourdir.
+                    
+                    //TODO: inclure l'utilistation de l'ArrayList "objetsCréés" dans la sauvegarde et la récupération des données.
+                    break;
+                case 3 : //créer un nouveau mur avec de nouveaux coins
+                    System.out.println("nouveau mur. création de coin début");
+                    System.out.println("entrez sa coordonnée x");
+                    int coordXDebut = Lire.i();
+                    System.out.println("entrez sa coordonnée y");
+                    int coordYDebut = Lire.i();
+                    Coin coinDebut1 = new Coin(coordXDebut,coordYDebut);
+                    objetsCréés.add(coinDebut1.toString());
+                    System.out.println("création de coin fin");
+                    System.out.println("entrez sa coordonnée x");
+                    int coordXFin = Lire.i();
+                    System.out.println("entrez sa coordonnée y");
+                    int coordYFin = Lire.i();
+                    Coin coinFin1 = new Coin(coordXFin,coordYFin);
+                    objetsCréés.add(coinFin1.toString());
+                    
+                    //TODO : si on "crée" un nouveau coin alors que ce coin existe déjà, le programme doit annuler la création et automatiquement utiliser le coin existant.
+                    
+                    etageActuel = IDManager.getKeyEtage(IdEtageActuel);
+                    Mur nouveauMur1 = new Mur(coinDebut1,coinFin1,etageActuel);
+                    objetsCréés.add(nouveauMur1.toString());
+                    
+                    objetsCréés.set(0, etageTest1.toString()); 
+                    //ceci est une méthode archaïque pour "mettre à jour" l'étage rdc, qui a été ajouté à objetsCréés avant la boucle.
+                    //TODO : implémenter une méthode plus systématique pour "mettre à jour" les éléments de objetsCréés (arraylist de String). 
+                    //peut-être créer des sous-arraylists contenant de manière séparée les coins, les murs, les étages... 
+                    
+                    break;
+                case 4 : //créer un nouveau mur avec des coins existants
+                    System.out.println("Cette option n'a pas été encore configurée");
+                    break;
+                case 5 :
+                    System.out.print("quel étage voulez vous modifier? ");
+                    System.out.println("(il y a actuellement " + IDManager.mapEtage.size() + " étages (rdc : 0). Entrez un numéro plus grand pour en créer un nouveau et s'y placer.)");
+                    //TODO : vérifirer que IDManager.mapEtage fonctionne encore une fois la forme définitive de IDManager atteinte.
+                    int IdEtageSouhaité = Lire.i();
+                    if (IdEtageSouhaité > IDManager.mapEtage.size()){//si size() = 3, on entre 4 pour créer l'étage 3.
+                        System.out.println("quelle hauteur pour ce nouvel étage? entrez un int."); //TODO : Il faudrait plus tard transformer hauteru_etage en double.
+                        int hauteurNouvelEtage = Lire.i();
+                        Etage nouvelEtage = new Etage(hauteurNouvelEtage);
+                        
+                    }
+                case 9999 :
+                    run = false;
+            default : break;
+            }
+        }
+    }
+    
     //à terme, il faudrait créer une classe séparée contenant les méthodes lecture, écriture, sauvegarde...
     
     //TODO : la méthode "lecture" est peut-être trop spécialisée (lecture de Revêtements_test.txt), pas assez "flexible", non? 
     //à voir dans notre utilisation
+    
+    
     
     public static ArrayList<String[]> lecture(String nom_fichier){
     String ligne;                                   //chaîne de caractères pour enregistrer les lignes du document texte
@@ -140,6 +245,7 @@ public static void main(String[] args) {
     String nom_fichier = Lire.S();
     donnee_enregistree = lecture(nom_fichier); // lecture est ici une fonction qui renverra une ArrayList de tableau de chaînes de caractères
     
+    launchProgramm();
     //La méthode ci-dessous est utilisée surtout pour vider le main des tests menés.
     faireDesTests(); //une méthode qui permet de nettoyer le main. Voir plus haut : elle est utilisée pour regrouper les tests que l'on veut faire.
     

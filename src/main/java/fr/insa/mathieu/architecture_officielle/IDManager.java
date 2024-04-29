@@ -26,27 +26,27 @@ public class IDManager {
     
     
 //pour les étages
-    static private HashMap<Etage,Integer> mapEtage = new HashMap<>(); //pourquoi un hashmap? je ne sais pas. d'après ce que je comprends, on ne peut pas créer de "map = new Map<>()" (Map est abstraite et ne peut doc être instanciée, d'après le messsge de debug
+    static public HashMap<Etage,Integer> mapEtage = new HashMap<>(); //pourquoi un hashmap? je ne sais pas. d'après ce que je comprends, on ne peut pas créer de "map = new Map<>()" (Map est abstraite et ne peut doc être instanciée, d'après le messsge de debug
     static int compteurEtage = 0;
     
 //pour les pièces
-    static private HashMap<Pièce,Integer> mapPièce = new HashMap<>();
+    static public HashMap<Pièce,Integer> mapPièce = new HashMap<>();
     static int compteurPièce = 0;  //TODO faire une méthode où la pièce a le numéro de l'étage devant
     
 //pour les murs
-    static private HashMap<Mur,Integer> mapMur = new HashMap<>();
+    static public HashMap<Mur,Integer> mapMur = new HashMap<>();
     static int compteurMur = 0;
     
 //pour les coins
-    static private HashMap<Coin,Integer> mapCoin = new HashMap<>();
+    static public HashMap<Coin,Integer> mapCoin = new HashMap<>();
     static int compteurCoin = 0;
     
 //pour les fenêtres
-    static private HashMap<Fenêtre,Integer> mapFenêtre = new HashMap<>();
+    static public HashMap<Fenêtre,Integer> mapFenêtre = new HashMap<>();
     static int compteurFenêtre = 0;
     
 //pour les portes
-    static private HashMap<Porte,Integer> mapPorte = new HashMap<>();
+    static public HashMap<Porte,Integer> mapPorte = new HashMap<>();
     static int compteurPorte = 0;
     
     
@@ -100,7 +100,7 @@ public class IDManager {
     }
     
     public static int newId(Mur mur){
-        int idDuMur = compteurMur + 1000*mur.getÉtage().getId();  
+        int idDuMur = compteurMur + 1000 * mur.getÉtage().getId();  
 //ainsi, pour l'étage ézéro, 0<=idDuMur<=999 ; pour l'étage 1, 1000<= idDuMur <=1999 ,etc.
         mapMur.put(mur,idDuMur);
         compteurMur++;
@@ -128,6 +128,24 @@ public class IDManager {
     }
     
     //GET
+    
+    /**
+     * 
+     * @param IdDeL_Etage Identifiant auquel on veut associer un étage.
+     * @return l'Etage associé à l'Identifiant, ou bien null (si l'Id est trop grand)
+     */
+    public static Etage getKeyEtage(int IdDeL_Etage){
+        Etage valeurARenvoyer = null;
+        for (Etage etageCherché : IDManager.mapEtage.keySet()){
+            if (etageCherché.getId() == IdDeL_Etage){
+                valeurARenvoyer =  etageCherché;
+            }
+        }
+        if (valeurARenvoyer == null) {System.out.println("Vous n'avez pas créé d'Etage avec cet Identifiant"); }
+        return valeurARenvoyer;
+        
+        
+    }
     
     
     
