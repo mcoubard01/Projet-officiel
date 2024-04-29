@@ -18,7 +18,7 @@ public class Etage {
     private int hauteur_etage;
     private ArrayList<Mur> liste_mur;
     //private int niveau;
-    private int id;
+   // private int id;
     
 //2eme option pour l'ID : au lieu de maps dans le IDManager, simplement créer la variable ci dessous et l'incrémenter directment dans le condtructeur
     //private static int compteurID =0; //pourquoi static? voir commentaire dans IDManager
@@ -34,12 +34,12 @@ public class Etage {
     
 //CONSTRUCTOR
     public Etage(int hauteur) { 
-        this.id=IDManager.newId(this);
+        //  this.id=IDManager.newId(this);
         //this.id = MapEtage.setIdInMapEtage(this);
         this.hauteur_etage = hauteur;
         this.liste_mur=new ArrayList<Mur>();
         //System.out.println("map size is" + mapEtage.size() );        
-        System.out.println("id is" + id );
+       // System.out.println("id is" + id );
     }
     
     //TODO : une fonction qui détecte sur quel étage on se trouve actuellement dans l'éxécution.
@@ -79,24 +79,28 @@ public class Etage {
     public int getId(){
         return id;
     }
-    
-    
-  
-    
+
+  /*  QUELLE est l'UTILITE ??????
+    public int getId(){
+        return id;
+    }
+    */ 
+
 // SET
     public void setHauteur_etage(int hauteur_etage) {
         this.hauteur_etage = hauteur_etage;
     }
     
    
-    
+    /*
     public static void main(String[] args){
         Etage etage1 = new Etage(5);
         Etage etage2 = new Etage(6);
-        System.out.println("id of etage1 is " + etage1.getId());
-        System.out.println("id of etage2 is " + etage2.getId());
+        System.out.println("hauteur of etage1 is " + etage1.getEtage());
+        //System.out.println("id of etage2 is " + etage2.getId());
 
     }
+*/
 }
 
 
