@@ -14,6 +14,7 @@ public class Pièce {
  private static  List<Coin> coins;
  private static Sol sol;
  private static Plafond plafond;
+ private String nom_pièce;
  
 
  public Pièce(){
@@ -27,6 +28,7 @@ public class Pièce {
  this.coins= new ArrayList<Coin>();
  this.sol = new Sol(this.coins);
  this.plafond = new Plafond(this.coins);
+ this.nom_pièce= nom_pièce;
     }
 
 
@@ -65,7 +67,7 @@ public static String indente (String toIndente, String prefix){
 }
     @Override
     public String toString() {
-        String res = "Pièce {\n";
+        String res = "Pièce: "+ nom_pièce+" {\n";
         for (int i=0; i<this.composition.size();i++){
             res=res+indente(this.composition.get(i).toString()," ")+ "\n";
         }
@@ -100,7 +102,7 @@ public static Pièce piècetest(){
     Mur m2= new Mur("m2",c2,c3,e1);  
     Mur m3= new Mur("m3",c3,c4,e1); 
     Mur m4= new Mur("m4",c4,c1,e1); 
-    Pièce pièce1= new Pièce();
+    Pièce pièce1= new Pièce("p1");
    
      pièce1.add(c1);
      pièce1.add(c2);
@@ -122,8 +124,8 @@ Pièce.piècetest();
         System.out.println("pièce test : \n"+ Pièce.piècetest());   
     System.out.println("la surface est du sol est de : "+sol.trouverEtCalculerSurface() );   
    System.out.println( "le prix est du sol  :"+ sol.trouverEtCalculerPrix()+"€");
-   System.out.println("la surface est du plafond est de : "+sol.trouverEtCalculerSurface() );   
-   System.out.println( "le prix est du plafond  :"+ sol.trouverEtCalculerPrix()+"€");
+   System.out.println("la surface est du plafond est de : "+plafond.trouverEtCalculerSurface() );   
+   System.out.println( "le prix est du plafond  :"+ plafond.trouverEtCalculerPrix()+"€");
    
     System.out.println();
 }
