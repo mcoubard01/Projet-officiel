@@ -49,6 +49,11 @@ public class Coin {
     public void setY(int y) {
         this.y = y;
     }
+
+    @Override
+    public String toString() {
+        return "{(" + x + "," + y + ") ,id=" + id +  '}';
+    }
     
     
     
