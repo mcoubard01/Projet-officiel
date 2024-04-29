@@ -15,6 +15,9 @@ public class Mur {
     private Revêtement revêtement_mur;
     private Etage étage_mur;
     private ArrayList<Ouverture> liste_ouverture;
+    private Pièce pièce1;
+    private Pièce pièce2;
+    
 //On utilise la méthode avec les maps (classe IDManager). Toutefois, on pourrait créer un ID dans la classe mur qui s'incrémante tout seul.
     //private static int compteurID = 0;
 //dans le constructeur : 
@@ -51,6 +54,7 @@ public class Mur {
         this.debut = debut;
         this.fin = fin;
         this.id = IDManager.newId(this);
+        this.liste_ouverture=new ArrayList<Ouverture>();
        
         
     }
@@ -98,6 +102,12 @@ public class Mur {
     public String toString() {
         return "Mur{" + "id=" + id + ", debut=" + debut + ", fin=" + fin + ", \u00e9tage_mur=" + étage_mur.getId() + '}'; // + ", rev\u00eatement_mur=" + revêtement_mur + 
     }
+    /**
+     * premier id : identifiant mur
+     * 'debut' correspond à debut.toString()
+     * 'fin' correspond à fin.toString()
+     * @return 
+     */
     
     
  
@@ -136,9 +146,22 @@ public class Mur {
     public void setEtage(Etage etage){
         this.étage_mur = etage;
     }
-    public void setRevêtement_mur(Revêtement revêtement_mur) {
-        this.revêtement_mur = revêtement_mur;
-        revêtement_mur.getListe_mur().add(this);
+    public void setRevêtement_mur(Revêtement revêtement) {
+        if(this.contrôle(revêtement)==true){
+            this.revêtement_mur = revêtement;
+            revêtement.getListe_mur().add(this);
+        }
+        else {
+            System.out.println("LE revêtement ne peut être appliqué sur ce mur !!!!");
+        }
+        
+    }
+    public void setPièce1(Pièce pièce1) {
+        this.pièce1 = pièce1;
+    }
+
+    public void setPièce2(Pièce pièce2) {
+        this.pièce2 = pièce2;
     }
     
     
@@ -149,10 +172,11 @@ public class Mur {
     public static void main(String [] args){   //un main pour tester longueur et surface
     //test 30/03/24 (thomas) (merci de ne pas y toucher sans vérifier qu'il fonctionne encore)
     //////////////LECTURE FICHIER. IL s'appelle Revêtement_test.txt
-    
+    /*
     System.out.println("Donnez le nom de votre fichier :");
     String nom_fichier = Lire.S();
-    donnee_enregistree = lecture(nom_fichier); // Lecture est ici une fonction qui renverra une ArrayList de tableau de chaînes de caractères
+    */
+    donnee_enregistree = lecture("revêtement_test.txt"); // Lecture est ici une fonction qui renverra une ArrayList de tableau de chaînes de caractères
 
     //Création des coins pour faire le mur 
     Coin debut1 , fin1;
@@ -161,12 +185,13 @@ public class Mur {
     Etage etage1 = new Etage(5);
     Etage etage2 = new Etage(5);
     //Revêtement test=new Revêtement(9999);  //id=9999 est un raccourci pour mettre définir prix_unitaire à 5.55 et c'est tout (pas de lecture de donnee enregistree
-    //System.out.println("numéros revêtement : ");
-    //int id = Lire.i();
-    //Revêtement test=new Revêtement(id);  
+    System.out.println("numéros revêtement : ");
+    int id = Lire.i();
+    Revêtement revêtement=new Revêtement(id);  
 
     Mur mur = new Mur(debut1,fin1, etage1);
-
+    Mur mur1 = new Mur(debut1,fin1, etage1);
+    mur.setRevêtement_mur(revêtement);
     /*  
     System.out.println("Le prix du revêtement est : "+test.getPrix_unitaire());  //test.getPrix_unitaire ne fonctionne pas sans la lgne ci-dessus car le fichier donnee_enregristree n'est pas encore lu
     System.out.println("Length = " + mur.longueur());
@@ -174,15 +199,15 @@ public class Mur {
     System.out.println("Surface is " + mur.surface());
     System.out.println("Price is " + mur.prix());
     System.out.println("contrôle result :"+ mur.contrôle(test)); // renvoie true si le revêtement est applicable, false sinon
-    */
-    Fenêtre fen1 = new Fenêtre(2,2,'N',mur);
+    
+    Fenêtre fen1 = new Fenêtre(2,3,'N',mur);
     Fenêtre fen2 = new Fenêtre(2,2,'N',mur);
     Fenêtre fen3 = new Fenêtre(2,2,'N',mur);
     Porte porte1 = new Porte(2,2,'N',mur);
     fen1.setMur2(mur1);
     fen2.setMur2(mur1);
     porte1.setMur2(mur1);
-    /*
+    
     Porte porte= new Porte(2,2,'E',mur,mur1);
     System.out.println("mur 1 : "+porte.getMur1());
     System.out.println("mur 2 :"+porte.getMur2());
@@ -203,7 +228,10 @@ public class Mur {
     for (int i=0;i<mur1.getListe_ouverture().size();i++){
         System.out.println("i = "+i+" =>"+mur1.getListe_ouverture().get(i));
     }
-
+    System.out.println("revêtement.getListe_mur() : ");
+    for (int i=0;i<revêtement.getListe_mur().size();i++){
+        System.out.println("i ="+i+" => "+revêtement.getListe_mur().get(i));
+    }
     }
        
        

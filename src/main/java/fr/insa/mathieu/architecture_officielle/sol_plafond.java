@@ -15,27 +15,49 @@ public abstract class sol_plafond {  //ça marche même si ce n'est pas une maju
     private Coin supd;// coin supérieur droit
     private Coin infg;// coin inférieur gauche
     private Coin infd;// coin inférieur droit
-    private Revêtement revêtement_sol;
-    
+    private Revêtement revêtement; 
     Revêtement standard = new Revêtement(1);//Revêtement standard
-
-    public sol_plafond(String id, Coin supg, Coin supd, Coin infg,Coin infd, Revêtement revêtement_sol) {
+    
+    //CONSTRUCTOR
+     public sol_plafond(Coin supg, Coin supd, Coin infg, Coin infd) { // Utilisation de ce constructeur, on ajoutera ensuite le revêtement avec le set
+        this.supg = supg;
+        this.supd = supd;
+        this.infg = infg;
+        this.infd = infd;
+    }
+    /*
+    public sol_plafond(String id, Coin supg, Coin supd, Coin infg,Coin infd, Revêtement revêtement) {
         this.id = id;
         this.supg = supg;
         this.supd = supd;
         this.infg = infg;
         this.infd = infd;
-        this.revêtement_sol = revêtement_sol;
+        if (this.contrôle(revêtement)==true){
+            this.revêtement=revêtement;
+            revêtement.getListe_sol_plafond().add(this);
+        }
+        else {
+            System.out.println("pas possible d'appliquer ce revêtement");
+        }
     }
 
-    public sol_plafond(Coin supg, Coin supd, Coin infg,Coin infd, Revêtement revêtement_sol) {
+    public sol_plafond(Coin supg, Coin supd, Coin infg,Coin infd, Revêtement revêtement) {
         this.id = "idc";// a remplir automatiquement 
         this.supg = supg;
         this.supd = supd;
         this.infg = infg;
         this.infd = infd;
-        this.revêtement_sol = revêtement_sol;// la fonction de mathieu a redéfinir dans sol et plafond 
-        revêtement_sol.getListe_sol_plafond().add(this);
+        if (this.contrôle(revêtement)==true){
+            this.revêtement=revêtement;
+            revêtement.getListe_sol_plafond().add(this);
+        }
+        else {
+            System.out.println("pas possible d'appliquer ce revêtement");
+        }
+        
+    }
+*/    
+    public sol_plafond(){//CONSTRUCTEUR test pour aller plus vite lors des essais   
     }
     
     //FUNCTION
@@ -44,10 +66,16 @@ public abstract class sol_plafond {  //ça marche même si ce n'est pas une maju
         return surface; 
     }
     public double prix (){
-        double prix= surface (this.getSupg(),this.getSupd() ,this.getInfg())* (this.getRevêtement_sol().getPrix_unitaire());
+        double prix=0;//initialisation du prix, lorsque c'est égale à 0 c'est qu'il n'a pas pu calculer le prix
+        if (this.getRevêtement()==null){
+            throw new Error("le prix ne peut être calculer car nous n'avons pas de revêtement adapté à la surface");
+        }
+        else {
+            prix= surface (this.getSupg(),this.getSupd() ,this.getInfg())* (this.getRevêtement().getPrix_unitaire());// Fonction de prix de base déjà crée
+        }
         return prix;
     }
-      
+    abstract boolean contrôle(Revêtement revêtement);
     
     // GET
     public String getId() {
@@ -62,8 +90,8 @@ public abstract class sol_plafond {  //ça marche même si ce n'est pas une maju
     public Coin getInfg() {
         return infg;
     }
-    public Revêtement getRevêtement_sol() {
-        return revêtement_sol;
+    public Revêtement getRevêtement() {
+        return revêtement;
     }
     
     // SET
@@ -79,8 +107,14 @@ public abstract class sol_plafond {  //ça marche même si ce n'est pas une maju
     public void setInfg(Coin infg) {
         this.infg = infg;
     }
-    public void setRevêtement_sol(Revêtement revêtement_sol) {
-        this.revêtement_sol = revêtement_sol;
+    public void setRevêtement(Revêtement revêtement) {
+        if (this.contrôle(revêtement)==true){
+            this.revêtement=revêtement;
+            revêtement.getListe_sol_plafond().add(this);
+        }
+        else {
+            System.out.println("nous n'ajoutons pas le sol_plafond à la liste des durfaces pour ce revêtement !!!");
+        }
     }
 
 

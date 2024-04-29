@@ -19,20 +19,25 @@ public class Plafond extends sol_plafond{
     private Revêtement revêtement_plaf;
 
 //CONSTRUCTOR
+    /*
     public Plafond(Coin supg, Coin supd, Coin infg, Coin infd, Revêtement revêtement_sol) {
         super(supg, supd, infg, infd, revêtement_sol);
     }
-        
-// FUNCTION
-    //@Override
-    public boolean contrôle(Revêtement r){
-    boolean result=(r.getPourPlafond()).equals("1");
-    return result;
-}
-    // GET
-
-    public Revêtement getRevêtement_plaf() {
-        return revêtement_plaf;
+*/
+    public Plafond() {
     }
+    public Plafond(Coin supg, Coin supd, Coin infg, Coin infd) {
+        super(supg, supd, infg, infd);
+    }
+    
+// FUNCTION
+
+    @Override
+    public boolean contrôle(Revêtement r) {
+        boolean result=(r.getPourPlafond()).equals("1");
+        return result;
+    }
+    // GET    
+    //SET
     
 }

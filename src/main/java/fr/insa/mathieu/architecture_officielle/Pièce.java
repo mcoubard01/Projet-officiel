@@ -14,6 +14,7 @@ public class Pièce {
     private Mur td;
     inutile?*/
     private double prix;
+    private Appartement appartement;
     
 // Constructeur
     public Pièce(Mur a, Mur b, Mur c, Mur d) { //temporaire : on veut à terme avoir autant de murs que l'on souhaite
@@ -24,7 +25,7 @@ public class Pièce {
         this.liste_mur[1]=b;
         this.liste_mur[2]=c;
         this.liste_mur[3]=d;
-        
+        this.appartement=null;//'null' de manière automatique
     }
 
     //FUNCTIONS
@@ -45,13 +46,14 @@ public class Pièce {
     public double getPrix() { 
         return prix;
     }
-    
-    public static void main(String[] args){
-        //création d'un exemple
-        
+    public Appartement getAppartement() {
+        return appartement;
     }
     
-    
+    //SET
+    public void setAppartement(Appartement appartement) {
+        this.appartement = appartement;
+    }
     
     
 }

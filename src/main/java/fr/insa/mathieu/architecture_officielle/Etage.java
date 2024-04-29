@@ -17,6 +17,7 @@ import java.util.HashMap;
 public class Etage {
     private int hauteur_etage;
     private ArrayList<Mur> liste_mur;
+    private ArrayList<Appartement> liste_appartement;
     //private int niveau;
     private int id;
     
@@ -37,7 +38,8 @@ public class Etage {
         this.id=IDManager.newId(this);
         //this.id = MapEtage.setIdInMapEtage(this);
         this.hauteur_etage = hauteur;
-        this.liste_mur=new ArrayList<Mur>();
+        this.liste_mur=new ArrayList<>();// TO DO utilité de cet attribut ???????
+        this.liste_appartement = new ArrayList<>();
         //System.out.println("map size is" + mapEtage.size() );        
         System.out.println("id is" + id );
     }
@@ -60,7 +62,7 @@ public class Etage {
         résultat += "\n}\n";
         return résultat;
     }
-    
+    //TO DO fonction add pour ajouter un appartement à l'étage
     
     
     
@@ -78,6 +80,9 @@ public class Etage {
     }
     public int getId(){
         return id;
+    }
+    public ArrayList<Appartement> getListe_appartement() {
+        return liste_appartement;
     }
     
     

@@ -17,6 +17,7 @@ public abstract class Ouverture {
     private Mur mur2;
 
     //CONSTRUCTOR
+    /*
     public Ouverture(double ori_x, double ori_y, char orientation, double longueur, Mur mur1, Mur mur2) {
         this.ori_x = ori_x;
         this.ori_y = ori_y;
@@ -42,7 +43,7 @@ public abstract class Ouverture {
         System.out.println("L'ouverture doit être supprimée");
         
     }
-
+*/
     public Ouverture(double ori_x, double ori_y, char orientation, double longueur, Mur mur) {
         this.ori_x = ori_x;
         this.ori_y = ori_y;
@@ -53,7 +54,7 @@ public abstract class Ouverture {
             mur.getListe_ouverture().add(this);
         }
         else {
-            System.out.println("L'ouverture doit être supprimée");
+            //System.out.println("L'ouverture doit être supprimée");//Juste l'ouverture est ignorée car n'apparait pas dans les liste des ouvertures des murs
         }
     }
     
@@ -72,29 +73,29 @@ public abstract class Ouverture {
                         switch(this.getOrientation()){
                             case 'N' -> {
                                 if (this.getOri_y()+this.longueur<max_y){
-                                    System.out.println("l'ouverture est comprise dans le mur");
+                                    //System.out.println("l'ouverture est comprise dans le mur");
                                     result=true;
                                 }
                                 else {
-                                    System.out.println("l'ouverture dépasse le mur (NORD)");
+                                    //System.out.println("l'ouverture dépasse le mur (NORD)");
                                     result=false;
                                 }
                             }
                             case 'S' -> {
                                 if (this.getOri_y()-this.longueur>min_y){
-                                    System.out.println("longueur ouverture :"+this.longueur);
-                                    System.out.println("l'ouverture est comprise dans le mur");
+                                    //System.out.println("longueur ouverture :"+this.longueur);
+                                    //System.out.println("l'ouverture est comprise dans le mur");
                                     result=true;
                                 }
                                 else {
-                                    System.out.println("l'ouverture dépasse le mur (SUD)");
+                                    //System.out.println("l'ouverture dépasse le mur (SUD)");
                                     result=false;
                                 }
                             }
                         }
                     }
                     else {
-                        System.out.println("L'orientation est mauvaise");
+                        //System.out.println("L'orientation est mauvaise");
                         result=false;
                     }
                 }
@@ -103,34 +104,34 @@ public abstract class Ouverture {
                         switch(this.getOrientation()){
                             case 'E' -> {
                                 if (this.getOri_x()+this.longueur<max_x){
-                                    System.out.println("l'ouverture est comprise dans le mur");
+                                    //System.out.println("l'ouverture est comprise dans le mur");
                                     result=true;
                                 }
                                 else {
-                                    System.out.println("l'ouverture dépasse le mur");
+                                    //System.out.println("l'ouverture dépasse le mur");
                                     result=false;
                                 }
                             }
                             case 'O' -> {
                                 if (this.getOri_x()-this.longueur>min_x){
-                                    System.out.println("l'ouverture est comprise dans le mur");
+                                    //System.out.println("l'ouverture est comprise dans le mur");
                                     result=true;
                                 }
                                 else {
-                                    System.out.println("l'ouverture dépasse le mur");
+                                    //System.out.println("l'ouverture dépasse le mur");
                                     result=false;
                                 }
                             }
                         }
                     }
                     else {
-                        System.out.println("L'orientation est mauvaise");
+                        //System.out.println("L'orientation est mauvaise");
                         result=false;
                     }
                 }
             }
             else{
-                System.out.println("L'origine de ta porte ne se trouve pas sur un mur");
+                //System.out.println("L'origine de ta porte ne se trouve pas sur un mur");
                 result=false;
             }
         //}
@@ -141,7 +142,6 @@ public abstract class Ouverture {
         */
     return result;
     }
-    
     // GET
     public double getOri_x() {
         return ori_x;
@@ -171,7 +171,7 @@ public abstract class Ouverture {
             mur2.getListe_ouverture().add(this);
         }
         else {
-            System.out.println("IMPOSSIBLE d'ajouter ce mur à l'ouverture");
+            //System.out.println("IMPOSSIBLE d'ajouter ce mur à l'ouverture");
             this.mur2=null;
         }
     }
