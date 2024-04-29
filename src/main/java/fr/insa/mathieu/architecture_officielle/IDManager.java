@@ -129,6 +129,24 @@ public class IDManager {
     
     //GET
     
+    /**
+     * 
+     * @param IdDeL_Etage Identifiant auquel on veut associer un étage.
+     * @return l'Etage associé à l'Identifiant, ou bien null (si l'Id est trop grand)
+     */
+    public static Etage getKeyEtage(int IdDeL_Etage){
+        Etage valeurARenvoyer = null;
+        for (Etage etageCherché : IDManager.mapEtage.keySet()){
+            if (etageCherché.getId() == IdDeL_Etage){
+                valeurARenvoyer =  etageCherché;
+            }
+        }
+        if (valeurARenvoyer == null) {System.out.println("Vous n'avez pas créé d'Etage avec cet Identifiant"); }
+        return valeurARenvoyer;
+        
+        
+    }
+    
     
     
     //TODO : faire des méthodes permettant de manipuler la map (en fonction de nos besoins)
