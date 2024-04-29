@@ -13,7 +13,7 @@ public class Mur {
     private Coin fin;
     private Revêtement revêtement_mur;
     private Etage étage_mur;
-    
+       private String nom_mur;
     private Pièce pièce;
 
    
@@ -33,6 +33,26 @@ public class Mur {
         this.fin = fin;
         this.revêtement_mur = revêtement;
         this.étage_mur = étage;
+        
+    }
+    public Mur(String nom_mur,Coin debut, Coin fin) {  // INCOMPLET  
+       // Revêtement revêtement_standard = new Revêtement(1);
+        //this.id = IDManager.newId(this); //l'étage est nécessaire à cette méthode
+        //ici on ne crée pas d'ID car on connaît pas l'étage
+        
+        //TODO : une fonction qui détecte sur quel étage on se trouve actuellement dans l'éxécution.
+     this.nom_mur= nom_mur;
+        this.debut = debut;
+        this.fin = fin;
+       // this.revêtement_mur=revêtement_standard;
+    }
+     public Mur (String nom_mur,Coin debut, Coin fin, Etage étage){
+        this.debut = debut;
+        this.nom_mur= nom_mur;
+        this.fin = fin;
+        this.étage_mur =étage;
+        Revêtement revêtement_standard = new Revêtement(9999);// le 9999 permet de tester avec le programme que Thomas avit créé quand on veut éviter de lire le fichier 
+        this.revêtement_mur=revêtement_standard;
     }
     public Mur(Coin debut, Coin fin) {  // INCOMPLET  
        // Revêtement revêtement_standard = new Revêtement(1);
@@ -40,7 +60,7 @@ public class Mur {
         //ici on ne crée pas d'ID car on connaît pas l'étage
         
         //TODO : une fonction qui détecte sur quel étage on se trouve actuellement dans l'éxécution.
-     
+    
         this.debut = debut;
         this.fin = fin;
        // this.revêtement_mur=revêtement_standard;
@@ -111,6 +131,10 @@ public class Mur {
         return pièce;
     }
 
+    public String getNom_mur() {
+        return nom_mur;
+    }
+
     // SET
     public void setId(int id) { //ne pas utiliser setID car cela interférerait avec compteurID qui s'incrément automatiquement
         this.id = id;
@@ -129,6 +153,12 @@ public class Mur {
      void setPièce(Pièce pièce) {
         this.pièce = pièce;
     }
+
+    public void setNom_mur(String nom_mur) {
+        this.nom_mur = nom_mur;
+    }
+     
+     
     
      
        
@@ -168,7 +198,7 @@ public class Mur {
 
     @Override
     public String toString() {
-        return "Mur{" + "debut=" + debut + ", fin=" + fin + '}';
+        return "Mur: "+nom_mur+"{ debut=" + debut + ", fin=" + fin + '}';
     }
 
    

@@ -9,7 +9,7 @@ import static fr.insa.mathieu.architecture_officielle.Mur.longueur;
  import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
+//ATTENTION ATTENTION tous n'est pas dans lordre les set et get ne sont pas bien placé tout est un peu melangé mais ca marche ( a peu prèes).
 /**
  *
  * @author stard
@@ -22,7 +22,8 @@ public class Sol extends sol_plafond {
     private Coin infg;// coin inférieur gauche
     private Coin infd;
     private Revêtement revêtement_sol;   
-    private List<Coin> coins;
+    private static List<Coin> coins;
+     private Pièce pièce;
     
     Revêtement standard = new Revêtement(9999);//Revêtement standard
     
@@ -41,6 +42,7 @@ public class Sol extends sol_plafond {
         super (coins);
          Revêtement revêtement_standard = new Revêtement(9999);// le 9999 permet de tester avec le programme que Thomas avit créé quand on veut éviter de lire le fichier 
         this.revêtement_sol=revêtement_standard;
+        this.coins =new ArrayList<Coin>();
         
     }
 // FONCTION
@@ -51,8 +53,96 @@ public class Sol extends sol_plafond {
     return result;
 }
  */
- 
- 
+
+    public Coin getSupg() {
+        return supg;
+    }
+
+    public Coin getSupd() {
+        return supd;
+    }
+
+    public Coin getInfg() {
+        return infg;
+    }
+
+    public Coin getInfd() {
+        return infd;
+    }
+
+    public Revêtement getRevêtement_sol() {
+        return revêtement_sol;
+    }
+
+    public List<Coin> getCoins() {
+        return coins;
+    }
+
+    public Pièce getPièce() {
+        return pièce;
+    }
+
+    public void setSupg(Coin supg) {
+        this.supg = supg;
+    }
+
+    public void setSupd(Coin supd) {
+        this.supd = supd;
+    }
+
+    public void setInfg(Coin infg) {
+        this.infg = infg;
+    }
+
+    public void setInfd(Coin infd) {
+        this.infd = infd;
+    }
+
+    public void setRevêtement_sol(Revêtement revêtement_sol) {
+        this.revêtement_sol = revêtement_sol;
+    }
+
+    public void setCoins(List<Coin> coins) {
+        this.coins = coins;
+    }
+
+    public void setPièce(Pièce pièce) {
+        this.pièce = pièce;
+    }
+public static String indente (String toIndente, String prefix){
+    return prefix +toIndente.replaceAll("\n","\n"+ prefix);
+}
+  
+@Override
+public String toString() {
+    StringBuilder liste_coin = new StringBuilder("Sol {\n");
+    if (coins != null && !coins.isEmpty()) {
+        for (Coin coin : coins) {
+            liste_coin.append(indente(coin.toString(), "    ")).append("\n");
+        }
+    } else {
+        liste_coin.append("    Aucun coin n'est défini\n");
+    }
+    liste_coin.append("}");
+    return liste_coin.toString();
+}
+
+public void add(Coin c){
+ if (c.getSol()!= this){ 
+     
+    this.coins.add(c);
+    c.setSol (this);
+  }
+}
+  
+public static Sol soltest(){
+    Sol sol= new Sol(coins);
+    sol.add(new Coin("coin1", 0, 0));
+    sol.add(new Coin("coin2", 0, 2));
+    sol.add(new Coin("coin3", 2, 2));
+    return  sol;
+}
+
  
  //////// MAIN du test pour le sol
  public static void main(String []args ){
@@ -80,14 +170,11 @@ public class Sol extends sol_plafond {
     */
     //System.out.println("Prix total = "+plafond.prix()+" € !");
     
-        List<Coin> coins = new ArrayList<>();
-        coins.add(new Coin( "coin1",0, 0));
-        coins.add(new Coin("coin2",0, 2));
-        coins.add(new Coin("coin3",2, 2));
-        Sol sol = new Sol(coins);
-         System.out.println ("est c e que ca marche");
-         System.out.println("La surface calculée est : " + sol.trouverEtCalculerSurface());
-        System.out.println("le prix est de : "+ sol.trouverEtCalculerPrix());
+     Sol sol = soltest();
+    System.out.println("Pièce test : \n" + sol); 
+    System.out.println("Est-ce que ça marche ?");
+        System.out.println("La surface calculée est : " + soltest().trouverEtCalculerSurface());
+        System.out.println("le prix est de : "+ soltest().trouverEtCalculerPrix());
  }
 
 }

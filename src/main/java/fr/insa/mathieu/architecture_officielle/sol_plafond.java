@@ -12,8 +12,8 @@ import java.util.Scanner;
  *
  * @author oscar
  */
-public  abstract class sol_plafond {  //ça marche même si ce n'est pas une majuscule?// pensez a enlever abstract si on veut tester avec le main
-  //public class sol_plafond{  
+//public  abstract class sol_plafond {  //ça marche même si ce n'est pas une majuscule?// pensez a enlever abstract si on veut tester avec le main
+  public abstract class sol_plafond{  
     private String id;
     private Coin supg;// coin supérieur gauche
     private Coin supd;// coin supérieur droit
@@ -21,6 +21,7 @@ public  abstract class sol_plafond {  //ça marche même si ce n'est pas une maj
     private Coin infd;// coin inférieur droit
     private Revêtement revêtement_sol;
     private static List<Coin> coins;
+     private Pièce pièce;
     
     Revêtement standard = new Revêtement(9999);//Revêtement standard
 
@@ -132,6 +133,12 @@ public double trouverEtCalculerPrix(){// permet d'obtenir le prix quand on a une
         return revêtement_sol;
     }
 
+    public Pièce getPièce() {
+        return pièce;
+    }
+
+  
+
     
     
     // SET
@@ -151,10 +158,10 @@ public double trouverEtCalculerPrix(){// permet d'obtenir le prix quand on a une
         this.revêtement_sol = revêtement_sol;
     }
 
-
+    
     
      //attention le main n'est normalement pas utilisable car on est dans une class abstract pour l'utiliser pensez a supprimez le abstract
-    /*
+   /*
     public static void main(String[] args) {
         List<Coin> coins = new ArrayList<>();
         coins.add(new Coin( "coin1",0, 0));
@@ -163,8 +170,8 @@ public double trouverEtCalculerPrix(){// permet d'obtenir le prix quand on a une
 
         sol_plafond solPlafond = new sol_plafond(coins);
         System.out.println ("est c e que ca marche");
-        solPlafond.trouverEtCalculerSurface();
-        System.out.println("le prix est de : "+ solPlafond.trouverEtCalculerPrix());
+      solPlafond.trouverEtCalculerSurface();
+       /*    System.out.println("le prix est de : "+ solPlafond.trouverEtCalculerPrix());
     
        /* if (foundCoin != null) {
             System.out.println("Coin trouvé : " + foundCoin);
@@ -176,6 +183,8 @@ public double trouverEtCalculerPrix(){// permet d'obtenir le prix quand on a une
         }
     
     }
-    */
+   */ 
+
+   
     
 }
