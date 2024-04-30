@@ -18,7 +18,7 @@ public class Etage {
     private int hauteur_etage;
     private ArrayList<Mur> liste_mur;
     private ArrayList<Appartement> liste_appartement;
-    //private int niveau;
+    private int niveau;
     private int id;
     
 //2eme option pour l'ID : au lieu de maps dans le IDManager, simplement créer la variable ci dessous et l'incrémenter directment dans le condtructeur
@@ -28,23 +28,19 @@ public class Etage {
     //this.id = compteurID;
     //compteurID++;
     //---
-
-    
-    
-    
-    
+  
 //CONSTRUCTOR
     public Etage(int hauteur) { 
-        this.id=IDManager.newId(this);
+        //  this.id=IDManager.newId(this);
         //this.id = MapEtage.setIdInMapEtage(this);
         this.hauteur_etage = hauteur;
         this.liste_mur=new ArrayList<>();// TO DO utilité de cet attribut ???????
         this.liste_appartement = new ArrayList<>();
         //System.out.println("map size is" + mapEtage.size() );        
-        System.out.println("id is" + id );
+       // System.out.println("id is" + id );
     }
     
-    //TODO : une fonction qui détecte sur quel étage on se trouve actuellement dans l'éxécution.
+    //TODO : une fonction qui détecte sur quel niveau on se trouve actuellement dans l'éxécution. incrémenter le niveau à chaque nouveau niveau
 
     
 //FUNCTIONS
@@ -75,7 +71,7 @@ public class Etage {
         return prix_etage; 
     }
 
-    public ArrayList<Mur> getListe_mur() {
+    public ArrayList<Mur> getListe_mur() { // Utilité ???
         return liste_mur;
     }
     public int getId(){
@@ -84,24 +80,38 @@ public class Etage {
     public ArrayList<Appartement> getListe_appartement() {
         return liste_appartement;
     }
+    public int getNiveau() {
+        return niveau;
+    }
     
-    
-  
-    
+
+  /*  QUELLE est l'UTILITE ??????
+    public int getId(){
+        return id;
+    }
+    */ 
 // SET
     public void setHauteur_etage(int hauteur_etage) {
         this.hauteur_etage = hauteur_etage;
     }
-    
+    public void setListe_appartement(ArrayList<Appartement> liste_appartement) {
+        this.liste_appartement = liste_appartement;
+    }
+    public void setNiveau(int niveau) { // Pour pouvoir par exemple mettre un niveau -1
+        this.niveau = niveau;
+    }
    
-    
+    /*
     public static void main(String[] args){
         Etage etage1 = new Etage(5);
         Etage etage2 = new Etage(6);
-        System.out.println("id of etage1 is " + etage1.getId());
-        System.out.println("id of etage2 is " + etage2.getId());
+        System.out.println("hauteur of etage1 is " + etage1.getEtage());
+        //System.out.println("id of etage2 is " + etage2.getId());
 
     }
+    */
+
+    
 }
 
 

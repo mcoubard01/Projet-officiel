@@ -17,8 +17,9 @@ public class Appartement {
     //CONSTRUCTOR
     public Appartement(Etage etage) {
         this.etage = etage;
-        this.liste_pièce=new ArrayList<Pièce>();
-    }    
+        this.liste_pièce=new ArrayList<>();
+    }
+    
     //FUNCTION
     public void add_pièce(Pièce pièce){
         if (pièce.getAppartement()!=this){
@@ -37,19 +38,16 @@ public class Appartement {
     public double prix(){
         double prix=0;//initialisation du prix
         for (int i=0; i<this.liste_pièce.size();i++){
-            prix = prix+this.liste_pièce.get(i).getPrix(); //le prix de la pièce à l'indice 'i' de l'appartement en question
+            prix = prix+this.liste_pièce.get(i).prix(); //le prix de la pièce à l'indice 'i' de l'appartement en question
         }
         return prix;
     }
+    
     //GET
     public Etage getEtage() {
         return etage;
     }
     public ArrayList<Pièce> getListe_pièce() {
         return liste_pièce;
-    }
-    //SET    
-    
-    
-    
+    }  
 }

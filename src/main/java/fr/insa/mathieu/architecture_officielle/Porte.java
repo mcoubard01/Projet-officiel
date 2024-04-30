@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package fr.insa.mathieu.architecture_officielle;
+import static fr.insa.mathieu.architecture_officielle.Mur.longueur;
 
 /**
  *
@@ -21,6 +22,8 @@ public class Porte extends Ouverture {
     public Porte(double ori_x, double ori_y, char orientation, Mur mur) {
         super(ori_x, ori_y, orientation, 0.90, mur);
     }
+    
+ 
     //FUNCTION
   
     // GET

@@ -92,9 +92,9 @@ public class IDManager {
     }
     
     public static int newId(Pièce pièce){
-        int idDeLaPièce = compteurMur + 1000* pièce.getListe_mur()[0].getÉtage().getId(); //étage auquel la pièce se trouve
+        //int idDeLaPièce = compteurMur + 1000* pièce.getComposition()[0].getÉtage().getId(); //étage auquel la pièce se trouve
 //ainsi, pour l'étage ézéro, 0<=idDeLaPièce<=999 ; pour l'étage 1, 1000<= idDeLaPièce <=1999 ,etc.
-        mapPièce.put(pièce,idDeLaPièce);
+        //mapPièce.put(pièce,idDeLaPièce);
         compteurPièce++;
         return mapPièce.get(pièce);
     }
@@ -183,7 +183,7 @@ public class IDManager {
         
         Etage etage1 = new Etage(5);
         Mur mur1 = new Mur();
-        mur1.setEtage(etage1);
+        mur1.setÉtage(etage1);
         System.out.println("etage1 is assoc to " + mapEtage.get(etage1) +", which is its ID. "); //etage1.getId() fonctionne aussi, donc
         System.out.print("mur 1 has an Id of "+ mur1.getId());
     }
