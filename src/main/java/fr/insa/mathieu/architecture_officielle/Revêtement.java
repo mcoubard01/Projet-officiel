@@ -30,8 +30,7 @@ public class Revêtement extends Architecture_officielle {
     
     // CONSTRUCTOR 
     public Revêtement(int id) {
-        int a = id -1;
-        this.id = a;
+        this.id = id;
         // TO DO A CHANGER pour récupérer les bonnes données 
         // LISTE DES INDICES de l'arraylist donnee_enregistrée : 
         // 0 : numéros d'identifiant
@@ -46,7 +45,7 @@ public class Revêtement extends Architecture_officielle {
         }  //cette propriété permet de faire des tests dans les classes individuelles : 
         //en effet, dans celles ci, donnee_enregistree n'ets pas appelée et on ne peut pas appeler un revêtement (voir Mur, 30/03/24,thomas)
         else{
-        String[] info= donnee_enregistree.get(a);
+        String[] info= donnee_enregistree.get(id);
         this.désignation = info[1];
         this.pourMur = info[2];
         this.pourSol = info[3];

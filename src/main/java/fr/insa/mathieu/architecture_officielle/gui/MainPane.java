@@ -4,7 +4,6 @@
  */
 package fr.insa.mathieu.architecture_officielle.gui;
 
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.RadioButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -15,7 +14,7 @@ import javafx.scene.layout.VBox;
  */
 public class MainPane extends BorderPane {
     
-    private Canvas cdessin;         //création de la zone de dessin
+    private DessinCanvas1 dcdessin;         //création de la zone de dessin
     
     private RadioButton rbSelect;   // bouton Selectionner
     private RadioButton rbcrmur;      // bouton CRer un mur
@@ -34,8 +33,8 @@ public class MainPane extends BorderPane {
         VBox vbGauche=new VBox(this.rbSelect,this.rbcrmur,this.rbcrpiece2,this.rbcrpiece3,this.rbidappart,this.rbidpiece);
         this.setLeft(vbGauche);
         
-        this.cdessin=new Canvas(200,200);
-        this.setCenter(this.cdessin);
+        this.dcdessin=new DessinCanvas1(200,200);
+        this.setCenter(this.dcdessin);
     }
 /*
     private RadioButton rbSelect;

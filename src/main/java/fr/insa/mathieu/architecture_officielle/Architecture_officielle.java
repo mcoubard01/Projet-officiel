@@ -13,6 +13,7 @@ package fr.insa.mathieu.architecture_officielle;
 //(comme Lire.i() au lieu de "import fr.insa.mathieu.architecture_officielle.Lire.i;")
 
 
+import static fr.insa.mathieu.architecture_officielle.Revêtement.todouble;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -218,11 +219,17 @@ public class Architecture_officielle {
             nbr_ligne=nbr_ligne+1;                  //Connaître le nombre de ligne du fichier pour faciliter la gestion de l'ArrayList
         }
         entre.close();                              //On ferme le BufferedReader
+        for (int i=0;i<=1126;i++){
+            ligne_array.add(null);
+        }
         System.out.println("FFnombre de ligne :"+nbr_ligne); // Affichage du nombre de ligne dans le fichier text lu par le BufferedReader
         for (int k = 1; k <= nbr_ligne; k++) {      // Debut boucle utile pour la réalisation du stockage dans les listes
-            int a = k-1;                            // 1ere ligne du fichier texte correspond à l'indice 0 de la liste data
+            int a=k-1;                            // 1ere ligne du fichier texte correspond à l'indice 0 de la liste data
             String[] elements =data.get(a).split(";"); //Création d'un tableau pour chaque indice de 'data' avec chaque case du tableau un élèment se situant entre les ";"
-            ligne_array.add(a, elements);// ajout à l'indice a le tableau créé et rempli juste avant.
+            int index =Integer.parseInt(elements[0]);
+            System.out.println("index"+index);
+            ligne_array.set(index, elements);// ajout à l'indice a le tableau créé et rempli juste avant.
+            System.out.println("contenue à l'index "+index+" : "+ligne_array.get(index)[1]+" adresse :"+ligne_array.get(index));
         }
         return (ligne_array) ;                      // Lorsque toutes les lignes du fichier texte ont été lues, nous retournons l'Arraylist de tableau de String
             

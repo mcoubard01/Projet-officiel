@@ -183,7 +183,7 @@ public class Mur {
     System.out.println("Donnez le nom de votre fichier :");
     String nom_fichier = Lire.S();
     */
-    donnee_enregistree = lecture("revêtement_test.txt"); // Lecture est ici une fonction qui renverra une ArrayList de tableau de chaînes de caractères
+    donnee_enregistree = lecture("Revêtement_final.txt"); // Lecture est ici une fonction qui renverra une ArrayList de tableau de chaînes de caractères
 
     //Création des coins pour faire le mur 
     Coin debut1 , fin1;
@@ -201,6 +201,14 @@ public class Mur {
     int id = Lire.i();
     Revêtement revêtement=new Revêtement(id);
     mur.setRevêtement(revêtement);
+    while (mur.revêtement==null){
+        System.out.println("numéros revêtement : ");
+        id = Lire.i();
+        revêtement=new Revêtement(id);
+        mur.setRevêtement(revêtement);
+    }
+    System.out.println("Le revêtement est appliqué");
+    System.out.println("mur.getRevêtement"+mur.toString());
     /*  
     System.out.println("Le prix du revêtement est : "+test.getPrix_unitaire());  //test.getPrix_unitaire ne fonctionne pas sans la lgne ci-dessus car le fichier donnee_enregristree n'est pas encore lu
     System.out.println("Length = " + mur.longueur());
@@ -227,7 +235,7 @@ public class Mur {
 
 
     System.out.println("fen.getMur1() : "+fen.getMur1());
-*/
+
     System.out.println("taille de la liste_ouverture :"+mur.getListe_ouverture().size());
     System.out.println("mur.getListe_ouverture() : ");
     for (int i=0;i<mur.getListe_ouverture().size();i++){
@@ -241,6 +249,6 @@ public class Mur {
     for (int i=0;i<revêtement.getListe_mur().size();i++){
         System.out.println("i ="+i+" => "+revêtement.getListe_mur().get(i));
     }
-       
+    */
 }
 }

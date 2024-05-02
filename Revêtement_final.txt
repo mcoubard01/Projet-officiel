@@ -1,0 +1,19 @@
+125;Peinture;1;0;1;10.95
+23;Carrelage;1;1;0;49.75
+43;Lambris;1;1;1;50.60
+48;Marbre;1;1;0;97.85
+105;Crepi;1;0;0;67.80
+60;Papier peint;1;0;0;32.90
+75;Plaquettes de parement;1;0;0;15.20
+8;Peinture;1;0;1;77.30
+19;Peinture;1;0;1;29.90
+15;Carrelage;1;1;0;89.45
+110;Lambris;1;1;0;42.50
+102;Liege;1;0;0;25.40
+132;Parquet;0;1;0;46.36
+114;Vinyle Lino;0;1;0;23.55
+156;Moquette;0;1;0;48.10
+1126;Stratifie;0;1;0;31.99
+174;Gazon;0;1;0;17.95
+180;Liege;0;1;0;33.90
+115;Carrelage;1;1;0;10.35
