@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package fr.insa.mathieu.architecture_officielle;
-import static fr.insa.mathieu.architecture_officielle.sol_plafond.trouverEtCalculerSurface;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,80 +30,78 @@ public class Pièce {
          * censé fonctionner
          * Pourquoi mettre les attributs en static ??????????????? ne sert à rien si ???ça fait vraiment moche
          */
+    
+    
     private String nom_pièce; // sera remplacé par private int id... 
-    private List<Coin> coins;
-    private List<Mur> composition;
+    private List<Mur> liste_mur;
     private Sol sol;
     private Plafond plafond;
     private Appartement appartement;
-// Constructor
- 
- public Pièce(){// permet de crféér une pièce a partir d'une liste de coin de mur et d'un plafond et d'un sol 
- this.composition =new ArrayList<>();
- this.coins= new ArrayList<>();
- this.sol = new Sol(this.coins);
- this.plafond = new Plafond(this.coins);
-    }
-  public Pièce(String nom_pièce){
- this.composition =new ArrayList<>();
- this.coins= new ArrayList<>();
- this.sol = new Sol(this.coins);
- this.plafond = new Plafond(this.coins);
- this.nom_pièce= nom_pièce;
 
-    }
-
-
- // fonction 
-public void add(Mur m){//permet d'ajouter un mur dans la liste 
- if (m.getPièce()!= this){ 
-       
-    this.composition.add(m);
-    m.setPièce (this);
+// CONSTRUCTOR
+  public Pièce(){
+      this.liste_mur=new ArrayList<>();
   }
-}
-public void add(Coin c){// permet d'ajouetr un coin dans la liste 
- if (c.getPièce()!= this){ // NE MARCHE PAS perplexe sur le fait de mettre pièce en attribut de coin
-    this.coins.add(c);
-    c.setPièce (this);
-    this.sol.add(c);
-    this.plafond.add(c);
-  }
-}
-   public static double prix (Mur a,Mur b, Mur c, Mur d) {//Plafond e, Sol f)
-        double p;
-        p=a.prix() + b.prix() + c.prix() + d.prix() ;//+ e.prix() + f.prix();
-        return p;
+
+ // FUNCTION
+    public void add(Mur m){//permet d'ajouter un mur dans la liste 
+        if (m.getPièce()!= this){     
+            this.liste_mur.add(m);
+            m.setPièce (this);
+        }
     }
-   
+
+    public ArrayList<Mur> consécutif(){
+        ArrayList<Mur> mur_consécutif = new ArrayList();
+        Mur référence = this.getListe_mur().get(0);
+        System.out.println ("donnée du mur de référence : "+référence.toString());
+        int i=1;
+        while (((référence.getDebut().getX()!=this.getListe_mur().get(i).getDebut().getX())&&(référence.getDebut().getY()!=this.getListe_mur().get(i).getDebut().getY()))&&((référence.getDebut().getX()!=this.getListe_mur().get(i).getFin().getX())&&(référence.getDebut().getY()!=this.getListe_mur().get(i).getFin().getY()))&&((référence.getDebut().getX()!=this.getListe_mur().get(i).getDebut().getX())&&(référence.getDebut().getY()!=this.getListe_mur().get(i).getDebut().getY()))&&((référence.getFin().getX()!=this.getListe_mur().get(i).getFin().getX())&&(référence.getFin().getY()!=this.getListe_mur().get(i).getFin().getY()))){
+            System.out.println("incrémentation : "+i);
+            i=i+1;
+        }
+        mur_consécutif.add(référence);
+        mur_consécutif.add(this.getListe_mur().get(i));
+        return mur_consécutif;
+    }
+    
+    public double surface(){
+        double surface = this.consécutif().get(0).longueur()*this.consécutif().get(1).longueur();
+        return surface;
+    }
    // TODO tester si ca marche dèes que le la surface des sol et plafond est capable de se faire automatiquement a partir des liste de coins 
    public double prix() {// méthode permettant de calculer le prix total d'une pièce 
         double p;
-        p=this.composition.get(0).prix() + this.composition.get(1).prix() + this.composition.get(2).prix() + this.composition.get(3).prix() + sol.prix() + plafond.prix();
+        p=this.liste_mur.get(0).prix() + this.liste_mur.get(1).prix() + this.liste_mur.get(2).prix() + this.liste_mur.get(3).prix() + sol.prix() + plafond.prix()+this.sol.prix()+this.plafond.prix();
         return p;
     }
+   
    @Override
     public String toString() {
+        //Affichage des infos du mur
         String res = "Pièce: "+ nom_pièce+" {\n";
-        for (int i=0; i<this.composition.size();i++){
-            res=res+indente(this.composition.get(i).toString()," ")+ "\n";
+        for (int i=0; i<this.liste_mur.size();i++){
+            res=res+indente(this.liste_mur.get(i).toString()," ")+ "\n";
         }
-      
-             String ess =""; // a modier plus tard c ar cela ne sert pas c'était juste opour tester si on pouvait rajouetz des choses
+        /*Affichage des infos des coins
+        String ess =""; // a modier plus tard c ar cela ne sert pas c'était juste opour tester si on pouvait rajouetz des choses
         for (int i=0; i<this.coins.size();i++){
             ess=ess+indente(this.coins.get(i).toString()," ")+ "\n";
         }
-
-         String essai ="";
+        */
+        //Affichage des informations du sol 
+        String essai ="";
         if (this.sol != null) {
         essai = indente(this.sol.toString(), " ") + "\n";
     }
-          String essais ="";
+        //Affichage des informations du plafond
+        String essais ="";
         if (this.plafond != null) {
         essais = indente(this.plafond.toString(), " ") + "\n";
     }
-          return res + ess+ essai+essais+")";
+          return res+essai+essais+")";
     }
+    
     public static String indente (String toIndente, String prefix){// meme machin que dans la premièrer vidéo du prof. 
     return prefix +toIndente.replaceAll("\n","\n"+ prefix);
 }
@@ -113,9 +110,8 @@ public void add(Coin c){// permet d'ajouetr un coin dans la liste
     public Appartement getAppartement() {
         return appartement;
     }
-
-    public List<Mur> getComposition() { // Pour que l'IDManager fonctionne
-        return composition;
+    public List<Mur> getListe_mur() { // Pour que l'IDManager fonctionne
+        return liste_mur;
     }
     
     //SET
@@ -124,7 +120,65 @@ public void add(Coin c){// permet d'ajouetr un coin dans la liste
     }
 
     
-    // en dessous ce sont des test pas forcement utile mais permmette de vérifiez si ca fonctionne. 
+    //MAIN
+    public static void main (String[] args){
+        Etage e1 = new Etage(2);
+        
+        Coin c1 =new Coin(1,2);
+        Coin c2 =new Coin(1,5);
+        Mur m1= new Mur(c1,c2,e1);
+        
+        Coin c3 =new Coin("c3",1,5);
+        Coin c4 =new Coin(4,5);
+        Mur m2= new Mur(c3,c4,e1);
+        
+        Coin c5 =new Coin(4,5);
+        Coin c6 =new Coin(4,2);
+        Mur m3= new Mur(c5,c6,e1);
+        
+        Coin c7 =new Coin(4,2);
+        Coin c8 =new Coin(1,2);
+        Mur m4= new Mur(c7,c8,e1);
+        
+        Pièce pièce1= new Pièce();
+        pièce1.add(m1);
+        pièce1.add(m2);
+        pièce1.add(m3);
+        pièce1.add(m4);
+        
+        System.out.println("surface de la putin de pièce : "+pièce1.surface());
+    }
+
+}
+/* PARTIE OSCAR
+//ATTRIBUT SUPPLEMENTAIRE
+private List<Coin> coins;
+
+//CONSTRUCTOR
+ public Pièce(String nom_pièce){
+    this.liste_mur =new ArrayList<>();
+    this.coins= new ArrayList<>();
+    this.sol = new Sol(this.coins);
+    this.plafond = new Plafond(this.coins);
+    this.nom_pièce= nom_pièce;
+}
+
+//FUNCTION
+public void add(Coin c){// permet d'ajouetr un coin dans la liste 
+ if (c.getPièce()!= this){ // NE MARCHE PAS perplexe sur le fait de mettre pièce en attribut de coin
+    this.coins.add(c);
+    c.setPièce (this);
+    this.sol.add(c);
+    this.plafond.add(c);
+  }
+}
+public static double prix (Mur a,Mur b, Mur c, Mur d) {//Plafond e, Sol f)
+    double p;
+    p=a.prix() + b.prix() + c.prix() + d.prix() ;//+ e.prix() + f.prix();
+    return p;
+}
+
+//TEST MAIN
 public static void  piècetest(){
     Etage e1 = new Etage(2);
     Coin c1 =new Coin("c1",1,2);
@@ -175,9 +229,5 @@ public static void  piècetest(){
     //System.out.println( "le prix est du plafond  :"+ plafond.trouverEtCalculerPrix()+" €");
 
 }
-    //MAIN
-    public static void main (String[] args){
-        System.out.println ("est c e que ca marche"); 
-        piècetest();
-    }
-}
+
+*/

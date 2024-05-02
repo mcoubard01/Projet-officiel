@@ -22,7 +22,7 @@ public class Revêtement extends Architecture_officielle {
     private String pourPlafond;
     private double prix_unitaire;
     private ArrayList<Mur> liste_mur;
-    private ArrayList<sol_plafond> liste_sol_plafond;
+    private ArrayList<Sol_plafond> listeSolPlafond;
     // id correspond à l'information de la première colonne de notre tableau donnée_ligne.
     // L'id du revêtement correspond = numéro de ligne
     // ex : id = 1 nous donne les informations pour la ligne 1
@@ -52,7 +52,7 @@ public class Revêtement extends Architecture_officielle {
         this.pourPlafond = info[4];
         this.prix_unitaire = todouble(info[5]);
         this.liste_mur=new ArrayList();
-        this.liste_sol_plafond=new ArrayList();
+        this.listeSolPlafond=new ArrayList();
         }
         
         
@@ -117,9 +117,14 @@ public class Revêtement extends Architecture_officielle {
     public ArrayList<Mur> getListe_mur() {
         return liste_mur;
     }
-    public ArrayList<sol_plafond> getListe_sol_plafond() {
-        return liste_sol_plafond;
+    public ArrayList<Sol_plafond> getListe_sol_plafond() {
+        return listeSolPlafond;
     }
+    public ArrayList<Sol_plafond> getListeSolPlafond() {
+        return listeSolPlafond;
+    }
+    
+    
     
 
     // SET
@@ -142,4 +147,5 @@ public class Revêtement extends Architecture_officielle {
     }
 
     }
+
 }
