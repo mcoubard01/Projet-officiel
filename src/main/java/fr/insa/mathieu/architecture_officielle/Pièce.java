@@ -31,7 +31,9 @@ public class Pièce {
          * censé fonctionner
          * Pourquoi mettre les attributs en static ??????????????? ne sert à rien si ???ça fait vraiment moche
          */
-    private String nom_pièce; // sera remplacé par private int id... 
+    private String nom_pièce; // sera remplacé par private int id...
+    //nom_pi-ce est peut-être un bonne idée : après tout, on prévoyait que l'utilisateur puisse nommer sa pièce comme iel veut.
+    private int id;
     private List<Coin> coins;
     private List<Mur> composition;
     private Sol sol;
@@ -39,19 +41,24 @@ public class Pièce {
     private Appartement appartement;
 // Constructor
  
- public Pièce(){// permet de crféér une pièce a partir d'une liste de coin de mur et d'un plafond et d'un sol 
- this.composition =new ArrayList<>();
- this.coins= new ArrayList<>();
- this.sol = new Sol(this.coins);
- this.plafond = new Plafond(this.coins);
-    }
+ 
   public Pièce(String nom_pièce){
- this.composition =new ArrayList<>();
- this.coins= new ArrayList<>();
- this.sol = new Sol(this.coins);
- this.plafond = new Plafond(this.coins);
- this.nom_pièce= nom_pièce;
+    this.id = IDManager.newId(this);
+    this.composition =new ArrayList<>();
+    this.coins= new ArrayList<>();
+    this.sol = new Sol(this.coins);
+    this.plafond = new Plafond(this.coins);
+    this.nom_pièce= nom_pièce;
 
+    }
+  public Pièce(){// permet de crféér une pièce a partir d'une liste de coin de mur et d'un plafond et d'un sol 
+    this.id = IDManager.newId(this);
+     this.composition =new ArrayList<>();
+    this.coins= new ArrayList<>();
+    this.sol = new Sol(this.coins);
+    this.plafond = new Plafond(this.coins);
+    String nom = "pièce n°" + this.id;
+    this.nom_pièce = nom;
     }
 
 
@@ -117,11 +124,34 @@ public void add(Coin c){// permet d'ajouetr un coin dans la liste
     public List<Mur> getComposition() { // Pour que l'IDManager fonctionne
         return composition;
     }
+
+    public String getNom_pièce() {
+        return nom_pièce;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public List<Coin> getCoins() {
+        return coins;
+    }
+
+    public Sol getSol() {
+        return sol;
+    }
+
+    public Plafond getPlafond() {
+        return plafond;
+    }
+    
     
     //SET
+    //!!!pas de setId()
     public void setAppartement(Appartement appartement) {
         this.appartement = appartement;
     }
+    
 
     
     // en dessous ce sont des test pas forcement utile mais permmette de vérifiez si ca fonctionne. 
