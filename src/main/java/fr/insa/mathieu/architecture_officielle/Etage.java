@@ -31,8 +31,7 @@ public class Etage {
   
 //CONSTRUCTOR
     public Etage(int hauteur) { 
-        //  this.id=IDManager.newId(this);
-        //this.id = MapEtage.setIdInMapEtage(this);
+        this.id=IDManager.newId(this);
         this.hauteur_etage = hauteur;
         this.liste_mur=new ArrayList<>();// TO DO utilité de cet attribut ???????
         this.liste_appartement = new ArrayList<>();
