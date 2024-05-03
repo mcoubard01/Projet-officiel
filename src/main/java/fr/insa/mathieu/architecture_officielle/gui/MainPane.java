@@ -6,9 +6,11 @@ package fr.insa.mathieu.architecture_officielle.gui;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 /**
@@ -44,11 +46,10 @@ public class MainPane extends BorderPane {
         this.brevêtement = new Button("revêtement");
         
         //disposition des éléments node entre eux (les uns au dessus des autres)
-        VBox vbGauche=new VBox(this.rbSelect,this.rbcrmur,this.rbcrpiece2,this.rbcrpiece3,this.rbidappart,this.rbidpiece, this.rbfenêtre,this.rbporte,this.rbrevêtement_rap);
-        
+        VBox vbGauche=new VBox(this.rbSelect,this.rbcrmur,this.rbcrpiece2,this.rbcrpiece3,this.rbidappart,this.rbidpiece, this.rbfenêtre,this.rbporte,this.rbrevêtement_rap,this.brevêtement);
         //Position des éléments sur la scene
         this.setLeft(vbGauche);
-        this.setRight(this.brevêtement);
+        
         
         this.dcdessin=new DessinCanvas();
         this.setCenter(this.dcdessin);

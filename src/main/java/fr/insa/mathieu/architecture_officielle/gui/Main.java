@@ -5,8 +5,9 @@
 package fr.insa.mathieu.architecture_officielle.gui;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 /**
  *
@@ -26,29 +27,47 @@ import javafx.stage.Stage;
 //sans ça, la console indique l'erreur "javaFX runtime components are missing"... Mais je n'en sais pas plus sur le fonctionneùment de JFX.
 
 /**
+ * TODO J'aimerais diviser mon écran en part égale. Les cases de la grille doivent s'adapter en fonction de la taille de la fenêtre.
+ * J'organise mon interface en grille avec colonnes et lignes à largeur et longueur variable (avec les contraintes)
+ * Je dispose mes Panes dans les différentes lignes et colonnes pour avoir une bonne disposition. 
  * JavaFX App
  */
 public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        
+        /*
         var javaVersion = SystemInfo.javaVersion();
         var javafxVersion = SystemInfo.javafxVersion();
-
+        
         var label = new Label("Hello, JavaFX " + javafxVersion + ", running on Java " + javaVersion + ".");
-        //var scene = new Scene(new StackPane(label), 640, 480);
-        Scene scene = new Scene(new MainPane(),800,600);
+        var scene = new Scene(new StackPane(label), 640, 480);
+        */
+        Scene scene;
+        
+        GridPane gridPane = new GridPane(); // Ce GridPane composera la fenêtre principale où je disposerai mes autres fenêtres
+        MainPane mainPane = new MainPane(); // Ce MainPane() sera composé de ma zone de dessin (Canvas) et mes outils
+        RevêtementPane revêtementPane = new RevêtementPane(); // Ce Pane composera la liste de mes revêtements en liste déroulantes cliquable
+        
+        //Mise en place et initialiser les tailles des colonnes et lignes
+        gridPane.getColumnConstraints().add(new ColumnConstraints(650)); // column 0 is 650 wide
+        gridPane.getColumnConstraints().add(new ColumnConstraints (150));// colonne à une largeur de 150
+        gridPane.getRowConstraints().add(new RowConstraints(250));       // ligne à une hauteur de 250
+        gridPane.getRowConstraints().add(new RowConstraints(250));       // ligne à une hauteur de 250
+        gridPane.getRowConstraints().add(new RowConstraints(100));       // ligne à une hauteur de 100
+        
+        //Mettre mes Panes dans les différentes cases de mon grid
+        gridPane.add(mainPane, 0, 0,1, 3); // je mets la fenêtre mainPane à la colonne 0, ligne 0, j'étale mon Pane sur 1 colonne et 3 lignes
+        gridPane.add(revêtementPane,1,0,1, 1);//je mets la fenêtre mainPane à la colonne 1, ligne 0, j'étale mon Pane sur 1 colonne et 1 lignes
+        gridPane.add(new PrixPane(), 1, 2, 1, 1);//je mets la fenêtre mainPane à la colonne 1, ligne 2, j'étale mon Pane sur 1 colonne et 1 lignes
+        scene = new Scene(gridPane,800,600);
         stage.setScene(scene);
-        /*
-        Scene scene = new Scene(new MainPane());
-        stage.setScene(scene);
-*/
-        stage.show();
+        stage.show(); // Affichage de la fenêtre
     }
 
     public static void main(String[] args) {
         launch();
+        
     }
 
 }
