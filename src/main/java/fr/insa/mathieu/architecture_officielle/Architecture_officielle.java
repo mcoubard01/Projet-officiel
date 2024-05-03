@@ -167,7 +167,7 @@ public class Architecture_officielle {
                     
                     //TODO : si on "crée" un nouveau coin alors que ce coin existe déjà, le programme doit annuler la création et automatiquement utiliser le coin existant.
                     
-                    etageActuel = IDManager.getKeyEtage(IdEtageActuel);
+                    etageActuel = IDManager.getObjetEtage(IdEtageActuel);
                     Mur nouveauMur1 = new Mur(coinDebut1,coinFin1,etageActuel);
                     objetsCréés.add(nouveauMur1.toString());
                     
