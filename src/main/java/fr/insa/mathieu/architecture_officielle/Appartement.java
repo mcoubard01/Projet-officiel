@@ -13,9 +13,11 @@ import java.util.ArrayList;
 public class Appartement {
     private Etage etage;
     private ArrayList<Pièce> liste_pièce; // avec le même étage
+    private int id;
     
     //CONSTRUCTOR
     public Appartement(Etage etage) {
+        this.id = IDManager.newId(this);
         this.etage = etage;
         this.liste_pièce=new ArrayList<>();
     }
