@@ -68,6 +68,7 @@ public class Revêtement extends Architecture_officielle {
         ArrayList<String[]> rev_mur = new ArrayList<>();
         for (int k =0;k<=donnee_enregistree.size()-1;k++){
             String[] info = donnee_enregistree.get(k);
+            
             if (info[2].equals("1")){
                 rev_mur.add(info);
             }

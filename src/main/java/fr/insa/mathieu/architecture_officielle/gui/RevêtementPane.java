@@ -4,6 +4,9 @@
  */
 package fr.insa.mathieu.architecture_officielle.gui;
 
+import fr.insa.mathieu.architecture_officielle.Architecture_officielle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
@@ -25,13 +28,91 @@ import javafx.scene.layout.VBox;
  */
 public class RevêtementPane extends BorderPane{
     
-    ObservableList<String> names = FXCollections.observableArrayList("Julia", "Ian", "Sue", "Matthew", "Hannah", "Stephan", "Denise");
-    ListView<String> listView = new ListView(names);
+    ObservableList<String> designation = FXCollections.observableArrayList();
+    ListView<String> listeDesignation = new ListView(designation);
+    
     
 //CONSTRUCTOR
     public RevêtementPane(){
+        System.out.println("Je suise dans le constructeur :");
+        ObservableList<String> revêtementObs = ObservableRevêtement();
+        for (int i=0;i<revêtementObs.size();i++){
+            this.designation.add(revêtementObs.get(i));
+            System.out.println("contenu attribut :"+this.designation.get(i));
+        }
         
-        VBox vbox=new VBox(listView);
+        this.listeDesignation=new ListView<>(designation);
+        VBox vbox=new VBox(listeDesignation);
         this.setCenter(vbox);
+        listeDesignation.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            System.out.println("Selected item: " + newValue);
+        });
+    }
+    
+    
+    //FUNCTION
+    public static ObservableList<String> ObservableRevêtement(){
+        Architecture_officielle.donnee_enregistree=Architecture_officielle.lecture("Revêtement_final.txt");
+        ObservableList<String> observRevêtement = FXCollections.observableArrayList();
+        
+        for (int i=0;i<Architecture_officielle.donnee_enregistree.size();i++){
+            if (Architecture_officielle.donnee_enregistree.get(i)!=null){
+                String[] info = Architecture_officielle.donnee_enregistree.get(i);
+                String désignation = info[1];
+                String prixUnitaire = info[5];
+                System.out.println("Désignation : "+désignation+" ; prixUnitaire : "+prixUnitaire+" €/m²");
+                String Revêtement = "+"+désignation+" : Prix unitaire : "+prixUnitaire+" €/m²";
+                observRevêtement.add(Revêtement);
+                
+            }
+            else{
+                
+            }
+        }
+        
+        System.out.println("contenu de observRevêtement : ");
+        for(int i=0;i<observRevêtement.size();i++){
+            System.out.print(", "+observRevêtement.get(i));    
+        }
+        
+        return observRevêtement;
+    
     }
 }
+/*
+Architecture_officielle.donnee_enregistree=Architecture_officielle.lecture("Revêtement_final.txt");
+        ObservableList<String> observRevêtement = FXCollections.observableArrayList();
+        
+        for (int i=0;i<Architecture_officielle.donnee_enregistree.size();i++){
+            if (Architecture_officielle.donnee_enregistree.get(i)!=null){
+                String[] info = Architecture_officielle.donnee_enregistree.get(i);
+                String désignation = info[1];
+                System.out.println("Désignation : "+désignation);
+                observRevêtement.add(désignation);
+                
+            }
+            else{
+                
+            }
+        }
+        
+        System.out.println("contenu de observRevêtement : ");
+        for(int i=0;i<observRevêtement.size();i++){
+            System.out.print(", "+observRevêtement.get(i));    
+        }
+
+        
+        
+        return observRevêtement;
+    }
+*/
+/*
+        System.out.println("Je suise dans le constructeur :");
+        ObservableList<String> revêtementObs = ObservableRevêtement();
+        for (int i=0;i<revêtementObs.size();i++){
+            this.revêtement.add("revêtementObs.get(i)");
+            System.out.println("contenu attribut :"+this.revêtement.get(i));
+        }
+        
+        this.listRevêtement=new ListView<>(revêtement);
+*/

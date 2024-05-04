@@ -222,7 +222,7 @@ public class Architecture_officielle {
             int a=k-1;                            // 1ere ligne du fichier texte correspond à l'indice 0 de la liste data
             String[] elements =data.get(a).split(";"); //Création d'un tableau pour chaque indice de 'data' avec chaque case du tableau un élèment se situant entre les ";"
             int index =Integer.parseInt(elements[0]);
-            System.out.println("index"+index);
+            //System.out.println("index"+index);
             ligne_array.set(index, elements);// ajout à l'indice a le tableau créé et rempli juste avant.
             System.out.println("contenue à l'index "+index+" : "+ligne_array.get(index)[1]+" adresse :"+ligne_array.get(index));
         }

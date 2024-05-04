@@ -31,6 +31,8 @@ public class MainPane extends BorderPane {
     private RadioButton rbrevêtement_rap;
     private RadioButton rbfenêtre;
     private Button brevêtement;
+    private Button bporte;
+    private Button bfenêtre;
     
     //CONSTRUCTOR
     public MainPane(){
@@ -44,12 +46,15 @@ public class MainPane extends BorderPane {
         this.rbfenêtre=new RadioButton("ajout d'une fenêtre");
         this.rbrevêtement_rap=new RadioButton("Ajout rapide revêtement");
         this.brevêtement = new Button("revêtement");
+        this.bfenêtre=new Button("fenêtre");
+        this.bporte=new Button("porte");
         
         //disposition des éléments node entre eux (les uns au dessus des autres)
-        VBox vbGauche=new VBox(this.rbSelect,this.rbcrmur,this.rbcrpiece2,this.rbcrpiece3,this.rbidappart,this.rbidpiece, this.rbfenêtre,this.rbporte,this.rbrevêtement_rap,this.brevêtement);
+        VBox vbGauche;
+        vbGauche = new VBox(this.rbSelect,this.rbcrmur,this.rbcrpiece2,this.rbcrpiece3,this.rbidappart,this.rbidpiece, this.rbfenêtre,this.rbporte,this.rbrevêtement_rap,
+                this.brevêtement,this.bfenêtre,this.bporte);
         //Position des éléments sur la scene
         this.setLeft(vbGauche);
-        
         
         this.dcdessin=new DessinCanvas();
         this.setCenter(this.dcdessin);
@@ -58,7 +63,8 @@ public class MainPane extends BorderPane {
             System.out.println("position d'entrée : ("+t.getX()+","+t.getY()+")"); // donne la position d'entré de la souris sur le bouton
             this.brevêtement.setOnAction((ActionEvent t1) -> { // lorsque on clique sur le bouton
                 System.out.println("J'ai cliqué sur le bouton");
-                //<objet selectionné>.setRevêtement(revêtement);    
+                //<objet selectionné>.setRevêtement(revêtement);  
+                
             });
         });
     }
