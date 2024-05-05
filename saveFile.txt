@@ -1,0 +1,25 @@
+=== liste des Coins ===
+Syntaxe  : "Coin;id;x;y"
+Coin;0;100;101
+Coin;1;0;0
+Coin;2;3;0
+Coin;3;3;3
+Coin;4;0;3
+Coin;5;300;22
+Coin;6;301;30
+Coin;7;302;28
+=== liste des Murs ===
+Syntaxe  : "Mur;id;idDuCoinDebut;idDuCoinFin;idDeEtageDuMur;idDePièce1;idDePièce2;liste_ouverture"
+Mur;0;1;2;0;null;null;liste_ouverture=[]
+Mur;1;2;3;0;null;null;liste_ouverture=[]
+Mur;2;3;4;0;null;null;liste_ouverture=[]
+Mur;3;4;1;0;null;null;liste_ouverture=[]
+=== liste des Pièces ===
+"Pièce;id;nom_pièce;liste_mur(identifiants);revêtementDuSol;revêtementDuPlafond;idDuAppartement "
+Pièce;0;pièce n°0;liste_mur=[0, 1, 2, 3];9999;9999;0
+=== liste des Etages ===
+"Etage;id;hauteur_etage;liste_appartement"
+Etage;0;5;liste_appartement=[]
+=== liste des Appartements ===
+"Appartement;id;IdDUEtage;liste_pièce(identifiants)"
+Appartement;0;0liste_pièce=[]
