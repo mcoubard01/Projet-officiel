@@ -188,20 +188,57 @@ public class IDManager {
     //ces méthodes permettraient de récupérer un objet en fournissant un id. 
     //Elles pourraient ^tre utile dans l'écriture d'un fichier de sauvegarde
     
-    /**
-     * appel : IDManager.getObjetEtage(identifiant);
-     * 
+    /** appel : IDManager.getObjetAppartement(identifiant);
+     * @param IdDuAppartement : id de l'objet que l'on veut obtenir
+     * @return l'objet associé à l'id fourni.
+     */
+    public static Appartement getObjetAppartement(int IdDuAppartement){
+        return mapIdVersAppartement.get(IdDuAppartement); //renvoie l'ojet de type étage associé à l'identifiant IdDuAppartement
+    }
+    /** appel : IDManager.getObjetEtage(identifiant);
      * @param IdDuEtage : id de l'objet que l'on veut obtenir
      * @return l'objet associé à l'id fourni.
      */
     public static Etage getObjetEtage(int IdDuEtage){
         return mapIdVersEtage.get(IdDuEtage); //renvoie l'ojet de type étage associé à l'identifiant IdDuEtage
     }
-    //TODO : répliquer cette méthode
-    //getObjetAppartement
-    //getObjetPièce
-    //getObjetMur
-    //getObjetCoin
+    /** appel : IDManager.getObjetPièce(identifiant);
+     * @param IdDuPièce : id de l'objet que l'on veut obtenir
+     * @return l'objet associé à l'id fourni.
+     */
+    public static Pièce getObjetPièce(int IdDuPièce){
+        return mapIdVersPièce.get(IdDuPièce); //renvoie l'ojet de type étage associé à l'identifiant IdDuPièce
+    }
+    /** appel : IDManager.getObjetMur(identifiant);
+     * @param IdDuMur : id de l'objet que l'on veut obtenir
+     * @return l'objet associé à l'id fourni.
+     */
+    public static Mur getObjetMur(int IdDuMur){
+        return mapIdVersMur.get(IdDuMur); //renvoie l'ojet de type étage associé à l'identifiant IdDuMur
+    }
+    /** appel : IDManager.getObjetCoin(identifiant);
+     * @param IdDuCoin : id de l'objet que l'on veut obtenir
+     * @return l'objet associé à l'id fourni.
+     */
+    public static Coin getObjetCoin(int IdDuCoin){
+        return mapIdVersCoin.get(IdDuCoin); //renvoie l'ojet de type étage associé à l'identifiant IdDuCoin
+    }
+    /** appel : IDManager.getObjetFenêtre(identifiant);
+     * @param IdDuFenêtre : id de l'objet que l'on veut obtenir
+     * @return l'objet associé à l'id fourni.
+     */
+    
+    //Porte et Fenêtre : A supprimmer?
+    public static Fenêtre getObjetFenêtre(int IdDuFenêtre){
+        return mapIdVersFenêtre.get(IdDuFenêtre); //renvoie l'ojet de type étage associé à l'identifiant IdDuFenêtre
+    }/** appel : IDManager.getObjetPorte(identifiant);
+     * @param IdDuPorte : id de l'objet que l'on veut obtenir
+     * @return l'objet associé à l'id fourni.
+     */
+    public static Porte getObjetPorte(int IdDuPorte){
+        return mapIdVersPorte.get(IdDuPorte); //renvoie l'ojet de type étage associé à l'identifiant IdDuPorte
+    }
+   //Je ne sais pas si c'est utile pour Fenêtre et     
     //getObjetFenêtre
     //getObjetPorte
     
