@@ -24,25 +24,18 @@ public class Architecture_officielle {
     
     
     
-    public static void test_surfacePiece_et_Prix(){
+    public static void test_surfacePiece_et_Prix(Pièce pièce){
         //////////////TEST SURFACE PIECE + PRIX
-        Coin a = new Coin(2,6);
-        Coin b = new Coin(4,6);
-        Coin c= new Coin(2,0);
-        Coin d= new Coin(4,0);
-        Revêtement e = new Revêtement(2); // gazon normalement
+        Revêtement e = new Revêtement(9999); // gazon normalement
         System.out.println("Le nom du revêtement est : "+e.getDésignation());
         System.out.println("Le prix du ce revêtement est : "+ e.getPrix_unitaire());
         
-        Sol sol = new Sol("id",a,b,c,d);
-        sol.setRevêtement(e);
-        System.out.println("longueur a et b  : "+Mur.longueur(a, b));   //l'appel de "longueur" ici aurait pu être "Mur.longeur(a,b)"
-        System.out.println("longueur a et b  : "+Mur.longueur(a, c));  
-        System.out.println("la surface du sol   : "+sol.surface(a, b, c));
+        Sol sol = new Sol(pièce);
+        sol.setRevêtement(e); 
+        System.out.println("la surface du sol   : "+pièce.surface());
         System.out.println("le prix du sol au m² est  : "+sol.prix());
         System.out.println("hello");
-    }
-    
+    }      
     public static void test_prixMur(){
         //////////////TEST PRIX MUR
     Coin debut1 , fin1;
@@ -87,7 +80,9 @@ public class Architecture_officielle {
                 entrez 0 pour sortir d'ici
                 """);
         int testAFaire = Lire.i();
-        if (testAFaire == 1){ test_surfacePiece_et_Prix(); }
+        if (testAFaire == 1){ 
+            Pièce pièce = new Pièce();
+            test_surfacePiece_et_Prix(pièce); }
         if (testAFaire == 2) { test_prixMur(); }
         if (testAFaire == 3) { test_Revêtement(); }
 
@@ -227,7 +222,7 @@ public class Architecture_officielle {
             int a=k-1;                            // 1ere ligne du fichier texte correspond à l'indice 0 de la liste data
             String[] elements =data.get(a).split(";"); //Création d'un tableau pour chaque indice de 'data' avec chaque case du tableau un élèment se situant entre les ";"
             int index =Integer.parseInt(elements[0]);
-            System.out.println("index"+index);
+            //System.out.println("index"+index);
             ligne_array.set(index, elements);// ajout à l'indice a le tableau créé et rempli juste avant.
             System.out.println("contenue à l'index "+index+" : "+ligne_array.get(index)[1]+" adresse :"+ligne_array.get(index));
         }
