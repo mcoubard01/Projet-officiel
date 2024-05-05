@@ -33,7 +33,7 @@ public class MainPane extends BorderPane {
     private Button brevêtement;
     private Button bporte;
     private Button bfenêtre;
-    
+    private Button bFlore;
     //CONSTRUCTOR
     public MainPane(){
         this.rbSelect=new RadioButton("Select");
@@ -48,11 +48,12 @@ public class MainPane extends BorderPane {
         this.brevêtement = new Button("revêtement");
         this.bfenêtre=new Button("fenêtre");
         this.bporte=new Button("porte");
+        this.bFlore=new Button("Connasse");
         
         //disposition des éléments node entre eux (les uns au dessus des autres)
         VBox vbGauche;
         vbGauche = new VBox(this.rbSelect,this.rbcrmur,this.rbcrpiece2,this.rbcrpiece3,this.rbidappart,this.rbidpiece, this.rbfenêtre,this.rbporte,this.rbrevêtement_rap,
-                this.brevêtement,this.bfenêtre,this.bporte);
+                this.brevêtement,this.bfenêtre,this.bporte, this.bFlore);
         //Position des éléments sur la scene
         this.setLeft(vbGauche);
         
