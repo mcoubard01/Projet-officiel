@@ -21,33 +21,44 @@ public class IDManager {
     //on crééra une méthode qui permet d'incrémenter l'ID dans le map (située à  l'intérieur de IDManager) voir p.ex. la méthode addId ci-dessous
     
 //pour les Appartments
-    //static private HashMap<Mur,Integer> mapAppartement = new HashMap<>();
-    //static int compteurAppartement = 0;
+    static private HashMap<Appartement,Integer> mapAppartement = new HashMap<>();
+    static private TreeMap<Integer,Appartement> mapIdVersAppartement = new TreeMap<>();
+    static int compteurAppartement = 0;
     
     
 //pour les étages
     static public HashMap<Etage,Integer> mapEtage = new HashMap<>(); //pourquoi un hashmap? je ne sais pas. d'après ce que je comprends, on ne peut pas créer de "map = new Map<>()" (Map est abstraite et ne peut doc être instanciée, d'après le messsge de debug
+    static private TreeMap<Integer,Etage> mapIdVersEtage = new TreeMap<Integer,Etage>();
     static int compteurEtage = 0;
     
 //pour les pièces
     static public HashMap<Pièce,Integer> mapPièce = new HashMap<>();
+    static private TreeMap<Integer,Pièce> mapIdVersPièce = new TreeMap<>();
     static int compteurPièce = 0;  //TODO faire une méthode où la pièce a le numéro de l'étage devant
     
 //pour les murs
     static public HashMap<Mur,Integer> mapMur = new HashMap<>();
+    static private TreeMap<Integer,Mur> mapIdVersMur = new TreeMap<>();
     static int compteurMur = 0;
     
 //pour les coins
     static public HashMap<Coin,Integer> mapCoin = new HashMap<>();
+    static private TreeMap<Integer,Coin> mapIdVersCoin = new TreeMap<>();
     static int compteurCoin = 0;
     
 //pour les fenêtres
     static public HashMap<Fenêtre,Integer> mapFenêtre = new HashMap<>();
+        static private TreeMap<Integer,Fenêtre> mapIdVersFenêtre = new TreeMap<>();
     static int compteurFenêtre = 0;
     
 //pour les portes
     static public HashMap<Porte,Integer> mapPorte = new HashMap<>();
+    static private TreeMap<Integer,Porte> mapIdVersPorte = new TreeMap<>();
     static int compteurPorte = 0;
+    
+//Pour manipuler
+    //public ArrayList<HashMap<>> listeDesMapObjet = new ArrayList<>();
+    //j'aurais voulu faire un tableau ou une arraylist des maps, publique, comme ça on peut appeler listesDesMapObjet[0], p.ex. 
     
     
 
@@ -68,6 +79,39 @@ public class IDManager {
     
     
     //FUNCTIONS
+    
+    
+    
+    public static ArrayList<String> imprimerLesObjetsCréés(){
+        ArrayList<String> listeARenvoyer = new ArrayList<>();
+        for (int i = 0;i<=mapIdVersCoin.lastKey();i++){
+            String coinAEnregistrer = mapIdVersCoin.get(i).toString(); 
+            //coinAEnregistrer est la version toString() du coin dont l'id est "i"
+            listeARenvoyer.add(coinAEnregistrer);
+        } //cete boucle "for" ajoute à listeARenvoyer tous les objets Coin qui ont été créés.
+        
+        //faire une boucle "for" pour chaque type d'objets. 
+        //j'imaginais le fichier txt de sauvegarde ainsi : 
+        //Tous les coins
+        //Tous les murs (pour plus de lisibilité, mur.toString() devrait renvoyer seulement les id des coins composant le mur, plus les revêtements)
+        //Tous les pièces (pour plus de lisibilité, pièce.toString() devrait renvoyer seulement les id des murs composant la pièce)
+        //Tous les appartements (pour plus de lisibilité, appartement.toString() devrait renvoyer seulement les id des pièces composant l'appartement)
+        //Tous les Etages (pour plus de lisibilité, etage.toString() devrait renvoyer seulement les id des appartements composant l'étage)
+        
+        //Et ensuite une fonction dans IDManager qui remplisse les maps en lisant le fichier texte
+        //Peut-être devrait-on écrire les objet.toString() avec des points virgules pour être lus par "lecture"
+
+        
+        
+       return listeARenvoyer;
+    }
+    
+    /**
+     * 
+     * IDManager.newId(objet)
+     * @param un objet
+     * @return un identifiant (int)
+     */
     //j'avais en tête la structure suivante, mais soit instanceof ne fonctionne pas, soit "Object can't be converted to Etage"...
     /*
     public static int newId(Object obj){
@@ -79,98 +123,170 @@ public class IDManager {
     //répéter le test
     }
     */
-    //sauf que ça ne fonctionne pas. pour l'instant, il faut faire chque classse manuellement.
+    //sauf que ça ne fonctionne pas. pour l'instant, il faut faire chque classse manuellement. Ce qui est fait ci-dessous.
     
-    //TODO : serait -il utile de créer une Arraylist des maps, voire même une map de maps? à refléchir
-    
-    //même méthode que ci-dessous pour les appartements
+    public static int newId(Appartement appartement){
+        int idDuAppart = compteurAppartement + 1000 * appartement.getEtage().getId();   
+//ainsi, pour l'étage zéro, 0<=idDuAppart<=999 ; pour l'étage 1, 1000<= idDuAppart <=1999 ,etc.
+        mapAppartement.put(appartement,idDuAppart);
+        mapIdVersAppartement.put(idDuAppart, appartement);
+        compteurAppartement++;
+        return idDuAppart;//renvoie l'id de l'appartement. on aurait pu utiliser ici "compteurAppartement-1"
+    }
     
     public static int newId(Etage etage){
         mapEtage.put(etage,compteurEtage); //rdc : 0 , 1er étage : 1 ,etc. 
+        mapIdVersEtage.put(compteurEtage, etage);
         compteurEtage++;
-        return mapEtage.get(etage);
+        return compteurEtage-1; //renvoie l'id associé à l'objet etage
     }
     
     public static int newId(Pièce pièce){
-        //int idDeLaPièce = compteurMur + 1000* pièce.getComposition()[0].getÉtage().getId(); //étage auquel la pièce se trouve
+        int idDeLaPièce = compteurPièce + 1000* pièce.getAppartement().getEtage().getId(); //étage auquel la pièce se trouve
 //ainsi, pour l'étage ézéro, 0<=idDeLaPièce<=999 ; pour l'étage 1, 1000<= idDeLaPièce <=1999 ,etc.
-        //mapPièce.put(pièce,idDeLaPièce);
+        mapPièce.put(pièce,idDeLaPièce);
+        mapIdVersPièce.put(idDeLaPièce,pièce);
         compteurPièce++;
-        return mapPièce.get(pièce);
+        return idDeLaPièce;
     }
     
     public static int newId(Mur mur){
         int idDuMur = compteurMur + 1000 * mur.getÉtage().getId();  
-//ainsi, pour l'étage ézéro, 0<=idDuMur<=999 ; pour l'étage 1, 1000<= idDuMur <=1999 ,etc.
+//ainsi, pour l'étage zéro, 0<=idDuMur<=999 ; pour l'étage 1, 1000<= idDuMur <=1999 ,etc.
         mapMur.put(mur,idDuMur);
+        mapIdVersMur.put(idDuMur,mur);
         compteurMur++;
-        return mapMur.get(mur);
+        return idDuMur;
     }
     
     public static int newId(Coin coin){
         //TODO : à réfléchir : Peut-être coin devrait il utiliser un compteru similaire à mur? (id supérieur à 1000 pour le 1er étage...)
         mapCoin.put(coin,compteurCoin);
+        mapIdVersCoin.put(compteurCoin,coin);
         compteurCoin++;
-        return mapCoin.get(coin);
+        return compteurCoin-1;
     }
     
     //il n'y a pas d'Id pour les ouvertures actuellement. Les méthodes ci-dessous n'ont donc pas d'utilité à ce jour (12/04/24)
     public static int newId(Fenêtre fenêtre){
         mapFenêtre.put(fenêtre,compteurFenêtre);
+        mapIdVersFenêtre.put(compteurFenêtre,fenêtre);
         compteurFenêtre++;
-        return mapFenêtre.get(fenêtre);
+        return compteurFenêtre-1;
     }
     
     public static int newId(Porte porte){
         mapPorte.put(porte,compteurPorte);
+        mapIdVersPorte.put(compteurPorte,porte);
         compteurPorte++;
-        return mapPorte.get(porte);
+        return compteurPorte-1 ;
     }
     
     //GET
     
-    /**
-     * 
-     * @param IdDeL_Etage Identifiant auquel on veut associer un étage.
-     * @return l'Etage associé à l'Identifiant, ou bien null (si l'Id est trop grand)
-     */
-    public static Etage getKeyEtage(int IdDeL_Etage){
-        Etage valeurARenvoyer = null;
-        for (Etage etageCherché : IDManager.mapEtage.keySet()){
-            if (etageCherché.getId() == IdDeL_Etage){
-                valeurARenvoyer =  etageCherché;
-            }
-        }
-        if (valeurARenvoyer == null) {System.out.println("Vous n'avez pas créé d'Etage avec cet Identifiant"); }
-        return valeurARenvoyer;
-        
-        
-    }
+    //Méthodes getObjetTyped'objet(idDeL'objet) : 
+    //ces méthodes permettraient de récupérer un objet en fournissant un id. 
+    //Elles pourraient ^tre utile dans l'écriture d'un fichier de sauvegarde
     
+    /** appel : IDManager.getObjetAppartement(identifiant);
+     * @param IdDuAppartement : id de l'objet que l'on veut obtenir
+     * @return l'objet associé à l'id fourni.
+     */
+    public static Appartement getObjetAppartement(int IdDuAppartement){
+        return mapIdVersAppartement.get(IdDuAppartement); //renvoie l'ojet de type étage associé à l'identifiant IdDuAppartement
+    }
+    /** appel : IDManager.getObjetEtage(identifiant);
+     * @param IdDuEtage : id de l'objet que l'on veut obtenir
+     * @return l'objet associé à l'id fourni.
+     */
+    public static Etage getObjetEtage(int IdDuEtage){
+        return mapIdVersEtage.get(IdDuEtage); //renvoie l'ojet de type étage associé à l'identifiant IdDuEtage
+    }
+    /** appel : IDManager.getObjetPièce(identifiant);
+     * @param IdDuPièce : id de l'objet que l'on veut obtenir
+     * @return l'objet associé à l'id fourni.
+     */
+    public static Pièce getObjetPièce(int IdDuPièce){
+        return mapIdVersPièce.get(IdDuPièce); //renvoie l'ojet de type étage associé à l'identifiant IdDuPièce
+    }
+    /** appel : IDManager.getObjetMur(identifiant);
+     * @param IdDuMur : id de l'objet que l'on veut obtenir
+     * @return l'objet associé à l'id fourni.
+     */
+    public static Mur getObjetMur(int IdDuMur){
+        return mapIdVersMur.get(IdDuMur); //renvoie l'ojet de type étage associé à l'identifiant IdDuMur
+    }
+    /** appel : IDManager.getObjetCoin(identifiant);
+     * @param IdDuCoin : id de l'objet que l'on veut obtenir
+     * @return l'objet associé à l'id fourni.
+     */
+    public static Coin getObjetCoin(int IdDuCoin){
+        return mapIdVersCoin.get(IdDuCoin); //renvoie l'ojet de type étage associé à l'identifiant IdDuCoin
+    }
+    /** appel : IDManager.getObjetFenêtre(identifiant);
+     * @param IdDuFenêtre : id de l'objet que l'on veut obtenir
+     * @return l'objet associé à l'id fourni.
+     */
+    
+    //Porte et Fenêtre : A supprimmer?
+    public static Fenêtre getObjetFenêtre(int IdDuFenêtre){
+        return mapIdVersFenêtre.get(IdDuFenêtre); //renvoie l'ojet de type étage associé à l'identifiant IdDuFenêtre
+    }/** appel : IDManager.getObjetPorte(identifiant);
+     * @param IdDuPorte : id de l'objet que l'on veut obtenir
+     * @return l'objet associé à l'id fourni.
+     */
+    public static Porte getObjetPorte(int IdDuPorte){
+        return mapIdVersPorte.get(IdDuPorte); //renvoie l'ojet de type étage associé à l'identifiant IdDuPorte
+    }
+   //Je ne sais pas si c'est utile pour Fenêtre et     
+    //getObjetFenêtre
+    //getObjetPorte
     
     
     //TODO : faire des méthodes permettant de manipuler la map (en fonction de nos besoins)
     //les maps sont actuellement en privé
     
-    public boolean containsValue(int IdARechercher, String typeDeObjet){ //cette méthode permet de chercher dans une map une valeur d'identifiant
+    /**
+     * UTILITÉ : vérifier si la mapObjet d'un typeDeObjet contient l'identifiant IdARechercher
+     * cette méthode aurait put être séparée en plusieurs méthodes indépendantes 
+     * (comme c'est le cas pour la méthode newId(objet))
+     * @param IdARechercher l'int dont on veut vérifier l'existence
+     * @param String typeDeObjet écrire l'objet dont on recherche l'ID : 'Etage', 'Pièce', 'Mur', 'Coin' , 'Fenêtre', 'Porte'
+     * @return TRUE si IdARechchercher a déjà été créé (de manière automatique) pour l'objet spécifié (typeDeObjet), FALSE sinon (et par défaut)
+     */
+    public static boolean mapContainsValue(int IdARechercher, String typeDeObjet){ //cette méthode permet de chercher dans une map une valeur d'identifiant
+        boolean résultat = false;
         switch (typeDeObjet){
             
             case "Etage": //TODO : idée : Ecrire le test tel que la fonction comprenne les paramètres Etage, Étage, étage, etage, etc. pour plus de facilité d'usage? (case-insensitive test)
-                return mapEtage.containsValue(IdARechercher);
-            //case "Appartement"
+                résultat = mapEtage.containsValue(IdARechercher);
+                break;
+            //TODO : case "Appartement"
             case "Pièce":
-                 return mapPièce.containsValue(IdARechercher);
+                 résultat = mapPièce.containsValue(IdARechercher);
+                 break;
             case "Mur":
-                 return mapMur.containsValue(IdARechercher);
+                 résultat =  mapMur.containsValue(IdARechercher);
+                 break;
             case "Coin":
-                 return mapCoin.containsValue(IdARechercher);
+                 résultat =  mapCoin.containsValue(IdARechercher);
+                 break;
             case "Fenêtre":
-                 return mapFenêtre.containsValue(IdARechercher);
+                 résultat =  mapFenêtre.containsValue(IdARechercher);
+                 break;
             case "Porte":
-                 return mapPorte.containsValue(IdARechercher);
-        } 
-        return false;
+                 résultat =  mapPorte.containsValue(IdARechercher);
+                 break;
+            default : 
+                System.out.println("vous n'avez pas entré un typeDeObjet valide en paramètre formel");
+                résultat = false;
+                break;
+        }
+        
+        return résultat; //si on entre pas un typeDeObket valide, cela renvoie flase
     }    
+    
+    
     
     //SET
     //pas de "set" car cela dérèglerait le compteur automatique
@@ -185,7 +301,9 @@ public class IDManager {
         Mur mur1 = new Mur();
         mur1.setÉtage(etage1);
         System.out.println("etage1 is assoc to " + mapEtage.get(etage1) +", which is its ID. "); //etage1.getId() fonctionne aussi, donc
-        System.out.print("mur 1 has an Id of "+ mur1.getId());
+        System.out.println("mur 1 has an Id of "+ mur1.getId());
+        Etage etage2 = new Etage(4);
+        System.out.print(mapContainsValue(0,"Etage"));
     }
     
     

@@ -30,18 +30,27 @@ public class Pièce {
          * censé fonctionner
          * Pourquoi mettre les attributs en static ??????????????? ne sert à rien si ???ça fait vraiment moche
          */
-    
-    
+
     private String nom_pièce; // sera remplacé par private int id... 
     private List<Mur> liste_mur;
     private Sol sol;
     private Plafond plafond;
     private Appartement appartement;
+  
+  public Pièce(String nom_pièce){
+    this.id = IDManager.newId(this);
+    this.liste_mur =new ArrayList<>();
+    this.sol = new Sol(this); //TO DO à regarder car pas sûr que ça marche
+    this.plafond = new Plafond(this);
+    this.nom_pièce= nom_pièce;
 
-// CONSTRUCTOR
-  public Pièce(){
-      this.liste_mur=new ArrayList<>();
-  }
+    }
+  public Pièce(){// permet de crféér une pièce a partir d'une liste de coin de mur et d'un plafond et d'un sol 
+    this.id = IDManager.newId(this);
+    this.liste_mur =new ArrayList<>();    
+    String nom = "pièce n°" + this.id;
+    this.nom_pièce = nom;
+    }
 
  // FUNCTION
     public void add(Mur m){//permet d'ajouter un mur dans la liste 
@@ -113,11 +122,34 @@ public class Pièce {
     public List<Mur> getListe_mur() { // Pour que l'IDManager fonctionne
         return liste_mur;
     }
+
+    public String getNom_pièce() {
+        return nom_pièce;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public List<Coin> getCoins() {
+        return coins;
+    }
+
+    public Sol getSol() {
+        return sol;
+    }
+
+    public Plafond getPlafond() {
+        return plafond;
+    }
+    
     
     //SET
+    //!!!pas de setId()
     public void setAppartement(Appartement appartement) {
         this.appartement = appartement;
     }
+    
 
     
     //MAIN
