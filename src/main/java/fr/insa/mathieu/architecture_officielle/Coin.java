@@ -24,10 +24,7 @@ public class Coin {
     private int id; 
     private int x;
     private int y;
-    private String nom_coin; // il faudra le replacer par la suite car cela correspond un  l'identifiant 
-    private Pièce pièce; 
-    private Plafond plafond; 
-    private Sol sol;
+    
 
     //CONSTRUCTOR
     public Coin(int x, int y) {
@@ -39,17 +36,20 @@ public class Coin {
     public Coin(){
         this.id = IDManager.newId(this);
     }
-   public Coin(String nom_coin, int x, int y) {
-       this.nom_coin = nom_coin;
-        this.x = x;
-        this.y = y;
-    }
    
-   //FUNCTION
-   @Override
+   //FUNCTIONS
+   
+   //le but de toString1 est de permettre d'écrire une syntaxe toString() différente pou d'autres utilisations. 
+    public String toString1() {
+        return "Coin: "+this.id +"{ x=" + x + ", y=" + y + '}';
+    }
+    
+    @Override
+    //ceci est le toString() par défaut.
     public String toString() {
-        return "Coin: "+nom_coin+"{ x=" + x + ", y=" + y + '}';// le nom_coin correspond a l'identifiant 
-    }   
+        //Syntaxe : "Coin;id;x;y"
+        return "Coin;" + this.id + ";" + x + ";" + y ;
+    }
     
     // GET
     public int getId() {
@@ -61,19 +61,7 @@ public class Coin {
     public int getY() {
         return y;
     }
-    public String getNom_coin() {
-        return nom_coin;
-    }
-    //pas sur de l'utilité de ça du tout ça m'étonnerait énormément!
-    public Pièce getPièce() {
-        return pièce;
-    }
-    public Sol getSol() {
-        return sol;
-    }
-    public Plafond getPlafond() {
-        return plafond;
-    }
+    
 
     // SET
     public void setId(int id) {
@@ -85,13 +73,5 @@ public class Coin {
     public void setY(int y) {
         this.y = y;
     }
-    public void setPièce(Pièce pièce) {
-        this.pièce = pièce;
-    }
-    public void setSol(Sol sol) {
-        this.sol = sol;
-    }
-    public void setPlafond(Plafond plafond) {
-        this.plafond = plafond;
-    }
+    
 }
