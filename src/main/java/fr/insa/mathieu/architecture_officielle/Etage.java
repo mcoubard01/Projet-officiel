@@ -16,9 +16,8 @@ import java.util.HashMap;
 */
 public class Etage {
     private int hauteur_etage;
-    private ArrayList<Mur> liste_mur;
     private ArrayList<Appartement> liste_appartement;
-    private int niveau;
+    private int niveau; //niveau ne sert à rien? on supprime?  signé thomas
     private int id;
     
 //2eme option pour l'ID : au lieu de maps dans le IDManager, simplement créer la variable ci dessous et l'incrémenter directment dans le condtructeur
@@ -33,7 +32,6 @@ public class Etage {
     public Etage(int hauteur) { 
         this.id=IDManager.newId(this);
         this.hauteur_etage = hauteur;
-        this.liste_mur=new ArrayList<>();// TO DO utilité de cet attribut ???????
         this.liste_appartement = new ArrayList<>();
         //System.out.println("map size is" + mapEtage.size() );        
        // System.out.println("id is" + id );
@@ -44,9 +42,9 @@ public class Etage {
     
 //FUNCTIONS
 
-    @Override
-    public String toString() {
-        String résultat = "";
+    //toString1() sert à afficher autre chose que le toString() par défaut
+    public String toString1() {
+        String résultat ;
         résultat = "Etage n." + this.getId() + "(id), hauteur: " + hauteur_etage + " {\n";
         //méthode d'itération vue sur https://www.geeksforgeeks.org/iterate-map-java/?ref=ml_lbp
         for (Mur murATester : IDManager.mapMur.keySet()){ //la méthode keySet() permet de tester pour chaque clé (ici, des murs)
@@ -57,9 +55,19 @@ public class Etage {
         résultat += "\n}\n";
         return résultat;
     }
-    //TO DO fonction add pour ajouter un appartement à l'étage
     
+    public static String syntaxeToString(){
+        return "Syntaxe : \"Etage;id;hauteur_etage;liste_appartement\"";
+        // \" permet d'afficher le caractère 'guillemet' dans le String.
+    }
+    @Override
+    public String toString() {
+        //Syntaxe : voir et actualiser au besoin la méthode syntaxeToString()
+        return "Etage;" + id + ";" + hauteur_etage + ";liste_appartement=" + liste_appartement;
+    }
     
+    //TODO TO DO fonction add pour ajouter un appartement à l'étage
+  
     
 // GET
     public int getHauteur_etage() {
@@ -70,9 +78,7 @@ public class Etage {
         return prix_etage; 
     }
 
-    public ArrayList<Mur> getListe_mur() { // Utilité ???
-        return liste_mur;
-    }
+    
     public int getId(){
         return id;
     }
