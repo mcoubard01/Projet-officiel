@@ -59,7 +59,7 @@ public abstract class Ouverture {
     }
     
     
-    //FONCTION
+    //FUNCTIONS
     public boolean appartenance(Mur mur){
     boolean result=false;
     double min_x = Math.min(mur.getDebut().getX(),mur.getFin().getX());
@@ -142,6 +142,14 @@ public abstract class Ouverture {
         */
     return result;
     }
+
+    @Override
+    public String toString() {
+        return "Ouverture" + ";ori_x=" + ori_x + ";ori_y=" + ori_y + ";orientation=" + orientation + ";longueur=" + longueur + ";id du mur1=" + mur1.getId() + ";id du mur2=" + mur2.getId();
+    }//on distinguera les portes des fénêtres grâce à leur longeur
+    
+    
+    
     // GET
     public double getOri_x() {
         return ori_x;

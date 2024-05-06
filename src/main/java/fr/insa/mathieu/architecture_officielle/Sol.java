@@ -32,7 +32,8 @@ public class Sol extends Sol_plafond {
     public static String indente (String toIndente, String prefix){// présenter dans la vidéo 1 du prof 
         return prefix +toIndente.replaceAll("\n","\n"+ prefix);
     }
-}
+
+   //toString() définie dans la classe abstraite
     /*
     @Override
     public String toString() {
@@ -48,3 +49,4 @@ public class Sol extends Sol_plafond {
     return liste_coin.toString();
     }
     */
+}

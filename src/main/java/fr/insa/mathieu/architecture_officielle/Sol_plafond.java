@@ -14,15 +14,17 @@ package fr.insa.mathieu.architecture_officielle;
     private Revêtement revêtement;
     Revêtement standard = new Revêtement(9999);//Revêtement standard
     
+    
     //CONSTRUCTOR
 
     public Sol_plafond(){//CONSTRUCTEUR test pour aller plus vite lors des essais   
     }
     public Sol_plafond(Pièce pièce){
+        this.revêtement = standard; //par défaut
         this.pièce=pièce;
     }
     
-    //FUNCTION
+    //FUNCTIONS
     public double surface (){
         double surface =this.pièce.consécutif().get(0).longueur()*(this.pièce.consécutif().get(1)).longueur();
         return  surface;
@@ -38,6 +40,14 @@ package fr.insa.mathieu.architecture_officielle;
         return prix;
     }
     abstract boolean contrôle(Revêtement revêtement);
+
+    @Override
+    public String toString() {
+        //Syntacexe : "idDuRevêtement"
+        return "" + revêtement.getId(); //renvoie l'id du revêtement
+    }
+    
+    
     
     // GET
     public String getId() {

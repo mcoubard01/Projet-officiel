@@ -31,32 +31,123 @@ public class Pièce {
          * Pourquoi mettre les attributs en static ??????????????? ne sert à rien si ???ça fait vraiment moche
          */
 
-    private String nom_pièce; // sera remplacé par private int id... 
+    private Etage étage;   
+    private Appartement appartement;
+    private String nom_pièce; // l'utilisateur peut renommer ses pièces
+    private int id;
     private List<Mur> liste_mur;
     private Sol sol;
     private Plafond plafond;
-    private Appartement appartement;
-  
-  public Pièce(String nom_pièce){
-    this.id = IDManager.newId(this);
-    this.liste_mur =new ArrayList<>();
+
+    //CONSTRUCTOR
+    
+    //Constructeur principal
+    public Pièce(Etage étage, Appartement appartement, String nom_pièce, List<Mur> liste_mur, Sol sol, Plafond plafond) {
+        this.étage = étage;
+        this.appartement = appartement;
+        this.nom_pièce = nom_pièce;
+        this.id = IDManager.newId(this);
+        this.liste_mur = liste_mur;
+        this.sol = sol;
+        this.plafond = plafond;
+    }
+      
+  public Pièce(String nom_pièce, Etage étage, Appartement appartement){
+      this.liste_mur =new ArrayList<>();
+    this.étage = étage;
+    this.appartement = appartement;
+    this.sol = new Sol(this); 
+    this.plafond = new Plafond(this);
+     this.id = IDManager.newId(this);
+    this.nom_pièce= nom_pièce;
+  }
+  /**
+   * crée automaitquement un appartement, une liste vide de murs, un sol et un plafond
+   * @param nom_pièce
+   * @param étage 
+   */
+  public Pièce(String nom_pièce, Etage étage){ 
+      this.liste_mur =new ArrayList<>();
+    this.étage = étage;
+    this.appartement = new Appartement(étage);
     this.sol = new Sol(this); //TO DO à regarder car pas sûr que ça marche
     this.plafond = new Plafond(this);
+     this.id = IDManager.newId(this);
     this.nom_pièce= nom_pièce;
+    
 
     }
-  public Pièce(){// permet de crféér une pièce a partir d'une liste de coin de mur et d'un plafond et d'un sol 
+  public Pièce(Etage étage){// permet de crféér une pièce a partir d'une liste de coin de mur et d'un plafond et d'un sol 
+    this.liste_mur =new ArrayList<>();   
+    this.étage = étage;
+    this.appartement = new Appartement(étage);
+    String nom = "pièce n°" + this.id;
+    this.sol = new Sol(this); //TO DO à regarder car pas sûr que ça marche
+    this.plafond = new Plafond(this);
+    this.nom_pièce = nom;
     this.id = IDManager.newId(this);
+    }
+  
+  public Pièce(ArrayList<Mur> liste_mur, Etage étage){// permet de crféér une pièce a partir d'une liste de coin de mur et d'un plafond et d'un sol 
+    this.étage = étage;
+    this.appartement = new Appartement(étage);
+    this.sol = new Sol(this); //TO DO à regarder car pas sûr que ça marche
+    this.plafond = new Plafond(this);
+      this.id = IDManager.newId(this);
     this.liste_mur =new ArrayList<>();    
     String nom = "pièce n°" + this.id;
     this.nom_pièce = nom;
     }
-
+  
+  public Pièce(ArrayList<Mur> liste_mur){ //utile pour créer une pièce plus facilement
+      this(liste_mur,liste_mur.get(1).getÉtage());
+  }
+  
+  /**
+   * Créée un automtiquement un nouveau sol et plafond
+   * @param mur1
+   * @param mur2
+   * @param mur3
+   * @param mur4
+   * @param étage
+   * @param appartement 
+   */
+  public Pièce(Mur mur1,Mur mur2,Mur mur3,Mur mur4,Etage étage,Appartement appartement){
+      this.étage = étage;
+    this.appartement = appartement;
+    this.sol = new Sol(this); //TO DO à regarder car pas sûr que ça marche
+    this.plafond = new Plafond(this);
+    this.liste_mur =new ArrayList<>();   
+    liste_mur.add(mur1);
+    liste_mur.add(mur2);
+    liste_mur.add(mur3);
+    liste_mur.add(mur4);
+    String nom = "pièce n°" + this.id;
+    this.nom_pièce = nom;
+    this.id = IDManager.newId(this);
+  }
+    /**
+     * Créé automaitquement un nouvel appartement, et nouveau Sol et plafond
+     * @param mur1
+     * @param mur2
+     * @param mur3
+     * @param mur4
+     * @param étage 
+     */
+    public Pièce(Mur mur1,Mur mur2,Mur mur3,Mur mur4,Etage étage){// permet de crféér une pièce a partir d'une liste de coin de mur et d'un plafond et d'un sol 
+        this(mur1,mur2,mur3,mur4,étage,new Appartement(étage));
+        
+    }
+    public Pièce(Mur mur1,Mur mur2,Mur mur3,Mur mur4){ //utile pour créer plus facilement
+        this(mur1,mur2,mur3,mur4,mur1.getÉtage());
+    }
+  
  // FUNCTION
     public void add(Mur m){//permet d'ajouter un mur dans la liste 
-        if (m.getPièce()!= this){     
+        //Attention! ajoute à la pièce1 du mur par défaut!!
+        if (m.getPièce1()!= this){     
             this.liste_mur.add(m);
-            m.setPièce (this);
+            m.setPièce1 (this);
         }
     }
 
@@ -85,8 +176,8 @@ public class Pièce {
         return p;
     }
    
-   @Override
-    public String toString() {
+   //toString1() sert à écrire autre chose que le toString() principal
+    public String toString1() {
         //Affichage des infos du mur
         String res = "Pièce: "+ nom_pièce+" {\n";
         for (int i=0; i<this.liste_mur.size();i++){
@@ -110,6 +201,21 @@ public class Pièce {
     }
           return res+essai+essais+")";
     }
+
+    public static String syntaxeToString(){
+        return "\"Pièce;id;nom_pièce;liste_mur(identifiants);revêtementDuSol;revêtementDuPlafond;idDuAppartement \"";
+    }
+    @Override
+    public String toString() {
+        //Syntaxe : voir la méthode syntxeToString()
+        ArrayList<Integer> listeDesIdDesMurs = new ArrayList<>();
+        for (int i = 0; i < liste_mur.size() ; i++){
+            listeDesIdDesMurs.add(liste_mur.get(i).getId());
+            //créée une liste des identifiants des murs qui forment la pièce
+        }
+        return "Pièce;" + id + ";" + nom_pièce  + ";liste_mur=" + listeDesIdDesMurs + ";" + sol.toString() + ";" + plafond.toString() + ";" + appartement.getId();
+    }
+    
     
     public static String indente (String toIndente, String prefix){// meme machin que dans la premièrer vidéo du prof. 
     return prefix +toIndente.replaceAll("\n","\n"+ prefix);
@@ -131,9 +237,6 @@ public class Pièce {
         return id;
     }
 
-    public List<Coin> getCoins() {
-        return coins;
-    }
 
     public Sol getSol() {
         return sol;
@@ -160,9 +263,9 @@ public class Pièce {
         Coin c2 =new Coin(1,5);
         Mur m1= new Mur(c1,c2,e1);
         
-        Coin c3 =new Coin("c3",1,5);
+        Coin c3 =new Coin(1,5); //supression de " Coin c3=new Coin("c3",1,5) "
         Coin c4 =new Coin(4,5);
-        Mur m2= new Mur(c3,c4,e1);
+        Mur m2= new Mur(c3,c4,e1); 
         
         Coin c5 =new Coin(4,5);
         Coin c6 =new Coin(4,2);
@@ -172,7 +275,7 @@ public class Pièce {
         Coin c8 =new Coin(1,2);
         Mur m4= new Mur(c7,c8,e1);
         
-        Pièce pièce1= new Pièce();
+        Pièce pièce1= new Pièce(e1);
         pièce1.add(m1);
         pièce1.add(m2);
         pièce1.add(m3);
