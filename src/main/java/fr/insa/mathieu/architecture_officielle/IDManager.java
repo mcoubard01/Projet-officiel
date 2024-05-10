@@ -55,7 +55,10 @@ public class IDManager {
     static public HashMap<Porte,Integer> mapPorte = new HashMap<>();
     static private TreeMap<Integer,Porte> mapIdVersPorte = new TreeMap<>();
     static int compteurPorte = 0;
-    
+    //pour les façade
+    static public HashMap<Facade,Integer> mapFacade = new HashMap<>();
+    static private TreeMap<Integer,Facade> mapIdVersFacade = new TreeMap<>();
+    static int compteurFacade = 0;
 //Pour manipuler
     //public ArrayList<HashMap<>> listeDesMapObjet = new ArrayList<>();
     //j'aurais voulu faire un tableau ou une arraylist des maps, publique, comme ça on peut appeler listesDesMapObjet[0], p.ex. 
@@ -186,7 +189,12 @@ public class IDManager {
         compteurEtage++;
         return compteurEtage-1; //renvoie l'id associé à l'objet etage
     }
-    
+      public static int newId(Facade facade){
+        mapFacade.put(facade,compteurFacade); //rdc : 0 , 1er étage : 1 ,etc. 
+        mapIdVersFacade.put(compteurFacade, facade);
+        compteurFacade++;
+        return compteurFacade-1; //renvoie l'id associé à l'objet etage
+    }
     public static int newId(Pièce pièce){
         int idDeLaPièce = compteurPièce + 1000* pièce.getAppartement().getEtage().getId(); //étage auquel la pièce se trouve
 //ainsi, pour l'étage ézéro, 0<=idDeLaPièce<=999 ; pour l'étage 1, 1000<= idDeLaPièce <=1999 ,etc.
@@ -248,6 +256,14 @@ public class IDManager {
     public static Etage getObjetEtage(int IdDuEtage){
         return mapIdVersEtage.get(IdDuEtage); //renvoie l'ojet de type étage associé à l'identifiant IdDuEtage
     }
+       /** appel : IDManager.getObjetFacade(identifiant);
+     * @param IdDuFacade : id de l'objet que l'on veut obtenir
+     * @return l'objet associé à l'id fourni.
+     */
+    public static Facade getObjetFacade(int IdDuFacade){
+        return mapIdVersFacade.get(IdDuFacade); //renvoie l'ojet de type étage associé à l'identifiant IdDuEtage
+    }
+    
     /** appel : IDManager.getObjetPièce(identifiant);
      * @param IdDuPièce : id de l'objet que l'on veut obtenir
      * @return l'objet associé à l'id fourni.

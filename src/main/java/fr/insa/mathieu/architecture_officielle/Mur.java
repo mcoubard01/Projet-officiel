@@ -38,6 +38,29 @@ public class Mur {
         this.fin = fin;
        // this.revêtement=revêtement_standard;
     }
+          // j'ai du le rajoutez pour pouvoir faire un test il pourra etre supprimé par la suite
+    
+    
+      public Mur(Coin debut, Coin fin) {  // INCOMPLET TO incorporer l'étage automatiquement
+       
+        //this.id = IDManager.newId(this); //l'étage est nécessaire à cette méthode
+        //ici on ne crée pas d'ID car on connaît pas l'étage
+        //TODO : une fonction qui détecte sur quel étage on se trouve actuellement dans l'éxécution,, afin que the IDManager.newId() fonctionne
+        // Solution : Juste un get qui renvoie l'étage du mur selectionné => FAIT
+      
+        this.debut = debut;
+        this.fin = fin;
+       // this.revêtement=revêtement_standard;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
      public Mur (String nom_mur,Coin debut, Coin fin, Etage étage){
         this.id = IDManager.newId(this); //renvoie un int. !!! cet int est entre 0 et 999 si c'est au RDC, entre 1000 et 1999 si c'etst au 1er étage...
         this.debut = debut;
@@ -50,7 +73,7 @@ public class Mur {
         */
         this.liste_ouverture=new ArrayList<>();
     }
-
+// on utilise celui la 
     public Mur(Coin debut, Coin fin, Etage étage_mur) {
         this.étage = étage_mur;
         this.debut = debut;
