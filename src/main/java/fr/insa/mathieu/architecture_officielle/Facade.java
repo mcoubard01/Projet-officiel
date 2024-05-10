@@ -31,7 +31,9 @@ public class Facade extends Mur  {
         this.liste_étage = new ArrayList<>();
 
     }
-
+//TODO faire le prix pour cette classe
+    
+    
     public double surface() {
         int i;
         double hauteur_bat = 0;
