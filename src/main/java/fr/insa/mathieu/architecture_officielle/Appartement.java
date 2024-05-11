@@ -17,9 +17,10 @@ public class Appartement {
     
     //CONSTRUCTOR
     public Appartement(Etage etage) {
-        this.id = IDManager.newId(this);
+        
         this.etage = etage;
         this.liste_pièce=new ArrayList<>();
+        this.id = IDManager.newId(this);
     }
     
     //FUNCTION
@@ -29,7 +30,7 @@ public class Appartement {
                 this.liste_pièce.add(pièce);//On ajoute la pièce à la liste des pièce de cet appartement
             }
             else{
-                throw new Error ("La pièce appartient déjà à un autre appartement"); // TO DO affichage de message d'erreur dans l'interface graphique
+                throw new Error ("La pièce appartient déjà à un autre appartement"); // TODO TO DO affichage de message d'erreur dans l'interface graphique
             }
             
         }
@@ -44,6 +45,22 @@ public class Appartement {
         }
         return prix;
     }
+
+    public static String syntaxeToString(){
+        return "Syntaxe : \"Appartement;id;IdDUEtage;liste_pièce(identifiants)\"";
+    }
+    @Override
+    public String toString() {
+        //Syntaxe : voir syntaxeToString(), et l'actualiser siu besoin 
+        ArrayList<Integer> listeDesIdDesPièces = new ArrayList<>();
+        for (int i=0 ; i< listeDesIdDesPièces.size() ; i++){
+            listeDesIdDesPièces.add(liste_pièce.get(i).getId());
+        }
+        return "Appartement;" + id + ";" + etage.getId() + "liste_pièce=" + listeDesIdDesPièces;
+        //éventuellement il  n'y aura pas besoin de etage.getId(), puisque l'id de l'appartement intègre déjà l'id de l'étage.
+    }
+    
+    
     
     //GET
     public Etage getEtage() {
@@ -52,4 +69,19 @@ public class Appartement {
     public ArrayList<Pièce> getListe_pièce() {
         return liste_pièce;
     }  
+    public int getId(){
+        return id;
+    }
+    
+    //SET 
+//!!pas de setId() !!!
+    
+    public void setEtage(Etage etage) {
+        this.etage = etage;
+    }
+
+    public void setListe_pièce(ArrayList<Pièce> liste_pièce) {
+        this.liste_pièce = liste_pièce;
+    }
+    
 }

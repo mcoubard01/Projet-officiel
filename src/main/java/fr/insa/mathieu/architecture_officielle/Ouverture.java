@@ -18,6 +18,7 @@ public abstract class Ouverture {
     private double longueur;
     private Mur mur1;
     private Mur mur2;
+    private Mur mur;
 
     //CONSTRUCTOR
     /*
@@ -62,7 +63,7 @@ public abstract class Ouverture {
     }
     
     
-    //FONCTION
+    //FUNCTIONS
     public boolean appartenance(Mur mur){
     boolean result=false;
     double min_x = Math.min(mur.getDebut().getX(),mur.getFin().getX());
@@ -145,6 +146,8 @@ public abstract class Ouverture {
         */
     return result;
     }
+  
+  
     public void dessine(GraphicsContext context){ ////// TO DO  Attention je ne sais pas si ça marche avec le +longueur
         context.setStroke(Color.BEIGE);
         switch (this.orientation){
@@ -155,6 +158,14 @@ public abstract class Ouverture {
         }
         
     }
+
+    @Override
+    public String toString() { //Attention à ne pas modifier à la légère le toString()!! mon travail repose dessus . signé thomas. (branche "20-lecture-sauvegarde"
+        return "Ouverture" + ";ori_x=" + ori_x + ";ori_y=" + ori_y + ";orientation=" + orientation + ";longueur=" + longueur + ";id du mur1=" + mur1.getId() + ";id du mur2=" + mur2.getId();
+    }//on distinguera les portes des fénêtres grâce à leur longeur
+    
+    
+    
     // GET
     public double getOri_x() {
         return ori_x;
@@ -175,6 +186,11 @@ public abstract class Ouverture {
     public Mur getMur2() {
         return mur2;
     }
+
+    public Mur getMur() {
+        return mur;
+    }
+    
     
     //SET
 

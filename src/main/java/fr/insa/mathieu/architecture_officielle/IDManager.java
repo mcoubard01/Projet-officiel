@@ -55,7 +55,10 @@ public class IDManager {
     static public HashMap<Porte,Integer> mapPorte = new HashMap<>();
     static private TreeMap<Integer,Porte> mapIdVersPorte = new TreeMap<>();
     static int compteurPorte = 0;
-    
+    //pour les façade
+    static public HashMap<Facade,Integer> mapFacade = new HashMap<>();
+    static private TreeMap<Integer,Facade> mapIdVersFacade = new TreeMap<>();
+    static int compteurFacade = 0;
 //Pour manipuler
     //public ArrayList<HashMap<>> listeDesMapObjet = new ArrayList<>();
     //j'aurais voulu faire un tableau ou une arraylist des maps, publique, comme ça on peut appeler listesDesMapObjet[0], p.ex. 
@@ -84,13 +87,59 @@ public class IDManager {
     
     public static ArrayList<String> imprimerLesObjetsCréés(){
         ArrayList<String> listeARenvoyer = new ArrayList<>();
-        for (int i = 0;i<=mapIdVersCoin.lastKey();i++){
-            String coinAEnregistrer = mapIdVersCoin.get(i).toString(); 
-            //coinAEnregistrer est la version toString() du coin dont l'id est "i"
-            listeARenvoyer.add(coinAEnregistrer);
-        } //cete boucle "for" ajoute à listeARenvoyer tous les objets Coin qui ont été créés.
+        if (! mapIdVersCoin.isEmpty()){ //si la map n'est PAS vide, alors:
+            listeARenvoyer.add("=== liste des Coins ===");
+            listeARenvoyer.add("Syntaxe  : \"Coin;id;x;y\"");
+            // \" permet de mettre des guillemets dans le System.out.print()
+            for (int i = 0;i<=mapIdVersCoin.lastKey();i++){
+                String coinAEnregistrer = mapIdVersCoin.get(i).toString(); 
+                //coinAEnregistrer est la version toString() du coin dont l'id est "i"
+                listeARenvoyer.add(coinAEnregistrer);
+            } //cete boucle "for" ajoute à listeARenvoyer tous les objets Coin qui ont été créés.
+        }
         
-        //faire une boucle "for" pour chaque type d'objets. 
+        if (! mapIdVersMur.isEmpty()){ //si la map n'est PAS vide, alors:
+            listeARenvoyer.add("=== liste des Murs ===");
+            listeARenvoyer.add("Syntaxe  : \"Mur;id;idDuCoinDebut;idDuCoinFin;idDeEtageDuMur;idDePièce1;idDePièce2;liste_ouverture\"");
+
+            for (int i = 0;i<=mapIdVersMur.lastKey();i++){
+                String murAEnregistrer = mapIdVersMur.get(i).toString(); 
+                //MurAEnregistrer est la version toString() du mur dont l'id est "i"
+                listeARenvoyer.add(murAEnregistrer);
+            } //cete boucle "for" ajoute à listeARenvoyer tous les objets Mur qui ont été créés.
+        }
+        if (! mapIdVersPièce.isEmpty()){ //si la map n'est PAS vide, alors:
+            listeARenvoyer.add("=== liste des Pièces ===");
+            listeARenvoyer.add(Pièce.syntaxeToString()); //syntaxe que l'on peut mettre à jour
+            //Syntaxe actuelle : "\"Pièce;id;nom_pièce;liste_mur(identifiants);revêtementDuSol;revêtementDuPlafond;idDuAppartement \""
+            for (int i = 0;i<=mapIdVersPièce.lastKey();i++){
+                String pièceAEnregistrer = mapIdVersPièce.get(i).toString(); 
+                //pièceAEnregistrer est la version toString() de la pièce dont l'id est "i"
+                listeARenvoyer.add(pièceAEnregistrer);
+            } //cete boucle "for" ajoute à listeARenvoyer tous les objets Pièce qui ont été créés.
+        }
+        if (! mapIdVersEtage.isEmpty()){ //si on a effectivement créé des étages
+            listeARenvoyer.add("=== liste des Etages ===");
+            listeARenvoyer.add(Etage.syntaxeToString());
+            //actuellemnt : "Syntaxe : \"Etage;id;hauteur_etage;liste_appartement\""
+            for (int i = 0;i<=mapIdVersEtage.lastKey();i++){
+                String étageAEnregistrer = mapIdVersEtage.get(i).toString(); 
+                //étageAEnregistrer est la version toString() de l'étage dont l'id est "i"
+                listeARenvoyer.add(étageAEnregistrer);
+            } //cete boucle "for" ajoute à listeARenvoyer tous les objets Etage qui ont été créés.
+        }
+        
+        if (! mapIdVersAppartement.isEmpty()){ //si on a effectivement créé des étages
+             listeARenvoyer.add("=== liste des Appartements ===");
+             listeARenvoyer.add(Appartement.syntaxeToString());
+             //actuellement : "Syntaxe : \"Appartement;id;IdDuEtage;liste_pièce\""
+            for (int i = 0;i<=mapIdVersAppartement.lastKey();i++){
+                String appartementAEnregistrer = mapIdVersAppartement.get(i).toString(); 
+                //appartementAEnregistrer est la version toString() de l'appartement dont l'id est "i"
+                listeARenvoyer.add(appartementAEnregistrer);
+            } //cete boucle "for" ajoute à listeARenvoyer tous les objets Appartement qui ont été créés.
+        }
+        
         //j'imaginais le fichier txt de sauvegarde ainsi : 
         //Tous les coins
         //Tous les murs (pour plus de lisibilité, mur.toString() devrait renvoyer seulement les id des coins composant le mur, plus les revêtements)
@@ -140,7 +189,12 @@ public class IDManager {
         compteurEtage++;
         return compteurEtage-1; //renvoie l'id associé à l'objet etage
     }
-    
+      public static int newId(Facade facade){
+        mapFacade.put(facade,compteurFacade); //rdc : 0 , 1er étage : 1 ,etc. 
+        mapIdVersFacade.put(compteurFacade, facade);
+        compteurFacade++;
+        return compteurFacade-1; //renvoie l'id associé à l'objet etage
+    }
     public static int newId(Pièce pièce){
         int idDeLaPièce = compteurPièce + 1000* pièce.getAppartement().getEtage().getId(); //étage auquel la pièce se trouve
 //ainsi, pour l'étage ézéro, 0<=idDeLaPièce<=999 ; pour l'étage 1, 1000<= idDeLaPièce <=1999 ,etc.
@@ -202,6 +256,14 @@ public class IDManager {
     public static Etage getObjetEtage(int IdDuEtage){
         return mapIdVersEtage.get(IdDuEtage); //renvoie l'ojet de type étage associé à l'identifiant IdDuEtage
     }
+       /** appel : IDManager.getObjetFacade(identifiant);
+     * @param IdDuFacade : id de l'objet que l'on veut obtenir
+     * @return l'objet associé à l'id fourni.
+     */
+    public static Facade getObjetFacade(int IdDuFacade){
+        return mapIdVersFacade.get(IdDuFacade); //renvoie l'ojet de type étage associé à l'identifiant IdDuEtage
+    }
+    
     /** appel : IDManager.getObjetPièce(identifiant);
      * @param IdDuPièce : id de l'objet que l'on veut obtenir
      * @return l'objet associé à l'id fourni.
@@ -251,7 +313,7 @@ public class IDManager {
      * cette méthode aurait put être séparée en plusieurs méthodes indépendantes 
      * (comme c'est le cas pour la méthode newId(objet))
      * @param IdARechercher l'int dont on veut vérifier l'existence
-     * @param String typeDeObjet écrire l'objet dont on recherche l'ID : 'Etage', 'Pièce', 'Mur', 'Coin' , 'Fenêtre', 'Porte'
+     * @param typeDeObjet écrire l'objet dont on recherche l'ID : 'Etage', 'Pièce', 'Mur', 'Coin' , 'Fenêtre', 'Porte'
      * @return TRUE si IdARechchercher a déjà été créé (de manière automatique) pour l'objet spécifié (typeDeObjet), FALSE sinon (et par défaut)
      */
     public static boolean mapContainsValue(int IdARechercher, String typeDeObjet){ //cette méthode permet de chercher dans une map une valeur d'identifiant
@@ -296,14 +358,19 @@ public class IDManager {
     
     public static void main(String[] args){
         
+
         Architecture_officielle batiment = new Architecture_officielle();
         Etage etage1 = new Etage(5,batiment);
+        Coin coin = new Coin(23,23);
         Mur mur1 = new Mur();
         mur1.setÉtage(etage1);
         System.out.println("etage1 is assoc to " + mapEtage.get(etage1) +", which is its ID. "); //etage1.getId() fonctionne aussi, donc
         System.out.println("mur 1 has an Id of "+ mur1.getId());
         Etage etage2 = new Etage(4,batiment);
         System.out.print(mapContainsValue(0,"Etage"));
+        for (int i = 0; i<imprimerLesObjetsCréés().size();i++){
+            System.out.println(imprimerLesObjetsCréés().get(i));
+        }
     }
     
     

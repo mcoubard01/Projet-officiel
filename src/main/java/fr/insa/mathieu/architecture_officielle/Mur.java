@@ -18,7 +18,7 @@ public class Mur {
     //les trois la dessous j'ai du les rajoutez mais je suis pas sur que ce que j'ai fait soit juste .
     private Etage étage; // pas sur que le mur soit relié à l'étage directement. 
     private String nom_mur;
-    private Pièce pièce;
+    private Pièce pièce1;
     private Pièce pièce2;
     private ArrayList<Ouverture> liste_ouverture;
     
@@ -40,6 +40,29 @@ public class Mur {
         this.fin = fin;
        // this.revêtement=revêtement_standard;
     }
+          // j'ai du le rajoutez pour pouvoir faire un test il pourra etre supprimé par la suite
+    
+    
+      public Mur(Coin debut, Coin fin) {  // INCOMPLET TO incorporer l'étage automatiquement
+       
+        //this.id = IDManager.newId(this); //l'étage est nécessaire à cette méthode
+        //ici on ne crée pas d'ID car on connaît pas l'étage
+        //TODO : une fonction qui détecte sur quel étage on se trouve actuellement dans l'éxécution,, afin que the IDManager.newId() fonctionne
+        // Solution : Juste un get qui renvoie l'étage du mur selectionné => FAIT
+      
+        this.debut = debut;
+        this.fin = fin;
+       // this.revêtement=revêtement_standard;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
      public Mur (String nom_mur,Coin debut, Coin fin, Etage étage){
         this.id = IDManager.newId(this); //renvoie un int. !!! cet int est entre 0 et 999 si c'est au RDC, entre 1000 et 1999 si c'etst au 1er étage...
         this.debut = debut;
@@ -51,9 +74,8 @@ public class Mur {
         this.revêtement=revêtement_standard;
         */
         this.liste_ouverture=new ArrayList<>();
-        étage.getListe_mur().add(this);//TO DO à améliorer mais l'id est de ajouter automatique le mur qu'on créer à la liste de mur de l'étage.
     }
-
+// on utilise celui la 
     public Mur(Coin debut, Coin fin, Etage étage_mur) {
         this.étage = étage_mur;
         this.debut = debut;
@@ -96,21 +118,28 @@ public class Mur {
         boolean result=(r.getPourMur()).equals("1");
         return result;
     }
-    /**
-     * Deux possibilités pour écrire le toString()// TO DO A choisir lequel privilégier
-     * premier id : identifiant mur
-     * 'debut' correspond à debut.toString()
-     * 'fin' correspond à fin.toString()
-     * @return 
-     */
+
     @Override
     public String toString() {
+        //Syntaxe : "Mur;id;idDuCoinDebut;idDuCoinFin;idDeEtageDuMur;idDePièce1;idDePièce2;liste_ouverture
+        String résultat = "Mur;" + id + ";" + debut.getId() + ";" + fin.getId() ;
+            résultat += ";" + étage.getId() + ";" + pièce1 + ";" + pièce2 + ";liste_ouverture=" + liste_ouverture ;
+        return résultat;
+    }
+  //ATTENTION!! désormais, il est important que toString() reste ainsi, car IDManager.récupérerLesObjetsCréés() repose dessus!!
+
+    
+
+
+    //toString1() est une alternative plus lisible à toString()
+    public String toString1() {
         return "Mur{" + "id=" + this.id + ", Coin debut=" + this.debut.toString() + ", Coin fin=" + this.fin.toString()
                 + "étage_mur.getId()= " + this.étage.getId() + '}'; // + ", rev\u00eatement_mur=" + revêtement + 
     }
-    /*
+
+    /*  
     @Override
-    public String toString() {
+    public String toString2() {
         return "Mur: "+nom_mur+"{ debut=" + debut + ", fin=" + fin + '}';
     }
     */
@@ -118,6 +147,7 @@ public class Mur {
         context.setStroke(Color.BLACK);
         context.strokeLine(this.getDebut().getX(), this.getDebut().getY(), this.getFin().getX(), this.getFin().getY());
     }
+
  
     // GET  
     
@@ -136,9 +166,13 @@ public class Mur {
     public Etage getÉtage() {
         return étage;
     }
-    public Pièce getPièce() {
-        return pièce;
+    public Pièce getPièce1() {
+        return pièce1;
     }
+    public Pièce getPièce2() {
+        return pièce2;
+    }
+    
     public String getNom_mur() {
         return nom_mur;
     }
@@ -156,9 +190,14 @@ public class Mur {
     public void setÉtage(Etage étage_mur) {
         this.étage = étage_mur;
     }
-     void setPièce(Pièce pièce) {
-        this.pièce = pièce;
-     }
+    public void setPièce1(Pièce pièce1) {
+        this.pièce1 = pièce1;
+    }
+
+    public void setPièce2(Pièce pièce2) {
+        this.pièce2 = pièce2;
+    }
+    
     public void setNom_mur(String nom_mur) {
         this.nom_mur = nom_mur;
     }
@@ -172,13 +211,7 @@ public class Mur {
         }
         
     }
-    public void setPièce1(Pièce pièce1) {
-        this.pièce = pièce1;
-    }
-
-    public void setPièce2(Pièce pièce2) {
-        this.pièce2 = pièce2;
-    }
+    
 
     /////// TEST MAIN     
     public static void main(String [] args){   //un main pour tester longueur et surface
@@ -256,5 +289,5 @@ public class Mur {
         System.out.println("i ="+i+" => "+revêtement.getListe_mur().get(i));
     }
     */
-}
+    }
 }
