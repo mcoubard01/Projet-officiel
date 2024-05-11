@@ -7,6 +7,8 @@ import static fr.insa.mathieu.architecture_officielle.Architecture_officielle.do
 import static fr.insa.mathieu.architecture_officielle.Architecture_officielle.lecture;
 import static java.lang.Math.sqrt;
 import java.util.ArrayList;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 public class Mur {  
     private int id;
@@ -112,7 +114,10 @@ public class Mur {
         return "Mur: "+nom_mur+"{ debut=" + debut + ", fin=" + fin + '}';
     }
     */
-    
+    public void dessine(GraphicsContext context){
+        context.setStroke(Color.BLACK);
+        context.strokeLine(this.getDebut().getX(), this.getDebut().getY(), this.getFin().getX(), this.getFin().getY());
+    }
  
     // GET  
     
@@ -183,14 +188,15 @@ public class Mur {
     System.out.println("Donnez le nom de votre fichier :");
     String nom_fichier = Lire.S();
     */
+    Architecture_officielle batiment = new Architecture_officielle();
     donnee_enregistree = lecture("Revêtement_final.txt"); // Lecture est ici une fonction qui renverra une ArrayList de tableau de chaînes de caractères
 
     //Création des coins pour faire le mur 
     Coin debut1 , fin1;
     debut1= new Coin(2,4);
     fin1 = new Coin(2,1);
-    Etage etage1 = new Etage(5);
-    Etage etage2 = new Etage(5);
+    Etage etage1 = new Etage(5,batiment);
+    Etage etage2 = new Etage(5,batiment);
     Mur mur = new Mur(debut1,fin1, etage1);
     Mur mur1 = new Mur(debut1,fin1, etage1);    
     /**

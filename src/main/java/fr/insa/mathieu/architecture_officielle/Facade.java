@@ -43,8 +43,9 @@ public static double surface(Coin d, Coin f ,Etage[] etage ){
      
 
     public static void main(String [] args){ 
-    Etage etage1 = new Etage(5);
-        Etage etage2 = new Etage(6);
+    Architecture_officielle batiment = new Architecture_officielle();
+    Etage etage1 = new Etage(5,batiment);
+        Etage etage2 = new Etage(6,batiment);
         int[] etage= new int [compteurEtage];
         System.out.println("id of etage1 is " + etage1.getId());
         System.out.println("id of etage2 is " + etage2.getId());
@@ -55,9 +56,7 @@ public static double surface(Coin d, Coin f ,Etage[] etage ){
         System.out.println("id of coin2 is " + coin2.getId());
         Facade facade=new Facade(coin1,coin2);
         //System.out.println("surface"+facade.surface(coin1,coin2,etage));
-        
-        
-        
+  
     }
  
     //SET

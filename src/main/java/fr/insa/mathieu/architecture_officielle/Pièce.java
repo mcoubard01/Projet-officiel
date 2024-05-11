@@ -36,7 +36,7 @@ public class Pièce {
     private Sol sol;
     private Plafond plafond;
     private Appartement appartement;
-  
+    private int id;
   public Pièce(String nom_pièce){
     this.id = IDManager.newId(this);
     this.liste_mur =new ArrayList<>();
@@ -131,10 +131,6 @@ public class Pièce {
         return id;
     }
 
-    public List<Coin> getCoins() {
-        return coins;
-    }
-
     public Sol getSol() {
         return sol;
     }
@@ -154,7 +150,8 @@ public class Pièce {
     
     //MAIN
     public static void main (String[] args){
-        Etage e1 = new Etage(2);
+        Architecture_officielle batiment = new Architecture_officielle();
+        Etage e1 = new Etage(2,batiment);
         
         Coin c1 =new Coin(1,2);
         Coin c2 =new Coin(1,5);

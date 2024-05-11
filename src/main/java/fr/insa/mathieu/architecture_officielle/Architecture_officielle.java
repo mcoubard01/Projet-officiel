@@ -16,13 +16,25 @@ package fr.insa.mathieu.architecture_officielle;
 import static fr.insa.mathieu.architecture_officielle.Revêtement.todouble;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public class Architecture_officielle { 
     public static ArrayList<String[]> donnee_enregistree; // Liste de tableaux de chaines de caractère qui est utilisée pour le stockage des Revêtements
+    private ArrayList<Etage> liste_etage;
     
+    public Architecture_officielle(){
+        this.liste_etage=new ArrayList<>();
+    }
+
+    public ArrayList<Etage> getListe_etage() {
+        return liste_etage;
+    }
     
-    
+    public void add(Etage etage){
+        
+        
+    }
     
     public static void test_surfacePiece_et_Prix(Pièce pièce){
         //////////////TEST SURFACE PIECE + PRIX
@@ -38,11 +50,12 @@ public class Architecture_officielle {
     }      
     public static void test_prixMur(){
         //////////////TEST PRIX MUR
+    Architecture_officielle batiment = new Architecture_officielle();
     Coin debut1 , fin1;
     debut1= new Coin(2,1);
     fin1 = new Coin(5,1);
         
-    Etage etage1 = new Etage(5);
+    Etage etage1 = new Etage(5,batiment);
     Revêtement test=new Revêtement(2);
     Mur mur = new Mur(debut1,fin1, etage1);
     mur.setRevêtement(test);
@@ -98,13 +111,14 @@ public class Architecture_officielle {
          * IdEtageActuel est l'étage dans lequel on se trouve actuellement. 
          * On peut changer ceci (temporairement) quand on est dans la boucle (run == true). ( voir plus bas)
          */
-        int IdEtageActuel = 0;  
+        int IdEtageActuel = 0;
+        Architecture_officielle batiment = new Architecture_officielle();
         
         Etage etageActuel; //voir l'option "5", "3"...
         
         Coin coinTest1 = new Coin(2,3); //des objets de test 
         Coin coinTest2 = new Coin(2,0);
-        Etage etageTest1 = new Etage(5);
+        Etage etageTest1 = new Etage(5,batiment);
         Mur murTest1 = new Mur(coinTest1,coinTest2,etageTest1);
         
         ArrayList<String> objetsCréés = new ArrayList<>(){{
@@ -183,7 +197,7 @@ public class Architecture_officielle {
                     if (IdEtageSouhaité > IDManager.mapEtage.size()){//si size() = 3, on entre 4 pour créer l'étage 3.
                         System.out.println("quelle hauteur pour ce nouvel étage? entrez un int."); //TODO : Il faudrait plus tard transformer hauteru_etage en double.
                         int hauteurNouvelEtage = Lire.i();
-                        Etage nouvelEtage = new Etage(hauteurNouvelEtage);
+                        Etage nouvelEtage = new Etage(hauteurNouvelEtage, batiment);
                         
                     }
                 case 9999 :
