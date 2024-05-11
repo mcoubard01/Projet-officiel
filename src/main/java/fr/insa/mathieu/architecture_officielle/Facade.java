@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package fr.insa.mathieu.architecture_officielle;
+import static fr.insa.mathieu.architecture_officielle.Architecture_officielle.donnee_enregistree;
+import static fr.insa.mathieu.architecture_officielle.Architecture_officielle.lecture;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,9 +98,9 @@ for (j = 0; j < this.getListe_ouverture().size(); j++) {
         //System.out.println("surface"+facade.surface(coin1,coin2,etage));
          */
         // créer et initialiser l'ArrayList
-      
+      donnee_enregistree = lecture("Revêtement_final.txt");
         Etage Etage1 = new Etage(2);
-       Revêtement revet_facade= new Revêtement (9999);
+       Revêtement revet_facade= new Revêtement (100);
          Etage Etage2 = new Etage(2);
         Etage Etage3 = new Etage(2);
         
