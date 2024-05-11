@@ -15,13 +15,13 @@ import java.util.HashMap;
 
 */
 public class Etage {
-    private int hauteur_etage;
+    private double hauteur_etage;
     private ArrayList<Appartement> liste_appartement;
     private int niveau; //niveau ne sert à rien? on supprime?  signé thomas
     private int id;
     
 //2eme option pour l'ID : au lieu de maps dans le IDManager, simplement créer la variable ci dessous et l'incrémenter directment dans le condtructeur
-    //private static int compteurID =0; //pourquoi static? voir commentaire dans IDManager
+    //private static int compteurID =0; //pourquoi static? voir l'explication en commentaire dans IDManager
 //--------------    
 //dansle constructeur : 
     //this.id = compteurID;
@@ -29,7 +29,7 @@ public class Etage {
     //---
   
 //CONSTRUCTOR
-    public Etage(int hauteur) { 
+    public Etage(double hauteur) { 
         this.id=IDManager.newId(this);
         this.hauteur_etage = hauteur;
         this.liste_appartement = new ArrayList<>();
@@ -70,7 +70,7 @@ public class Etage {
   
     
 // GET
-    public int getHauteur_etage() {
+    public double getHauteur_etage() {
         return hauteur_etage;
     }
     public double getPrix_etage() {
@@ -96,7 +96,7 @@ public class Etage {
     }
     */ 
 // SET
-    public void setHauteur_etage(int hauteur_etage) {
+    public void setHauteur_etage(double hauteur_etage) {
         this.hauteur_etage = hauteur_etage;
     }
     public void setListe_appartement(ArrayList<Appartement> liste_appartement) {

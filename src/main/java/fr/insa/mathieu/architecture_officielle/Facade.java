@@ -34,6 +34,7 @@ public class Facade extends Mur  {
 //TODO faire le prix pour cette classe
     
     
+    //FUNCTIONS
     public double surface() {
         int i;
         double hauteur_bat = 0;
@@ -62,7 +63,41 @@ for (j = 0; j < liste_ouverture.size(); j++) {
 
     }
 
-    public static void main(String[] args) {
+    //GET
+
+    public int getId() {
+        return id;
+    }
+
+    //SET
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setDebut(Coin debut) {
+        this.debut = debut;
+    }
+
+    public void setFin(Coin fin) {
+        this.fin = fin;
+    }
+
+    public void setRevêtement_facade(Revêtement revêtement_facade) {
+        this.revêtement_facade = revêtement_facade;
+    }
+    /*
+    public void setListe_etage(Etage[] liste_etage) {
+        this.liste_etage = liste_etage;
+    }
+    public void setListe_porte(Porte[] liste_porte) {
+        this.liste_porte = liste_porte;
+    }
+    public void setListe_fenêtre(Porte[] liste_fenêtre) {
+        this.liste_fenêtre = liste_fenêtre;
+    }
+     */
+    
+     public static void main(String[] args) {
 
         /*
     Etage etage1 = new Etage(5);
@@ -101,36 +136,4 @@ for (j = 0; j < liste_ouverture.size(); j++) {
 
 
     }
-
-    public int getId() {
-        return id;
-    }
-
-    //SET
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setDebut(Coin debut) {
-        this.debut = debut;
-    }
-
-    public void setFin(Coin fin) {
-        this.fin = fin;
-    }
-
-    public void setRevêtement_facade(Revêtement revêtement_facade) {
-        this.revêtement_facade = revêtement_facade;
-    }
-    /*
-    public void setListe_etage(Etage[] liste_etage) {
-        this.liste_etage = liste_etage;
-    }
-    public void setListe_porte(Porte[] liste_porte) {
-        this.liste_porte = liste_porte;
-    }
-    public void setListe_fenêtre(Porte[] liste_fenêtre) {
-        this.liste_fenêtre = liste_fenêtre;
-    }
-     */
 }

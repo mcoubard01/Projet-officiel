@@ -178,8 +178,8 @@ public class Architecture_officielle {
                         System.out.println("mmerci d'entrer un nombre plus grand que " + IDManager.mapEtage.size() );
                         IdEtageSouhaité = Lire.i();
                     }
-                    System.out.println("quelle hauteur pour ce nouvel étage? entrez un int."); //TODO : Il faudrait plus tard transformer hauteur_etage en double.
-                    int hauteurNouvelEtage = Lire.i();
+                    System.out.println("quelle hauteur pour ce nouvel étage? entrez un double."); //TODO : Il faudrait plus tard transformer hauteur_etage en double.
+                    double hauteurNouvelEtage = Lire.d();
                     Etage nouvelEtage = new Etage(hauteurNouvelEtage);
                     idEtageActuel = nouvelEtage.getId();
                     etageActuel = IDManager.getObjetEtage(idEtageActuel);
