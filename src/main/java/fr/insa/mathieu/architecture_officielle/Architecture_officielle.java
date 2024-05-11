@@ -84,7 +84,7 @@ public class Architecture_officielle {
     }
     
     
-    public static void faireDesTests(){   //cette méthode permet de nettoyer un peu le main, et permettra plsu tard de faire des tests selon nos besoins.
+    public static void faireDesTests(Architecture_officielle batiment){   //cette méthode permet de nettoyer un peu le main, et permettra plsu tard de faire des tests selon nos besoins.
         System.out.println("""
                 Quel test voulez vous effectuer?
                 entrez 1 pour le TEST SURFACE PIECE + PRIX
@@ -94,7 +94,7 @@ public class Architecture_officielle {
                 """);
         int testAFaire = Lire.i();
         if (testAFaire == 1){ 
-            Etage étageTest = new Etage(5);
+            Etage étageTest = new Etage(5,batiment);
             Pièce pièce = new Pièce(étageTest);
             test_surfacePiece_et_Prix(pièce); }
         if (testAFaire == 2) { test_prixMur(); }
@@ -117,11 +117,12 @@ public class Architecture_officielle {
         
         Etage etageActuel; //voir l'option "5", "3"...
         
+        Architecture_officielle batiment = new Architecture_officielle();
         Coin coinTest1 = new Coin(0,0); //des objets de test 
         Coin coinTest2 = new Coin(3,0);
         Coin coinTest3 = new Coin(3,3);
         Coin coinTest4 = new Coin(0,3);
-        Etage rdc = new Etage(5);//rez de chaussé
+        Etage rdc = new Etage(5, batiment);//rez de chaussé
         etageActuel = rdc;
         Mur murTest1 = new Mur(coinTest1,coinTest2,rdc);
         Mur murTest2 = new Mur(coinTest2,coinTest3,rdc);
@@ -197,7 +198,7 @@ public class Architecture_officielle {
                     }
                     System.out.println("quelle hauteur pour ce nouvel étage? entrez un double."); 
                     double hauteurNouvelEtage = Lire.d();
-                    Etage nouvelEtage = new Etage(hauteurNouvelEtage);
+                    Etage nouvelEtage = new Etage(hauteurNouvelEtage,batiment);
                     idEtageActuel = nouvelEtage.getId();
                     etageActuel = IDManager.getObjetEtage(idEtageActuel);
                     
@@ -313,10 +314,13 @@ public static void main(String[] args) {
    //String nom_fichier = Lire.S();
     //donnee_enregistree = lecture(nom_fichier); // lecture est ici une fonction qui renverra une ArrayList de tableau de chaînes de caractères
     donnee_enregistree = lecture("Revêtement_test.txt"); // lecture est ici une fonction qui renverra une ArrayList de tableau de chaînes de caractères
-
-    launchProgramm();
+    
     //La méthode ci-dessous est utilisée surtout pour vider le main des tests menés.
-    faireDesTests(); //une méthode qui permet de nettoyer le main. Voir plus haut : elle est utilisée pour regrouper les tests que l'on veut faire.
+    faireDesTests(new Architecture_officielle()); //une méthode qui permet de nettoyer le main. Voir plus haut : elle est utilisée pour regrouper les tests que l'on veut faire.
+    
+    // ATTENTION aux objets que vous créez dans le main... il y en a déjà pas mal de créé dans laucnhProgramm()...
+    launchProgramm();
+    
     
     
    

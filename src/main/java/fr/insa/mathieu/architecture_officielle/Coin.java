@@ -52,6 +52,7 @@ public class Coin {
     public String toString() {
         //Syntaxe : "Coin;id;x;y"
         return "Coin;" + this.id + ";" + x + ";" + y ;
+    }
     public void dessine(GraphicsContext context){
         context.setFill(Color.BLACK);
         context.fillOval(this.x-RAYON_IN_DRAW, this.y-RAYON_IN_DRAW, 2*RAYON_IN_DRAW, 2*RAYON_IN_DRAW);

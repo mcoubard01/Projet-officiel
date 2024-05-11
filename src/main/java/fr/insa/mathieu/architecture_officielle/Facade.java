@@ -72,10 +72,12 @@ for (j = 0; j < liste_ouverture.size(); j++) {
         this.id = id;
     }
 
+    @Override
     public void setDebut(Coin debut) {
         this.debut = debut;
     }
 
+    @Override
     public void setFin(Coin fin) {
         this.fin = fin;
     }
@@ -113,10 +115,10 @@ for (j = 0; j < liste_ouverture.size(); j++) {
         //System.out.println("surface"+facade.surface(coin1,coin2,etage));
        
        //test n°2
-        Etage etageTest1 = new Etage(2);
+        Etage etageTest1 = new Etage(2,batiment);
         
-         Etage etageTest2 = new Etage(2);
-        Etage etageTest3 = new Etage(2);
+         Etage etageTest2 = new Etage(2,batiment);
+        Etage etageTest3 = new Etage(2,batiment);
         
         Coin c1 = new Coin(1, 1);
         Coin c2 = new Coin(1, 5);

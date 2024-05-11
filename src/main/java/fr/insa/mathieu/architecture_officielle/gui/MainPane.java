@@ -35,7 +35,7 @@ public class MainPane extends BorderPane {
     private RadioButton rbsupp;
     private RadioButton rbEtageAj;
     
-    private Contrôleur controleur;
+    private Contrôleur contrôleur;
     private Architecture_officielle model;
 
     //CONSTRUCTOR
@@ -44,7 +44,7 @@ public class MainPane extends BorderPane {
     }
     public MainPane(Architecture_officielle model){
         this.model=model;
-        this.controleur=new Contrôleur(this);
+        this.contrôleur=new Contrôleur(this);
         this.rbSelect=new RadioButton("Select");
         this.rbcrmur=new RadioButton("créer mur");
         this.rbidpiece=new RadioButton("identifier une pièce");
@@ -86,8 +86,8 @@ public class MainPane extends BorderPane {
     public Architecture_officielle getModel() {
         return model;
     }
-    public Contrôleur getControleur() {
-        return controleur;
+    public Contrôleur getContrôleur() {
+        return contrôleur;
     }
     public RadioButton getRbSelect() {
         return rbSelect;
