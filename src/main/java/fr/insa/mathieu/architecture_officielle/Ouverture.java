@@ -15,7 +15,7 @@ public abstract class Ouverture {
     private double longueur;
     private Mur mur1;
     private Mur mur2;
-    private Mur mur;
+   
 
     //CONSTRUCTOR
     /*
@@ -172,9 +172,7 @@ public abstract class Ouverture {
         return mur2;
     }
 
-    public Mur getMur() {
-        return mur;
-    }
+  
     
     
     //SET

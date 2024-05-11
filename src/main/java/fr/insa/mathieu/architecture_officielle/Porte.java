@@ -27,5 +27,9 @@ public class Porte extends Ouverture {
     //FUNCTION
   
     // GET
+
+    public double getHauteur() {
+        return hauteur;
+    }
     
 }

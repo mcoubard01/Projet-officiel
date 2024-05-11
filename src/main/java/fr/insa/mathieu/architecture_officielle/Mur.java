@@ -28,7 +28,7 @@ public class Mur {
     
     //CONSTRUCTOR
     public Mur(String nom_mur,Coin debut, Coin fin) {  // INCOMPLET TO incorporer l'étage automatiquement
-        Revêtement revêtement_standard = new Revêtement(1); 
+        Revêtement revêtement_standard = new Revêtement(9999); 
         //this.id = IDManager.newId(this); //l'étage est nécessaire à cette méthode
         //ici on ne crée pas d'ID car on connaît pas l'étage
         //TODO : une fonction qui détecte sur quel étage on se trouve actuellement dans l'éxécution,, afin que the IDManager.newId() fonctionne
@@ -38,10 +38,8 @@ public class Mur {
         this.fin = fin;
        // this.revêtement=revêtement_standard;
     }
-          // j'ai du le rajoutez pour pouvoir faire un test il pourra etre supprimé par la suite
-    
-    
-      public Mur(Coin debut, Coin fin) {  // INCOMPLET TO incorporer l'étage automatiquement
+          // j'ai du le rajoutez car il est nécessaire pour la classe façade il est noramelemnt juste utilisé la bas
+      public Mur(Coin debut, Coin fin, Revêtement revêtement) {  // INCOMPLET TO incorporer l'étage automatiquement
        
         //this.id = IDManager.newId(this); //l'étage est nécessaire à cette méthode
         //ici on ne crée pas d'ID car on connaît pas l'étage
@@ -50,7 +48,8 @@ public class Mur {
       
         this.debut = debut;
         this.fin = fin;
-       // this.revêtement=revêtement_standard;
+         this.liste_ouverture=new ArrayList<>();
+       this.revêtement= revêtement;
     }
     
     
