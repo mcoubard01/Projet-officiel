@@ -44,7 +44,6 @@ public class Facade extends Mur  {
         }
 double surface_ouverture=0;
 System.out.println("la taille de la liste est de"+ liste_ouverture.size() );
-
 int j;
 for (j = 0; j < liste_ouverture.size(); j++) {
     // TODO rajoutez une vérification d'appartenance a la facade mais je ne sait pas commment rédiger ça 
@@ -55,8 +54,7 @@ for (j = 0; j < liste_ouverture.size(); j++) {
          surface_ouverture= surface_ouverture + (liste_ouverture.get(j).getLongueur()*1.20);
         System.out.println("c'est une fenetre");
     }
- 
-}
+ }
         double s = (longueur(debut,fin)*hauteur_bat)-surface_ouverture ;
 
         return s;
@@ -98,11 +96,12 @@ for (j = 0; j < liste_ouverture.size(); j++) {
      */
     
      public static void main(String[] args) {
-
-        /*
-    Etage etage1 = new Etage(5);
-        Etage etage2 = new Etage(6);
-        int[] etage= new int [compteurEtage];
+        // créer et initialiser l'ArrayList
+      
+        Architecture_officielle batiment = new Architecture_officielle();
+        Etage etage1 = new Etage(5,batiment);
+        Etage etage2 = new Etage(6,batiment);
+        int[] etage= new int [IDManager.mapEtage.size()];
         System.out.println("id of etage1 is " + etage1.getId());
         System.out.println("id of etage2 is " + etage2.getId());
         
@@ -112,28 +111,28 @@ for (j = 0; j < liste_ouverture.size(); j++) {
         System.out.println("id of coin2 is " + coin2.getId());
         Facade facade=new Facade(coin1,coin2);
         //System.out.println("surface"+facade.surface(coin1,coin2,etage));
-         */
-        // créer et initialiser l'ArrayList
-      
-        Etage Etage1 = new Etage(2);
+       
+       //test n°2
+        Etage etageTest1 = new Etage(2);
         
-         Etage Etage2 = new Etage(2);
-        Etage Etage3 = new Etage(2);
+         Etage etageTest2 = new Etage(2);
+        Etage etageTest3 = new Etage(2);
         
         Coin c1 = new Coin(1, 1);
         Coin c2 = new Coin(1, 5);
-        Mur m1= new Mur(c1,c2,Etage2);
+        Mur m1= new Mur(c1,c2,etageTest2);
         Fenêtre Fenêtre1= new Fenêtre(1,1,'E',m1);
         Porte Porte1= new Porte(1,1,'E',m1);
          
         Facade F1 = new Facade(c1, c2);
-         F1.liste_étage.add(Etage1);
-        F1.liste_étage.add(Etage2);
-        F1.liste_étage.add(Etage3);
+         F1.liste_étage.add(etageTest1);
+        F1.liste_étage.add(etageTest2);
+        F1.liste_étage.add(etageTest3);
         F1.liste_ouverture.add(Fenêtre1);
               F1.liste_ouverture.add(Porte1);
         System.out.println("la surface de la facade est de " +F1.surface() );
 
+        
 
     }
 }

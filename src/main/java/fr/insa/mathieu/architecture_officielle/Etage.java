@@ -19,6 +19,7 @@ public class Etage {
     private ArrayList<Appartement> liste_appartement;
     private int niveau; //niveau ne sert à rien? on supprime?  signé thomas
     private int id;
+    private Architecture_officielle batiment;
     
 //2eme option pour l'ID : au lieu de maps dans le IDManager, simplement créer la variable ci dessous et l'incrémenter directment dans le condtructeur
     //private static int compteurID =0; //pourquoi static? voir l'explication en commentaire dans IDManager
@@ -29,10 +30,13 @@ public class Etage {
     //---
   
 //CONSTRUCTOR
-    public Etage(double hauteur) { 
+
+    public Etage(double hauteur,Architecture_officielle batiment) { 
         this.id=IDManager.newId(this);
         this.hauteur_etage = hauteur;
         this.liste_appartement = new ArrayList<>();
+        this.batiment=batiment;
+        
         //System.out.println("map size is" + mapEtage.size() );        
        // System.out.println("id is" + id );
     }
@@ -87,6 +91,9 @@ public class Etage {
     }
     public int getNiveau() {
         return niveau;
+    }
+    public Architecture_officielle getBatiment() {
+        return batiment;
     }
     
 

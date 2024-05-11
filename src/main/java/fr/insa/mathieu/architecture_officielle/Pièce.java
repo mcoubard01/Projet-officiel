@@ -39,6 +39,7 @@ public class Pièce {
     private Sol sol;
     private Plafond plafond;
 
+
     //CONSTRUCTOR
     
     //Constructeur principal
@@ -257,7 +258,8 @@ public class Pièce {
     
     //MAIN
     public static void main (String[] args){
-        Etage e1 = new Etage(2);
+        Architecture_officielle batiment = new Architecture_officielle();
+        Etage e1 = new Etage(2,batiment);
         
         Coin c1 =new Coin(1,2);
         Coin c2 =new Coin(1,5);

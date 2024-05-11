@@ -9,5 +9,21 @@ package fr.insa.mathieu.architecture_officielle.gui;
  * @author stard
  */
 public class Contrôleur {
-    
+    private int etat;
+    private MainPane vue;
+ 
+    public Contrôleur(MainPane vue){
+        this.vue=vue;
+    }
+    public void changeEtat(int etat){
+        switch(etat){
+            case 20:
+                break;
+            case 30:
+                this.vue.getRbidappart().setDisable(true);
+                this.vue.getRbidpiece().setDisable(true);
+                break;
+            case 40:
+        }
+    }
 }

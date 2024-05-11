@@ -358,13 +358,15 @@ public class IDManager {
     
     public static void main(String[] args){
         
+
+        Architecture_officielle batiment = new Architecture_officielle();
+        Etage etage1 = new Etage(5,batiment);
         Coin coin = new Coin(23,23);
-        Etage etage1 = new Etage(5);
         Mur mur1 = new Mur();
         mur1.setÉtage(etage1);
         System.out.println("etage1 is assoc to " + mapEtage.get(etage1) +", which is its ID. "); //etage1.getId() fonctionne aussi, donc
         System.out.println("mur 1 has an Id of "+ mur1.getId());
-        Etage etage2 = new Etage(4);
+        Etage etage2 = new Etage(4,batiment);
         System.out.print(mapContainsValue(0,"Etage"));
         for (int i = 0; i<imprimerLesObjetsCréés().size();i++){
             System.out.println(imprimerLesObjetsCréés().get(i));

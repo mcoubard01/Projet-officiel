@@ -4,6 +4,9 @@
  */
 package fr.insa.mathieu.architecture_officielle;
 
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+
 /**
  *
  * @author stard
@@ -143,9 +146,21 @@ public abstract class Ouverture {
         */
     return result;
     }
+  
+  
+    public void dessine(GraphicsContext context){ ////// TO DO  Attention je ne sais pas si ça marche avec le +longueur
+        context.setStroke(Color.BEIGE);
+        switch (this.orientation){
+            case 'N' -> context.strokeLine(this.ori_x, this.ori_y, this.ori_x, this.ori_y+this.longueur);
+            case 'S' -> context.strokeLine(this.ori_x, this.ori_y, this.ori_x, this.ori_y-this.longueur);
+            case 'O' -> context.strokeLine(this.ori_x, this.ori_y, this.ori_x-this.longueur, this.ori_y);
+            case 'E' -> context.strokeLine(this.ori_x, this.ori_y, this.ori_x+this.longueur, this.ori_y);
+        }
+        
+    }
 
     @Override
-    public String toString() {
+    public String toString() { //Attention à ne pas modifier à la légère le toString()!! mon travail repose dessus . signé thomas. (branche "20-lecture-sauvegarde"
         return "Ouverture" + ";ori_x=" + ori_x + ";ori_y=" + ori_y + ";orientation=" + orientation + ";longueur=" + longueur + ";id du mur1=" + mur1.getId() + ";id du mur2=" + mur2.getId();
     }//on distinguera les portes des fénêtres grâce à leur longeur
     

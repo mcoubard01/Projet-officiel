@@ -16,13 +16,25 @@ package fr.insa.mathieu.architecture_officielle;
 import static fr.insa.mathieu.architecture_officielle.Revêtement.todouble;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public class Architecture_officielle { 
     public static ArrayList<String[]> donnee_enregistree; // Liste de tableaux de chaines de caractère qui est utilisée pour le stockage des Revêtements
+    private ArrayList<Etage> liste_etage;
     
+    public Architecture_officielle(){
+        this.liste_etage=new ArrayList<>();
+    }
+
+    public ArrayList<Etage> getListe_etage() {
+        return liste_etage;
+    }
     
-    
+    public void add(Etage etage){
+        
+        
+    }
     
     public static void test_surfacePiece_et_Prix(Pièce pièce){
         //////////////TEST SURFACE PIECE + PRIX
@@ -38,11 +50,12 @@ public class Architecture_officielle {
     }      
     public static void test_prixMur(){
         //////////////TEST PRIX MUR
+    Architecture_officielle batiment = new Architecture_officielle();
     Coin debut1 , fin1;
     debut1= new Coin(2,1);
     fin1 = new Coin(5,1);
         
-    Etage etage1 = new Etage(5);
+    Etage etage1 = new Etage(5,batiment);
     Revêtement test=new Revêtement(2);
     Mur mur = new Mur(debut1,fin1, etage1);
     mur.setRevêtement(test);
@@ -99,6 +112,7 @@ public class Architecture_officielle {
          * idEtageActuel est l'étage dans lequel on se trouve actuellement. 
          * On peut changer ceci (temporairement) quand on est dans la boucle (run == true). ( voir plus bas)
          */
+
         int idEtageActuel = 0;  
         
         Etage etageActuel; //voir l'option "5", "3"...
@@ -115,6 +129,7 @@ public class Architecture_officielle {
         Mur murTest4 = new Mur(coinTest4,coinTest1,rdc);
         Pièce pièceTest1 = new Pièce(murTest1,murTest2,murTest3,murTest4);
         //crée une pièce ET un nouvel appartement
+
         
         
         while (run){
@@ -174,11 +189,13 @@ public class Architecture_officielle {
                             + "(création de l'étage juste au dessus)");
                     //TODO : vérifier que IDManager.mapEtage fonctionne encore une fois la forme définitive de IDManager atteinte.
                     int IdEtageSouhaité = Lire.i();
+
                     while (IdEtageSouhaité < IDManager.mapEtage.size()){
                         System.out.println("mmerci d'entrer un nombre plus grand que " + IDManager.mapEtage.size() );
                         IdEtageSouhaité = Lire.i();
+
                     }
-                    System.out.println("quelle hauteur pour ce nouvel étage? entrez un double."); //TODO : Il faudrait plus tard transformer hauteur_etage en double.
+                    System.out.println("quelle hauteur pour ce nouvel étage? entrez un double."); 
                     double hauteurNouvelEtage = Lire.d();
                     Etage nouvelEtage = new Etage(hauteurNouvelEtage);
                     idEtageActuel = nouvelEtage.getId();

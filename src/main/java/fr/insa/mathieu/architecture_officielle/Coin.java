@@ -5,6 +5,8 @@
 package fr.insa.mathieu.architecture_officielle;
 
 import java.util.ArrayList;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 /**
  * je serai étonné de l'utilité d'avoir des attributs sol pièce et plafond à par si utilisées ensuite 
@@ -20,7 +22,8 @@ import java.util.ArrayList;
      * Pour le moment on laisse comme ça si ça fonctionne mais il faudra modifier ça à un moment pour que ce soit plus propre...
      */
     
-public class Coin {  
+public class Coin {
+    public static double RAYON_IN_DRAW=5;
     private int id; 
     private int x;
     private int y;
@@ -49,6 +52,9 @@ public class Coin {
     public String toString() {
         //Syntaxe : "Coin;id;x;y"
         return "Coin;" + this.id + ";" + x + ";" + y ;
+    public void dessine(GraphicsContext context){
+        context.setFill(Color.BLACK);
+        context.fillOval(this.x-RAYON_IN_DRAW, this.y-RAYON_IN_DRAW, 2*RAYON_IN_DRAW, 2*RAYON_IN_DRAW);
     }
     
     // GET
