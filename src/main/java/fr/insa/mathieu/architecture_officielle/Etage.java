@@ -6,6 +6,7 @@ package fr.insa.mathieu.architecture_officielle;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import javafx.scene.canvas.GraphicsContext;
 
 /**
  *
@@ -36,9 +37,14 @@ public class Etage {
         this.hauteur_etage = hauteur;
         this.liste_appartement = new ArrayList<>();
         this.batiment=batiment;
-        
+        batiment.add(this);
         //System.out.println("map size is" + mapEtage.size() );        
        // System.out.println("id is" + id );
+    }
+    public Etage(double hauteur){
+        this.id=IDManager.newId(this);
+        this.hauteur_etage = hauteur;
+        this.liste_appartement = new ArrayList<>();
     }
     
     //TODO : une fonction qui détecte sur quel niveau on se trouve actuellement dans l'éxécution. incrémenter le niveau à chaque nouveau niveau
@@ -71,7 +77,11 @@ public class Etage {
     }
     
     //TODO TO DO fonction add pour ajouter un appartement à l'étage
-  
+    public void dessine(GraphicsContext context){
+        for (Appartement appartement : this.liste_appartement){
+            appartement.dessine(context);
+        }
+    }
     
 // GET
     public double getHauteur_etage() {

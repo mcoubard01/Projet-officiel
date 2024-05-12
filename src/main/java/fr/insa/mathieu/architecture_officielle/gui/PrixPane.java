@@ -40,6 +40,7 @@ public class PrixPane extends BorderPane{
         
         VBox filtre;
         filtre = new VBox(hboxType,hboxEvol);
+        System.out.println("Classe Prix Pane : filtre.toString()"+filtre.toString());
         
         
         Label prixTotal = new Label("Prix total = "+prix_total+" € !");

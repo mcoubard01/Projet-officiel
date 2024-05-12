@@ -48,6 +48,7 @@ public class DessinCanvas extends Pane{
     public void redrawAll(){
         GraphicsContext context = this.realCanvas.getGraphicsContext2D();
         Architecture_officielle model= this.main.getModel();
+        model.dessine(context);
         /*
         context.setFill(Color.SALMON);
         context.fillRect(0, 0, this.realCanvas.getWidth(), this.realCanvas.getHeight());

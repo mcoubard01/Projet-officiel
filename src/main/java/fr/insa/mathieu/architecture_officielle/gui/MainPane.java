@@ -64,6 +64,7 @@ public class MainPane extends BorderPane {
         VBox vbGauche;
         vbGauche = new VBox(this.rbSelect,this.rbcrmur,this.rbcrpiece2,this.rbcrpiece3,this.rbidappart,this.rbidpiece, this.rbfenêtre,this.rbporte,this.rbrevêtement_rap,
                 this.rbrevêtement,this.rbfenêtre,this.rbporte, this.rbEtageAj);
+        System.out.println("Classe MainePane : vbGauche.toString()"+vbGauche.toString());
         //Position des éléments sur la scene
         this.setLeft(vbGauche);
         

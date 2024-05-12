@@ -17,6 +17,7 @@ import static fr.insa.mathieu.architecture_officielle.Revêtement.todouble;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
+import javafx.scene.canvas.GraphicsContext;
 
 
 public class Architecture_officielle { 
@@ -32,10 +33,60 @@ public class Architecture_officielle {
     }
     
     public void add(Etage etage){
-        
+        if (etage.getBatiment()!=this){
+            if (etage.getBatiment()==null){
+                this.liste_etage.add(etage);
+                System.out.println("Le batiment possède dorénavent cet étage");
+            }
+        }
+        else {
+            System.out.println("L'étage possède déjà un autre batiment");
+        }
         
     }
     
+    public void dessine(GraphicsContext context){
+        for (Etage etage: this.liste_etage){
+            etage.dessine(context);
+        }
+    }
+    public static Architecture_officielle Test_batiment(){
+        
+        Architecture_officielle batiment = new Architecture_officielle();
+        
+        Etage e1 = new Etage(2);
+        
+        Coin c1 =new Coin(1,2);
+        Coin c2 =new Coin(1,5);
+        Mur m1= new Mur(c1,c2,e1);
+        
+        Coin c3 =new Coin(1,5); //supression de " Coin c3=new Coin("c3",1,5) "
+        Coin c4 =new Coin(4,5);
+        Mur m2= new Mur(c3,c4,e1); 
+        
+        Coin c5 =new Coin(4,5);
+        Coin c6 =new Coin(4,2);
+        Mur m3= new Mur(c5,c6,e1);
+        
+        Coin c7 =new Coin(4,2);
+        Coin c8 =new Coin(1,2);
+        Mur m4= new Mur(c7,c8,e1);
+        
+        Pièce pièce1= new Pièce();
+        
+        pièce1.add(m1);
+        pièce1.add(m2);
+        pièce1.add(m3);
+        pièce1.add(m4);
+        
+        Appartement appartement = new Appartement(e1);
+        
+        appartement.add_pièce(pièce1);
+        batiment.add(e1);
+        System.out.println("Je suis dans le test_bâtiment et je l'ai fini");
+        return batiment;
+        
+    }
     public static void test_surfacePiece_et_Prix(Pièce pièce){
         //////////////TEST SURFACE PIECE + PRIX
         Revêtement e = new Revêtement(9999); // gazon normalement

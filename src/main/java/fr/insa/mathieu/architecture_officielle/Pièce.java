@@ -5,6 +5,7 @@
 package fr.insa.mathieu.architecture_officielle;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.canvas.GraphicsContext;
 
 // Modification effectué par Oscar je modifie pour faire fonctionner avec les liste de murs  dnc je mets ce qu'on avait fait avant en commentaire. 
 /**
@@ -81,7 +82,7 @@ public class Pièce {
   public Pièce(Etage étage){// permet de crféér une pièce a partir d'une liste de coin de mur et d'un plafond et d'un sol 
     this.liste_mur =new ArrayList<>();   
     this.étage = étage;
-    this.appartement = new Appartement(étage);
+    //this.appartement = new Appartement(étage);
     String nom = "pièce n°" + this.id;
     this.sol = new Sol(this); //TO DO à regarder car pas sûr que ça marche
     this.plafond = new Plafond(this);
@@ -141,6 +142,9 @@ public class Pièce {
     }
     public Pièce(Mur mur1,Mur mur2,Mur mur3,Mur mur4){ //utile pour créer plus facilement
         this(mur1,mur2,mur3,mur4,mur1.getÉtage());
+    }
+    public Pièce(){
+        this.liste_mur=new ArrayList<>();
     }
   
  // FUNCTION
@@ -221,6 +225,11 @@ public class Pièce {
     public static String indente (String toIndente, String prefix){// meme machin que dans la premièrer vidéo du prof. 
     return prefix +toIndente.replaceAll("\n","\n"+ prefix);
 }
+    public void dessine(GraphicsContext context){
+        for (Mur mur : this.liste_mur){
+            mur.dessine(context);
+        }
+    }
     
     //GET
     public Appartement getAppartement() {
