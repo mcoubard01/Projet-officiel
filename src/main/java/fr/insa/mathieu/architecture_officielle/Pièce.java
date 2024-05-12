@@ -44,14 +44,14 @@ public class Pièce {
     //CONSTRUCTOR
     
     //Constructeur principal
-    public Pièce(Etage étage, Appartement appartement, String nom_pièce, List<Mur> liste_mur, Sol sol, Plafond plafond) {
+    public Pièce(Etage étage, Appartement appartement, String nom_pièce, List<Mur> liste_mur) {
         this.étage = étage;
         this.appartement = appartement;
         this.nom_pièce = nom_pièce;
-        this.id = IDManager.newId(this);
         this.liste_mur = liste_mur;
-        this.sol = sol;
-        this.plafond = plafond;
+        this.sol = new Sol(this);
+        this.plafond = new Plafond(this);
+        this.id = IDManager.newId(this);
     }
       
   public Pièce(String nom_pièce, Etage étage, Appartement appartement){
@@ -161,7 +161,28 @@ public class Pièce {
         Mur référence = this.getListe_mur().get(0);
         System.out.println ("donnée du mur de référence : "+référence.toString());
         int i=1;
-        while (((référence.getDebut().getX()!=this.getListe_mur().get(i).getDebut().getX())&&(référence.getDebut().getY()!=this.getListe_mur().get(i).getDebut().getY()))&&((référence.getDebut().getX()!=this.getListe_mur().get(i).getFin().getX())&&(référence.getDebut().getY()!=this.getListe_mur().get(i).getFin().getY()))&&((référence.getDebut().getX()!=this.getListe_mur().get(i).getDebut().getX())&&(référence.getDebut().getY()!=this.getListe_mur().get(i).getDebut().getY()))&&((référence.getFin().getX()!=this.getListe_mur().get(i).getFin().getX())&&(référence.getFin().getY()!=this.getListe_mur().get(i).getFin().getY()))){
+        /*boolean test1 = (référence.getDebut().getX()!=this.getListe_mur().get(i).getDebut().getX());
+        boolean test2 = (référence.getDebut().getY()!=this.getListe_mur().get(i).getDebut().getY());
+        //test1&2 permettent de tester si coinDebut du mur référence est le coinDebut du mur1.
+        
+        boolean test3 = (référence.getDebut().getX()!=this.getListe_mur().get(i).getFin().getX());
+        boolean test4 = (référence.getDebut().getY()!=this.getListe_mur().get(i).getFin().getY());
+        test3&4 permettent de tester si coinDebut du mur référence est le coinFin du mur1.
+
+        
+        boolean test5 = (référence.getFin().getX()!=this.getListe_mur().get(i).getDebut().getX());
+        boolean test6 = (référence.getFin().getY()!=this.getListe_mur().get(i).getDebut().getY());
+        test5&6 permettent de tester si coinFin du mur référence est le coinDebut du mur1.
+
+        
+        boolean test7 = (référence.getFin().getX()!=this.getListe_mur().get(i).getFin().getX());
+        boolean test8 = (référence.getFin().getY()!=this.getListe_mur().get(i).getFin().getY());
+        test7&8 permettent de tester si coinFin du mur référence est le coinFin du mur1.
+
+        
+        while ((test1&&test2)&&(test3&&test4)&&(test5&&test6)&&(test7&&test8))
+            */
+        while (((référence.getDebut().getX()!=this.getListe_mur().get(i).getDebut().getX())&&(référence.getDebut().getY()!=this.getListe_mur().get(i).getDebut().getY()))&&((référence.getDebut().getX()!=this.getListe_mur().get(i).getFin().getX())&&(référence.getDebut().getY()!=this.getListe_mur().get(i).getFin().getY()))&&((référence.getFin().getX()!=this.getListe_mur().get(i).getDebut().getX())&&(référence.getFin().getY()!=this.getListe_mur().get(i).getDebut().getY()))&&((référence.getFin().getX()!=this.getListe_mur().get(i).getFin().getX())&&(référence.getFin().getY()!=this.getListe_mur().get(i).getFin().getY()))){
             System.out.println("incrémentation : "+i);
             i=i+1;
         }
