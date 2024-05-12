@@ -56,20 +56,20 @@ public class Architecture_officielle {
         
         Etage e1 = new Etage(2);
         
-        Coin c1 =new Coin(1,2);
+        Coin c1 =new Coin(1,100);
         Coin c2 =new Coin(1,5);
         Mur m1= new Mur(c1,c2,e1);
         
         Coin c3 =new Coin(1,5); //supression de " Coin c3=new Coin("c3",1,5) "
-        Coin c4 =new Coin(4,5);
+        Coin c4 =new Coin(100,5);
         Mur m2= new Mur(c3,c4,e1); 
         
-        Coin c5 =new Coin(4,5);
-        Coin c6 =new Coin(4,2);
+        Coin c5 =new Coin(100,5);
+        Coin c6 =new Coin(100,100);
         Mur m3= new Mur(c5,c6,e1);
         
-        Coin c7 =new Coin(4,2);
-        Coin c8 =new Coin(1,2);
+        Coin c7 =new Coin(100,100);
+        Coin c8 =new Coin(1,100);
         Mur m4= new Mur(c7,c8,e1);
         
         Pièce pièce1= new Pièce();

@@ -89,13 +89,18 @@ public class Pièce {
     this.nom_pièce = nom;
     this.id = IDManager.newId(this);
     }
-  
+
+  /**
+   * CONSTRUCTEUR très restrictif : lors de la construction de la pièce on créé automatiquement un appartement.
+   * @param liste_mur
+   * @param étage 
+   */
   public Pièce(ArrayList<Mur> liste_mur, Etage étage){// permet de crféér une pièce a partir d'une liste de coin de mur et d'un plafond et d'un sol 
     this.étage = étage;
-    this.appartement = new Appartement(étage);
+    this.appartement = new Appartement(étage); 
     this.sol = new Sol(this); //TO DO à regarder car pas sûr que ça marche
     this.plafond = new Plafond(this);
-      this.id = IDManager.newId(this);
+    this.id = IDManager.newId(this);
     this.liste_mur =new ArrayList<>();    
     String nom = "pièce n°" + this.id;
     this.nom_pièce = nom;
@@ -156,7 +161,7 @@ public class Pièce {
         }
     }
 
-    public ArrayList<Mur> consécutif(){
+    public ArrayList<Mur> consécutif(){ //TODO cette fonction doit dire si la pièce est fermée ou 
         ArrayList<Mur> mur_consécutif = new ArrayList();
         Mur référence = this.getListe_mur().get(0);
         System.out.println ("donnée du mur de référence : "+référence.toString());
