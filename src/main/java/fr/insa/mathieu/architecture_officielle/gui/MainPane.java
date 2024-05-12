@@ -10,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -40,30 +41,62 @@ public class MainPane extends BorderPane {
 
     //CONSTRUCTOR
     public MainPane(){
-        
+        this(new Architecture_officielle());
     }
     public MainPane(Architecture_officielle model){
         this.model=model;
         this.contrôleur=new Contrôleur(this);
+        
         this.rbSelect=new RadioButton("Select");
+        this.rbSelect.setOnAction((t) -> {
+            this.contrôleur.boutonSelect(t);
+        });
+        
         this.rbcrmur=new RadioButton("créer mur");
+        this.rbcrmur.setOnAction((t) -> {
+            this.contrôleur.boutonCrmur(t);
+        });
+        
         this.rbidpiece=new RadioButton("identifier une pièce");
         this.rbidappart=new RadioButton("identifier un appart");
+        
         this.rbcrpiece2=new RadioButton("créer une pièce avec 2 pnts");
+        this.rbcrpiece2.setOnAction((t) -> {
+            this.contrôleur.boutonCrpiece2(t);
+        });
+        
         this.rbcrpiece3=new RadioButton("créer une pièce avec 3 pnts");
+        this.rbcrpiece3.setOnAction((t) -> {
+            this.contrôleur.boutonCrpiece3(t);
+        });
+        
         this.rbporte=new RadioButton("ajout d'une porte");
         this.rbfenêtre=new RadioButton("ajout d'une fenêtre");
         this.rbrevêtement_rap=new RadioButton("Ajout rapide revêtement");
         this.rbrevêtement = new RadioButton("revêtement");
         this.rbfenêtre=new RadioButton("fenêtre");
         this.rbporte=new RadioButton("porte");
-        this.rbsupp= new RadioButton("Supprimer");
+        this.rbsupp= new RadioButton("Supprimer/annuler");
         this.rbEtageAj= new RadioButton("ajout étage");
+        
+        ToggleGroup bgEtat = new ToggleGroup();
+        this.rbSelect.setToggleGroup(bgEtat);
+        this.rbcrmur.setToggleGroup(bgEtat);
+        this.rbcrpiece2.setToggleGroup(bgEtat);
+        this.rbcrpiece3.setToggleGroup(bgEtat);
+        this.rbfenêtre.setToggleGroup(bgEtat);
+        this.rbidappart.setToggleGroup(bgEtat);
+        this.rbidpiece.setToggleGroup(bgEtat);
+        this.rbporte.setToggleGroup(bgEtat);
+        this.rbrevêtement.setToggleGroup(bgEtat);
+        this.rbrevêtement_rap.setToggleGroup(bgEtat);
+        this.rbSelect.setSelected(true);
         
         //disposition des éléments node entre eux (les uns au dessus des autres)
         VBox vbGauche;
-        vbGauche = new VBox(this.rbSelect,this.rbcrmur,this.rbcrpiece2,this.rbcrpiece3,this.rbidappart,this.rbidpiece, this.rbfenêtre,this.rbporte,this.rbrevêtement_rap,
-                this.rbrevêtement,this.rbfenêtre,this.rbporte, this.rbEtageAj);
+        vbGauche = new VBox(this.rbSelect,this.rbcrmur,this.rbcrpiece2,this.rbcrpiece3,
+                this.rbidappart,this.rbidpiece, this.rbfenêtre,this.rbporte,
+                this.rbrevêtement_rap,this.rbrevêtement, this.rbEtageAj);
         System.out.println("Classe MainePane : vbGauche.toString()"+vbGauche.toString());
         //Position des éléments sur la scene
         this.setLeft(vbGauche);
@@ -79,7 +112,7 @@ public class MainPane extends BorderPane {
                 
             });
         });
-    
+    this.contrôleur.changeEtat(20);
     }
     
     //GET

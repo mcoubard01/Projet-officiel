@@ -25,12 +25,12 @@ import javafx.scene.paint.Color;
 public class Coin {
     public static double RAYON_IN_DRAW=5;
     private int id; 
-    private int x;
-    private int y;
+    private double x;
+    private double y;
     
 
     //CONSTRUCTOR
-    public Coin(int x, int y) {
+    public Coin(double x, double y) {
         this.id = IDManager.newId(this);
         this.x = x;
         this.y = y;
@@ -62,10 +62,10 @@ public class Coin {
     public int getId() {
         return id;
     }
-    public int getX() {
+    public double getX() {
         return x;
     }
-    public int getY() {
+    public double getY() {
         return y;
     }
     

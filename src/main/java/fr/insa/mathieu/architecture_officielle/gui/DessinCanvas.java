@@ -23,7 +23,9 @@ public class DessinCanvas extends Pane{
     public DessinCanvas(MainPane main){
         this.main=main;
         this.realCanvas=new Canvas(this.getWidth(), this.getHeight()); // (this.getWidth() reprend la valeur de largeur du Pane (la classe mère))
+        System.out.println("DessinCanvas : je suis AVANT le this.getChildren().add(this.realCanvas)");
         this.getChildren().add(this.realCanvas); // pour ajouter le node Canvas à au Pane mère
+        System.out.println("DessinCanvas : je suis APRES le this.getChildren().add(this.realCanvas)");
         System.out.println("w ="+this.getWidth()+" ,h = "+this.getHeight());
         this.realCanvas.heightProperty().bind(this.heightProperty());
         this.realCanvas.widthProperty().bind(this.widthProperty());
@@ -39,6 +41,8 @@ public class DessinCanvas extends Pane{
         });
         this.realCanvas.setOnMouseClicked((t) -> {
             Contrôleur control = this.main.getContrôleur();
+            control.clicDansZoneDessin(t);
+            
         });
         this.redrawAll();
 
