@@ -211,15 +211,17 @@ public class Contrôleur {
                 this.pos.add(1,t.getY());
                 //TODO Détection du mur 
                 
-                Mur nouveauMur1 = new Mur(new Coin(23,23),new Coin(24,24));
+                
                 this.changeEtat(71);             
                 break;
             case 71://création de fenêtre, p2
                 double posx1 = t.getX();
                 double posy1 = t.getY();
+                Mur nouveauMur1 = new Mur(new Coin(23,23),new Coin(24,24));
+
                 //TODO détection de l'orientation
-                
-                //Fenêtre fenêtre1 = new Fenêtre(this.pos.get(0),this.pos.get(1),posx1,posy1,nouveauMur1);
+                char orientation1 = 'E';
+                Fenêtre fenêtre1 = new Fenêtre(this.pos.get(0),this.pos.get(1),orientation1,nouveauMur1);
                 this.changeEtat(70);
                 break;
             case 80:
