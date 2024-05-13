@@ -196,7 +196,7 @@ public class IDManager {
         return compteurFacade-1; //renvoie l'id associé à l'objet etage
     }
     public static int newId(Pièce pièce){
-        int idDeLaPièce = compteurPièce + 1000* pièce.getAppartement().getEtage().getId(); //étage auquel la pièce se trouve
+        int idDeLaPièce = compteurPièce ;//+ 1000* pièce.getEtage().getId(); //étage auquel la pièce se trouve
 //ainsi, pour l'étage ézéro, 0<=idDeLaPièce<=999 ; pour l'étage 1, 1000<= idDeLaPièce <=1999 ,etc.
         mapPièce.put(pièce,idDeLaPièce);
         mapIdVersPièce.put(idDeLaPièce,pièce);
@@ -205,7 +205,7 @@ public class IDManager {
     }
     
     public static int newId(Mur mur){
-        int idDuMur = compteurMur + 1000 * mur.getÉtage().getId();  
+        int idDuMur = compteurMur ;//+ 1000 * mur.getÉtage().getId();  
 //ainsi, pour l'étage zéro, 0<=idDuMur<=999 ; pour l'étage 1, 1000<= idDuMur <=1999 ,etc.
         mapMur.put(mur,idDuMur);
         mapIdVersMur.put(idDuMur,mur);

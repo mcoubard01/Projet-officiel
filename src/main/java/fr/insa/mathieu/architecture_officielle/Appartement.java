@@ -32,7 +32,7 @@ public class Appartement {
                 this.liste_pièce.add(pièce);//On ajoute la pièce à la liste des pièce de cet appartement
             }
             else{
-                throw new Error ("La pièce appartient déjà à un autre appartement"); // TODO TO DO affichage de message d'erreur dans l'interface graphique
+                throw new Error ("La pièce appartient déjà à un autre appartement"); // TODO affichage de message d'erreur dans l'interface graphique
             }
             
         }

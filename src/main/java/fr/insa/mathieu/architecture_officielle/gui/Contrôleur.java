@@ -7,6 +7,7 @@ package fr.insa.mathieu.architecture_officielle.gui;
 import fr.insa.mathieu.architecture_officielle.Architecture_officielle;
 import fr.insa.mathieu.architecture_officielle.Coin;
 import fr.insa.mathieu.architecture_officielle.Etage;
+import fr.insa.mathieu.architecture_officielle.Fenêtre;
 import fr.insa.mathieu.architecture_officielle.Mur;
 import fr.insa.mathieu.architecture_officielle.Pièce;
 import java.util.ArrayList;
@@ -152,7 +153,7 @@ public class Contrôleur {
         switch (etat){
             case 30:
                 this.pos.add(0, t.getX());
-                this.pos.add(1, t.getX());
+                this.pos.add(1, t.getY());
                 this.changeEtat(31);
                 break;
             case 31:
@@ -183,7 +184,7 @@ public class Contrôleur {
                 break;
             case 50:
                 this.pos.add(0, t.getX());
-                this.pos.add(1, t.getX());
+                this.pos.add(1, t.getY());
                 this.changeEtat(51);
                 break;
             case 51:
@@ -205,10 +206,20 @@ public class Contrôleur {
                 Pièce pièce3 = new Pièce(murEF, murFG, murGH, murHE);
                 this.changeEtat(50);
                 break;
-            case 70:
-                this.changeEtat(71);
+            case 70: //création de fenêtre, p1
+                this.pos.add(0,t.getX());
+                this.pos.add(1,t.getY());
+                //TODO Détection du mur 
+                
+                Mur nouveauMur1 = new Mur(new Coin(23,23),new Coin(24,24));
+                this.changeEtat(71);             
                 break;
-            case 71:
+            case 71://création de fenêtre, p2
+                double posx1 = t.getX();
+                double posy1 = t.getY();
+                //TODO détection de l'orientation
+                
+                //Fenêtre fenêtre1 = new Fenêtre(this.pos.get(0),this.pos.get(1),posx1,posy1,nouveauMur1);
                 this.changeEtat(70);
                 break;
             case 80:
