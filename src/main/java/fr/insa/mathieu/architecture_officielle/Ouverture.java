@@ -70,7 +70,7 @@ public abstract class Ouverture {
     double max_x = Math.max(mur.getDebut().getX(),mur.getFin().getX());
     double min_y = Math.min(mur.getDebut().getY(),mur.getFin().getY());
     double max_y = Math.max(mur.getDebut().getY(),mur.getFin().getY());
-        //if (this.getEtage().getId()==mur.getÉtage().getId()){ /// TO DO A changer "niveau" et "hauteur etage"
+        //if (this.getEtage().getId()==mur.getÉtage().getId()){ /// TODO A changer "niveau" et "hauteur etage"
             if ( (this.getOri_x()>min_x && this.getOri_x()<max_x && this.getOri_y()==mur.getDebut().getY())||(this.getOri_y()>min_y && this.getOri_y()<max_y && this.getOri_x()==mur.getDebut().getX())){
                 if ((mur.getDebut().getX())-(mur.getFin().getX())==0){
                     if(this.getOrientation()=='N'||this.getOrientation()=='S'){
@@ -148,7 +148,7 @@ public abstract class Ouverture {
     }
   
   
-    public void dessine(GraphicsContext context){ ////// TO DO  Attention je ne sais pas si ça marche avec le +longueur
+    public void dessine(GraphicsContext context){ ////// TODO  Attention je ne sais pas si ça marche avec le +longueur
         context.setStroke(Color.BEIGE);
         switch (this.orientation){
             case 'N' -> context.strokeLine(this.ori_x, this.ori_y, this.ori_x, this.ori_y+this.longueur);

@@ -73,10 +73,10 @@ public class Etage {
     @Override
     public String toString() {
         //Syntaxe : voir et actualiser au besoin la méthode syntaxeToString()
-        return "Etage;" + id + ";" + hauteur_etage + ";liste_appartement=" + liste_appartement;
+        return "Etage;" + this.id + ";" + this.hauteur_etage + ";liste_appartement=" + this.liste_appartement;
     }
     
-    //TODO TO DO fonction add pour ajouter un appartement à l'étage
+    //TODO TODO fonction add pour ajouter un appartement à l'étage
     public void dessine(GraphicsContext context){
         for (Appartement appartement : this.liste_appartement){
             appartement.dessine(context);
@@ -88,7 +88,7 @@ public class Etage {
         return hauteur_etage;
     }
     public double getPrix_etage() {
-        double prix_etage=0;// TO DO A COMPLETER (mis 0 car pour le moment pas fait)
+        double prix_etage=0;// TODO A COMPLETER (mis 0 car pour le moment pas fait)
         return prix_etage; 
     }
 

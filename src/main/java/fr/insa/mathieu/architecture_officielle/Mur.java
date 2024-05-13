@@ -19,7 +19,7 @@ public class Mur {
     private Etage étage; // pas sur que le mur soit relié à l'étage directement. 
     private String nom_mur;
     private Pièce pièce1;
-    private Pièce pièce2;
+    private Pièce pièce2; //TODO voir si enlever
     private ArrayList<Ouverture> liste_ouverture;
     
 //On utilise la méthode avec les maps (classe IDManager). Toutefois, on pourrait créer un ID dans la classe mur qui s'incrémante tout seul.
@@ -103,7 +103,7 @@ public class Mur {
         double s = this.longueur()*(this.getÉtage().getHauteur_etage()); //this désigne l'objet instancié (le mur)
         return s;
     }
-    //TO DO controle si ouverture pour recalcul de surface soustraire les surfaces des ouvertures
+    //TODO controle si ouverture pour recalcul de surface soustraire les surfaces des ouvertures
     /* PAS TRES UTILE vu que tu as déjà le calcul de surface d'avant qui est nickel. A voir si on garde cette fonction ( si on en a besoin)
     public static double surface(Coin d, Coin f, Etage etage){
         double surface = longueur(d,f)*(etage.getHauteur_etage());
@@ -122,8 +122,8 @@ public class Mur {
     @Override
     public String toString() {
         //Syntaxe : "Mur;id;idDuCoinDebut;idDuCoinFin;idDeEtageDuMur;idDePièce1;idDePièce2;liste_ouverture
-        String résultat = "Mur;" + id + ";" + debut.getId() + ";" + fin.getId() ;
-            résultat += ";" + étage.getId() + ";" + pièce1 + ";" + pièce2 + ";liste_ouverture=" + liste_ouverture ;
+        String résultat = "Mur;" + this.id + ";" + debut.getId() + ";" + fin.getId() ;
+            résultat += ";liste_ouverture=" + liste_ouverture ;
         return résultat;
     }
   //ATTENTION!! désormais, il est important que toString() reste ainsi, car IDManager.récupérerLesObjetsCréés() repose dessus!!

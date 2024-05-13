@@ -31,7 +31,7 @@ public class Revêtement extends Architecture_officielle {
     // CONSTRUCTOR 
     public Revêtement(int id) {
         this.id = id;
-        // TO DO A CHANGER pour récupérer les bonnes données 
+        // TODO A CHANGER pour récupérer les bonnes données 
         // LISTE DES INDICES de l'arraylist donnee_enregistrée : 
         // 0 : numéros d'identifiant
         // 1 : désignation 
@@ -58,7 +58,7 @@ public class Revêtement extends Architecture_officielle {
         
     }
     // FONCTION 
-   // TO DO fonction pour lister les revêtements selon l'application sur tel ou tel surface
+   // TODO fonction pour lister les revêtements selon l'application sur tel ou tel surface
     public static double todouble(String aconvertir){
         Double D=Double.valueOf(aconvertir);
 	double finalvalue=D.doubleValue();
