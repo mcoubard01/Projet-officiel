@@ -142,11 +142,33 @@ public class Pièce {
      * @param étage 
      */
     public Pièce(Mur mur1,Mur mur2,Mur mur3,Mur mur4,Etage étage){// permet de crféér une pièce a partir d'une liste de coin de mur et d'un plafond et d'un sol 
-        this(mur1,mur2,mur3,mur4,étage,new Appartement(étage));
+        this.étage = étage;
+        this.sol = new Sol(this); //TODO à regarder car pas sûr que ça marche
+        this.plafond = new Plafond(this);
+        this.liste_mur =new ArrayList<>();   
+        liste_mur.add(mur1);
+        liste_mur.add(mur2);
+        liste_mur.add(mur3);
+        liste_mur.add(mur4);
+        String nom = "pièce n°" + this.id;
+        this.nom_pièce = nom;
+        System.out.println("cration de la pièce " + id + ", sans appartement");
+        this.id = IDManager.newId(this);
         
     }
     public Pièce(Mur mur1,Mur mur2,Mur mur3,Mur mur4){ //utile pour créer plus facilement
-        this(mur1,mur2,mur3,mur4,mur1.getÉtage());
+        
+        this.sol = new Sol(this); //TODO à regarder car pas sûr que ça marche
+        this.plafond = new Plafond(this);
+        this.liste_mur =new ArrayList<>();   
+        liste_mur.add(mur1);
+        liste_mur.add(mur2);
+        liste_mur.add(mur3);
+        liste_mur.add(mur4);
+        String nom = "pièce n°" + this.id;
+        this.nom_pièce = nom;
+        this.id = IDManager.newId(this);
+        System.out.println("cration de la pièce " + id + ", sans appart ni étage");
     }
     public Pièce(){
         this.liste_mur=new ArrayList<>();
