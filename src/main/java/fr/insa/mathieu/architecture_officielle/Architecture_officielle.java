@@ -28,9 +28,7 @@ public class Architecture_officielle {
         this.liste_etage=new ArrayList<>();
     }
 
-    public ArrayList<Etage> getListe_etage() {
-        return liste_etage;
-    }
+    
     
     public void add(Etage etage){
         if (etage.getBatiment()!=this){
@@ -38,9 +36,12 @@ public class Architecture_officielle {
                 this.liste_etage.add(etage);
                 System.out.println("Le batiment possède dorénavent cet étage");
             }
+            else{
+                System.out.println("L'étage possède un autre attribut pour le batiment");
+            }
         }
         else {
-            System.out.println("L'étage possède déjà un autre batiment");
+            System.out.println("L'étage possède déjà l'attribut de ce batiment");
         }
         
     }
@@ -72,7 +73,7 @@ public class Architecture_officielle {
         Coin c8 =new Coin(1,100);
         Mur m4= new Mur(c7,c8,e1);
         
-        Pièce pièce1= new Pièce();
+        Pièce pièce1= new Pièce(e1);
         
         pièce1.add(m1);
         pièce1.add(m2);
@@ -379,5 +380,7 @@ public static void main(String[] args) {
     
     
     }
-
+public ArrayList<Etage> getListe_etage() {
+        return liste_etage;
+    }
 }

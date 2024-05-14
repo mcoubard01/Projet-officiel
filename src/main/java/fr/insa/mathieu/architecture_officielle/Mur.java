@@ -16,10 +16,9 @@ public class Mur {
     private Coin fin;
     private Revêtement revêtement;
     //les trois la dessous j'ai du les rajoutez mais je suis pas sur que ce que j'ai fait soit juste .
-    private Etage étage; // pas sur que le mur soit relié à l'étage directement. 
+    private Etage étage; // pas sur que le mur soit relié à l'étage directement. Mais peut être utile dans mon cas ou je mets le mur dans une liste de murOrphelin
     private String nom_mur;
     private Pièce pièce1;
-    private Pièce pièce2; //TODO voir si enlever
     private ArrayList<Ouverture> liste_ouverture;
     
 //On utilise la méthode avec les maps (classe IDManager). Toutefois, on pourrait créer un ID dans la classe mur qui s'incrémante tout seul.
@@ -37,15 +36,15 @@ public class Mur {
         // Solution : Juste un get qui renvoie l'étage du mur selectionné => FAIT
         this.nom_mur=nom_mur;
         this.debut = debut;
-        this.fin = fin;
-       // this.revêtement=revêtement_standard;
+        this.fin = fin;       
+        // this.revêtement=revêtement_standard;
     }
           // j'ai du le rajoutez pour pouvoir faire un test il pourra etre supprimé par la suite
     
     
       public Mur(Coin debut, Coin fin) {  // INCOMPLET TO incorporer l'étage automatiquement
        
-        //this.id = IDManager.newId(this); //l'étage est nécessaire à cette méthode
+        this.id = IDManager.newId(this); //l'étage est nécessaire à cette méthode
         //ici on ne crée pas d'ID car on connaît pas l'étage
         //TODO : une fonction qui détecte sur quel étage on se trouve actuellement dans l'éxécution,, afin que the IDManager.newId() fonctionne
         // Solution : Juste un get qui renvoie l'étage du mur selectionné => FAIT
@@ -55,20 +54,13 @@ public class Mur {
        // this.revêtement=revêtement_standard;
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
      public Mur (String nom_mur,Coin debut, Coin fin, Etage étage){
         this.id = IDManager.newId(this); //renvoie un int. !!! cet int est entre 0 et 999 si c'est au RDC, entre 1000 et 1999 si c'etst au 1er étage...
         this.debut = debut;
         this.nom_mur= nom_mur;
         this.fin = fin;
         this.étage =étage;
+        
        /*NORMALEMENT nous n'entrons pas directement le revêtement dans le constructeur, on le rajoute après avec un set pour permettre un contrôle de correspondance entre surface et revêtement.
         Revêtement revêtement_standard = new Revêtement(9999);// le 9999 permet de tester avec le programme que Thomas avit créé quand on veut éviter de lire le fichier 
         this.revêtement=revêtement_standard;
@@ -144,6 +136,8 @@ public class Mur {
     }
     */
     public void dessine(GraphicsContext context){
+        this.debut.dessine(context);
+        this.fin.dessine(context);
         context.setStroke(Color.BLACK);
         context.strokeLine(this.getDebut().getX(), this.getDebut().getY(), this.getFin().getX(), this.getFin().getY());
     }
@@ -169,9 +163,6 @@ public class Mur {
     public Pièce getPièce1() {
         return pièce1;
     }
-    public Pièce getPièce2() {
-        return pièce2;
-    }
     
     public String getNom_mur() {
         return nom_mur;
@@ -192,10 +183,6 @@ public class Mur {
     }
     public void setPièce1(Pièce pièce1) {
         this.pièce1 = pièce1;
-    }
-
-    public void setPièce2(Pièce pièce2) {
-        this.pièce2 = pièce2;
     }
     
     public void setNom_mur(String nom_mur) {

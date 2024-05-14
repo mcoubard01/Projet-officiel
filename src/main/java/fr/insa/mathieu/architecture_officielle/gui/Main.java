@@ -57,9 +57,10 @@ public class Main extends Application {
         gridPane.getRowConstraints().add(new RowConstraints(250));       // ligne à une hauteur de 250
         gridPane.getRowConstraints().add(new RowConstraints(100));       // ligne à une hauteur de 100
         mainPane=new MainPane(Architecture_officielle.Test_batiment());
-        //Mettre mes Panes dans les différentes cases de mon grid
-        gridPane.add(mainPane, 0, 0,1, 3); // je mets la fenêtre mainPane à la colonne 0, ligne 0, j'étale mon Pane sur 1 colonne et 3 lignes
-        gridPane.add(revêtementPane,1,0,1, 1);//je mets la fenêtre mainPane à la colonne 1, ligne 0, j'étale mon Pane sur 1 colonne et 1 lignes
+        MainPane mainPane2=new MainPane(new Architecture_officielle());
+//Mettre mes Panes dans les différentes cases de mon grid
+        gridPane.add(mainPane2, 0, 0,1, 3); // je mets la fenêtre mainPane à la colonne 0, ligne 0, j'étale mon Pane sur 1 colonne et 3 lignes
+        gridPane.add(revêtementPane,1,0,1, 2);//je mets la fenêtre mainPane à la colonne 1, ligne 0, j'étale mon Pane sur 1 colonne et 1 lignes
         gridPane.add(new PrixPane(), 1, 2, 1, 1);//je mets la fenêtre mainPane à la colonne 1, ligne 2, j'étale mon Pane sur 1 colonne et 1 lignes
         scene = new Scene(gridPane,800,600);
         

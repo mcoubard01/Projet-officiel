@@ -79,9 +79,15 @@ public class Pièce {
     
 
     }
-  public Pièce(Etage étage){// permet de crféér une pièce a partir d'une liste de coin de mur et d'un plafond et d'un sol 
+
+    /**
+     *
+     * @param étage
+     */
+    public Pièce(Etage étage){// permet de crféér une pièce a partir d'une liste de coin de mur et d'un plafond et d'un sol 
     this.liste_mur =new ArrayList<>();   
     this.étage = étage;
+    this.étage.getListPièceOrpheline().add(this);
     //this.appartement = new Appartement(étage);
     String nom = "pièce n°" + this.id;
     this.sol = new Sol(this); //TODO à regarder car pas sûr que ça marche
@@ -170,17 +176,19 @@ public class Pièce {
         this.id = IDManager.newId(this);
         System.out.println("cration de la pièce " + id + ", sans appart ni étage");
     }
-    public Pièce(){
-        this.liste_mur=new ArrayList<>();
-    }
-  
+    
  // FUNCTION
+    /*
     public void add(Mur m){//permet d'ajouter un mur dans la liste 
         //Attention! ajoute à la pièce1 du mur par défaut!!
         if (m.getPièce1()!= this){     
             this.liste_mur.add(m);
             m.setPièce1 (this);
         }
+    }
+    */
+    public void add(Mur m){// permet d'ajouter un mur dans la liste de pièce avec l'appel <Pièce>.add(Mur mur);
+            this.liste_mur.add(m);
     }
 
     public ArrayList<Mur> consécutif(){ //TODO cette fonction doit dire si la pièce est fermée ou 
@@ -309,6 +317,9 @@ public class Pièce {
     //!!!pas de setId()
     public void setAppartement(Appartement appartement) {
         this.appartement = appartement;
+    }
+    public void setÉtage(Etage étage) {
+        this.étage = étage;
     }
     
 

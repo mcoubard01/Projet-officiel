@@ -28,8 +28,9 @@ public class Appartement {
     //FUNCTION
     public void add_pièce(Pièce pièce){
         if (pièce.getAppartement()!=this){
-            if(pièce.getAppartement()==null){
+            if(pièce.getAppartement()==null || this.etage.getListPièceOrpheline().contains(pièce)){
                 this.liste_pièce.add(pièce);//On ajoute la pièce à la liste des pièce de cet appartement
+                this.etage.getListPièceOrpheline().remove(pièce);
             }
             else{
                 throw new Error ("La pièce appartient déjà à un autre appartement"); // TODO affichage de message d'erreur dans l'interface graphique

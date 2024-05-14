@@ -5,6 +5,7 @@
 package fr.insa.mathieu.architecture_officielle.gui;
 
 import fr.insa.mathieu.architecture_officielle.Architecture_officielle;
+import fr.insa.mathieu.architecture_officielle.gui.Contrôleur.ETAT;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
@@ -24,6 +25,7 @@ public class MainPane extends BorderPane {
     private DessinCanvas dcdessin;         //création de la zone de dessin
     
     private RadioButton rbSelect;   // bouton Selectionner
+    private RadioButton rbcretage;
     private RadioButton rbcrmur;      // bouton CRer un mur
     private RadioButton rbidpiece;    //bouton IDentifier une pièce (en cliquant sur les murs composonts la pièce si possible)
     private RadioButton rbidappart;   //bouton IDentifier un appart (en cliquant sur les pièces contenues si possible)
@@ -51,7 +53,7 @@ public class MainPane extends BorderPane {
         this.rbSelect.setOnAction((t) -> {
             this.contrôleur.boutonSelect(t);
         });
-        
+     
         this.rbcrmur=new RadioButton("créer mur");
         this.rbcrmur.setOnAction((t) -> {
             this.contrôleur.boutonCrmur(t);
@@ -78,6 +80,9 @@ public class MainPane extends BorderPane {
         this.rbporte=new RadioButton("porte");
         this.rbsupp= new RadioButton("Supprimer/annuler");
         this.rbEtageAj= new RadioButton("ajout étage");
+        this.rbEtageAj.setOnAction((t) -> {
+            this.contrôleur.boutonAjEtage(t);
+        });
         
         ToggleGroup bgEtat = new ToggleGroup();
         this.rbSelect.setToggleGroup(bgEtat);
@@ -90,13 +95,14 @@ public class MainPane extends BorderPane {
         this.rbporte.setToggleGroup(bgEtat);
         this.rbrevêtement.setToggleGroup(bgEtat);
         this.rbrevêtement_rap.setToggleGroup(bgEtat);
+        this.rbEtageAj.setToggleGroup(bgEtat);
         this.rbSelect.setSelected(true);
         
         //disposition des éléments node entre eux (les uns au dessus des autres)
         VBox vbGauche;
         vbGauche = new VBox(this.rbSelect,this.rbcrmur,this.rbcrpiece2,this.rbcrpiece3,
                 this.rbidappart,this.rbidpiece, this.rbfenêtre,this.rbporte,
-                this.rbrevêtement_rap,this.rbrevêtement, this.rbEtageAj);
+                this.rbrevêtement_rap,this.rbrevêtement, this.rbEtageAj, this.rbsupp);
         System.out.println("Classe MainePane : vbGauche.toString()"+vbGauche.toString());
         //Position des éléments sur la scene
         this.setLeft(vbGauche);
@@ -112,7 +118,7 @@ public class MainPane extends BorderPane {
                 
             });
         });
-    this.contrôleur.changeEtat(20);
+    this.contrôleur.changeEtat(ETAT.SELECT);
     }
     
     //GET
@@ -169,5 +175,9 @@ public class MainPane extends BorderPane {
 
     public RadioButton getRbEtageAj() {
         return rbEtageAj;
+    }
+
+    void redrawAll() {
+        this.dcdessin.redrawAll();
     }
 }

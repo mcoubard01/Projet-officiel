@@ -7,6 +7,7 @@ package fr.insa.mathieu.architecture_officielle;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -22,6 +23,9 @@ public class Etage {
     private int id;
     private Architecture_officielle batiment;
     
+    private ArrayList<Pièce> listPièceOrpheline;
+    private ArrayList<Mur> listMurOrphelin;
+    private ArrayList<Mur> liste_mur;//les 4 murs délimitant l'étage
 //2eme option pour l'ID : au lieu de maps dans le IDManager, simplement créer la variable ci dessous et l'incrémenter directment dans le condtructeur
     //private static int compteurID =0; //pourquoi static? voir l'explication en commentaire dans IDManager
 //--------------    
@@ -38,6 +42,10 @@ public class Etage {
         this.liste_appartement = new ArrayList<>();
         this.batiment=batiment;
         batiment.add(this);
+        this.listPièceOrpheline=new ArrayList<Pièce>();
+        this.listMurOrphelin=new ArrayList<Mur>();
+        
+        this.liste_mur=new ArrayList<>();
         //System.out.println("map size is" + mapEtage.size() );        
        // System.out.println("id is" + id );
     }
@@ -45,13 +53,18 @@ public class Etage {
         this.id=IDManager.newId(this);
         this.hauteur_etage = hauteur;
         this.liste_appartement = new ArrayList<>();
+        this.listPièceOrpheline=new ArrayList<>();
+        this.liste_mur=new ArrayList<>();
+        this.listMurOrphelin=new ArrayList<Mur>();
     }
     
     //TODO : une fonction qui détecte sur quel niveau on se trouve actuellement dans l'éxécution. incrémenter le niveau à chaque nouveau niveau
 
     
 //FUNCTIONS
-
+    public void add(Mur mur){
+        this.liste_mur.add(mur);
+    }
     //toString1() sert à afficher autre chose que le toString() par défaut
     public String toString1() {
         String résultat ;
@@ -81,6 +94,16 @@ public class Etage {
         for (Appartement appartement : this.liste_appartement){
             appartement.dessine(context);
         }
+        this.dessine_limiteEtage(context);
+        for(Pièce pièce:this.listPièceOrpheline){
+            pièce.dessine(context);
+        }
+    }
+    public void dessine_limiteEtage(GraphicsContext context){
+        context.setStroke(Color.INDIGO);
+        for(Mur mur:this.liste_mur){
+            context.strokeLine(mur.getDebut().getX(), mur.getDebut().getY(), mur.getFin().getX(), mur.getFin().getY());
+        }
     }
     
 // GET
@@ -91,6 +114,15 @@ public class Etage {
         double prix_etage=0;// TODO A COMPLETER (mis 0 car pour le moment pas fait)
         return prix_etage; 
     }
+    public ArrayList<Pièce> getListPièceOrpheline() {
+        return listPièceOrpheline;
+    }
+
+    public ArrayList<Mur> getListMurOrphelin() {
+        return listMurOrphelin;
+    }
+    
+    
 
     
     public int getId(){
