@@ -239,6 +239,7 @@ public class Contrôleur {
                 this.pos[0]=t.getX();
                 this.pos[1]=t.getY();
                 Coin coinCliq=new Coin(this.pos[0],this.pos[1]);
+                //TODO : coinCliq n'ets pas une bonne idée car cela va ajouter un coin au gestionnaire d'identifiant!!
                 
             case CREA_MURp1:
                 System.out.println("ETAT CREA_MURp1 de création de mur");
@@ -253,9 +254,9 @@ public class Contrôleur {
             case CREA_MURp2:
                 double x2=t.getX();
                 double y2=t.getY();
-                System.out.println("coordonée du clic 2 : (x,y) => ("+x2+","+y2+")");
+                System.out.println("coordonnée du clic 2 : (x,y) => ("+x2+","+y2+")");
                 //Mur mur = new Mur(new Coin(this.pos.get(0), this.pos.get(1)), new Coin(x2, y2));
-                Mur mur = new Mur(new Coin(this.pos[0], this.pos[1]), new Coin(x2, y2));
+                Mur mur = new Mur(new Coin(this.pos[0], this.pos[1]), new Coin(x2, y2), this.vue.getModel().getEtageActuel());
                 //d'après vidéo il fautdrait mettre this.vue.redrawAll()
                 System.out.println("mur.toString() :"+mur.toString());
                 this.vue.redrawAll();

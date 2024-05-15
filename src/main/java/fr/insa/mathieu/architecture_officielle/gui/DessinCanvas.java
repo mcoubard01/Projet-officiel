@@ -10,6 +10,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.transform.Transform;
 
 /**
  *
@@ -59,5 +60,10 @@ public class DessinCanvas extends Pane{
 */
     }
     
+    //Cette méthode est utilisée dans le controleur de De Beuvron.
+    //Elle sert, je crois, à avoi la position en direct, de la souris
+    public Transform getTransform() {
+        return this.realCanvas.getGraphicsContext2D().getTransform();
+    }
     
 }
