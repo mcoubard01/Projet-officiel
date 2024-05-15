@@ -83,12 +83,14 @@ public class Mur {
     }   
 
     // FUNCTIONS
+    /*
     public Mur murPlusProche    (Coin cliqueSouris, double distMax){
         double distanceClique_Mur = this.ptLineDist(cliqueSouris.getX()),cliqueSouris.getY());
         if (distanceClique_Mur<=Contrôleur.DISTMAXCLIQUE){
             
         }
     }
+    */
     public double longueur(){ //appeler "<nom_mur>.longueur()" renvoie la longeueur du mur
         return sqrt(((this.getFin().getX()-this.getDebut().getX())*(this.getFin().getX()-this.getDebut().getX())+(this.getFin().getY()-this.getDebut().getY())*(this.getFin().getY()-this.getDebut().getY())));
     }

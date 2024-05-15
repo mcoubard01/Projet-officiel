@@ -121,6 +121,10 @@ public class Etage {
     public ArrayList<Mur> getListMurOrphelin() {
         return listMurOrphelin;
     }
+    public ArrayList<Mur> getListe_mur() {
+        return liste_mur;
+    }
+    
     
     
 

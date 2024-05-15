@@ -321,28 +321,28 @@ public class Contrôleur {
                 this.changeEtat(ETAT.CREA_PIECE_3PNT_p2);
                 break;
             case CREA_PIECE_3PNT_p2:
-                this.pos[2]=t.getX();
+                this.pos[2]=t.getX();// ne sert à rien
                 this.pos[3]=t.getY();
                 System.out.println("coordonée du clic 2 : (x,y) => ("+this.pos[2]+","+this.pos[3]+")");
                 this.changeEtat(ETAT.CREA_PIECE_3PNT_p3);
                 break;
             case CREA_PIECE_3PNT_p3:
                 this.pos[4]=t.getX();
-                this.pos[5]=t.getY();
+                this.pos[5]=t.getY();//ne sert à rien
                 System.out.println("coordonée du clic 3 : (x,y) => ("+this.pos[4]+","+this.pos[5]+")");
                 Coin coinE= new Coin(this.pos[0], this.pos[1]);
-                Coin coinF= new Coin(this.pos[2], this.pos[3]);
-                Coin coinG= new Coin(this.pos[4],this.pos[3]);
-                Coin coinH= new Coin(this.pos[4], this.pos[5]);
+                Coin coinF= new Coin(this.pos[0], this.pos[3]);
+                Coin coinG= new Coin(this.pos[4],this.pos[1]);
+                Coin coinH= new Coin(this.pos[4], this.pos[2]);
                 Mur murEF=new Mur(coinE, coinF);
-                Mur murFG=new Mur(coinF, coinG);
-                Mur murGH=new Mur(coinG, coinH);
-                Mur murHE=new Mur(coinH, coinE);
+                Mur murFH=new Mur(coinF, coinH);
+                Mur murHG=new Mur(coinH, coinG);
+                Mur murGE=new Mur(coinG, coinE);
                 Pièce pièce3 = new Pièce(this.vue.getModel().getListe_etage().get(0));
                 pièce3.add(murEF);
-                pièce3.add(murFG);
-                pièce3.add(murGH);
-                pièce3.add(murHE);
+                pièce3.add(murFH);
+                pièce3.add(murHG);
+                pièce3.add(murGE);
                 System.out.println("Pièce.toString(): "+pièce3.toString());
                 this.vue.redrawAll();
                 this.changeEtat(ETAT.CREA_PIECE_3PNT_p1);
