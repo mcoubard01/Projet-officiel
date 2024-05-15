@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package fr.insa.mathieu.architecture_officielle;
-
+//sx
 import java.util.ArrayList;
 
 /**
@@ -47,7 +47,7 @@ public class Appartement {
     }
 
     public static String syntaxeToString(){
-        return "Syntaxe : \"Appartement;id;IdDUEtage;liste_pièce(identifiants)\"";
+        return "#Syntaxe : \"Appartement;id;IdDUEtage;liste_pièce(identifiants)\"";
     }
     @Override
     public String toString() {
@@ -56,7 +56,7 @@ public class Appartement {
         for (int i=0 ; i< listeDesIdDesPièces.size() ; i++){
             listeDesIdDesPièces.add(liste_pièce.get(i).getId());
         }
-        return "Appartement;" + id + ";" + etage.getId() + "liste_pièce=" + listeDesIdDesPièces;
+        return "Appartement;" + id + ";" + etage.getId() + ";liste_pièce=" + listeDesIdDesPièces;
         //éventuellement il  n'y aura pas besoin de etage.getId(), puisque l'id de l'appartement intègre déjà l'id de l'étage.
     }
     
