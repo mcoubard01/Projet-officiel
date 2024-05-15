@@ -203,7 +203,8 @@ public class Pièce {
     }
 
     public static String syntaxeToString(){
-        return "\"Pièce;id;nom_pièce;liste_mur(identifiants);revêtementDuSol;revêtementDuPlafond;idDuAppartement \"";
+        return "#Syntaxe : \"Pièce;id;nom_pièce;liste_mur(identifiants);revêtementDuSol;revêtementDuPlafond;idDuAppartement \"";
+        //merci de ne pas faire de changement substanciel dans la syntaxe des toString()
     }
     @Override
     public String toString() {
@@ -216,7 +217,7 @@ public class Pièce {
         return "Pièce;" + id + ";" + nom_pièce  + ";liste_mur=" + listeDesIdDesMurs + ";" + sol.toString() + ";" + plafond.toString() + ";" + appartement.getId();
     }
     
-    
+    //inutile désormais 
     public static String indente (String toIndente, String prefix){// meme machin que dans la premièrer vidéo du prof. 
     return prefix +toIndente.replaceAll("\n","\n"+ prefix);
 }
