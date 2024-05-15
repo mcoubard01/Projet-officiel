@@ -17,7 +17,7 @@ public class Mur {
     private Etage étage; // pas sur que le mur soit relié à l'étage directement. 
     private String nom_mur;
     private Pièce pièce1;
-    private Pièce pièce2;
+    private Pièce pièce2;//a supprimer
     private ArrayList<Ouverture> liste_ouverture;
     
 //On utilise la méthode avec les maps (classe IDManager). Toutefois, on pourrait créer un ID dans la classe mur qui s'incrémante tout seul.
@@ -94,11 +94,26 @@ public class Mur {
         return result;
     }
 
+    
+    public static String syntaxeToString(){
+        //merci de ne pas faire de changement substanciel dans la syntaxe des toString()
+        return "#Syntaxe  : \"Mur;id;idDuCoinDebut;idDuCoinFin;idDeEtageDuMur;idDePièce1;idDePièce2;liste_ouverture\"";
+        //id de pièce1 et pièce2 seront 9999 si null
+    }
     @Override
     public String toString() {
         //Syntaxe : "Mur;id;idDuCoinDebut;idDuCoinFin;idDeEtageDuMur;idDePièce1;idDePièce2;liste_ouverture
+        int idDePièce1;
+        int idDePièce2;
+        if (pièce1 == null){
+            idDePièce1 = 9999;
+        }else{idDePièce1=pièce1.getId();}
+        
+        if (pièce1 == null){
+            idDePièce2 = 9999;
+        } else {idDePièce2=pièce1.getId();}
         String résultat = "Mur;" + id + ";" + debut.getId() + ";" + fin.getId() ;
-            résultat += ";" + étage.getId() + ";" + pièce1 + ";" + pièce2 + ";liste_ouverture=" + liste_ouverture ;
+            résultat += ";" + étage.getId() + ";" + idDePièce1 + ";" + idDePièce2 + ";liste_ouverture=" + liste_ouverture ;
         return résultat;
     }
 
@@ -174,6 +189,12 @@ public class Mur {
             System.out.println("LE revêtement ne peut être appliqué sur le mur !!!!");
         }
         
+    }
+    public void setListe_ouverture(ArrayList<Ouverture> liste_ouverture){
+        this.liste_ouverture = liste_ouverture;
+    }
+    public void addOuverture(Ouverture ouverture){
+        this.getListe_ouverture().add(ouverture);
     }
     
 
