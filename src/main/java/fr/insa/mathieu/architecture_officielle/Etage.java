@@ -25,7 +25,7 @@ public class Etage {
     
     private ArrayList<Pièce> listPièceOrpheline;
     private ArrayList<Mur> listMurOrphelin;
-    private ArrayList<Mur> liste_mur;//les 4 murs délimitant l'étage
+    private ArrayList<Mur> liste_mur;//les 4 murs délimitant l'étage TODO reprendre ces murs pour recuperer les coordonnee dans facade. 
 //2eme option pour l'ID : au lieu de maps dans le IDManager, simplement créer la variable ci dessous et l'incrémenter directment dans le condtructeur
     //private static int compteurID =0; //pourquoi static? voir l'explication en commentaire dans IDManager
 //--------------    
