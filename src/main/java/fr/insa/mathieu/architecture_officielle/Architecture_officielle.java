@@ -23,9 +23,18 @@ import javafx.scene.canvas.GraphicsContext;
 public class Architecture_officielle { 
     public static ArrayList<String[]> donnee_enregistree; // Liste de tableaux de chaines de caractère qui est utilisée pour le stockage des Revêtements
     private ArrayList<Etage> liste_etage;
+    private Etage étageActuel;
+
     
+    //TODO : l'utilsatuer doit pouvoir spécifier la hauteur de son premier étage.
+    //Cela pourrait être un paramètre du constructeur ci-dessous. 
+    //On ne créérait m^me pas le bâtiment tout de suite, 
+        //On de manderait D'ABORD la hauteur du premier étage. 
+    //Mais ça voudrait dire qu'on ne êut pas fournir de modèle au MainPan dans la méthode start...
     public Architecture_officielle(){
         this.liste_etage=new ArrayList<>();
+        this.étageActuel = new Etage(2.5);
+        //TODO : éventuellement, il faudra que l'utilisateur choisisse son étage de début!!
     }
 
     
@@ -46,11 +55,19 @@ public class Architecture_officielle {
         
     }
     
+    /*
     public void dessine(GraphicsContext context){
         for (Etage etage: this.liste_etage){
             etage.dessine(context);
         }
+    }*/
+    public void dessine(GraphicsContext context){
+        
+            this.étageActuel.dessine(context);
+        
     }
+    
+    
     public static Architecture_officielle Test_batiment(){
         
         Architecture_officielle batiment = new Architecture_officielle();
@@ -357,6 +374,18 @@ public class Architecture_officielle {
     } 
 */
 
+//GET
+    public ArrayList<Etage> getListe_etage() {
+        return liste_etage;
+    }
+
+    public Etage getEtageActuel(){
+        return this.étageActuel;
+    }
+//SET
+    public void setEtageActuel(Etage étage){
+        this.étageActuel = étage;
+    }
 
 public static void main(String[] args) {
    /////////////LECTURE FICHIER. IL s'appelle Revêtement_test.txt
@@ -379,8 +408,5 @@ public static void main(String[] args) {
     
     
     
-    }
-public ArrayList<Etage> getListe_etage() {
-        return liste_etage;
     }
 }
