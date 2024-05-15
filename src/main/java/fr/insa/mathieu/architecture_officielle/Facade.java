@@ -20,7 +20,7 @@ public class Facade extends Mur  {
     private Coin fin;
     private Revêtement revêtement_facade;
     private ArrayList<Ouverture> liste_ouverture;
-    private ArrayList<Etage> liste_étage;
+    private ArrayList<Etage> liste_étage; //  TODO recuperer les 4 murs qui servent a redefinir les coins pour redtrouver avec les ouvertures
 
     public Facade(Coin debut, Coin fin) {
          this.id = IDManager.newId(this);
