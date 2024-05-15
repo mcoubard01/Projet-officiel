@@ -9,12 +9,14 @@ package fr.insa.mathieu.architecture_officielle;
  * @author stard
  */
 public abstract class Ouverture {
+    //ATTENTION! si on cahnge quoique ce soit dans les attributs, il faut changer eet faire foctionnner:
+    // - la toString(), la syntaxeToString() , et IDManager.récupérerOuvertures()
     private double ori_x;
     private double ori_y;
     private char orientation;
     private double longueur;
-    private Mur mur1;
-    private Mur mur2;
+    private Mur mur1 = null;
+    private Mur mur2 = null; //ainsi, une ouverture peut n'avoir (que temporairement) qu'un seul mur
 
     //CONSTRUCTOR
     /*
@@ -143,9 +145,22 @@ public abstract class Ouverture {
     return result;
     }
 
+    public static String syntaxeToString(){
+        return "#Syntaxe : \"Ouverture;ori_x;ori_y;orientation(char);longueur;idDuMur1;idDuMur2 \"";
+                //merci de ne pas faire de changement substanciel dans la syntaxe des toString()
+
+    }
     @Override
     public String toString() {
-        return "Ouverture" + ";ori_x=" + ori_x + ";ori_y=" + ori_y + ";orientation=" + orientation + ";longueur=" + longueur + ";id du mur1=" + mur1.getId() + ";id du mur2=" + mur2.getId();
+        int idMur2;
+        if (mur2 == null){
+            idMur2 = 9999; //ne fonctionnera pas si on crée 9999 murs
+            //Attention!! Ne pas changer idMur2 = 9999 sans changer cette particularité dans IDManager.récupérerOuvertures()
+        }
+        else{
+            idMur2 = mur2.getId();
+        }
+        return "Ouverture" + ";" + ori_x + ";" + ori_y + ";" + orientation + ";" + longueur + ";" + mur1.getId() + ";" + idMur2;
     }//on distinguera les portes des fénêtres grâce à leur longeur
     
     
