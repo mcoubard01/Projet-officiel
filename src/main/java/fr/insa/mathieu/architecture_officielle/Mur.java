@@ -5,10 +5,12 @@
 package fr.insa.mathieu.architecture_officielle;
 import static fr.insa.mathieu.architecture_officielle.Architecture_officielle.donnee_enregistree;
 import static fr.insa.mathieu.architecture_officielle.Architecture_officielle.lecture;
+import fr.insa.mathieu.architecture_officielle.gui.Contrôleur;
 import static java.lang.Math.sqrt;
 import java.util.ArrayList;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import java.awt.geom.Line2D.Double;
 
 public class Mur {  
     private int id;
@@ -37,7 +39,7 @@ public class Mur {
         this.nom_mur=nom_mur;
         this.debut = debut;
         this.fin = fin;       
-        // this.revêtement=revêtement_standard;
+            // this.revêtement=revêtement_standard;
     }
           // j'ai du le rajoutez pour pouvoir faire un test il pourra etre supprimé par la suite
     
@@ -81,6 +83,12 @@ public class Mur {
     }   
 
     // FUNCTIONS
+    public Mur murPlusProche    (Coin cliqueSouris, double distMax){
+        double distanceClique_Mur = this.ptLineDist(cliqueSouris.getX()),cliqueSouris.getY());
+        if (distanceClique_Mur<=Contrôleur.DISTMAXCLIQUE){
+            
+        }
+    }
     public double longueur(){ //appeler "<nom_mur>.longueur()" renvoie la longeueur du mur
         return sqrt(((this.getFin().getX()-this.getDebut().getX())*(this.getFin().getX()-this.getDebut().getX())+(this.getFin().getY()-this.getDebut().getY())*(this.getFin().getY()-this.getDebut().getY())));
     }

@@ -25,7 +25,7 @@ import javafx.scene.paint.Color;
 public class Contrôleur {
     private ETAT etat;
     private MainPane vue;
-
+    
     
     enum ETAT{
         SELECT,
@@ -50,11 +50,15 @@ public class Contrôleur {
     }
     //private ArrayList<Double> pos=new ArrayList<>();
     private double[] pos = new double[100];
-    private ArrayList<Etage> listeEtage=new ArrayList<>();
+    private ArrayList<Etage> listeEtage;
     private Etage etagePrimitif;
     private Architecture_officielle batiment;
+    private ArrayList<Mur> listeMurSelectionné;
+    private double DISTMAXCLIQUE=20;
     public Contrôleur(MainPane vue){
         this.vue=vue;
+        this.listeMurSelectionné=new ArrayList<>();
+        this.listeEtage=new ArrayList<>();
     }
     public void changeEtat(ETAT nouvelEtat){//int nouvelEtat => Etat nouvelEtat
         switch(nouvelEtat){
@@ -231,6 +235,11 @@ public class Contrôleur {
     void clicDansZoneDessin(MouseEvent t) {
         
         switch (etat){
+            case SELECT:
+                this.pos[0]=t.getX();
+                this.pos[1]=t.getY();
+                Coin coinCliq=new Coin(this.pos[0],this.pos[1]);
+                
             case CREA_MURp1:
                 System.out.println("ETAT CREA_MURp1 de création de mur");
                 //this.pos.add(0, t.getX());
