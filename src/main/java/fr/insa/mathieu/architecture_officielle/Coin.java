@@ -44,6 +44,12 @@ public class Coin {
         return "Coin: "+this.id +"{ x=" + x + ", y=" + y + '}';
     }
     
+    public static String syntaxeToString(){
+                //merci de ne pas faire de changement substanciel dans la syntaxe des toString()
+        return "#Syntaxe  : \"Coin;id;x;y\"";
+        //////////Attention : cette syntaxe est utiulisée dans IDManager.récupérerUnCoin() !!!!
+        //////////Si on change la syntaxe de coin.toString(), il faut changer la méthode susdite.
+    }
     @Override
     //ceci est le toString() par défaut.
     public String toString() {
