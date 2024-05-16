@@ -19,8 +19,8 @@ public class Mur {
     private Revêtement revêtement;
     //les trois la dessous j'ai du les rajoutez mais je suis pas sur que ce que j'ai fait soit juste .
     private Etage étage; // pas sur que le mur soit relié à l'étage directement. Mais peut être utile dans mon cas ou je mets le mur dans une liste de murOrphelin
-    private String nom_mur;
-    private Pièce pièce1;
+    private String nom_mur; //Je vote pour supprimer ceci signé thomas
+    private Pièce pièce1 = null;
     private ArrayList<Ouverture> liste_ouverture;
     
 //On utilise la méthode avec les maps (classe IDManager). Toutefois, on pourrait créer un ID dans la classe mur qui s'incrémante tout seul.
@@ -50,25 +50,38 @@ public class Mur {
         //ici on ne crée pas d'ID car on connaît pas l'étage
         //TODO : une fonction qui détecte sur quel étage on se trouve actuellement dans l'éxécution,, afin que the IDManager.newId() fonctionne
         // Solution : Juste un get qui renvoie l'étage du mur selectionné => FAIT
-      
         this.debut = debut;
         this.fin = fin;
        // this.revêtement=revêtement_standard;
     }
     
-     public Mur (String nom_mur,Coin debut, Coin fin, Etage étage){
+      //@Thomas : je vote pour supprimer ce constructeur.
+     public Mur (String nom_mur,Coin debut, Coin fin, Etage étage, Pièce pièce1){
         this.id = IDManager.newId(this); //renvoie un int. !!! cet int est entre 0 et 999 si c'est au RDC, entre 1000 et 1999 si c'etst au 1er étage...
         this.debut = debut;
         this.nom_mur= nom_mur;
         this.fin = fin;
         this.étage =étage;
-        
+        this.pièce1 = pièce1;
        /*NORMALEMENT nous n'entrons pas directement le revêtement dans le constructeur, on le rajoute après avec un set pour permettre un contrôle de correspondance entre surface et revêtement.
         Revêtement revêtement_standard = new Revêtement(9999);// le 9999 permet de tester avec le programme que Thomas avit créé quand on veut éviter de lire le fichier 
         this.revêtement=revêtement_standard;
         */
         this.liste_ouverture=new ArrayList<>();
     }
+     public Mur (Coin debut, Coin fin, Etage étage, Pièce pièce1){
+        this.id = IDManager.newId(this); //renvoie un int. !!! cet int est entre 0 et 999 si c'est au RDC, entre 1000 et 1999 si c'etst au 1er étage...
+        this.debut = debut;
+        this.fin = fin;
+        this.étage =étage;
+        this.pièce1 = pièce1;
+       /*NORMALEMENT nous n'entrons pas directement le revêtement dans le constructeur, on le rajoute après avec un set pour permettre un contrôle de correspondance entre surface et revêtement.
+        Revêtement revêtement_standard = new Revêtement(9999);// le 9999 permet de tester avec le programme que Thomas avit créé quand on veut éviter de lire le fichier 
+        this.revêtement=revêtement_standard;
+        */
+        this.liste_ouverture=new ArrayList<>();
+    }
+     
 // on utilise celui la 
     public Mur(Coin debut, Coin fin, Etage étage_mur) {
         this.étage = étage_mur;
@@ -76,8 +89,9 @@ public class Mur {
         this.fin = fin;
         this.id = IDManager.newId(this);
         this.liste_ouverture=new ArrayList<>();
-       
-        
+        if (this.pièce1==null){
+            this.étage.addOrphelin(this);    
+        } 
     }
     public Mur() {  //Constructeur vide servant à faire des tests (p.ex.)
     }   
@@ -192,6 +206,8 @@ public class Mur {
         this.étage = étage_mur;
     }
     public void setPièce1(Pièce pièce1) {
+        this.étage.getListMurOrphelin().remove(this);
+        //une fois la pièce initialisée, le mur n'est plus orphelin
         this.pièce1 = pièce1;
     }
     

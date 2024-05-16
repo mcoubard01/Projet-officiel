@@ -26,6 +26,7 @@ public class Etage {
     private ArrayList<Pièce> listPièceOrpheline;
     private ArrayList<Mur> listMurOrphelin;
     private ArrayList<Mur> liste_mur;//les 4 murs délimitant l'étage TODO reprendre ces murs pour recuperer les coordonnee dans facade. 
+
 //2eme option pour l'ID : au lieu de maps dans le IDManager, simplement créer la variable ci dessous et l'incrémenter directment dans le condtructeur
     //private static int compteurID =0; //pourquoi static? voir l'explication en commentaire dans IDManager
 //--------------    
@@ -65,6 +66,16 @@ public class Etage {
     public void add(Mur mur){
         this.liste_mur.add(mur);
     }
+    
+    /**
+     * addOrphelin est appelé par le constructeur Mur(coin, coin, étage) afin de le déclarer comme orphelin 
+     * SEULEMENT SI pièce1 est null 
+     * @param mur 
+     */
+    public void addOrphelin(Mur mur){
+        this.listMurOrphelin.add(mur);
+    }
+    
     //toString1() sert à afficher autre chose que le toString() par défaut
     public String toString1() {
         String résultat ;
@@ -97,6 +108,9 @@ public class Etage {
         this.dessine_limiteEtage(context);
         for(Pièce pièce:this.listPièceOrpheline){
             pièce.dessine(context);
+        }
+        for(Mur mur:this.listMurOrphelin){
+            mur.dessine(context);
         }
     }
     public void dessine_limiteEtage(GraphicsContext context){
