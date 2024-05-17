@@ -5,6 +5,7 @@
 package fr.insa.mathieu.architecture_officielle.gui;
 
 import fr.insa.mathieu.architecture_officielle.Architecture_officielle;
+import fr.insa.mathieu.architecture_officielle.Mur;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.GridPane;
@@ -39,11 +40,14 @@ public class DessinCanvas extends Pane{
            System.out.println("w(Canvas) = "+this.realCanvas.getWidth()+" ,h(Canvas) = "+this.realCanvas.getHeight());
            this.redrawAll();
         });
+        
         this.realCanvas.setOnMouseClicked((t) -> {
+            System.out.println("setOnMouseCLICKED");
             Contrôleur control = this.main.getContrôleur();
             control.clicDansZoneDessin(t);
-            
         });
+        
+        
         this.redrawAll();
 
     }
@@ -57,6 +61,12 @@ public class DessinCanvas extends Pane{
         context.setFill(Color.SALMON);
         context.fillRect(0, 0, this.realCanvas.getWidth(), this.realCanvas.getHeight());
 */
+    }
+
+    void highlight(Mur murLePlusProche) {
+        GraphicsContext context = this.realCanvas.getGraphicsContext2D();
+        Architecture_officielle model=this.main.getModel();
+        model.highlight(context,murLePlusProche);
     }
     
     

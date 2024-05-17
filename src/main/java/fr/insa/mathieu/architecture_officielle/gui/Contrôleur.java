@@ -4,6 +4,7 @@
  */
 package fr.insa.mathieu.architecture_officielle.gui;
 
+import fr.insa.mathieu.architecture_officielle.Appartement;
 import fr.insa.mathieu.architecture_officielle.Architecture_officielle;
 import fr.insa.mathieu.architecture_officielle.Coin;
 import fr.insa.mathieu.architecture_officielle.Etage;
@@ -11,6 +12,7 @@ import fr.insa.mathieu.architecture_officielle.Fenêtre;
 import fr.insa.mathieu.architecture_officielle.Lire;
 import fr.insa.mathieu.architecture_officielle.Mur;
 import fr.insa.mathieu.architecture_officielle.Pièce;
+import fr.insa.mathieu.architecture_officielle.Revêtement;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.scene.input.MouseEvent;
@@ -24,11 +26,12 @@ import javafx.scene.paint.Color;
  */
 public class Contrôleur {
     private ETAT etat;
-    private MainPane vue;
-    
-    
+    private MainPane vue;    
+    private RevêtementPane vueRevetement;
+
     enum ETAT{
         SELECT,
+        SELECT_SURBRILLANCE,
         AJOUT_ETAGEp1,
         AJOUT_ETAGEp2,
         CREA_MURp1,
@@ -54,15 +57,36 @@ public class Contrôleur {
     private Etage etagePrimitif;
     private Architecture_officielle batiment;
     private ArrayList<Mur> listeMurSelectionné;
-    private double DISTMAXCLIQUE=20;
+    public double DISTMAXCLIQUE=20;
+    
+    
     public Contrôleur(MainPane vue){
         this.vue=vue;
         this.listeMurSelectionné=new ArrayList<>();
         this.listeEtage=new ArrayList<>();
     }
+    public Contrôleur(MainPane vue,RevêtementPane vueRevetement){
+        this.vue=vue;
+        this.vueRevetement=vueRevetement;
+        this.listeEtage=new ArrayList<>();
+        this.listeMurSelectionné=new ArrayList<>();
+    }
     public void changeEtat(ETAT nouvelEtat){//int nouvelEtat => Etat nouvelEtat
         switch(nouvelEtat){
             case SELECT://case :Etat.Select:
+                this.vue.getRbidappart().setDisable(false);
+                this.vue.getRbidpiece().setDisable(false);
+                this.vue.getRbfenêtre().setDisable(false);
+                this.vue.getRbporte().setDisable(false);
+                this.vue.getRbEtageAj().setDisable(false);
+                this.vue.getRbrevêtement().setDisable(false);
+                this.vue.getRbcrpiece2().setDisable(false);
+                this.vue.getRbcrpiece3().setDisable(false);
+                this.vue.getRbrevêtement_rap().setDisable(false);
+                this.vue.getRbsupp().setDisable(false);
+                this.vue.getRbcrmur().setDisable(false);
+                break;
+            case SELECT_SURBRILLANCE:
                 this.vue.getRbidappart().setDisable(false);
                 this.vue.getRbidpiece().setDisable(false);
                 this.vue.getRbfenêtre().setDisable(false);
@@ -236,10 +260,65 @@ public class Contrôleur {
         
         switch (etat){
             case SELECT:
+                System.out.println("Je suis en etat SELECT");
                 this.pos[0]=t.getX();
                 this.pos[1]=t.getY();
+                double distanceMinimale=Double.POSITIVE_INFINITY;
                 Coin coinCliq=new Coin(this.pos[0],this.pos[1]);
-                
+                Mur murLePlusProche = new Mur();
+                for (Etage etage:this.listeEtage){
+                    for(Pièce pièce:etage.getListPièceOrpheline()){
+                        for(Mur mur : pièce.getListe_mur()){
+                            if(mur.DistanceMurClique(coinCliq, DISTMAXCLIQUE)<distanceMinimale){
+                                distanceMinimale=mur.DistanceMurClique(coinCliq, DISTMAXCLIQUE);
+                                //TODO enregistrer le mur corespondant à la distance minimale
+                                murLePlusProche=mur;
+                                System.out.println("mur le plus proche de ta première boucle : "+mur.toString());
+                            }
+                        }
+                    }
+                    for (Appartement appartement : etage.getListe_appartement()){
+                        for(Pièce pièceAppart:appartement.getListe_pièce()){
+                            for(Mur mur1:pièceAppart.getListe_mur()){
+                                if(mur1.DistanceMurClique(coinCliq, DISTMAXCLIQUE)<distanceMinimale){
+                                    distanceMinimale=mur1.DistanceMurClique(coinCliq, DISTMAXCLIQUE);
+                                    murLePlusProche=mur1;
+                                    System.out.println("mur le plus proche de ta deuxième boucle : "+mur1.toString());
+                                }
+                            }
+                        }
+                    }
+                    for(Mur mur2 : etage.getListe_mur()){
+                        if(mur2.DistanceMurClique(coinCliq, DISTMAXCLIQUE)<distanceMinimale){
+                            distanceMinimale=mur2.DistanceMurClique(coinCliq, DISTMAXCLIQUE);
+                            murLePlusProche=mur2; 
+                            System.out.println("mur le plus proche de ta troisième boucle : "+mur2.toString());
+                        }
+                    }
+                    System.out.println("mur le plus proche retenu  : "+murLePlusProche.toString());
+                }
+               
+               if(t.isControlDown()){
+                   if(this.listeMurSelectionné.contains(murLePlusProche)){
+                       this.listeMurSelectionné.remove(murLePlusProche);
+                   }
+                   else{
+                       this.listeMurSelectionné.add(murLePlusProche);
+                   }
+               } 
+               else {
+                   this.listeMurSelectionné.clear();
+                   this.listeMurSelectionné.add(murLePlusProche);
+               }
+                System.out.println("Liste de mur SELECTIONNE : ");
+                for(int i =0;i<listeMurSelectionné.size();i++){
+                    System.out.println(listeMurSelectionné.get(i).toString());
+                }
+                System.out.println("Le mur le plus proche est : "+murLePlusProche.toString());
+                this.vue.highlight(murLePlusProche);//TODO ne marche pas
+                this.activeBoutonSuivantSelection();
+                break;
+            
             case CREA_MURp1:
                 System.out.println("ETAT CREA_MURp1 de création de mur");
                 //this.pos.add(0, t.getX());
@@ -251,6 +330,7 @@ public class Contrôleur {
                 this.changeEtat(ETAT.CREA_MURp2);
                 break;
             case CREA_MURp2:
+                System.out.println("ETAT CREA_MURp2 de création de mur");
                 double x2=t.getX();
                 double y2=t.getY();
                 System.out.println("coordonée du clic 2 : (x,y) => ("+x2+","+y2+")");
@@ -271,6 +351,7 @@ public class Contrôleur {
                 this.changeEtat(ETAT.CREA_PIECE_2PNT_p2);
                 break;
             case CREA_PIECE_2PNT_p2:
+                System.out.println("ETAT CREA_PIECE_2PNT_p1 de création de pièce 2 points");
                 x2=t.getX();
                 y2=t.getY();
                 //System.out.println("coordonée du clic : (x,y) => ("+this.pos.get(0)+","+this.pos.get(1)+")");
@@ -309,31 +390,34 @@ public class Contrôleur {
                 System.out.println("pièce.toString() : "+pièce2.toString());
                 this.vue.redrawAll();
                 this.changeEtat(ETAT.CREA_PIECE_2PNT_p1);
+                System.out.println("RETOUR ETAT CREA_PIECE_2PNT_p2 de création de pièce 2 points");
                 break;
                 /**
                  * TODO : la création de pièce 3 points possède un défaut de fonctionnement...
                  */
             case CREA_PIECE_3PNT_p1:
-                
+                System.out.println("ETAT CREA_PIECE_3PNT_p1 de création de pièce 3 points");
+                //CLIC 1
                 this.pos[0]=t.getX();
                 this.pos[1]=t.getY();
                 System.out.println("coordonée du clic 1 : (x,y) => ("+this.pos[0]+","+this.pos[1]+")");
                 this.changeEtat(ETAT.CREA_PIECE_3PNT_p2);
                 break;
             case CREA_PIECE_3PNT_p2:
-                this.pos[2]=t.getX();// ne sert à rien
-                this.pos[3]=t.getY();
-                System.out.println("coordonée du clic 2 : (x,y) => ("+this.pos[2]+","+this.pos[3]+")");
+                System.out.println("ETAT CREA_PIECE_3PNT_p2 de création de pièce 2 points");
+                //CLIC 2
+                this.pos[2]=t.getY();
+                System.out.println("coordonée du clic 2 : (x,y) => (rien enregistré,"+this.pos[2]+")");
                 this.changeEtat(ETAT.CREA_PIECE_3PNT_p3);
                 break;
             case CREA_PIECE_3PNT_p3:
-                this.pos[4]=t.getX();
-                this.pos[5]=t.getY();//ne sert à rien
-                System.out.println("coordonée du clic 3 : (x,y) => ("+this.pos[4]+","+this.pos[5]+")");
+                System.out.println("ETAT CREA_PIECE_3PNT_p3 de création de pièce 3 points");
+                this.pos[3]=t.getX();
+                System.out.println("coordonée du clic 3 : (x,y) => ("+this.pos[4]+",rien enregistré)");
                 Coin coinE= new Coin(this.pos[0], this.pos[1]);
-                Coin coinF= new Coin(this.pos[0], this.pos[3]);
-                Coin coinG= new Coin(this.pos[4],this.pos[1]);
-                Coin coinH= new Coin(this.pos[4], this.pos[2]);
+                Coin coinF= new Coin(this.pos[0], this.pos[2]);
+                Coin coinG= new Coin(this.pos[3],this.pos[1]);
+                Coin coinH= new Coin(this.pos[3], this.pos[2]);
                 Mur murEF=new Mur(coinE, coinF);
                 Mur murFH=new Mur(coinF, coinH);
                 Mur murHG=new Mur(coinH, coinG);
@@ -348,12 +432,14 @@ public class Contrôleur {
                 this.changeEtat(ETAT.CREA_PIECE_3PNT_p1);
                 break;
             case AJOUT_FEN_p1: //création de fenêtre, p1
+                System.out.println("ETAT AJOUT_FENp1 de créationd e fenêtre ");
                 this.pos[0]=t.getX();
                 this.pos[1]=t.getY();
                 //TODO Détection du mur 
                 this.changeEtat(ETAT.AJOUT_FEN_p2);             
                 break;
             case AJOUT_FEN_p2://création de fenêtre, p2
+                System.out.println("ETAT AJOUT_FENp2 de créationd e fenêtre ");
                 double posx1 = t.getX();
                 double posy1 = t.getY();
                 Mur nouveauMur1 = new Mur(new Coin(23,23),new Coin(24,24));
@@ -364,22 +450,29 @@ public class Contrôleur {
                 this.changeEtat(ETAT.AJOUT_FEN_p1);
                 break;
             case AJOUT_PORTE_p1:
+                System.out.println("ETAT AJOUT_PORTEp1 de création de fenêtre ");
                 this.changeEtat(ETAT.AJOUT_PORTE_p2);
                 break;
             case AJOUT_PORTE_p2:
+                System.out.println("ETAT AJOUT_PORTEp2 de création de fenêtre ");
                 this.changeEtat(ETAT.AJOUT_PORTE_p1);
                 break;
+                
             case AJOUT_REVETEMENT_p1:
+                System.out.println("ETAT AJOUT_REVETEMENT_p1 d'ajout de revêtement ");
                 this.changeEtat(ETAT.AJOUT_REVETEMENT_p2);
                 break;
+
             case AJOUT_REVETEMENT_p2:
+                System.out.println("ETAT AJOUT_REVETEMENT_p2 d'ajout de revêtement ");
                 this.changeEtat(ETAT.AJOUT_REVETEMENT_p1);
                 break;
             case AJOUT_REVETEMENT_p3:
+                System.out.println("ETAT AJOUT_REVETEMENT_p3 d'ajout de revêtement ");
                 this.changeEtat(ETAT.AJOUT_REVETEMENT_p1);
                 break;
             case AJOUT_ETAGEp1:
-                System.out.println("AJOUT d'ETAGE");
+                System.out.println("AJOUT d'ETAGEp1");
                 if(etagePrimitif!=null){
                     System.out.println("Quel est la hauteur de l'étage que vous vouliez avoir ? supérieur à 2m");
                     double hauteur=Lire.d();
@@ -396,6 +489,7 @@ public class Contrôleur {
                 }
                 break;
             case AJOUT_ETAGEp2:
+                System.out.println("AJOUT d'ETAGEp1");
                 x2=t.getX();
                 y2=t.getY();
                 batiment=new Architecture_officielle();
@@ -416,9 +510,46 @@ public class Contrôleur {
         //Je ne peux pas faire ça car je n'ai pas de méthode pour 
         
     }
-
+    public void activeBoutonSuivantSelection() {
+        this.vue.getRbcrmur().setDisable(true);
+        this.vue.getRbEtageAj().setDisable(true);
+        this.vue.getRbcrpiece3().setDisable(true);
+        this.vue.getRbcrpiece2().setDisable(true);
+        System.out.println("taille de la liste de mur selectionné :"+this.listeMurSelectionné.size());
+        if (this.listeMurSelectionné.size()>1){
+            this.vue.getRbporte().setDisable(true);
+            this.vue.getRbfenêtre().setDisable(true);
+            this.vue.getRbrevêtement().setDisable(false);
+            this.vue.getRbidpiece().setDisable(false);
+            
+        }
+        
+    }
     void boutonSelect(ActionEvent t) {
         this.changeEtat(ETAT.SELECT);
+    }
+    void ajoutGrpRevetement(ActionEvent t) {
+        System.out.println("Je me trouve dans la méthode AjoutGrpRevêtement");
+        if (this.etat==ETAT.SELECT && this.listeMurSelectionné.size()>1){
+            System.out.println("Quel revêtement veux tu pour tes murs ? ");
+            Revêtement revêtement = new Revêtement(Lire.i());
+            for(Mur murSelectionné : this.listeMurSelectionné){
+                murSelectionné.add(revêtement);//soit on fait un "mur.add(revêtement) ou un mur.set(revêtement) avec avec le mur avec déjà un revêtement standard
+                System.out.println("murSelectionné.toString() : "+murSelectionné.toString());
+            }
+        }
+    }
+    void ajoutPorte(ActionEvent t){
+        this.changeEtat(ETAT.AJOUT_PORTE_p1);
+    }
+    void ajoutFenetre(ActionEvent t) {
+        this.changeEtat(ETAT.AJOUT_FEN_p1);
+        
+    }
+
+    void boutonSelect(MouseEvent t) {
+        System.out.println("BoutonSelectMOUSE_EVENT");
+        this.changeEtat(ETAT.SELECT_SURBRILLANCE);
     }
 
     void boutonCrmur(ActionEvent t) {
@@ -434,6 +565,17 @@ public class Contrôleur {
     }
     void boutonAjEtage(ActionEvent t) {
         this.changeEtat(ETAT.AJOUT_ETAGEp1);
+    }
+ 
+    
+    //GET/SET
+
+    public MainPane getVue() {
+        return vue;
+    }
+
+    public RevêtementPane getVueRevetement() {
+        return vueRevetement;
     }
     
 }

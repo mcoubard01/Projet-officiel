@@ -5,6 +5,7 @@
 package fr.insa.mathieu.architecture_officielle.gui;
 
 import fr.insa.mathieu.architecture_officielle.Architecture_officielle;
+import fr.insa.mathieu.architecture_officielle.Mur;
 import fr.insa.mathieu.architecture_officielle.gui.Contrôleur.ETAT;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -39,6 +40,7 @@ public class MainPane extends BorderPane {
     private RadioButton rbEtageAj;
     
     private Contrôleur contrôleur;
+    private RevêtementPane revêtementPane;
     private Architecture_officielle model;
 
     //CONSTRUCTOR
@@ -47,12 +49,14 @@ public class MainPane extends BorderPane {
     }
     public MainPane(Architecture_officielle model){
         this.model=model;
-        this.contrôleur=new Contrôleur(this);
+        this.revêtementPane= new RevêtementPane(this);
+        this.contrôleur=new Contrôleur(this,this.revêtementPane);
         
         this.rbSelect=new RadioButton("Select");
         this.rbSelect.setOnAction((t) -> {
             this.contrôleur.boutonSelect(t);
         });
+        
      
         this.rbcrmur=new RadioButton("créer mur");
         this.rbcrmur.setOnAction((t) -> {
@@ -73,9 +77,20 @@ public class MainPane extends BorderPane {
         });
         
         this.rbporte=new RadioButton("ajout d'une porte");
+        this.rbporte.setOnAction((t) -> {
+            this.contrôleur.ajoutPorte(t);
+        });
+        
         this.rbfenêtre=new RadioButton("ajout d'une fenêtre");
+        this.rbfenêtre.setOnAction((t) -> {
+            this.contrôleur.ajoutFenetre(t);
+        });
         this.rbrevêtement_rap=new RadioButton("Ajout rapide revêtement");
+        
         this.rbrevêtement = new RadioButton("revêtement");
+        this.rbrevêtement.setOnAction((t) -> {
+            this.contrôleur.ajoutGrpRevetement(t);
+        });
         this.rbfenêtre=new RadioButton("fenêtre");
         this.rbporte=new RadioButton("porte");
         this.rbsupp= new RadioButton("Supprimer/annuler");
@@ -109,15 +124,6 @@ public class MainPane extends BorderPane {
         
         this.dcdessin=new DessinCanvas(this);
         this.setCenter(this.dcdessin);
-        
-        this.rbrevêtement.setOnMouseEntered((t) -> {
-            System.out.println("position d'entrée : ("+t.getX()+","+t.getY()+")"); // donne la position d'entré de la souris sur le bouton
-            this.rbrevêtement.setOnAction((ActionEvent t1) -> { // lorsque on clique sur le bouton
-                System.out.println("J'ai cliqué sur le bouton");
-                //<objet selectionné>.setRevêtement(revêtement);  
-                
-            });
-        });
     this.contrôleur.changeEtat(ETAT.SELECT);
     }
     
@@ -177,7 +183,18 @@ public class MainPane extends BorderPane {
         return rbEtageAj;
     }
 
+    public DessinCanvas getDcdessin() {
+        return dcdessin;
+    }
+
+    public RevêtementPane getRevêtementPane() {
+        return revêtementPane;
+    }
+
     void redrawAll() {
         this.dcdessin.redrawAll();
+    }
+    void highlight(Mur murLePlusProche){
+        this.dcdessin.highlight(murLePlusProche);
     }
 }

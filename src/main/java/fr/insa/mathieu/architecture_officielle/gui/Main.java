@@ -48,7 +48,6 @@ public class Main extends Application {
         
         GridPane gridPane = new GridPane(); // Ce GridPane composera la fenêtre principale où je disposerai mes autres fenêtres
         MainPane mainPane; // Ce MainPane() sera composé de ma zone de dessin (Canvas) et mes outils
-        RevêtementPane revêtementPane = new RevêtementPane(); // Ce Pane composera la liste de mes revêtements en liste déroulantes cliquable
         
         //Mise en place et initialiser les tailles des colonnes et lignes
         gridPane.getColumnConstraints().add(new ColumnConstraints(650)); // column 0 is 650 wide
@@ -60,7 +59,7 @@ public class Main extends Application {
         MainPane mainPane2=new MainPane(new Architecture_officielle());
 //Mettre mes Panes dans les différentes cases de mon grid
         gridPane.add(mainPane2, 0, 0,1, 3); // je mets la fenêtre mainPane à la colonne 0, ligne 0, j'étale mon Pane sur 1 colonne et 3 lignes
-        gridPane.add(revêtementPane,1,0,1, 2);//je mets la fenêtre mainPane à la colonne 1, ligne 0, j'étale mon Pane sur 1 colonne et 1 lignes
+        gridPane.add(mainPane.getRevêtementPane(),1,0,1, 2);//je mets la fenêtre mainPane à la colonne 1, ligne 0, j'étale mon Pane sur 1 colonne et 1 lignes
         gridPane.add(new PrixPane(), 1, 2, 1, 1);//je mets la fenêtre mainPane à la colonne 1, ligne 2, j'étale mon Pane sur 1 colonne et 1 lignes
         scene = new Scene(gridPane,800,600);
         

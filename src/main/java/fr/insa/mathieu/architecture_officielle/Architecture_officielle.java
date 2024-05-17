@@ -23,6 +23,10 @@ import javafx.scene.canvas.GraphicsContext;
 public class Architecture_officielle { 
     public static ArrayList<String[]> donnee_enregistree; // Liste de tableaux de chaines de caractère qui est utilisée pour le stockage des Revêtements
     private ArrayList<Etage> liste_etage;
+
+    public static ArrayList<String[]> getDonnee_enregistree() {
+        return donnee_enregistree;
+    }
     
     public Architecture_officielle(){
         this.liste_etage=new ArrayList<>();
@@ -50,6 +54,10 @@ public class Architecture_officielle {
         for (Etage etage: this.liste_etage){
             etage.dessine(context);
         }
+    }
+    public void highlight(GraphicsContext context, Mur murLePlusProche) {
+        System.out.println("HIGHLIGHT de Architecture_Officiel");
+        murLePlusProche.highlight(context);
     }
     public static Architecture_officielle Test_batiment(){
         
@@ -383,4 +391,6 @@ public static void main(String[] args) {
 public ArrayList<Etage> getListe_etage() {
         return liste_etage;
     }
+
+   
 }

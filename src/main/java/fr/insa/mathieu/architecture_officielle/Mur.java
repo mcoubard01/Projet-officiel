@@ -83,14 +83,14 @@ public class Mur {
     }   
 
     // FUNCTIONS
-    /*
-    public Mur murPlusProche    (Coin cliqueSouris, double distMax){
-        double distanceClique_Mur = this.ptLineDist(cliqueSouris.getX()),cliqueSouris.getY());
-        if (distanceClique_Mur<=Contrôleur.DISTMAXCLIQUE){
-            
-        }
+    
+    public double DistanceMurClique(Coin cliqueSouris, double distMax){
+        boolean result=false;
+        Double ligne = new Double(this.debut.getX(), this.debut.getY(),this.fin.getX(), this.fin.getY());
+        double distanceClique_Mur = ligne.ptSegDist(cliqueSouris.getX(),cliqueSouris.getY());
+        return distanceClique_Mur;
     }
-    */
+    
     public double longueur(){ //appeler "<nom_mur>.longueur()" renvoie la longeueur du mur
         return sqrt(((this.getFin().getX()-this.getDebut().getX())*(this.getFin().getX()-this.getDebut().getX())+(this.getFin().getY()-this.getDebut().getY())*(this.getFin().getY()-this.getDebut().getY())));
     }
@@ -120,7 +120,15 @@ public class Mur {
         boolean result=(r.getPourMur()).equals("1");
         return result;
     }
-
+    public void add(Revêtement revêtement){
+        if (this.contrôle(revêtement)==true){
+            System.out.println("Le revêtement est applicable");
+            this.revêtement=revêtement;
+        }
+        else{
+            System.out.println("Le revêtement n'est pas applicable");
+    }
+}
     @Override
     public String toString() {
         //Syntaxe : "Mur;id;idDuCoinDebut;idDuCoinFin;idDeEtageDuMur;idDePièce1;idDePièce2;liste_ouverture
@@ -150,6 +158,10 @@ public class Mur {
         this.fin.dessine(context);
         context.setStroke(Color.BLACK);
         context.strokeLine(this.getDebut().getX(), this.getDebut().getY(), this.getFin().getX(), this.getFin().getY());
+    }
+    public void highlight(GraphicsContext context){
+        System.out.println("HIGHLIGHT de la classe Mur");
+        context.setStroke(Color.ALICEBLUE);
     }
 
  
