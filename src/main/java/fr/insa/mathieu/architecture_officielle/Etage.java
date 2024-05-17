@@ -119,6 +119,9 @@ public class Etage {
             context.strokeLine(mur.getDebut().getX(), mur.getDebut().getY(), mur.getFin().getX(), mur.getFin().getY());
         }
     }
+    void highlight(GraphicsContext context) {
+        
+    }
     
 // GET
     public double getHauteur_etage() {
@@ -135,7 +138,7 @@ public class Etage {
     public ArrayList<Mur> getListMurOrphelin() {
         return listMurOrphelin;
     }
-    public ArrayList<Mur> getListe_mur() {
+    public ArrayList<Mur> getListe_mur() {//TODO possibilité de mettre dans l'ID Manager ses attributs
         return liste_mur;
     }
     

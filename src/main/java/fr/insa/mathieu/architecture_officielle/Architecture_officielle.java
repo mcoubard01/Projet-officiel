@@ -23,8 +23,13 @@ import javafx.scene.canvas.GraphicsContext;
 public class Architecture_officielle { 
     public static ArrayList<String[]> donnee_enregistree; // Liste de tableaux de chaines de caractère qui est utilisée pour le stockage des Revêtements
     private ArrayList<Etage> liste_etage;
+
+    
     private Etage étageActuel;
 
+    public static ArrayList<String[]> getDonnee_enregistree() {
+        return donnee_enregistree;
+    }
     
     //TODO : l'utilsatuer doit pouvoir spécifier la hauteur de son premier étage.
     //Cela pourrait être un paramètre du constructeur ci-dessous. 
@@ -66,8 +71,11 @@ public class Architecture_officielle {
             this.étageActuel.dessine(context);
         
     }
-    
-    
+    public void highlight(GraphicsContext context, Mur murLePlusProche) {
+        System.out.println("HIGHLIGHT de Architecture_Officiel");
+        murLePlusProche.highlight(context);
+    }
+
     public static Architecture_officielle Test_batiment(){
         
         Architecture_officielle batiment = new Architecture_officielle();
@@ -409,4 +417,5 @@ public static void main(String[] args) {
     
     
     }
+
 }
