@@ -35,30 +35,34 @@ import fr.insa.mathieu.architecture_officielle.gui.Contrôleur;
  */
 public class RevêtementPane extends BorderPane{
     
-    ObservableList<String> designation = FXCollections.observableArrayList();
-    ListView<String> listeDesignation = new ListView(designation);
     Contrôleur contrôleur;
     MainPane mainPane;
+    private Revêtement revêtementCliqué;
     
 //CONSTRUCTOR
     public RevêtementPane(MainPane mainPane){
         this.mainPane=mainPane;
         this.contrôleur=mainPane.getContrôleur();
-        
+        //this.revêtementCliqué=new Revêtement();
         Architecture_officielle.donnee_enregistree=Architecture_officielle.lecture("Revêtement_final.txt");
         //TODO en fonction de notre état : affichier soit la liste des revêtements des murs, ou des sols, ou des plafonds. Je fais donc 3 HashMap pour assigner un String à un Revêtement
         //Toutes les listView possibles à afficher selon notre mode de fonctionnement
+        //DONNEES de base
         HashMap<Revêtement,String> mapRevMur = rev_mur();
         HashMap<Revêtement,String> mapRevSol = rev_sol();
         HashMap<Revêtement,String> mapRevPlafond = rev_plafond();
         ListView<String> listViewMur=listViewMur(mapRevMur);
         ListView<String> listViewSol=listViewSol(mapRevSol);
         ListView<String> listViewPlafond=listViewPlafond(mapRevPlafond);
-        VBox vbox=new VBox(listViewMur);
+        
+        //donnee à modifier selon le cas. *
+        
+        VBox vbox=new VBox(listViewMur);//changer en listViewSol ou ListViewPlafond
         this.setCenter(vbox);
-        listViewMur.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String oldString, String newString) -> {
+        listViewMur.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String oldString, String newString) -> {// Changer avec listViewSol ou listViewPlafond
             System.out.println("Revêtement cliqué : "+newString);
             Revêtement revêtementTrouvé = getKeyFromValue(mapRevMur, newString);
+            this.revêtementCliqué=revêtementTrouvé;
             System.out.println("revêtementTROUV2.toString() : "+revêtementTrouvé.toString());
             System.out.println("revêtementTROUV2.getPrix_unitaire() : "+revêtementTrouvé.getPrix_unitaire());
             System.out.println("id du revêtement (numéro)"+revêtementTrouvé.getId());
@@ -99,64 +103,9 @@ public class RevêtementPane extends BorderPane{
         return listviewPlafond;
     }
     //FUNCTION
-    /*
-    public static ObservableList<String> ObservableRevêtement(){
-        Architecture_officielle.donnee_enregistree=Architecture_officielle.lecture("Revêtement_final.txt");
-        ObservableList<String> observRevêtement = FXCollections.observableArrayList();
-        
-        for (int i=0;i<Architecture_officielle.donnee_enregistree.size();i++){
-            if (Architecture_officielle.donnee_enregistree.get(i)!=null){
-                String[] info = Architecture_officielle.donnee_enregistree.get(i);
-                String numéro = info[0];
-                String désignation = info[1];
-                String prixUnitaire = info[5];
-                System.out.println("Désignation : "+désignation+" ; prixUnitaire : "+prixUnitaire+" €/m²");
-                String Revêtement = numéro+" : "+désignation+" : Prix unitaire : "+prixUnitaire+" €/m²";
-                observRevêtement.add(Revêtement);
-                
-            }
-            else{
-                
-            }
-        }
-        
-        System.out.println("contenu de observRevêtement : ");
-        for(int i=0;i<observRevêtement.size();i++){
-            System.out.print(", "+observRevêtement.get(i));    
-        }
-        
-        return observRevêtement;
-    
+
+    public Revêtement getRevêtementCliqué() {
+        return revêtementCliqué;
     }
-*//*
-    public static ObservableList<Revêtement> ObservableRevêtementMur(){
-        Architecture_officielle.donnee_enregistree=Architecture_officielle.lecture("Revêtement_final.txt");
-        ObservableList<Revêtement> listeRevêtementMur = FXCollections.observableList(rev_mur());
-        ListView<Revêtement> listView = new ListView<>();
-        listView.setItems(listeRevêtementMur);
-        for (int i=0;i<Architecture_officielle.donnee_enregistree.size();i++){
-            if (Architecture_officielle.donnee_enregistree.get(i)!=null){
-                String[] info = Architecture_officielle.donnee_enregistree.get(i);
-                String numéro = info[0];
-                String désignation = info[1];
-                String prixUnitaire = info[5];
-                System.out.println("Désignation : "+désignation+" ; prixUnitaire : "+prixUnitaire+" €/m²");
-                String Revêtement = numéro+" : "+désignation+" : Prix unitaire : "+prixUnitaire+" €/m²";
-                observRevêtement.add(Revêtement);
-                
-            }
-            else{
-                
-            }
-        }
-        
-        System.out.println("contenu de observRevêtement : ");
-        for(int i=0;i<observRevêtement.size();i++){
-            System.out.print(", "+observRevêtement.get(i));    
-        }
-        
-        return observRevêtement;
-    
-    }
-*/
+
 }

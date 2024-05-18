@@ -18,9 +18,11 @@ public class Mur {
     private Coin fin;
     private Revêtement revêtement;
     //les trois la dessous j'ai du les rajoutez mais je suis pas sur que ce que j'ai fait soit juste .
-    private Etage étage; // pas sur que le mur soit relié à l'étage directement. Mais peut être utile dans mon cas ou je mets le mur dans une liste de murOrphelin
-    private String nom_mur; //Je vote pour supprimer ceci signé thomas
-    private Pièce pièce1 = null;
+
+    private Pièce pièce1;
+    private Etage étage; // pas sur que le mur soit relié à l'étage directement. 
+    private String nom_mur;
+    private Pièce pièce2;//a supprimer
     private ArrayList<Ouverture> liste_ouverture;
     
 //On utilise la méthode avec les maps (classe IDManager). Toutefois, on pourrait créer un ID dans la classe mur qui s'incrémante tout seul.
@@ -143,11 +145,29 @@ public class Mur {
             System.out.println("Le revêtement n'est pas applicable");
     }
 }
+
+    
+    public static String syntaxeToString(){
+        //merci de ne pas faire de changement substanciel dans la syntaxe des toString()
+        return "#Syntaxe  : \"Mur;id;idDuCoinDebut;idDuCoinFin;idDeEtageDuMur;idDePièce1;idDePièce2;liste_ouverture\"";
+        //id de pièce1 et pièce2 seront 9999 si null
+    }
     @Override
     public String toString() {
         //Syntaxe : "Mur;id;idDuCoinDebut;idDuCoinFin;idDeEtageDuMur;idDePièce1;idDePièce2;liste_ouverture
         String résultat = "Mur;" + this.id + ";" + debut.getId() + ";" + fin.getId() ;
             résultat += ";liste_ouverture=" + liste_ouverture ;
+//        int idDePièce1;
+//        int idDePièce2;
+//        if (pièce1 == null){
+//            idDePièce1 = 9999;
+//        }else{idDePièce1=pièce1.getId();}
+//        
+//        if (pièce1 == null){
+//            idDePièce2 = 9999;
+//        } else {idDePièce2=pièce1.getId();}
+//        String résultat = "Mur;" + id + ";" + debut.getId() + ";" + fin.getId() ;
+//            résultat += ";" + étage.getId() + ";" + idDePièce1 + ";" + idDePièce2 + ";liste_ouverture=" + liste_ouverture ;
         return résultat;
     }
   //ATTENTION!! désormais, il est important que toString() reste ainsi, car IDManager.récupérerLesObjetsCréés() repose dessus!!
@@ -176,6 +196,16 @@ public class Mur {
     public void highlight(GraphicsContext context){
         System.out.println("HIGHLIGHT de la classe Mur");
         context.setStroke(Color.ALICEBLUE);
+    }
+    public boolean horizontal() {
+        boolean result;
+        if(this.getDebut().getY()-this.getFin().getY()==0){ // mur vertical
+            result=true;
+        }
+        else {
+            result=false;
+        }
+        return result;
     }
 
  
@@ -235,6 +265,12 @@ public class Mur {
             System.out.println("LE revêtement ne peut être appliqué sur le mur !!!!");
         }
         
+    }
+    public void setListe_ouverture(ArrayList<Ouverture> liste_ouverture){
+        this.liste_ouverture = liste_ouverture;
+    }
+    public void addOuverture(Ouverture ouverture){
+        this.getListe_ouverture().add(ouverture);
     }
     
 

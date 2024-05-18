@@ -41,6 +41,9 @@ package fr.insa.mathieu.architecture_officielle;
     }
     abstract boolean contrôle(Revêtement revêtement);
 
+    public static String syntaxeToString(){
+        return "#Syntaxe : \"idDuRevêtement\"";
+    }
     @Override
     public String toString() {
         //Syntacexe : "idDuRevêtement"

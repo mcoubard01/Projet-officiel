@@ -32,6 +32,10 @@ public class Revêtement {
     // ex : id = 3 nous donne les informations pour la ligne 3
     
     // CONSTRUCTOR 
+    public Revêtement(){
+        this.listeSolPlafond=new ArrayList<>();
+        this.liste_mur=new ArrayList<>();
+    }
     public Revêtement(int id) {
         this.id = id;
         // TODO A CHANGER pour récupérer les bonnes données 

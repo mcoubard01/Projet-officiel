@@ -12,13 +12,15 @@ import javafx.scene.paint.Color;
  * @author stard
  */
 public abstract class Ouverture {
+    //ATTENTION! si on cahnge quoique ce soit dans les attributs, il faut changer eet faire foctionnner:
+    // - la toString(), la syntaxeToString() , et IDManager.récupérerOuvertures()
     private double ori_x;
     private double ori_y;
     private char orientation;
     private double longueur;
+
     private Mur mur1;
-    private Mur mur2;
-    private Mur mur;
+    private Mur mur2; //ainsi, une ouverture peut n'avoir (que temporairement) qu'un seul mur
 
     //CONSTRUCTOR
     /*
@@ -72,7 +74,7 @@ public abstract class Ouverture {
     double max_y = Math.max(mur.getDebut().getY(),mur.getFin().getY());
         //if (this.getEtage().getId()==mur.getÉtage().getId()){ /// TODO A changer "niveau" et "hauteur etage"
             if ( (this.getOri_x()>min_x && this.getOri_x()<max_x && this.getOri_y()==mur.getDebut().getY())||(this.getOri_y()>min_y && this.getOri_y()<max_y && this.getOri_x()==mur.getDebut().getX())){
-                if ((mur.getDebut().getX())-(mur.getFin().getX())==0){
+                if ((mur.getDebut().getX())-(mur.getFin().getX())==0){//mur est vertical
                     if(this.getOrientation()=='N'||this.getOrientation()=='S'){
                         switch(this.getOrientation()){
                             case 'N' -> {
@@ -159,9 +161,24 @@ public abstract class Ouverture {
         
     }
 
+    public static String syntaxeToString(){
+        return "#Syntaxe : \"Ouverture;ori_x;ori_y;orientation(char);longueur;idDuMur1;idDuMur2 \"";
+                //merci de ne pas faire de changement substanciel dans la syntaxe des toString()
+
+    }
     @Override
     public String toString() { //Attention à ne pas modifier à la légère le toString()!! mon travail repose dessus . signé thomas. (branche "20-lecture-sauvegarde"
         return "Ouverture" + ";ori_x=" + ori_x + ";ori_y=" + ori_y + ";orientation=" + orientation + ";longueur=" + longueur + ";id du mur1=" + mur1.getId() + ";id du mur2=" + mur2.getId();
+
+//        int idMur2;
+//        if (mur2 == null){
+//            idMur2 = 9999; //ne fonctionnera pas si on crée 9999 murs
+//            //Attention!! Ne pas changer idMur2 = 9999 sans changer cette particularité dans IDManager.récupérerOuvertures()
+//        }
+//        else{
+//            idMur2 = mur2.getId();
+//        }
+//        return "Ouverture" + ";" + ori_x + ";" + ori_y + ";" + orientation + ";" + longueur + ";" + mur1.getId() + ";" + idMur2;
     }//on distinguera les portes des fénêtres grâce à leur longeur
     
     
@@ -185,13 +202,8 @@ public abstract class Ouverture {
 
     public Mur getMur2() {
         return mur2;
-    }
+    }    
 
-    public Mur getMur() {
-        return mur;
-    }
-    
-    
     //SET
 
     public void setMur2(Mur mur2) {
