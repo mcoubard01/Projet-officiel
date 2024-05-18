@@ -6,16 +6,18 @@ package fr.insa.mathieu.architecture_officielle;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 /**
- * OHHHHHHHHH C'EST QUOI CE TRUC ta fonction surface tu la déclares comme static
- * et tu l'appelles : facade.surface(); CA NE PEUT PAS MARCHER
- *
  * @author oscar
  */
 public class Facade extends Mur  {
 
-    private int id;
+    private int id; 
+    //Si je cromprends bien, on ne doit créer dans le bâtiment QUE 4 FACADES
+    // donc id<=4
+    
     private Coin debut;
     private Coin fin;
     private Revêtement revêtement_facade;
@@ -24,6 +26,7 @@ public class Facade extends Mur  {
 
     public Facade(Coin debut, Coin fin) {
          this.id = IDManager.newId(this);
+         //on de doit créer que quatre facades maximum.
          this.debut = debut;
         this.fin = fin;
        
@@ -42,31 +45,69 @@ public class Facade extends Mur  {
         for (i = 0; i < liste_étage.size(); i++) {
             hauteur_bat = hauteur_bat + liste_étage.get(i).getHauteur_etage();
         }
-double surface_ouverture=0;
-System.out.println("la taille de la liste est de"+ liste_ouverture.size() );
-int j;
-for (j = 0; j < liste_ouverture.size(); j++) {
-    // TODO rajoutez une vérification d'appartenance a la facade mais je ne sait pas commment rédiger ça 
-    if (liste_ouverture.get(j).getLongueur()==0.90){
-        surface_ouverture= surface_ouverture + (liste_ouverture.get(j).getLongueur()*2.10);
- System.out.println("c'est une porte");
-    }else{
-         surface_ouverture= surface_ouverture + (liste_ouverture.get(j).getLongueur()*1.20);
-        System.out.println("c'est une fenetre");
-    }
- }
-        double s = (longueur(debut,fin)*hauteur_bat)-surface_ouverture ;
+        double surface_ouverture=0;
+        System.out.println("la taille de la liste est de"+ liste_ouverture.size() );
+        int j;
+        for (j = 0; j < liste_ouverture.size(); j++) {
+            // TODO rajoutez une vérification d'appartenance a la facade mais je ne sait pas commment rédiger ça 
+            if (liste_ouverture.get(j).getLongueur()==0.90){
+                surface_ouverture= surface_ouverture + (liste_ouverture.get(j).getLongueur()*2.10);
+         System.out.println("c'est une porte");
+            }else{
+                 surface_ouverture= surface_ouverture + (liste_ouverture.get(j).getLongueur()*1.20);
+                System.out.println("c'est une fenetre");
+            }
+         }
+                double s = (longueur(debut,fin)*hauteur_bat)-surface_ouverture ;
 
-        return s;
+                return s;
 
+    }//fin surface()
+    
+    /**
+     *dessine une facade. Il faut donc appeler quatre fois cette méthode pour dessiner le contour de tous les étages.
+     * @param context
+     */
+    @Override
+    public void dessine(GraphicsContext context){
+//        this.debut.dessine(context);
+//        this.fin.dessine(context);
+        context.setStroke(Color.FORESTGREEN);
+        context.strokeLine(this.getDebut().getX(), this.getDebut().getY(), this.getFin().getX(), this.getFin().getY());
+        
     }
 
     //GET
 
+    @Override
     public int getId() {
         return id;
     }
 
+    @Override
+    public Coin getDebut() {
+        return debut;
+    }
+
+    @Override
+    public Coin getFin() {
+        return fin;
+    }
+
+    public Revêtement getRevêtement_facade() {
+        return revêtement_facade;
+    }
+
+    @Override
+    public ArrayList<Ouverture> getListe_ouverture() {
+        return liste_ouverture;
+    }
+
+    public ArrayList<Etage> getListe_étage() {
+        return liste_étage;
+    }
+    
+    
     //SET
     public void setId(int id) {
         this.id = id;
