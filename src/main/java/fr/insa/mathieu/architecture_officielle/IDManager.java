@@ -189,11 +189,17 @@ public class IDManager {
         compteurEtage++;
         return compteurEtage-1; //renvoie l'id associé à l'objet etage
     }
-      public static int newId(Facade facade){
-        mapFacade.put(facade,compteurFacade); //rdc : 0 , 1er étage : 1 ,etc. 
-        mapIdVersFacade.put(compteurFacade, facade);
-        compteurFacade++;
-        return compteurFacade-1; //renvoie l'id associé à l'objet etage
+        public static int newId(Facade facade){
+            //il y a aura au maximum quatre facades
+            if (compteurFacade > 4){
+                throw new Error("il ne peut y avoir que quatre facades.");
+                //avec throw new Error, je crois que le progrmame continue par ailleurs de tourner.
+            }else{
+                mapFacade.put(facade,compteurFacade);  
+                mapIdVersFacade.put(compteurFacade, facade);
+                compteurFacade++;
+                return compteurFacade-1; //renvoie l'id associé à l'objet etage
+            }
     }
     public static int newId(Pièce pièce){
         int idDeLaPièce = compteurPièce ;//+ 1000* pièce.getEtage().getId(); //étage auquel la pièce se trouve
