@@ -99,7 +99,7 @@ public class Etage {
     @Override
     public String toString() {
         //Syntaxe : voir et actualiser au besoin la méthode syntaxeToString()
-        return "Etage;" + this.id + ";" + this.hauteur_etage + ";liste_appartement=" + this.liste_appartement;
+        return "Etage;" + this.id + ";" + this.hauteur_etage + ";liste_appartement=" + this.liste_appartement+";ListePièceOrpheline="+this.listPièceOrpheline;
     }
     
     //TODO TODO fonction add pour ajouter un appartement à l'étage

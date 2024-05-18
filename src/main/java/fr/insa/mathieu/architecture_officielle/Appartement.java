@@ -28,7 +28,10 @@ public class Appartement {
     //FUNCTION
     public void add_pièce(Pièce pièce){
         if (pièce.getAppartement()!=this){
+            System.out.println("dans la première boucle l.31");
+            System.out.println("piece.getAppartement()"+pièce.getAppartement());
             if(pièce.getAppartement()==null || this.etage.getListPièceOrpheline().contains(pièce)){
+                System.out.println("dans la deuxième boucle l.34");
                 this.liste_pièce.add(pièce);//On ajoute la pièce à la liste des pièce de cet appartement
                 this.etage.getListPièceOrpheline().remove(pièce);
             }
@@ -59,7 +62,7 @@ public class Appartement {
         for (int i=0 ; i< listeDesIdDesPièces.size() ; i++){
             listeDesIdDesPièces.add(liste_pièce.get(i).getId());
         }
-        return "Appartement;" + id + ";" + etage.getId() + ";liste_pièce=" + listeDesIdDesPièces;
+        return "Appartement;" + id + ";" + etage.getId() + ";liste_pièce=" + this.liste_pièce;
         //éventuellement il  n'y aura pas besoin de etage.getId(), puisque l'id de l'appartement intègre déjà l'id de l'étage.
     }
     public void dessine(GraphicsContext context){

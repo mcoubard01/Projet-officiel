@@ -197,6 +197,16 @@ public class Mur {
         System.out.println("HIGHLIGHT de la classe Mur");
         context.setStroke(Color.ALICEBLUE);
     }
+    public boolean horizontal() {
+        boolean result;
+        if(this.getDebut().getY()-this.getFin().getY()==0){ // mur vertical
+            result=true;
+        }
+        else {
+            result=false;
+        }
+        return result;
+    }
 
  
     // GET  

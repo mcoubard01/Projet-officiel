@@ -37,7 +37,7 @@ public class Coin {
     }
     // Juste un constructeur test qui ne sert à rien en tant que tel dans le code
     public Coin(){
-        this.id = IDManager.newId(this);
+        //this.id = IDManager.newId(this);
     }
    
    //FUNCTIONS
@@ -80,10 +80,10 @@ public class Coin {
     public void setId(int id) {
         this.id = id;
     }
-    public void setX(int x) {
+    public void setX(double x) {
         this.x = x;
     }
-    public void setY(int y) {
+    public void setY(double y) {
         this.y = y;
     }
     

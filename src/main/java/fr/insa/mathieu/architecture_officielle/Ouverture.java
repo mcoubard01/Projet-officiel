@@ -74,7 +74,7 @@ public abstract class Ouverture {
     double max_y = Math.max(mur.getDebut().getY(),mur.getFin().getY());
         //if (this.getEtage().getId()==mur.getÉtage().getId()){ /// TODO A changer "niveau" et "hauteur etage"
             if ( (this.getOri_x()>min_x && this.getOri_x()<max_x && this.getOri_y()==mur.getDebut().getY())||(this.getOri_y()>min_y && this.getOri_y()<max_y && this.getOri_x()==mur.getDebut().getX())){
-                if ((mur.getDebut().getX())-(mur.getFin().getX())==0){
+                if ((mur.getDebut().getX())-(mur.getFin().getX())==0){//mur est vertical
                     if(this.getOrientation()=='N'||this.getOrientation()=='S'){
                         switch(this.getOrientation()){
                             case 'N' -> {
