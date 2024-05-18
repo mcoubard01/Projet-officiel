@@ -60,17 +60,17 @@ public class Architecture_officielle {
         
     }
     
-    /*
+    
     public void dessine(GraphicsContext context){
         for (Etage etage: this.liste_etage){
             etage.dessine(context);
         }
-    }*/
-    public void dessine(GraphicsContext context){
+    }
+    /*public void dessine(GraphicsContext context){
         
             this.étageActuel.dessine(context);
         
-    }
+    }*/
     public void highlight(GraphicsContext context, Mur murLePlusProche) {
         System.out.println("HIGHLIGHT de Architecture_Officiel");
         murLePlusProche.highlight(context);
