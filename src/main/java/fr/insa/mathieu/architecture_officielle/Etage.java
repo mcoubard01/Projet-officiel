@@ -25,7 +25,7 @@ public class Etage {
     
     private ArrayList<Pièce> listPièceOrpheline;
     private ArrayList<Mur> listMurOrphelin;
-    private ArrayList<Mur> liste_mur;//les 4 murs délimitant l'étage TODO reprendre ces murs pour recuperer les coordonnee dans facade. 
+    private ArrayList<Facade> liste_mur_facade;
 
 //2eme option pour l'ID : au lieu de maps dans le IDManager, simplement créer la variable ci dessous et l'incrémenter directment dans le condtructeur
     //private static int compteurID =0; //pourquoi static? voir l'explication en commentaire dans IDManager
@@ -46,7 +46,7 @@ public class Etage {
         this.listPièceOrpheline=new ArrayList<Pièce>();
         this.listMurOrphelin=new ArrayList<Mur>();
         
-        this.liste_mur=new ArrayList<>();
+        this.liste_mur_facade=new ArrayList<>();
         //System.out.println("map size is" + mapEtage.size() );        
        // System.out.println("id is" + id );
     }
@@ -55,7 +55,7 @@ public class Etage {
         this.hauteur_etage = hauteur;
         this.liste_appartement = new ArrayList<>();
         this.listPièceOrpheline=new ArrayList<>();
-        this.liste_mur=new ArrayList<>();
+        this.liste_mur_facade=new ArrayList<>();
         this.listMurOrphelin=new ArrayList<Mur>();
     }
     
@@ -63,8 +63,8 @@ public class Etage {
 
     
 //FUNCTIONS
-    public void add(Mur mur){
-        this.liste_mur.add(mur);
+    public void add(Facade facade){
+        this.liste_mur_facade.add(facade);
     }
     
     /**
@@ -106,17 +106,27 @@ public class Etage {
             appartement.dessine(context);
         }
         this.dessine_limiteEtage(context);
+        System.out.println("dessin des pièces orphelines.");
         for(Pièce pièce:this.listPièceOrpheline){
+            System.out.println("dessin des pièces orphelines.");
             pièce.dessine(context);
         }
+         System.out.println("liste des murs orphelins : "+listMurOrphelin);
+         //problème: la liste des murs orhpelins est vide, alors que chaque création de new Mur(coin,coin,etage) est censée ajouter automatiquement ce nouveau mur à la liste susdite.
+         //idée de source du problème : 
+         //dans le contrôleur, l'étage actuel est mal géré (18/05/24,branch Thomas)
         for(Mur mur:this.listMurOrphelin){
+            System.out.println("dessin des murs orphelins.");
+            System.out.println("mur.toString() :"+mur.toString());
             mur.dessine(context);
         }
     }
     public void dessine_limiteEtage(GraphicsContext context){
-        context.setStroke(Color.INDIGO);
-        for(Mur mur:this.liste_mur){
-            context.strokeLine(mur.getDebut().getX(), mur.getDebut().getY(), mur.getFin().getX(), mur.getFin().getY());
+        //context.setStroke(Color.INDIGO);
+            //On dessine avec facade.dessine, plutôt que de réécrire Facade.dessint(), comme on le faisiat jusque là
+        for(Facade facade:this.liste_mur_facade){
+            facade.dessine(context);
+            //context.strokeLine(facade.getDebut().getX(), facade.getDebut().getY(), facade.getFin().getX(), facade.getFin().getY());
         }
     }
     void highlight(GraphicsContext context) {
@@ -138,8 +148,8 @@ public class Etage {
     public ArrayList<Mur> getListMurOrphelin() {
         return listMurOrphelin;
     }
-    public ArrayList<Mur> getListe_mur() {//TODO possibilité de mettre dans l'ID Manager ses attributs
-        return liste_mur;
+    public ArrayList<Facade> getListe_mur_facade() {//TODO possibilité de mettre dans l'ID Manager ses attributs
+        return liste_mur_facade;
     }
     
     
