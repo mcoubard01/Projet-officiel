@@ -52,17 +52,32 @@ public class Appartement {
         return prix;
     }
 
+    /**
+     * merci de ne pas faire de changement substanciel dans la syntaxe des toStringSauvegarde()
+     * //////////Attention : cette syntaxe est utiulisée dans IDManager.récupérerUnCoin() !!!!
+     * //////////Si on change la syntaxe de coin.toString(), il faut changer la méthode susdite.
+     * @return String
+     */
     public static String syntaxeToString(){
-        return "#Syntaxe : \"Appartement;id;IdDUEtage;liste_pièce(identifiants)\"";
+        return "#Syntaxe : \"Appartement;id;liste_pièce(identifiants)\"";
     }
-    @Override
-    public String toString() {
-        //Syntaxe : voir syntaxeToString(), et l'actualiser siu besoin 
+    /**ceci est le toString() de sauvegarde.
+    *MERCI DE NE PAS MODIFIER CETTE FONCTION sans me consulter
+    * @return CoinEnString : String
+    */
+    public String toStringSauvegarde() {
+        //#Syntaxe : \"Appartement;id;IdDUEtage;liste_pièce(identifiants)\" 
         ArrayList<Integer> listeDesIdDesPièces = new ArrayList<>();
         for (int i=0 ; i< listeDesIdDesPièces.size() ; i++){
             listeDesIdDesPièces.add(liste_pièce.get(i).getId());
         }
-        return "Appartement;" + id + ";" + etage.getId() + ";liste_pièce=" + this.liste_pièce;
+        return "Appartement;" + id + ";liste_pièce=" + listeDesIdDesPièces;
+    }
+    
+    @Override
+    public String toString() {
+        
+        return "Appartement; id :" + id + ";id de l'étage :" + etage.getId() + ";liste_pièce=" + this.liste_pièce;
         //éventuellement il  n'y aura pas besoin de etage.getId(), puisque l'id de l'appartement intègre déjà l'id de l'étage.
     }
     public void dessine(GraphicsContext context){

@@ -376,11 +376,29 @@ public class Pièce {
           return res+essai+essais+")";
     }
 
+    /**
+     * merci de ne pas faire de changement substanciel dans la syntaxe des toStringSauvegarde()
+     * //////////Attention : cette syntaxe est utilisée dans IDManager.récupérerUnePièce() !!!!
+     * //////////Si on change la syntaxe de pièce.toString(), il faut changer la méthode susdite.
+     * @return String
+     */
     public static String syntaxeToString(){
-        return "\"Pièce;id;nom_pièce;liste_mur(identifiants);revêtementDuSol;revêtementDuPlafond\"";
-//        return "#Syntaxe : \"Pièce;id;nom_pièce;liste_mur(identifiants);revêtementDuSol;revêtementDuPlafond;idDuAppartement \"";
-        //merci de ne pas faire de changement substanciel dans la syntaxe des toString()
+        return "#Syntaxe : \"Pièce;id;nom_pièce;liste_mur(identifiants);revêtementDuSol;revêtementDuPlafond\"";
     }
+    /**ceci est le toString() de sauvegarde.
+    *MERCI DE NE PAS MODIFIER CETTE FONCTION sans me consulter
+    * @return PièceEnString : String
+    */
+    public String toStringSauvegarde() {
+        //#Syntaxe : \"Pièce;id;nom_pièce;liste_mur(identifiants);revêtementDuSol;revêtementDuPlafond\"
+        ArrayList<Integer> listeDesIdDesMurs = new ArrayList<>();
+        for (int i = 0; i < liste_mur.size() ; i++){
+            listeDesIdDesMurs.add(liste_mur.get(i).getId());
+            //créée une liste des identifiants des murs qui forment la pièce
+        }
+        return "Pièce;" + id + ";" + nom_pièce  + ";liste_mur=" + listeDesIdDesMurs + ";" + sol.toString() + ";" + plafond.toString();
+    }
+    
     @Override
     public String toString() {
         //Syntaxe : voir la méthode syntxeToString()

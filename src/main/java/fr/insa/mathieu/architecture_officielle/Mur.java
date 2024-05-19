@@ -146,16 +146,28 @@ public class Mur {
     }
 }
 
-    
+    /**
+     * merci de ne pas faire de changement substanciel dans la syntaxe des toStringSauvegarde()
+     * //////////Attention : cette syntaxe est utiulisée dans IDManager.récupérerUnMur() !!!!
+     * //////////Si on change la syntaxe de mur.toStringSauvegarde(), il faut changer la méthode susdite.
+     * @return String
+     */
     public static String syntaxeToString(){
-        //merci de ne pas faire de changement substanciel dans la syntaxe des toString()
-        return "#Syntaxe  : \"Mur;id;idDuCoinDebut;idDuCoinFin;idDeEtageDuMur;idDePièce1;idDePièce2;liste_ouverture\"";
-        //id de pièce1 et pièce2 seront 9999 si null
+        return "#Syntaxe  : \"Mur;id;idDuCoinDebut;idDuCoinFin;idDuRevêtement";
     }
+    /**ceci est le toString() de sauvegarde.
+    *MERCI DE NE PAS MODIFIER CETTE FONCTION sans me consulter
+    * @return MurEnString : String
+    */
+    public String toStringSauvegarde() {
+        //Syntaxe : "Mur;id;idCoinDebut;idCoinFin"
+        return "Mur;" + this.id + ";" + debut.getId() + ";" + fin.getId() + ";" + this.revêtement.getId() ;
+    }
+    
     @Override
     public String toString() {
         //Syntaxe : "Mur;id;idDuCoinDebut;idDuCoinFin;idDeEtageDuMur;idDePièce1;idDePièce2;liste_ouverture
-        String résultat = "Mur;" + this.id + ";" + debut.getId() + ";" + fin.getId() ;
+        String résultat = "Mur; id :" + this.id + "; coin1: " + debut.getId() + "; coin2 ; " + fin.getId() ;
             résultat += ";liste_ouverture=" + liste_ouverture ;
 //        int idDePièce1;
 //        int idDePièce2;

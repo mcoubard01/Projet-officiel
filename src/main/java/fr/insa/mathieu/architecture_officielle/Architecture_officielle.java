@@ -37,7 +37,7 @@ public class Architecture_officielle {
         //On de manderait D'ABORD la hauteur du premier étage. 
     //Mais ça voudrait dire qu'on ne êut pas fournir de modèle au MainPan dans la méthode start...
     public Architecture_officielle(){
-        this.contrôleur=contrôleur;
+        //this.contrôleur=contrôleur; //19/05/24, T.B. : ceci n'a pas l'air d'être important.
         this.liste_etage=new ArrayList<>();
         //this.étageActuel = new Etage(2.5);
         //TODO : éventuellement, il faudra que l'utilisateur choisisse son étage de début!!
@@ -419,19 +419,41 @@ public class Architecture_officielle {
         //elle place dans chaque case de l'ArrayList l'objet.toString() .
         
     }
-/*   code basique de écriture, issu du cours sur moodle
-    try{
-        BufferedWriter out=new BufferedWriter(new FileWriter("clients.txt",true));
-        out.write("Philippe PREMIER");
-        out.newLine();
-        out.write("Bernard DUPONT");
-        out.newLine();
-        out.close();
+    public static Architecture_officielle ouvrirBâtiment(String nom_fichier){
+        Architecture_officielle bâtimentSauvegardé = null; //temporaire
+                                                    //=IDManager.récupérerLesDonnéesEnregistrées(nom_fichier)
+        System.out.println("ouverture du fichier de sauvegarde");
+        return bâtimentSauvegardé;
     }
-    catch (IOException err){
-        System.out.println("Erreur :\n"+err);}
-    } 
-*/
+    
+    /**
+     * merci de ne pas faire de changement substanciel dans la syntaxe des toStringSauvegarde()
+     * //////////Attention : cette syntaxe est utiulisée dans IDManager.récupérerUnMur() !!!!
+     * //////////Si on change la syntaxe de mur.toStringSauvegarde(), il faut changer la méthode susdite.
+     * @return String
+     */
+    public static String syntaxeToString(){
+        return "#Syntaxe  : \"Bâtiment;ListeDesEtages (id)\"";
+    }
+    /**ceci est le toString() de sauvegarde.
+    *MERCI DE NE PAS MODIFIER CETTE FONCTION sans me consulter
+    * @return BâtimentEnString : String
+    */
+    public String toStringSauvegarde() {
+        //"#Syntaxe  : \"Bâtiment;ListeDesEtages (id)"
+        ArrayList<Integer> listeDesIdDesEtages = new ArrayList<>();
+        for (int i = 0; i < this.liste_etage.size() ; i++){
+            listeDesIdDesEtages.add(liste_etage.get(i).getId());
+            //créée une liste des identifiants des murs qui forment la pièce
+        }
+        return "Bâtiment;" + listeDesIdDesEtages ;
+    }
+    
+    @Override
+    public String toString(){
+        return "Bâtiment;" + this.liste_etage;
+    }
+        
 
 //GET
     public ArrayList<Etage> getListe_etage() {

@@ -174,6 +174,7 @@ public class Facade extends Mur  {
         F1.liste_ouverture.add(Fenêtre1);
               F1.liste_ouverture.add(Porte1);
         System.out.println("la surface de la facade est de " +F1.surface() );
+        System.out.println(F1.toStringSauvegarde());
 
         
 
