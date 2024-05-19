@@ -65,6 +65,8 @@ public class Architecture_officielle {
     public void dessine(GraphicsContext context){
         //System.out.println("etage actuel de la classe Batiment : "+this.étageActuel.toString());
         if(this.étageActuel!=null){
+            System.out.println("Je suis dans la boucle this.etageAcutel!=null donc je dessine l'etageActuel");
+            System.out.println("quel est l'etage actuel de la classe Batiment : "+this.étageActuel.toString());
             this.étageActuel.dessine(context);
         }
         /*

@@ -47,6 +47,7 @@ public class DessinCanvas extends Pane{
         });
         
         if (this.main.getContrôleur().getEtageActuel()!= null){
+            
             this.redrawAll();
         }
         else {
@@ -82,6 +83,11 @@ public class DessinCanvas extends Pane{
     public Transform getTransform() {
         return this.realCanvas.getGraphicsContext2D().getTransform();
     }
+
+    public Canvas getRealCanvas() {
+        return realCanvas;
+    }
+    
 
     
     

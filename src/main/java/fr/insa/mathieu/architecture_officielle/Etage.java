@@ -108,9 +108,9 @@ public class Etage {
             appartement.dessine(context);
         }
         this.dessine_limiteEtage(context);
-        System.out.println("dessin des pièces orphelines.");
+        System.out.println("nbr de pièce orpheline de l'etageActuel(clase Etage) : "+this.listPièceOrpheline.size());
         for(Pièce pièce:this.listPièceOrpheline){
-            System.out.println("dessin des pièces orphelines.");
+            System.out.println("je suis dans la boucle de dessin de pièce orpheline de l'etage actuel");
             pièce.dessine(context);
         }
          System.out.println("liste des murs orphelins : "+listMurOrphelin);

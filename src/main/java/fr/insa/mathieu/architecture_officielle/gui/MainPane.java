@@ -12,6 +12,7 @@ import java.util.HashMap;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
@@ -215,8 +216,9 @@ public class MainPane extends BorderPane {
             this.model.setEtageActuel(getKeyFromValue(mapEtage_Button, butonEtage));
             System.out.println("Etage selectionné : "+ this.contrôleur.getEtageActuel().toString());
             System.out.println("Etage actuel du batiment : "+ this.model.getEtageActuel().toString());
-            
-            this.redrawAll();
+            GraphicsContext context  = this.dcdessin.getRealCanvas().getGraphicsContext2D();
+            context.clearRect(0, 0, this.dcdessin.getRealCanvas().getWidth(), this.dcdessin.getRealCanvas().getHeight());
+            this.model.dessine(context);
         });
     }
     
