@@ -70,8 +70,8 @@ public class Facade extends Mur  {
      */
     @Override
     public void dessine(GraphicsContext context){
-//        this.debut.dessine(context);
-//        this.fin.dessine(context);
+        this.debut.dessine(context);
+        this.fin.dessine(context);
         context.setStroke(Color.FORESTGREEN);
         context.strokeLine(this.getDebut().getX(), this.getDebut().getY(), this.getFin().getX(), this.getFin().getY());
         

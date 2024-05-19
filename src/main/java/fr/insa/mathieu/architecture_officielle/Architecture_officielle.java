@@ -19,13 +19,14 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 
 public class Architecture_officielle { 
     public static ArrayList<String[]> donnee_enregistree; // Liste de tableaux de chaines de caractère qui est utilisée pour le stockage des Revêtements
     private ArrayList<Etage> liste_etage;
     private Etage étageActuel;
-
+    private Contrôleur contrôleur;
     public static ArrayList<String[]> getDonnee_enregistree() {
         return donnee_enregistree;
     }
@@ -36,13 +37,12 @@ public class Architecture_officielle {
         //On de manderait D'ABORD la hauteur du premier étage. 
     //Mais ça voudrait dire qu'on ne êut pas fournir de modèle au MainPan dans la méthode start...
     public Architecture_officielle(){
+        this.contrôleur=contrôleur;
         this.liste_etage=new ArrayList<>();
         //this.étageActuel = new Etage(2.5);
         //TODO : éventuellement, il faudra que l'utilisateur choisisse son étage de début!!
     }
 
-    
-    
     public void add(Etage etage){
         if (etage.getBatiment()!=this){
             if (etage.getBatiment()==null){
@@ -58,21 +58,16 @@ public class Architecture_officielle {
         }
         
     }
-    
-    
-    public void dessine(GraphicsContext context){
-        for (Etage etage: this.liste_etage){
-            etage.dessine(context);
-        }
-
-    }
-    /*public void dessine(GraphicsContext context){
-        
-            this.étageActuel.dessine(context);
-
-    }*/
+    /**
+     * TODO à faire foncitonner avec la liste des etages seulement
+     * @param context 
+     */
     public void dessine(GraphicsContext context){
         //System.out.println("etage actuel de la classe Batiment : "+this.étageActuel.toString());
+        if(this.étageActuel!=null){
+            this.étageActuel.dessine(context);
+        }
+        /*
         if (this.liste_etage==null||this.étageActuel==null){
             for (Etage etage: this.liste_etage){
                 etage.dessine(context);
@@ -83,10 +78,14 @@ public class Architecture_officielle {
             System.out.println("etage actuel depuis la classe Bâtiment"+this.étageActuel.toString());
             this.étageActuel.dessine(context); // L'objectif est seulement d'afficher l'étage actuel. 
         }
-            
-
-        
+        */
     }
+    
+    /**
+     * Pas reussi à surligner les murs les plus proche
+     * @param context
+     * @param murLePlusProche 
+     */
     public void highlight(GraphicsContext context, Mur murLePlusProche) {
         System.out.println("HIGHLIGHT de Architecture_Officiel");
         murLePlusProche.highlight(context);
@@ -444,6 +443,10 @@ public class Architecture_officielle {
     public void setEtageActuel(Etage étage){
         this.étageActuel = étage;
     }
+    public void setContrôleur(Contrôleur contrôleur) {
+        this.contrôleur = contrôleur;
+    }
+
 
 public static void main(String[] args) {
    /////////////LECTURE FICHIER. IL s'appelle Revêtement_test.txt

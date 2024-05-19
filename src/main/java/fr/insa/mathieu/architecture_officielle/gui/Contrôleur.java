@@ -311,20 +311,7 @@ public class Contrôleur {
                             this.listePièceSelectionnée.clear();
                             this.listePièceSelectionnée.add(pièceSelectionnée);
                         }
-
-                    }
-      /*
-                    for(Mur mur2 : etage.getListe_mur_facade()){
-                        if(mur2.DistanceMurClique(coinCliq, DISTMAXCLIQUE)<distanceMinimale){
-                            distanceMinimale=mur2.DistanceMurClique(coinCliq, DISTMAXCLIQUE);
-                            murLePlusProche=mur2; 
-                            System.out.println("mur le plus proche de ta troisième boucle : "+mur2.toString());
-
-                        }
-                    }
-                    */
-                }
-               
+               /*
                if(t.isControlDown()){
                    if(this.listeMurSelectionné.contains(murLePlusProche)){
                        this.listeMurSelectionné.remove(murLePlusProche);
@@ -337,7 +324,7 @@ public class Contrôleur {
                    this.listeMurSelectionné.clear();
                    this.listeMurSelectionné.add(murLePlusProche);
                }
-                */
+        */
                 
                 System.out.println("Liste de mur SELECTIONNE : "+listeMurSelectionné.size());
                 for(int i =0;i<listeMurSelectionné.size();i++){
@@ -516,8 +503,8 @@ public class Contrôleur {
                     System.out.println("Quel est la hauteur de l'étage que vous vouliez avoir ? supérieur à 2m");
                     double hauteur=Lire.d();
                     Etage etageCréé = new Etage(hauteur, this.batiment);
-                    for (int i=0;i<this.listeEtage.get(0).getListe_mur().size();i++){
-                        etageCréé.add(this.listeEtage.get(0).getListe_mur().get(i));
+                    for (int i=0;i<this.listeEtage.get(0).getListe_mur_facade().size();i++){
+                        etageCréé.add(this.listeEtage.get(0).getListe_mur_facade().get(i));
                     }
                     this.listeEtage.add(etageCréé);
                     //TODO Ajout de bouton étage, dessiner les limites de l'étagee primitif
@@ -558,12 +545,12 @@ public class Contrôleur {
                 //Creation de bouton etage avec le label "etage primitif"
                 this.vue.redrawAll();
                 this.changeEtat(ETAT.SELECT);
+                break;
 
         }
         //TODO dans la video il fait model.add(new point) 
         //Je ne peux pas faire ça car je n'ai pas de méthode pour 
-        
-    }
+} 
     public void activeBoutonSuivantSelection() {
         this.vue.getRbcrmur().setDisable(true);
         this.vue.getRbEtageAj().setDisable(true);
@@ -640,7 +627,7 @@ public class Contrôleur {
                 }
             }
         }
-        for(Mur mur2 : etageActuel.getListe_mur()){
+        for(Mur mur2 : etageActuel.getListe_mur_facade()){
             if(mur2.DistanceMurClique(coinCliq, DISTMAXCLIQUE)<distanceMinimale){
                 distanceMinimale=mur2.DistanceMurClique(coinCliq, DISTMAXCLIQUE);
                 murLePlusProche=mur2; 

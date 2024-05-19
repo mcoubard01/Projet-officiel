@@ -78,7 +78,7 @@ public class Revêtement {
             //System.out.println("La taille de la liste donnee_enregistree : "+Architecture_officielle.getDonnee_enregistree().size());
             String[] info = Architecture_officielle.getDonnee_enregistree().get(k);
             if (info==null){
-                System.out.println("info est nul");
+                //System.out.println("info est nul");
                 continue; // Cette ligne permet au programme de ne pas faire la suite des conditions car la première n'est pas réalisée. source : chatgpt
             }
             else if(info[2].equals("1")){

@@ -60,6 +60,7 @@ public class MainPane extends BorderPane {
         this.model=model;
         this.revêtementPane= new RevêtementPane(this);
         this.contrôleur=new Contrôleur(this,this.revêtementPane);
+        this.model.setContrôleur(contrôleur);
         
         this.rbSelect=new RadioButton("Select");
         this.rbSelect.setOnAction((t) -> {
@@ -132,8 +133,7 @@ public class MainPane extends BorderPane {
         //disposition des éléments node entre eux (les uns au dessus des autres)
         this.vbox= new VBox(this.rbSelect,this.rbcrmur,this.rbcrpiece2,this.rbcrpiece3,
                 this.rbidappart,this.rbidpiece, this.rbfenêtre,this.rbporte,
-
-                this.rbrevêtement_rap,this.rbrevêtement, this.rbEtageAj, this.rbsupp, 
+                this.rbrevêtement_rap,this.rbrevêtement, this.rbEtageAj, this.rbsupp);
                 //new Label("Pour le moment, on peut que dessiner en mode plein écran."));TODO à mieux intégrer (pas dans le VBox car pas pratique du tout
                 //TODO : faire en sorte que le message ci-dessus ne prenne pas trop de place.
                 //actuellement, il a doublé la largeur du VBox... BAH OUI il ne noit pas être là. Eventuellement refaire une ligne au grid pane pour mettre ces labels

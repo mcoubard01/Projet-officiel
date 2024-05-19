@@ -25,9 +25,7 @@ public class DessinCanvas extends Pane{
     public DessinCanvas(MainPane main){
         this.main=main;
         this.realCanvas=new Canvas(this.getWidth(), this.getHeight()); // (this.getWidth() reprend la valeur de largeur du Pane (la classe mère))
-        System.out.println("DessinCanvas : je suis AVANT le this.getChildren().add(this.realCanvas)");
         this.getChildren().add(this.realCanvas); // pour ajouter le node Canvas à au Pane mère
-        System.out.println("DessinCanvas : je suis APRES le this.getChildren().add(this.realCanvas)");
         System.out.println("w ="+this.getWidth()+" ,h = "+this.getHeight());
         this.realCanvas.heightProperty().bind(this.heightProperty());
         this.realCanvas.widthProperty().bind(this.widthProperty());
@@ -48,8 +46,12 @@ public class DessinCanvas extends Pane{
             control.clicDansZoneDessin(t);
         });
         
-        
-        this.redrawAll();
+        if (this.main.getContrôleur().getEtageActuel()!= null){
+            this.redrawAll();
+        }
+        else {
+            this.drawInitial();
+        }
 
     }
     
@@ -63,7 +65,12 @@ public class DessinCanvas extends Pane{
         context.fillRect(0, 0, this.realCanvas.getWidth(), this.realCanvas.getHeight());
 */
     }
-
+    private void drawInitial() {
+        System.out.println("Je suis au sein de la methode drawInitial() pour le dessin du text lorsque etageActuel est null");
+        GraphicsContext context = this.realCanvas.getGraphicsContext2D();
+        context.setFill(Color.GOLD);
+        context.strokeText("Vous devez sélectionner/ajouter un etage pour pouvoir l'afficher ou dessiner", 100, 100);
+    }
     void highlight(Mur murLePlusProche) {
         GraphicsContext context = this.realCanvas.getGraphicsContext2D();
         Architecture_officielle model=this.main.getModel();
@@ -75,5 +82,7 @@ public class DessinCanvas extends Pane{
     public Transform getTransform() {
         return this.realCanvas.getGraphicsContext2D().getTransform();
     }
+
+    
     
 }
