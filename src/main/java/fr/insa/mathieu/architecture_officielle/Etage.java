@@ -91,13 +91,15 @@ public class Etage {
     }
     
     public static String syntaxeToString(){
-        return "Syntaxe : \"Etage;id;hauteur_etage;liste_appartement\"";
+        return "#Syntaxe : \"Etage;id;hauteur_etage;liste_appartement\"";
         // \" permet d'afficher le caractère 'guillemet' dans le String.
+                //merci de ne pas faire de changement substanciel dans la syntaxe des toString()
+
     }
     @Override
     public String toString() {
         //Syntaxe : voir et actualiser au besoin la méthode syntaxeToString()
-        return "Etage;" + this.id + ";" + this.hauteur_etage + ";liste_appartement=" + this.liste_appartement;
+        return "Etage;" + this.id + ";" + this.hauteur_etage + ";liste_appartement=" + this.liste_appartement+";ListePièceOrpheline="+this.listPièceOrpheline;
     }
     
     //TODO TODO fonction add pour ajouter un appartement à l'étage
@@ -181,6 +183,9 @@ public class Etage {
     }
     public void setListe_appartement(ArrayList<Appartement> liste_appartement) {
         this.liste_appartement = liste_appartement;
+    }
+    public void addAppartement(Appartement appartement){
+        this.liste_appartement.add(appartement);
     }
     public void setNiveau(int niveau) { // Pour pouvoir par exemple mettre un niveau -1
         this.niveau = niveau;

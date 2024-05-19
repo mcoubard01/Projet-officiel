@@ -14,6 +14,7 @@ package fr.insa.mathieu.architecture_officielle;
 
 
 import static fr.insa.mathieu.architecture_officielle.Revêtement.todouble;
+import fr.insa.mathieu.architecture_officielle.gui.Contrôleur;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -23,8 +24,6 @@ import javafx.scene.canvas.GraphicsContext;
 public class Architecture_officielle { 
     public static ArrayList<String[]> donnee_enregistree; // Liste de tableaux de chaines de caractère qui est utilisée pour le stockage des Revêtements
     private ArrayList<Etage> liste_etage;
-
-    
     private Etage étageActuel;
 
     public static ArrayList<String[]> getDonnee_enregistree() {
@@ -38,7 +37,7 @@ public class Architecture_officielle {
     //Mais ça voudrait dire qu'on ne êut pas fournir de modèle au MainPan dans la méthode start...
     public Architecture_officielle(){
         this.liste_etage=new ArrayList<>();
-        this.étageActuel = new Etage(2.5);
+        //this.étageActuel = new Etage(2.5);
         //TODO : éventuellement, il faudra que l'utilisateur choisisse son étage de début!!
     }
 
@@ -65,12 +64,29 @@ public class Architecture_officielle {
         for (Etage etage: this.liste_etage){
             etage.dessine(context);
         }
+
     }
     /*public void dessine(GraphicsContext context){
         
             this.étageActuel.dessine(context);
-        
+
     }*/
+    public void dessine(GraphicsContext context){
+        //System.out.println("etage actuel de la classe Batiment : "+this.étageActuel.toString());
+        if (this.liste_etage==null||this.étageActuel==null){
+            for (Etage etage: this.liste_etage){
+                etage.dessine(context);
+                
+            }
+        }
+        else{
+            System.out.println("etage actuel depuis la classe Bâtiment"+this.étageActuel.toString());
+            this.étageActuel.dessine(context); // L'objectif est seulement d'afficher l'étage actuel. 
+        }
+            
+
+        
+    }
     public void highlight(GraphicsContext context, Mur murLePlusProche) {
         System.out.println("HIGHLIGHT de Architecture_Officiel");
         murLePlusProche.highlight(context);
@@ -205,6 +221,8 @@ public class Architecture_officielle {
         Mur murTest2 = new Mur(coinTest2,coinTest3,rdc);
         Mur murTest3 = new Mur(coinTest3,coinTest4,rdc);
         Mur murTest4 = new Mur(coinTest4,coinTest1,rdc);
+        Porte ouvertureTest1 = new Porte(1.5,0,'E',murTest1);
+        Fenêtre fenêtreTest1 = new Fenêtre(1.4,0,'O',murTest1);
         Pièce pièceTest1 = new Pièce(murTest1,murTest2,murTest3,murTest4);
         //crée une pièce ET un nouvel appartement
 
@@ -289,11 +307,12 @@ public class Architecture_officielle {
         }
     }
     
-    //à terme, il faudrait créer une classe séparée contenant les méthodes lecture, écriture, sauvegarde...
     
     //TODO : la méthode "lecture" est peut-être trop spécialisée (lecture de Revêtements_test.txt), pas assez "flexible", non? 
     //à voir dans notre utilisation
-   
+   //La méthode lectureGénérale() est plus générale, car simpliste (voir plus bas)
+    
+    
     public static ArrayList<String[]> lecture(String nom_fichier){
     String ligne;                                   //chaîne de caractères pour enregistrer les lignes du document texte
     ArrayList <String>data = new ArrayList();       //Création de l'ArrayList qui sera utilisé pour récupérer le fichier lu dans la boucle WHILE
@@ -333,10 +352,40 @@ public class Architecture_officielle {
     }
     }
     
+    
+    /**
+     * Architecture_officille.lectureGénérale est une méthode simpliste
+     * elle nécessite un traitement de données supplémentaire.
+     * @param nom_fichier : String
+     * @return ArrayList<String>
+     */
+    public static ArrayList<String> lectureGénérale(String nom_fichier){
+        String ligne;                                   //chaîne de caractères pour enregistrer les lignes du document texte
+        ArrayList <String> data = new ArrayList();       //Création de l'ArrayList qui sera utilisé pour récupérer le fichier lu dans la boucle WHILE
+ 
+        try {                                           // Pour gérer les exceptions de fichiers : fichier non trouvé...
+            BufferedReader entre=new BufferedReader(new FileReader(nom_fichier));
+            while ((ligne = entre.readLine())!= null){
+                System.out.println(ligne);            // on écrit la ligne dans le moniteur pour analyser ce que lit le bufferedReader
+                data.add(ligne);                      //on ajoute la ligne lu par le BufferedReader à la liste qui s'appelle data
+            }
+            entre.close(); 
+            return data;
+        }
+            catch(FileNotFoundException err){
+                System.out.println("Erreur : le fichier n'existe pas !\n"+err);
+                return null;
+            }
+            catch (IOException err){
+                System.out.println("Erreur:\n"+err);
+                return null;
+            }
+    }
+    
     /**
      * méthode GENERIQUE d'écriture
-     * @param String nomDuFichier
-     * @param ArrayList<String> donnéesAEnregistrerEnTexte :une arraylist dont chaque case sera une ligne du fichier texte 
+     * @param nomDuFichier :String
+     * @param donnéesAEnregistrerEnTexte : ArrayList<String>  : une arraylist dont chaque case sera une ligne du fichier texte 
      */
     public static void écriture(String nomDuFichier, ArrayList<String> donnéesAEnregistrerEnTexte){
         
@@ -359,9 +408,10 @@ public class Architecture_officielle {
      * (comme les fichiers texte révêtement)
      */
     public static void sauvegardeParDéfaut(){
-        Coin coin3 = new Coin(300,22);
+        /*Coin coin3 = new Coin(300,22);
         Coin coin4 = new Coin(301,30);
-        Coin coin5 = new Coin(302,28);
+        Coin coin5 = new Coin(302,28); 
+        */ //c'était des tests
         ArrayList<String> listeDesObjetsCréés = IDManager.imprimerLesObjetsCréés();
         écriture("saveFile.txt", listeDesObjetsCréés);
         //imprimerLesObjetsCréés() est une méthode qui lit toutes les valeurs (objets créés) de chaque clé (identifiants) de chaque mapIdVersTypeDeObjet dans IDManager.

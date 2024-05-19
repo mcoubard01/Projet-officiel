@@ -176,6 +176,9 @@ public class Pièce {
         this.id = IDManager.newId(this);
         System.out.println("cration de la pièce " + id + ", sans appart ni étage");
     }
+    public Pièce(){
+        
+    }
     
  // FUNCTION
     /*
@@ -187,6 +190,116 @@ public class Pièce {
         }
     }
     */
+    /**
+     * la fonction pieceSelect renvoie true si le clique souris se trouve dans la zone pour selectionner la pièce. 
+     * TODO dessiner un petit carré rouge à l'interieur si la pièce est selectionnée
+     * @param coinCliqué
+     * @return 
+     */
+    public boolean pieceSelect(Coin coinCliqué){
+        boolean result;
+        double longueurMax=0;
+        double longueurMin=Double.POSITIVE_INFINITY;
+        Coin positionCentrale;
+        Mur[] listeMur = new Mur[2];
+        for (Mur mur : this.getListe_mur()){
+            if (mur.longueur()>longueurMax){
+                longueurMax=mur.longueur();
+                listeMur[0]=mur;
+            }
+            else{
+                
+            }
+            if(mur.longueur()<longueurMin){
+                longueurMin=mur.longueur();
+                listeMur[1]=mur;
+            }
+        }
+        //System.out.println("longueur max : "+longueurMax);
+        //System.out.println("longueur min : "+longueurMin);
+        positionCentrale = new Coin();
+        if (listeMur[0].horizontal()){
+            System.out.println("Le mur le plus grand est horizontal");
+            /**
+             * Position du point Central de la pièce => marche BIEN
+             */
+            if (listeMur[0].getDebut().getX()<listeMur[0].getFin().getX()){
+                positionCentrale.setX(listeMur[0].getDebut().getX()+longueurMax/2);
+            }
+            else{
+                positionCentrale.setX(listeMur[0].getFin().getX()+longueurMax/2);
+            }
+            if (listeMur[1].getDebut().getY()<listeMur[1].getFin().getY()){
+                positionCentrale.setY(listeMur[1].getDebut().getY()+longueurMin/2);
+            }
+            else{
+                positionCentrale.setY(listeMur[1].getFin().getY()+longueurMin/2);
+            }
+            /**
+             * voisinage du point central dans lequel la pièce est cliquée
+             * 1/6 de la longueur max en x (longueur max est ici horizontale)
+             * 1/6 de la longueur min en y (longueur min est ici verticale)
+             */
+            
+            System.out.println("Le coin Centrale est : "+positionCentrale.toString());
+            double voisinSUPX = positionCentrale.getX()+0.2*longueurMax;
+            double voisinINFX = positionCentrale.getX()-0.2*longueurMax;
+            double voisinSUPY = positionCentrale.getY()+0.2*longueurMin;
+            double voisinINFY = positionCentrale.getY()-0.2*longueurMin;
+            System.out.println("voisinage en x lorsque longueur max horizontal : ["+voisinINFX+","+voisinSUPX+"]");
+            System.out.println("voisinage en y lorsque longueur max horizontal : ["+voisinINFY+","+voisinSUPY+"]");
+
+            if(coinCliqué.getX()<voisinSUPX && coinCliqué.getX()>voisinINFX){
+                //System.out.println("Le clic se situe dans le bon voisinage du point central en x");
+                if(coinCliqué.getY()<voisinSUPY && coinCliqué.getY()>voisinINFY){
+                    result=true;
+                    //System.out.println("Le clique souris se situe dans l'espace prédéfini pour slectionner une pièce");
+                }
+                else{
+                    result=false;
+                }
+            } else {
+                result=false;
+            }
+        }
+        else {
+            //System.out.println("Le mur le plus grand est Vertical");
+            if (listeMur[0].getDebut().getY()<listeMur[0].getFin().getY()){
+                positionCentrale.setY(listeMur[0].getDebut().getY()+longueurMax/2);
+            }
+            else{
+                positionCentrale.setY(listeMur[0].getFin().getY()+longueurMax/2);
+            }
+            if (listeMur[1].getDebut().getX()<listeMur[1].getFin().getX()){
+                positionCentrale.setX(listeMur[1].getDebut().getX()+longueurMin/2);
+            }
+            else{
+                positionCentrale.setX(listeMur[1].getFin().getX()+longueurMin/2);
+            }
+            
+            System.out.println("Le coin Centrale est : "+positionCentrale.toString());
+            double voisinSUPX = positionCentrale.getX()+0.2*longueurMax;
+            double voisinINFX = positionCentrale.getX()-0.2*longueurMax;
+            double voisinSUPY = positionCentrale.getY()+0.2*longueurMin;
+            double voisinINFY = positionCentrale.getY()-0.2*longueurMin;
+            System.out.println("voisinage en x lorsque longueur max horizontal : ["+voisinINFX+","+voisinSUPX+"]");
+            System.out.println("voisinage en y lorsque longueur max horizontal : ["+voisinINFY+","+voisinSUPY+"]");
+            
+            if(voisinINFX<coinCliqué.getX() && coinCliqué.getX()<voisinSUPX){
+                if(coinCliqué.getY()<voisinSUPY && coinCliqué.getY()>voisinINFY){
+                    result=true;
+                    //System.out.println("Le clique souris se situe dans l'espace prédéfini pour slectionner une pièce");
+                }
+                else{
+                    result=false;
+                }
+            } else {
+                result=false;
+            }
+        }
+
+        return result;
+    } 
     public void add(Mur m){// permet d'ajouter un mur dans la liste de pièce avec l'appel <Pièce>.add(Mur mur);
             this.liste_mur.add(m);
     }
@@ -265,6 +378,8 @@ public class Pièce {
 
     public static String syntaxeToString(){
         return "\"Pièce;id;nom_pièce;liste_mur(identifiants);revêtementDuSol;revêtementDuPlafond\"";
+//        return "#Syntaxe : \"Pièce;id;nom_pièce;liste_mur(identifiants);revêtementDuSol;revêtementDuPlafond;idDuAppartement \"";
+        //merci de ne pas faire de changement substanciel dans la syntaxe des toString()
     }
     @Override
     public String toString() {
@@ -277,7 +392,7 @@ public class Pièce {
         return "Pièce;" + id + ";" + nom_pièce  + ";liste_mur=" + listeDesIdDesMurs + ";" + sol.toString() + ";" + plafond.toString();
     }
     
-    
+    //inutile désormais 
     public static String indente (String toIndente, String prefix){// meme machin que dans la premièrer vidéo du prof. 
     return prefix +toIndente.replaceAll("\n","\n"+ prefix);
 }
