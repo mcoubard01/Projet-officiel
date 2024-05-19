@@ -59,11 +59,17 @@ public class Architecture_officielle {
         
     }
     
-    /*
+    
     public void dessine(GraphicsContext context){
         for (Etage etage: this.liste_etage){
             etage.dessine(context);
         }
+
+    }
+    /*public void dessine(GraphicsContext context){
+        
+            this.étageActuel.dessine(context);
+
     }*/
     public void dessine(GraphicsContext context){
         //System.out.println("etage actuel de la classe Batiment : "+this.étageActuel.toString());
@@ -78,6 +84,7 @@ public class Architecture_officielle {
             this.étageActuel.dessine(context); // L'objectif est seulement d'afficher l'étage actuel. 
         }
             
+
         
     }
     public void highlight(GraphicsContext context, Mur murLePlusProche) {

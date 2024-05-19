@@ -20,6 +20,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.control.Label;
 
 /**
  *
@@ -123,19 +124,28 @@ public class MainPane extends BorderPane {
         this.rbrevêtement.setToggleGroup(bgEtat);
         this.rbrevêtement_rap.setToggleGroup(bgEtat);
         this.rbEtageAj.setToggleGroup(bgEtat);
-        this.rbSelect.setSelected(true);
+        this.rbEtageAj.setSelected(true);
+        //ANCIEN : this.rbSelect.setSelected(true);
+        //désormais, quand on ouvre le programme, il faut créer le premier étage : 
+        //clic1 -->ETAT.AJOUT_ETAGEp2, puis clic2, puis dans la console, donner la ahuteur de étagePrimitif.
         
         //disposition des éléments node entre eux (les uns au dessus des autres)
         this.vbox= new VBox(this.rbSelect,this.rbcrmur,this.rbcrpiece2,this.rbcrpiece3,
                 this.rbidappart,this.rbidpiece, this.rbfenêtre,this.rbporte,
-                this.rbrevêtement_rap,this.rbrevêtement, this.rbEtageAj, this.rbsupp);
-        
+
+                this.rbrevêtement_rap,this.rbrevêtement, this.rbEtageAj, this.rbsupp, 
+                //new Label("Pour le moment, on peut que dessiner en mode plein écran."));TODO à mieux intégrer (pas dans le VBox car pas pratique du tout
+                //TODO : faire en sorte que le message ci-dessus ne prenne pas trop de place.
+                //actuellement, il a doublé la largeur du VBox... BAH OUI il ne noit pas être là. Eventuellement refaire une ligne au grid pane pour mettre ces labels
+      //Pourquoi Faire ???
+        //System.out.println("Classe MainePane : vbGauche.toString()"+vbGauche.toString());
         //Position des éléments sur la scene
+                            
         this.setLeft(this.vbox);
         
         this.dcdessin=new DessinCanvas(this);
         this.setCenter(this.dcdessin);
-    this.contrôleur.changeEtat(ETAT.SELECT);
+    this.contrôleur.changeEtat(ETAT.AJOUT_ETAGEp1);
     }
     
     //GET

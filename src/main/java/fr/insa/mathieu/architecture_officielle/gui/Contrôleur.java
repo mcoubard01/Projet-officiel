@@ -8,6 +8,7 @@ import fr.insa.mathieu.architecture_officielle.Appartement;
 import fr.insa.mathieu.architecture_officielle.Architecture_officielle;
 import fr.insa.mathieu.architecture_officielle.Coin;
 import fr.insa.mathieu.architecture_officielle.Etage;
+import fr.insa.mathieu.architecture_officielle.Facade;
 import fr.insa.mathieu.architecture_officielle.Fenêtre;
 import fr.insa.mathieu.architecture_officielle.Lire;
 import fr.insa.mathieu.architecture_officielle.Mur;
@@ -22,7 +23,8 @@ import javafx.scene.paint.Color;
  *  VIDEO à reprendre (la 7 et 8)
  * 
  * TODO : ptLineDist(double px, double py) pour avoir la distance de ton clic (en paramètre sa position X et Y) à une ligne (le mur)<mur>.ptLineDist(t.getX(),t.getY());
- * @author stard
+ FAIT
+ * @author mathieu
  */
 public class Contrôleur {
     private ETAT etat;
@@ -76,6 +78,8 @@ public class Contrôleur {
     public void changeEtat(ETAT nouvelEtat){//int nouvelEtat => Etat nouvelEtat
         switch(nouvelEtat){
             case SELECT://case :Etat.Select:
+                this.vue.getRbSelect().setDisable(false);
+                    //il faut le rallumer car je l'ai éteint dans l'état AJOUT_ETAGEp2.
                 this.vue.getRbidappart().setDisable(false);
                 this.vue.getRbidpiece().setDisable(false);
                 this.vue.getRbfenêtre().setDisable(false);
@@ -228,11 +232,15 @@ public class Contrôleur {
                 this.vue.getRbrevêtement_rap().setDisable(false);
                 break;
             case AJOUT_ETAGEp1:
+                if (etagePrimitif==null){
+                    this.vue.getRbSelect().setDisable(true);
+                    //lors de la création du premier étage, on ne peut pas encore select.
+                }
                 this.vue.getRbidappart().setDisable(true);
                 this.vue.getRbidpiece().setDisable(true);
                 this.vue.getRbfenêtre().setDisable(true);
                 this.vue.getRbporte().setDisable(true);
-                this.vue.getRbEtageAj().setDisable(true);
+                this.vue.getRbEtageAj().setDisable(false);
                 this.vue.getRbcrmur().setDisable(true);
                 this.vue.getRbcrpiece2().setDisable(true);
                 this.vue.getRbcrpiece3().setDisable(true);
@@ -240,7 +248,9 @@ public class Contrôleur {
                 this.vue.getRbrevêtement_rap().setDisable(true);
                 
                 break;
-            case AJOUT_ETAGEp2:
+            case AJOUT_ETAGEp2: //ATTENTION : AJOUT_ETAGEp2 n'est actif que au tout début, à la création du premier étage.
+                this.vue.getRbSelect().setDisable(true);
+                
                 this.vue.getRbidappart().setDisable(true);
                 this.vue.getRbidpiece().setDisable(true);
                 this.vue.getRbfenêtre().setDisable(true);
@@ -296,25 +306,25 @@ public class Contrôleur {
                             else{
                                 this.listePièceSelectionnée.add(pièceSelectionnée);
                             }
-                        } 
-                        else {
+                 } 
+                 else {
                             this.listePièceSelectionnée.clear();
                             this.listePièceSelectionnée.add(pièceSelectionnée);
                         }
-                for(Appartement appartement : etageActuel.getListe_appartement()){
-                    for(Pièce pièce:appartement.getListe_pièce()){
-                        if(pièce.pieceSelect(coinCliq)){
-                            pièceSelectionnée=pièce;
+
+                    }
+      /*
+                    for(Mur mur2 : etage.getListe_mur_facade()){
+                        if(mur2.DistanceMurClique(coinCliq, DISTMAXCLIQUE)<distanceMinimale){
+                            distanceMinimale=mur2.DistanceMurClique(coinCliq, DISTMAXCLIQUE);
+                            murLePlusProche=mur2; 
+                            System.out.println("mur le plus proche de ta troisième boucle : "+mur2.toString());
+
                         }
                     }
+                    */
                 }
-                /*
-                if(this.listePièceSelectionnée.get(0)==null){
-                    System.out.println("Selection de mur dans l'ETAT SELECT de la classe contrôleur ligne 290");
-                    Mur murLePlusProche = new Mur();
-                    murLePlusProche=rechercheMur(etageActuel,coinCliq);
-                }
-                /*
+               
                if(t.isControlDown()){
                    if(this.listeMurSelectionné.contains(murLePlusProche)){
                        this.listeMurSelectionné.remove(murLePlusProche);
@@ -356,9 +366,11 @@ public class Contrôleur {
                 double y2=t.getY();
                 System.out.println("coordonnée du clic 2 : (x,y) => ("+x2+","+y2+")");
                 //Mur mur = new Mur(new Coin(this.pos.get(0), this.pos.get(1)), new Coin(x2, y2));
-                Mur mur = new Mur(new Coin(this.pos[0], this.pos[1]), new Coin(x2, y2), this.vue.getModel().getEtageActuel());
-                //d'après vidéo il fautdrait mettre this.vue.redrawAll()
+                Etage étageDuMur = this.vue.getModel().getEtageActuel();
+                Mur mur = new Mur(new Coin(this.pos[0], this.pos[1]), new Coin(x2, y2), étageDuMur);
+                //le constructeur Mur(coin,coin,etage) ajoute automatiquement this à etage.getListMurOrphelins.
                 System.out.println("mur.toString() :"+mur.toString());
+                System.out.println("ce mur appartient-il aux mur orphelins ? (boolean) " + étageDuMur.getListMurOrphelin().contains(mur));
                 this.vue.redrawAll();
                 this.changeEtat(ETAT.CREA_MURp1);
                 break;
@@ -415,6 +427,7 @@ public class Contrôleur {
                 break;
                 /**
                  * TODO : la création de pièce 3 points possède un défaut de fonctionnement...
+                 * 18/05,brnch de thomas : actuellement elle fonctionne.
                  */
             case CREA_PIECE_3PNT_p1:
                 System.out.println("ETAT CREA_PIECE_3PNT_p1 de création de pièce 3 points");
@@ -514,6 +527,7 @@ public class Contrôleur {
                     this.changeEtat(ETAT.SELECT);
                 }
                 else{
+                    System.out.println("On crée actuellement le premier étage, afin di'initialiser le bâtiment.");
                     System.out.println("Veuillez cliquer sur les limites de l'ETAGE (2 cliques)");
                     this.pos[0]=t.getX();
                     this.pos[1]=t.getY();
@@ -521,17 +535,20 @@ public class Contrôleur {
                     this.changeEtat(ETAT.AJOUT_ETAGEp2);
                 }
                 break;
-            case AJOUT_ETAGEp2:
+            case AJOUT_ETAGEp2: //ATTENTION : ajout_Etagep2 n'est active que lors de la création dupremier étage. 
+                //le reste du temps, AJOUT_ETAGEp1 suffit à créer un nouvel étage.
                 System.out.println("AJOUT d'ETAGEp1");
                 x2=t.getX();
                 y2=t.getY();
                 batiment=new Architecture_officielle();
                 System.out.println("coordonée du clic 2 : (x,y) => ("+x2+","+y2+")");
-                etagePrimitif=new Etage(3, batiment);
-                etagePrimitif.add(new Mur(new Coin(this.pos[0], this.pos[1]),new Coin(this.pos[0], y2)));
-                etagePrimitif.add(new Mur(new Coin(this.pos[0], y2),new Coin(x2, y2)));
-                etagePrimitif.add(new Mur(new Coin(x2,y2),new Coin(x2, this.pos[1])));
-                etagePrimitif.add(new Mur(new Coin(x2, this.pos[1]),new Coin(this.pos[0], this.pos[1])));
+                System.out.println("quelle est la hauteur du premier étage du bâtiment?");
+                double hauteurDuRDC = Lire.d();
+                etagePrimitif=new Etage(hauteurDuRDC, batiment);
+                etagePrimitif.add(new Facade(new Coin(this.pos[0], this.pos[1]),new Coin(this.pos[0], y2)));
+                etagePrimitif.add(new Facade(new Coin(this.pos[0], y2),new Coin(x2, y2)));
+                etagePrimitif.add(new Facade(new Coin(x2,y2),new Coin(x2, this.pos[1])));
+                etagePrimitif.add(new Facade(new Coin(x2, this.pos[1]),new Coin(this.pos[0], this.pos[1])));
                 this.listeEtage.add(etagePrimitif);
                 //System.out.println("Etage.toString : "+etagePrimitif.toString());
                 this.vue.getModel().getListe_etage().add(etagePrimitif);

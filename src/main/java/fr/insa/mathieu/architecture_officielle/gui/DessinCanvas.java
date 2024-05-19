@@ -43,7 +43,7 @@ public class DessinCanvas extends Pane{
         });
         
         this.realCanvas.setOnMouseClicked((t) -> {
-            System.out.println("setOnMouseCLICKED");
+            System.out.println("\nsetOnMouseCLICKED");
             Contrôleur control = this.main.getContrôleur();
             control.clicDansZoneDessin(t);
         });
