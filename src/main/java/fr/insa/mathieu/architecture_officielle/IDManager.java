@@ -4,6 +4,7 @@
  */
 package fr.insa.mathieu.architecture_officielle;
 import java.util.*;
+import java.util.Map.Entry;
 
 
 /**
@@ -354,6 +355,26 @@ public class IDManager {
         return résultat; //si on entre pas un typeDeObket valide, cela renvoie flase
     }    
     
+    /**
+     * cette méthode renvoie en ArrayList toutes les pièces de l'étage en paramètre, quelles soient orphelines ou non.
+     * @param étageActuel
+     * @return toutesLesPiècesDeCetEtage : ArrayList<Pièce>
+     */
+    public static ArrayList<Pièce> toutesLesPièces(Etage étageActuel){
+        ArrayList<Pièce> resultat = new ArrayList<>();
+        
+        //mapIdVersPièce.forEach(action); 
+                            //CTRL+espace sur "action" donne la suggestion : 
+                            //"(? super Integer t, ? super Pièce u) -> expr.void)"
+        mapIdVersPièce.forEach((t, u) -> {//t est un Integer, u une pièce
+            if (getObjetPièce(t).getEtage()==étageActuel){ //apparemment, " ==" a l'air de fonctionner.
+                resultat.add(u);
+            }
+        });
+            
+        return resultat;
+    }
+    
     
     
     //SET
@@ -377,6 +398,7 @@ public class IDManager {
         for (int i = 0; i<imprimerLesObjetsCréés().size();i++){
             System.out.println(imprimerLesObjetsCréés().get(i));
         }
+        
     }
     
     
