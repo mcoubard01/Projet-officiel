@@ -84,13 +84,17 @@ public class Architecture_officielle {
     }
     
     /**
-     * Pas reussi à surligner les murs les plus proche
+     * 
      * @param context
-     * @param murLePlusProche 
+     * @param murSélectionné 
      */
-    public void highlight(GraphicsContext context, Mur murLePlusProche) {
-        System.out.println("HIGHLIGHT de Architecture_Officiel");
-        murLePlusProche.highlight(context);
+    public void highlight(GraphicsContext context, Mur murSélectionné) {
+        System.out.println("HIGHLIGHT(context,mur) de Architecture_Officiel");
+        murSélectionné.highlight(context);
+    }
+    public void highlight(GraphicsContext context, Pièce pièceSélectionnée) {
+        System.out.println("HIGHLIGHT(context,pièce) de Architecture_Officiel");
+        pièceSélectionnée.highlight(context);
     }
 
     public static Architecture_officielle Test_batiment(){
