@@ -4,6 +4,7 @@
  */
 package fr.insa.mathieu.architecture_officielle;
 
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.canvas.GraphicsContext;
@@ -26,7 +27,7 @@ public class Facade extends Mur  {
 
     public Facade(Coin debut, Coin fin) {
          this.id = IDManager.newId(this);
-         //on de doit créer que quatre facades maximum.
+         //on ne doit créer que quatre facades maximum.
          this.debut = debut;
         this.fin = fin;
        
@@ -74,7 +75,57 @@ public class Facade extends Mur  {
         this.fin.dessine(context);
         context.setStroke(Color.FORESTGREEN);
         context.strokeLine(this.getDebut().getX(), this.getDebut().getY(), this.getFin().getX(), this.getFin().getY());
-        
+    }
+    
+    @Override
+    public void highlight(GraphicsContext context){
+        System.out.println("HIGHLIGHT de la classe Facade");
+        this.debut.dessine(context);
+        this.fin.dessine(context);
+        context.setStroke(Color.RED);
+        context.strokeLine(this.getDebut().getX(), this.getDebut().getY(), this.getFin().getX(), this.getFin().getY());  
+    }
+    
+    /**
+     * ceci est l'implémentation de DistanceMurClique dans la classe Facade, afin que la sélection de mur fonctionne.
+     * @param coinCliq
+     * @param distMax
+     * @return super.DistanceMurClique : double
+     */
+    public double distanceFacadeClique(Coin coinCliq, double distMax){
+        //return super.DistanceMurClique(coinCliq, distMax);
+        boolean result=false;
+        Line2D.Double ligne = new Line2D.Double(this.debut.getX(), this.debut.getY(),this.fin.getX(), this.fin.getY());
+        double distanceClique_Mur = ligne.ptSegDist(coinCliq.getX(),coinCliq.getY()); 
+        //"line.ptSegDist" renvoie la distance entre le clic et son projeté orthogonal sur le mur
+        return distanceClique_Mur;
+    }
+    
+    /**
+     * merci de ne pas faire de changement substanciel dans la syntaxe des toStringSauvegarde()
+     * //////////Attention : cette syntaxe est utiulisée dans IDManager.récupérerUnMur() !!!!
+     * //////////Si on change la syntaxe de mur.toStringSauvegarde(), il faut changer la méthode susdite.
+     * @return String
+     */
+    public static String syntaxeToString(){
+        return "#Syntaxe  : \"Mur;id;idDuCoinDebut;idDuCoinFin;idDuRevêtement";
+    }
+    /**ceci est le toString() de sauvegarde.
+    *MERCI DE NE PAS MODIFIER CETTE FONCTION sans me consulter
+    * @return MurEnString : String
+    */
+    @Override
+    public String toStringSauvegarde() {
+        //Syntaxe : "Mur;id;idCoinDebut;idCoinFin"
+        return "Mur;" + this.id + ";" + debut.getId() + ";" + fin.getId() + ";" + this.revêtement_facade.getId() ;
+    }
+    
+    @Override
+    public String toString() {
+        //Syntaxe : "Mur;id;idDuCoinDebut;idDuCoinFin;idDeEtageDuMur;idDePièce1;idDePièce2;liste_ouverture
+        String résultat = "Facade; id :" + this.id + "; coin1: " + debut.getId() + "; coin2: " + fin.getId() ;
+            résultat += ";liste_ouverture=" + liste_ouverture ;
+            return résultat;
     }
 
     //GET
