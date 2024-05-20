@@ -10,7 +10,7 @@ import static java.lang.Math.sqrt;
 import java.util.ArrayList;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import java.awt.geom.Line2D.Double;
+import java.awt.geom.Line2D.Double; 
 
 public class Mur {  
     private int id;
@@ -100,10 +100,17 @@ public class Mur {
 
     // FUNCTIONS
     
+    //TODO peut-être renommer cette méthode en distanceMurClique() pour respecter les conventions de casse. (casse : majuscule ou minuscule)
+    /**
+     * @param cliqueSouris : Coin
+     * @param distMax : double
+     * @return la distance entre un point et son projeté orthogonal sur un segment.
+     */
     public double DistanceMurClique(Coin cliqueSouris, double distMax){
         boolean result=false;
         Double ligne = new Double(this.debut.getX(), this.debut.getY(),this.fin.getX(), this.fin.getY());
-        double distanceClique_Mur = ligne.ptSegDist(cliqueSouris.getX(),cliqueSouris.getY());
+        double distanceClique_Mur = ligne.ptSegDist(cliqueSouris.getX(),cliqueSouris.getY()); 
+        //"line.ptSegDist" renvoie la distance entre le clic et son projeté orthogonal sur le mur
         return distanceClique_Mur;
     }
     
@@ -167,7 +174,7 @@ public class Mur {
     @Override
     public String toString() {
         //Syntaxe : "Mur;id;idDuCoinDebut;idDuCoinFin;idDeEtageDuMur;idDePièce1;idDePièce2;liste_ouverture
-        String résultat = "Mur; id :" + this.id + "; coin1: " + debut.getId() + "; coin2 ; " + fin.getId() ;
+        String résultat = "Mur; id :" + this.id + "; coin1: " + debut.getId() + "; coin2: " + fin.getId() ;
             résultat += ";liste_ouverture=" + liste_ouverture ;
 //        int idDePièce1;
 //        int idDePièce2;
@@ -207,11 +214,14 @@ public class Mur {
     }
     public void highlight(GraphicsContext context){
         System.out.println("HIGHLIGHT de la classe Mur");
-        context.setStroke(Color.ALICEBLUE);
+        this.debut.dessine(context);
+        this.fin.dessine(context);
+        context.setStroke(Color.RED);
+        context.strokeLine(this.getDebut().getX(), this.getDebut().getY(), this.getFin().getX(), this.getFin().getY());  
     }
     public boolean horizontal() {
         boolean result;
-        if(this.getDebut().getY()-this.getFin().getY()==0){ // mur vertical
+        if(this.getDebut().getY()-this.getFin().getY()==0){ // mur horizontal
             result=true;
         }
         else {
