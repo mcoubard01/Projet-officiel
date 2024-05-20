@@ -6,6 +6,7 @@ package fr.insa.mathieu.architecture_officielle.gui;
 
 import fr.insa.mathieu.architecture_officielle.Architecture_officielle;
 import fr.insa.mathieu.architecture_officielle.Mur;
+import fr.insa.mathieu.architecture_officielle.Pièce;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.GridPane;
@@ -61,6 +62,14 @@ public class DessinCanvas extends Pane{
         GraphicsContext context = this.realCanvas.getGraphicsContext2D();
         Architecture_officielle model= this.main.getModel();
         model.dessine(context);
+        
+        //ci-dessous : si des murs sont sélectionnés, il faut les colorer.
+        for (Mur mur : this.main.getContrôleur().getListeMurSélectionné()){
+            this.highlight(mur);
+        }
+        for (Pièce pièce : this.main.getContrôleur().getListePièceSélectionnée()){
+            this.highlight(pièce);
+        }
         /*
         context.setFill(Color.SALMON);
         context.fillRect(0, 0, this.realCanvas.getWidth(), this.realCanvas.getHeight());
@@ -72,10 +81,15 @@ public class DessinCanvas extends Pane{
         context.setFill(Color.GOLD);
         context.strokeText("Vous devez sélectionner/ajouter un etage pour pouvoir l'afficher ou dessiner", 100, 100);
     }
-    void highlight(Mur murLePlusProche) {
+    void highlight(Mur murSélectionné) {
         GraphicsContext context = this.realCanvas.getGraphicsContext2D();
         Architecture_officielle model=this.main.getModel();
-        model.highlight(context,murLePlusProche);
+        model.highlight(context,murSélectionné);
+    }
+    void highlight(Pièce pièceSélectionnée) {
+        GraphicsContext context = this.realCanvas.getGraphicsContext2D();
+        Architecture_officielle model=this.main.getModel();
+        model.highlight(context,pièceSélectionnée);
     }
     
     //Cette méthode est utilisée dans le controleur de De Beuvron.
