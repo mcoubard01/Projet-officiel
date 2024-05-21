@@ -544,8 +544,9 @@ public class Contrôleur {
                 Coin positionClic = new Coin();
                 positionClic.setX(pos[0]);
                 positionClic.setY(pos[1]);
-                this.vue.redrawAll();
+                
                 //TODO Détection du mur 
+                this.vue.redrawAll();
                 this.changeEtat(ETAT.AJOUT_FEN_p2);             
                 break;
             case AJOUT_FEN_p2://création de fenêtre, p2

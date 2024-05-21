@@ -537,14 +537,7 @@ public static void  piècetest(){
     Coin c5 =new Coin("c5",7,2);
     Coin c6 =new Coin("c6",7,6);
     
-//l'attribut "nom_mur" sera supprimé éventuellement
-    Mur m1= new Mur("m1",c1,c2,e1);
-    Mur m2= new Mur("m2",c2,c3,e1);  
-    Mur m3= new Mur("m3",c3,c4,e1); 
-    Mur m4= new Mur("m4",c4,c1,e1);
-    Mur m5= new Mur("m5",c4,c5,e1);
-    Mur m6= new Mur("m6",c5,c6,e1);
-    Mur m7= new Mur("m7",c6,c3,e1);
+
       
     Pièce pièce1= new Pièce("p1");
    
