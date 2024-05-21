@@ -26,7 +26,8 @@ package fr.insa.mathieu.architecture_officielle;
     
     //FUNCTIONS
     public double surface (){
-        double surface =this.pièce.consécutif().get(0).longueur()*(this.pièce.consécutif().get(1)).longueur();
+        Mur[] longMinMax = this.pièce.longMaxMin();
+        double surface = longMinMax[0].longueur()*longMinMax[1].longueur();
         return  surface;
     }
     public double prix (){

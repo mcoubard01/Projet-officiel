@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 /**
  *
@@ -25,7 +26,7 @@ public class Etage {
     
     private ArrayList<Pièce> listPièceOrpheline;
     private ArrayList<Mur> listMurOrphelin;
-    private ArrayList<Facade> liste_mur_facade;
+    private ArrayList<Facade> liste_mur_facade;//TODO a modifier avec liste Facade
 
 //2eme option pour l'ID : au lieu de maps dans le IDManager, simplement créer la variable ci dessous et l'incrémenter directment dans le condtructeur
     //private static int compteurID =0; //pourquoi static? voir l'explication en commentaire dans IDManager
@@ -63,8 +64,24 @@ public class Etage {
 
     
 //FUNCTIONS
-    public void add(Facade facade){
+    public void add(Facade facade){//TODO a
         this.liste_mur_facade.add(facade);
+    }
+
+    
+    public void addOrphelin(Mur mur){
+        this.listMurOrphelin.add(mur);
+    }
+    
+    public double prix(){
+        double prix = 0;
+        for(Appartement appartement:this.liste_appartement){
+            prix = prix + appartement.prix();
+        }
+        for (Pièce pièce : this.getListPièceOrpheline()){
+            prix = prix + pièce.prix();
+        }
+        return prix;
     }
     
     /**
@@ -72,10 +89,7 @@ public class Etage {
      * SEULEMENT SI pièce1 est null 
      * @param mur 
      */
-    public void addOrphelin(Mur mur){
-        this.listMurOrphelin.add(mur);
-    }
-    
+
     //toString1() sert à afficher autre chose que le toString() par défaut
     public String toString1() {
         String résultat ;
@@ -142,12 +156,11 @@ public class Etage {
     //TODO TODO fonction add pour ajouter un appartement à l'étage
     public void dessine(GraphicsContext context){
         for (Appartement appartement : this.liste_appartement){
+            appartement.setPaint(new Color(Math.random(), Math.random(), Math.random(), Math.random()));
             appartement.dessine(context);
         }
         this.dessine_limiteEtage(context);
-        System.out.println("nbr de pièce orpheline de l'etageActuel(clase Etage) : "+this.listPièceOrpheline.size());
         for(Pièce pièce:this.listPièceOrpheline){
-            System.out.println("je suis dans la boucle de dessin de pièce orpheline de l'etage actuel");
             pièce.dessine(context);
         }
          System.out.println("liste des murs orphelins : "+listMurOrphelin);
@@ -163,11 +176,12 @@ public class Etage {
     public void dessine_limiteEtage(GraphicsContext context){
         //context.setStroke(Color.INDIGO);
             //On dessine avec facade.dessine, plutôt que de réécrire Facade.dessint(), comme on le faisiat jusque là
-        for(Facade facade:this.liste_mur_facade){
-            facade.dessine(context);
+        for(Mur mur:this.liste_mur_facade){
+            mur.dessine(context);
             //context.strokeLine(facade.getDebut().getX(), facade.getDebut().getY(), facade.getFin().getX(), facade.getFin().getY());
         }
     }
+    //TODO peut être à enlever le highlight
     void highlight(GraphicsContext context) {
         
     }
@@ -177,8 +191,7 @@ public class Etage {
         return hauteur_etage;
     }
     public double getPrix_etage() {
-        double prix_etage=0;// TODO A COMPLETER (mis 0 car pour le moment pas fait)
-        return prix_etage; 
+        return this.prix(); 
     }
     public ArrayList<Pièce> getListPièceOrpheline() {
         return listPièceOrpheline;
@@ -190,11 +203,6 @@ public class Etage {
     public ArrayList<Facade> getListe_mur_facade() {//TODO possibilité de mettre dans l'ID Manager ses attributs
         return liste_mur_facade;
     }
-    
-    
-    
-
-    
     public int getId(){
         return id;
     }
@@ -221,6 +229,7 @@ public class Etage {
     public void setListe_appartement(ArrayList<Appartement> liste_appartement) {
         this.liste_appartement = liste_appartement;
     }
+    
     public void addAppartement(Appartement appartement){
         this.liste_appartement.add(appartement);
     }

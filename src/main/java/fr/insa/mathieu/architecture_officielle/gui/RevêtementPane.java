@@ -7,6 +7,7 @@ package fr.insa.mathieu.architecture_officielle.gui;
 import fr.insa.mathieu.architecture_officielle.Architecture_officielle;
 import fr.insa.mathieu.architecture_officielle.Revêtement;
 import static fr.insa.mathieu.architecture_officielle.Revêtement.getKeyFromValue;
+import static fr.insa.mathieu.architecture_officielle.Revêtement.rev_Total;
 import static fr.insa.mathieu.architecture_officielle.Revêtement.rev_mur;
 import static fr.insa.mathieu.architecture_officielle.Revêtement.rev_plafond;
 import static fr.insa.mathieu.architecture_officielle.Revêtement.rev_sol;
@@ -38,30 +39,32 @@ public class RevêtementPane extends BorderPane{
     Contrôleur contrôleur;
     MainPane mainPane;
     private Revêtement revêtementCliqué;
+    private VBox vbox;
+    private HashMap<Revêtement,String> map;
+    private ListView<String> listView;
+
+    public void setMap(HashMap<Revêtement, String> map) {
+        this.map = map;
+    }
     
 //CONSTRUCTOR
     public RevêtementPane(MainPane mainPane){
+        this.map=rev_Total();
         this.mainPane=mainPane;
+        this.listView=listView(map);
         this.contrôleur=mainPane.getContrôleur();
         //this.revêtementCliqué=new Revêtement();
         Architecture_officielle.donnee_enregistree=Architecture_officielle.lecture("Revêtement_final.txt");
         //TODO en fonction de notre état : affichier soit la liste des revêtements des murs, ou des sols, ou des plafonds. Je fais donc 3 HashMap pour assigner un String à un Revêtement
         //Toutes les listView possibles à afficher selon notre mode de fonctionnement
         //DONNEES de base
-        HashMap<Revêtement,String> mapRevMur = rev_mur();
-        HashMap<Revêtement,String> mapRevSol = rev_sol();
-        HashMap<Revêtement,String> mapRevPlafond = rev_plafond();
-        ListView<String> listViewMur=listViewMur(mapRevMur);
-        ListView<String> listViewSol=listViewSol(mapRevSol);
-        ListView<String> listViewPlafond=listViewPlafond(mapRevPlafond);
         
-        //donnee à modifier selon le cas. *
         
-        VBox vbox=new VBox(listViewMur);//changer en listViewSol ou ListViewPlafond
+        VBox vbox=new VBox(this.listView);//changer en listViewSol ou ListViewPlafond
         this.setCenter(vbox);
-        listViewMur.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String oldString, String newString) -> {// Changer avec listViewSol ou listViewPlafond
+        this.listView.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String oldString, String newString) -> {// Changer avec listViewSol ou listViewPlafond
             System.out.println("Revêtement cliqué : "+newString);
-            Revêtement revêtementTrouvé = getKeyFromValue(mapRevMur, newString);
+            Revêtement revêtementTrouvé = getKeyFromValue(map, newString);
             this.revêtementCliqué=revêtementTrouvé;
             System.out.println("revêtementTROUV2.toString() : "+revêtementTrouvé.toString());
             System.out.println("revêtementTROUV2.getPrix_unitaire() : "+revêtementTrouvé.getPrix_unitaire());
@@ -69,43 +72,34 @@ public class RevêtementPane extends BorderPane{
         });
     }
     
-    public static ListView<String> listViewMur(HashMap<Revêtement,String> mapRevMur ){
-        ListView<String> listviewMur = new ListView<>();
-        mapRevMur.forEach(new BiConsumer<Revêtement, String>() { // BiConsumer apparu juste parce que je voulais aps utiliser l'expression lambda
-            @Override
-            public void accept(Revêtement t, String u) {
-                listviewMur.getItems().add(u);
-            }
-        });
-           
-        return listviewMur;
-    }
-    public static ListView<String> listViewSol(HashMap<Revêtement,String> mapRevSol){
-        ListView<String> listviewSol = new ListView<>();
-        mapRevSol.forEach(new BiConsumer<Revêtement, String>() {
-            @Override
-            public void accept(Revêtement t, String u) {
-                listviewSol.getItems().add(u);
-            }
-        });
-           
-        return listviewSol;
-    }
-    public static ListView<String> listViewPlafond(HashMap<Revêtement,String> mapRevPlafond){
-        ListView<String> listviewPlafond = new ListView<>();
-        mapRevPlafond.forEach(new BiConsumer<Revêtement, String>() {
-            @Override
-            public void accept(Revêtement t, String u) {
-                listviewPlafond.getItems().add(u);
-            }
-        });
-           
-        return listviewPlafond;
-    }
+    
     //FUNCTION
-
+    public void affichageMur(){
+        this.setMap(rev_mur());
+        this.listView=listView(map);
+    }
+    public void affichageSol(){
+        this.setMap(rev_sol());
+        this.listView=listView(map);
+    }
+    public void affichagePlafond(){
+        this.setMap(rev_plafond());
+        this.listView=listView(map);
+    }
+    
     public Revêtement getRevêtementCliqué() {
         return revêtementCliqué;
+    }
+    public static ListView<String> listView(HashMap<Revêtement,String> map ){
+        ListView<String> listview = new ListView<>();
+        map.forEach(new BiConsumer<Revêtement, String>() { // BiConsumer apparu juste parce que je voulais aps utiliser l'expression lambda
+            @Override
+            public void accept(Revêtement t, String u) {
+                listview.getItems().add(u);
+            }
+        });
+           
+        return listview;
     }
 
 }

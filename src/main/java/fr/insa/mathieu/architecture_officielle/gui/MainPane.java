@@ -22,6 +22,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.HBox;
 
 /**
  *
@@ -30,7 +33,7 @@ import javafx.scene.control.Label;
 public class MainPane extends BorderPane {
     
     private DessinCanvas dcdessin;         //création de la zone de dessin
-    
+
     private VBox vbox;
     private RadioButton rbSelect;   // bouton Selectionner
     private RadioButton rbcrmur;      // bouton CRer un mur
@@ -43,11 +46,14 @@ public class MainPane extends BorderPane {
     private RadioButton rbrevêtement_rap;
     private RadioButton rbfenêtre;
     private RadioButton rbrevêtement;
+    
+    private RadioButton rbAnnule;
     private RadioButton rbsupp;
     private RadioButton rbEtageAj;
     
     private Contrôleur contrôleur;
     private RevêtementPane revêtementPane;
+    private PrixPane prixPane;
     private Architecture_officielle model;
     
     HashMap<Etage,Button> mapEtage_Button;
@@ -60,7 +66,8 @@ public class MainPane extends BorderPane {
         this.mapEtage_Button=new HashMap<>();
         this.model=model;
         this.revêtementPane= new RevêtementPane(this);
-        this.contrôleur=new Contrôleur(this,this.revêtementPane);
+        this.prixPane = new PrixPane(this);
+        this.contrôleur=new Contrôleur(this,this.revêtementPane,this.prixPane);
         this.model.setContrôleur(contrôleur);
         
         this.rbSelect=new RadioButton("Select");
@@ -108,7 +115,11 @@ public class MainPane extends BorderPane {
         });
         this.rbfenêtre=new RadioButton("fenêtre");
         this.rbporte=new RadioButton("porte");
-        this.rbsupp= new RadioButton("Supprimer/annuler");
+        this.rbsupp= new RadioButton("Supprimer Objet");
+        this.rbAnnule = new RadioButton("Annuler Selection");
+        this.rbAnnule.setOnAction((t) -> {
+            this.contrôleur.annulerSelection(t);
+        });
         this.rbEtageAj= new RadioButton("ajout étage");
         this.rbEtageAj.setOnAction((t) -> {
             this.contrôleur.boutonAjEtage(t);
@@ -126,6 +137,7 @@ public class MainPane extends BorderPane {
         this.rbrevêtement.setToggleGroup(bgEtat);
         this.rbrevêtement_rap.setToggleGroup(bgEtat);
         this.rbEtageAj.setToggleGroup(bgEtat);
+        this.rbAnnule.setToggleGroup(bgEtat);
         this.rbEtageAj.setSelected(true);
         //ANCIEN : this.rbSelect.setSelected(true);
         //désormais, quand on ouvre le programme, il faut créer le premier étage : 
@@ -134,14 +146,14 @@ public class MainPane extends BorderPane {
         //disposition des éléments node entre eux (les uns au dessus des autres)
         this.vbox= new VBox(this.rbSelect,this.rbcrmur,this.rbcrpiece2,this.rbcrpiece3,
                 this.rbidappart,this.rbidpiece, this.rbfenêtre,this.rbporte,
-                this.rbrevêtement_rap,this.rbrevêtement, this.rbEtageAj, this.rbsupp);
+                this.rbrevêtement_rap,this.rbrevêtement, this.rbEtageAj, this.rbsupp, this.rbAnnule);
                 //new Label("Pour le moment, on peut que dessiner en mode plein écran."));TODO à mieux intégrer (pas dans le VBox car pas pratique du tout
                 //TODO : faire en sorte que le message ci-dessus ne prenne pas trop de place.
                 //actuellement, il a doublé la largeur du VBox... BAH OUI il ne noit pas être là. Eventuellement refaire une ligne au grid pane pour mettre ces labels
       //Pourquoi Faire ???
         //System.out.println("Classe MainePane : vbGauche.toString()"+vbGauche.toString());
         //Position des éléments sur la scene
-                            
+       
         this.setLeft(this.vbox);
         
         this.dcdessin=new DessinCanvas(this);
@@ -151,6 +163,9 @@ public class MainPane extends BorderPane {
     
     //GET
     
+    public PrixPane getPrixPane() {
+        return prixPane;
+    }
     public Architecture_officielle getModel() {
         return model;
     }
@@ -229,5 +244,62 @@ public class MainPane extends BorderPane {
             }
         }
         return null;
+    }
+/**
+ * fonction appelé par le contrôleur au moment de rentrer la hauteur de l'étage grâce à un textField
+ */
+    public void entrerHauteurEtage() {
+        
+        Label label = new Label("Hauteur etage : ");
+        TextField textField = new TextField();
+        
+        Button valider = new Button("valider");
+        
+        HBox hbox = new HBox(textField,valider); // le textField et le bouton valider seront aligné horizontalement
+        this.vbox.getChildren().addAll(label, hbox); // je superpose le label avec le HBox
+        
+        valider.setOnAction((t) -> {
+            String input = textField.getText();
+            try {
+                double hauteur = Double.parseDouble(input);
+                this.vbox.getChildren().removeAll(label,hbox);
+                this.contrôleur.setHauteurEtage(hauteur);
+            }
+            catch (NumberFormatException e){
+                System.out.println("veuillez entrez un nombre valide");
+            }
+            
+        });
+        
+    }
+
+    void ajoutBtSOL_PLAFOND() {
+        Button sol = new Button("sol");
+        Button plafond = new Button("plafond");
+        HBox hb = new HBox(sol,plafond);
+        this.vbox.getChildren().add(hb);
+        
+        this.rbEtageAj.setDisable(true);
+        this.rbSelect.setDisable(true);
+        this.rbcrmur.setDisable(true);
+        this.rbcrpiece2.setDisable(true);
+        this.rbcrpiece3.setDisable(true);
+        this.rbfenêtre.setDisable(true);
+        this.rbidappart.setDisable(true);
+        this.rbidpiece.setDisable(true);
+        this.rbporte.setDisable(true);
+        this.rbsupp.setDisable(true);
+        this.rbAnnule.setDisable(false);
+        
+        sol.setOnAction((t) -> {
+            System.out.print("appui sur bouton Sol");
+            this.revêtementPane.affichageSol();
+            hb.getChildren().removeAll(sol);
+        });
+        plafond.setOnAction((t) -> {
+            System.out.print("appui sur bouton Sol");
+            this.revêtementPane.affichagePlafond();
+            hb.getChildren().removeAll(plafond);
+        });
     }
 }
