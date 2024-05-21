@@ -90,16 +90,53 @@ public class Etage {
         return résultat;
     }
     
+    /**
+     * merci de ne pas faire de changement substanciel dans la syntaxe des toStringSauvegarde()
+     * //////////Attention : cette syntaxe est utiulisée dans IDManager.récupérerUnEtage() !!!!
+     * //////////Si on change la syntaxe de etage.toStringSauvegarde(), il faut changer la méthode susdite.
+     * @return String
+     */
     public static String syntaxeToString(){
-        return "#Syntaxe : \"Etage;id;hauteur_etage;liste_appartement\"";
+        return "#Syntaxe : \"Etage;id;hauteur_etage; liste_mur_facade (id);liste_appartement (id) ;listPiècesOrphelines (id);listeMurOrphelin (id)\"";
         // \" permet d'afficher le caractère 'guillemet' dans le String.
                 //merci de ne pas faire de changement substanciel dans la syntaxe des toString()
-
     }
+    /**ceci est le toString() de sauvegarde.
+    *MERCI DE NE PAS MODIFIER CETTE FONCTION sans me consulter
+    * @return MurEnString : String
+    */
+    public String toStringSauvegarde() {
+        //#Syntaxe : #Syntaxe : \"Etage;id;hauteur_etage; liste_mur_facade (id);liste_appartement (id) ;listPiècesOrphelines (id);listeMurOrphelin (id)\"
+        ArrayList<Integer> listeDesIdDesFacades = new ArrayList<>();
+        for (int i = 0; i < liste_mur_facade.size() ; i++){
+            listeDesIdDesFacades.add(liste_mur_facade.get(i).getId());
+            //créée une liste des identifiants des Facades qui forment l'étage
+        }
+        ArrayList<Integer> listeDesIdDesAppartements = new ArrayList<>();
+        for (int i = 0; i < this.liste_appartement.size() ; i++){
+            listeDesIdDesAppartements.add(liste_appartement.get(i).getId());
+            //créée une liste des identifiants des appartements qui forment l'étage
+        }
+        ArrayList<Integer> listeDesIdDesPiècesOrphelines = new ArrayList<>();
+        for (int i = 0; i < this.listPièceOrpheline.size() ; i++){
+            listeDesIdDesPiècesOrphelines.add(listPièceOrpheline.get(i).getId());
+            //créée une liste des identifiants des pièces orphlines de l'étage
+        }
+        ArrayList<Integer> listeDesIdDesMursOrphelins = new ArrayList<>();
+        for (int i = 0; i < this.listMurOrphelin.size() ; i++){
+            listeDesIdDesMursOrphelins.add(listMurOrphelin.get(i).getId());
+            //créée une liste des identifiants des murs orphelins de l'étage
+        }
+        return "Etage;" + this.id + ";" + this.hauteur_etage + ";" + listeDesIdDesFacades 
+                + ";" + listeDesIdDesAppartements 
+                + ";" + listeDesIdDesPiècesOrphelines
+                + ";" + listeDesIdDesMursOrphelins;
+    }
+    
     @Override
     public String toString() {
         //Syntaxe : voir et actualiser au besoin la méthode syntaxeToString()
-        return "Etage;" + this.id + ";" + this.hauteur_etage + ";liste_appartement=" + this.liste_appartement+";ListePièceOrpheline="+this.listPièceOrpheline;
+        return "Etage; id : " + this.id + ";hauteur : " + this.hauteur_etage + ";liste_appartement=" + this.liste_appartement+";ListePièceOrpheline="+this.listPièceOrpheline + ";Liste des murs orphelins" + this.listMurOrphelin;
     }
     
     //TODO TODO fonction add pour ajouter un appartement à l'étage

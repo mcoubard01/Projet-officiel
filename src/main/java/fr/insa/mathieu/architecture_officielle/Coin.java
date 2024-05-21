@@ -47,17 +47,29 @@ public class Coin {
         return "Coin: "+this.id +"{ x=" + x + ", y=" + y + '}';
     }
     
+    /**
+     * merci de ne pas faire de changement substanciel dans la syntaxe des toStringSauvegarde()
+     * //////////Attention : cette syntaxe est utiulisée dans IDManager.récupérerUnCoin() !!!!
+     * //////////Si on change la syntaxe de coin.toString(), il faut changer la méthode susdite.
+     * @return String
+     */
     public static String syntaxeToString(){
-                //merci de ne pas faire de changement substanciel dans la syntaxe des toString()
         return "#Syntaxe  : \"Coin;id;x;y\"";
-        //////////Attention : cette syntaxe est utiulisée dans IDManager.récupérerUnCoin() !!!!
-        //////////Si on change la syntaxe de coin.toString(), il faut changer la méthode susdite.
     }
+    /**ceci est le toString() de sauvegarde.
+    *MERCI DE NE PAS MODIFIER CETTE FONCTION sans me consulter
+    * @return CoinEnString : String
+    */
+    public String toStringSauvegarde() {
+        //Syntaxe : "Coin;id;x;y"
+        return "Coin;" + this.id + ";" + x + ";" + y ;
+    }
+    
     @Override
     //ceci est le toString() par défaut.
     public String toString() {
         //Syntaxe : "Coin;id;x;y"
-        return "Coin;" + this.id + ";" + x + ";" + y ;
+        return "Coin; id is : " + this.id + "; coord : " + x + ";" + y ;
     }
     public void dessine(GraphicsContext context){
         context.setFill(Color.BLACK);

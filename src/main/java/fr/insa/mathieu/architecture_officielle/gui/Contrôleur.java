@@ -10,6 +10,7 @@ import fr.insa.mathieu.architecture_officielle.Coin;
 import fr.insa.mathieu.architecture_officielle.Etage;
 import fr.insa.mathieu.architecture_officielle.Facade;
 import fr.insa.mathieu.architecture_officielle.Fenêtre;
+import fr.insa.mathieu.architecture_officielle.IDManager;
 import fr.insa.mathieu.architecture_officielle.Lire;
 import fr.insa.mathieu.architecture_officielle.Mur;
 import fr.insa.mathieu.architecture_officielle.Pièce;
@@ -28,6 +29,7 @@ import javafx.scene.paint.Color;
  */
 public class Contrôleur {
     private ETAT etat;
+    private OBJET_SELECTIONNE objetSélectionné;
     private MainPane vue;    
     private RevêtementPane vueRevetement;
     //private ArrayList<Double> pos=new ArrayList<>();
@@ -63,6 +65,22 @@ public class Contrôleur {
         //bloc note
     }
     
+    /**
+     * OBJET_SELECTIONNE est prévu pour être comme un test boolean. 
+     * par exemple:
+     * Quand on sélectionne une pièce, on assigne à this.objetSélectionné la valeur OBJET_SELECTIONNE.PIECE .
+     * listePièceSelectionnée ne s'agrandit si la sélection actuelle est bien une pièce
+     * voir plus bas.
+     */
+    enum OBJET_SELECTIONNE{
+        RIEN,
+        COIN, //inutilisé?
+        MUR,
+        FACADE, //inutilisé?
+        PIECE,
+        APPARTEMENT, 
+    }
+        
     public Contrôleur(MainPane vue){
         this.vue=vue;
         this.listeMurSelectionné=new ArrayList<>();
@@ -269,63 +287,126 @@ public class Contrôleur {
     }
 
     void clicDansZoneDessin(MouseEvent t) {
-        
+        if (etat!= ETAT.SELECT && etat!= ETAT.SELECT_SURBRILLANCE){ //je ne sais pas à quoi SELECT_SURBRILLANCE sert, je le mets au cas où.
+            //le highlight de la sélection fonctionne sur les deux listes ci-dessous. 
+            //tant que ces deux listes sont non-vides, ce qu'elles contiennent sont en mode Highlight.
+            this.listeMurSelectionné.clear();
+            this.listePièceSelectionnée.clear();
+            this.vue.redrawAll(); //cela permet d'enlever le mode Highlight aux objets précedemment sélectionnés.
+        }
         switch (etat){
             case SELECT:
                 System.out.println("Je suis en etat SELECT");
                 this.pos[0]=t.getX();
                 this.pos[1]=t.getY();
-                double distanceMinimale=Double.POSITIVE_INFINITY;
-                Coin coinCliq=new Coin();
+                double distanceMinimale=Double.POSITIVE_INFINITY; //C'est quoi ça? Merci de mettre un commentaire explicatif svp merci
+                Coin coinCliq=new Coin(); //construit un Coin qui n'a pas d'identifiant.
                 coinCliq.setX(this.pos[0]);
                 coinCliq.setY(this.pos[1]);
                 System.out.println("position du clique : (x,y) : ("+this.pos[0]+","+this.pos[1]+")");
                 //TODO : coinCliq n'ets pas une bonne idée car cela va ajouter un coin au gestionnaire d'identifiant!!
-                Pièce pièceSelectionnée = new Pièce();
                 
+                Pièce pièceSelectionnée = new Pièce();
+                Mur murLePlusProche = new Mur();
+                
+                
+                    //for(Pièce pièce : IDManager.toutesLesPièces(this.etageActuel)){
+                    //la fonction ci dessus pourrait remplacer remplacer la deuxième boucle 
                 for(Pièce pièce : etageActuel.getListPièceOrpheline()){
                     //System.out.println("resultat de la methode pieceSelect"+pièce.pieceSelect(coinCliq));
                     if(pièce.pieceSelect(coinCliq)==true){
                         //System.out.println("Selection de pièce dans l'ETAT SELECT de la classe contrôleur ligne 275");
                         pièceSelectionnée=pièce;
+                        this.objetSélectionné=OBJET_SELECTIONNE.PIECE;
                     }
-                    
                 }
+                //la boucle ci-dessous et celle ci dessus pourrait-être remplacée par une seule boucle itérant sur IDManager.toutesLesPièces(etageActuel) que je viens de créer (T.B., 19/05/24)
                 for(Appartement appartement : etageActuel.getListe_appartement()){
                     for(Pièce pièce:appartement.getListe_pièce()){
                         if(pièce.pieceSelect(coinCliq)){
                             pièceSelectionnée=pièce;
+                            this.objetSélectionné=OBJET_SELECTIONNE.PIECE;
                         }
                     }
                 }
-                
-                if(t.isControlDown()){
-                            if(this.listePièceSelectionnée.contains(pièceSelectionnée)){
-                                this.listePièceSelectionnée.remove(pièceSelectionnée);
-                            }
-                            else{
+                if (objetSélectionné==OBJET_SELECTIONNE.PIECE){
+                    if (! this.listeMurSelectionné.isEmpty()){
+                        //"si je sélectionne une pièce APRES avoir selectionné un mur, plus aucun mur n'est sélectionné.
+                        listeMurSelectionné.clear();
+                    }
+                    if(t.isControlDown()){
+                                if(this.listePièceSelectionnée.contains(pièceSelectionnée)){
+                                    this.listePièceSelectionnée.remove(pièceSelectionnée);
+                                }
+                                else{
+                                    this.listePièceSelectionnée.add(pièceSelectionnée);
+                                }
+                     } 
+                     else {
+                                this.listePièceSelectionnée.clear();
                                 this.listePièceSelectionnée.add(pièceSelectionnée);
                             }
-                 } 
-                 else {
-                            this.listePièceSelectionnée.clear();
-                            this.listePièceSelectionnée.add(pièceSelectionnée);
+                }
+                if (objetSélectionné != OBJET_SELECTIONNE.PIECE){
+                    //Si on a sélectionné une pièce, notre clic ne sélectionne pas un mur en même temps.
+                    for (Etage etage:this.listeEtage){
+                        for(Pièce pièce:etage.getListPièceOrpheline()){
+                            for(Mur mur : pièce.getListe_mur()){
+                                if(mur.DistanceMurClique(coinCliq, DISTMAXCLIQUE)<distanceMinimale){
+                                    distanceMinimale=mur.DistanceMurClique(coinCliq, DISTMAXCLIQUE);
+                                    //TODO enregistrer le mur corespondant à la distance minimale
+                                    murLePlusProche=mur;
+                                    this.objetSélectionné=OBJET_SELECTIONNE.MUR;
+                                    System.out.println("mur le plus proche de ta première boucle : "+mur.toString());
+                                }
+                            }
                         }
-               /*
-               if(t.isControlDown()){
-                   if(this.listeMurSelectionné.contains(murLePlusProche)){
-                       this.listeMurSelectionné.remove(murLePlusProche);
-                   }
-                   else{
-                       this.listeMurSelectionné.add(murLePlusProche);
-                   }
-               } 
-               else {
-                   this.listeMurSelectionné.clear();
-                   this.listeMurSelectionné.add(murLePlusProche);
-               }
-        */
+                        for (Appartement appartement : etage.getListe_appartement()){
+                            for(Pièce pièceAppart:appartement.getListe_pièce()){
+                                for(Mur mur1:pièceAppart.getListe_mur()){
+                                    if(mur1.DistanceMurClique(coinCliq, DISTMAXCLIQUE)<distanceMinimale){
+                                        distanceMinimale=mur1.DistanceMurClique(coinCliq, DISTMAXCLIQUE);
+                                        murLePlusProche=mur1;
+                                        this.objetSélectionné=OBJET_SELECTIONNE.MUR;
+                                        System.out.println("mur le plus proche de ta deuxième boucle : "+mur1.toString());
+                                    }
+                                }
+                            }
+                        }
+                        for(Facade facade : etage.getListe_mur_facade()){
+                            if(facade.distanceFacadeClique(coinCliq, DISTMAXCLIQUE)<distanceMinimale){
+                                distanceMinimale=facade.distanceFacadeClique(coinCliq, DISTMAXCLIQUE);
+                                murLePlusProche=facade; 
+                                this.objetSélectionné=OBJET_SELECTIONNE.FACADE;
+                                System.out.println("mur le plus proche de ta troisième boucle : "+facade.toString());
+                            }
+                        }
+                        System.out.println("mur le plus proche retenu  : "+murLePlusProche.toString());
+                    }
+                }//fin de la condition (objSel != OBJ_SEL.PIECE) 
                 
+                if (objetSélectionné==OBJET_SELECTIONNE.MUR || objetSélectionné==OBJET_SELECTIONNE.FACADE){
+                    //" si l'objet sélectionné est un mur ou une facade, l'ajouter à listeMurSelectionné
+                    if (!this.listePièceSelectionnée.isEmpty()){
+                        //"si je sélectionne un mur APRES avoir selectionné une pièce, plus aucune poèce n'est sélectionnée.
+                        listePièceSelectionnée.clear();
+                    }
+                    if(t.isControlDown()){
+                       if(this.listeMurSelectionné.contains(murLePlusProche)){
+                           this.listeMurSelectionné.remove(murLePlusProche);
+                       }
+                       else{
+                           this.listeMurSelectionné.add(murLePlusProche);
+                       }
+                    } 
+                    else {
+                       this.listeMurSelectionné.clear();
+                       this.listeMurSelectionné.add(murLePlusProche);
+                    }
+                    
+                }
+                
+                System.out.println("l'objet sélectionné par ce clic est : "+ objetSélectionné.name());
                 System.out.println("Liste de mur SELECTIONNE : "+listeMurSelectionné.size());
                 for(int i =0;i<listeMurSelectionné.size();i++){
                     System.out.println(listeMurSelectionné.get(i).toString());
@@ -335,6 +416,9 @@ public class Contrôleur {
                     System.out.println(listePièceSelectionnée.get(i).toString());
                 }
                 this.activeBoutonSuivantSelection();
+                objetSélectionné = OBJET_SELECTIONNE.RIEN;//réinitialisatioon du type d'objet sélectionné.
+                this.vue.redrawAll(); //permet de faire le highlight de la sélection
+                this.changeEtat(ETAT.SELECT); //il faut le remettre sinon les boutons normalement actifs sont désactivés.
                 break;
 
             case CREA_MURp1:
@@ -457,6 +541,10 @@ public class Contrôleur {
                 System.out.println("ETAT AJOUT_FENp1 de créationd e fenêtre ");
                 this.pos[0]=t.getX();
                 this.pos[1]=t.getY();
+                Coin positionClic = new Coin();
+                positionClic.setX(pos[0]);
+                positionClic.setY(pos[1]);
+                this.vue.redrawAll();
                 //TODO Détection du mur 
                 this.changeEtat(ETAT.AJOUT_FEN_p2);             
                 break;
@@ -532,10 +620,16 @@ public class Contrôleur {
                 System.out.println("quelle est la hauteur du premier étage du bâtiment?");
                 double hauteurDuRDC = Lire.d();
                 etagePrimitif=new Etage(hauteurDuRDC, batiment);
-                etagePrimitif.add(new Facade(new Coin(this.pos[0], this.pos[1]),new Coin(this.pos[0], y2)));
-                etagePrimitif.add(new Facade(new Coin(this.pos[0], y2),new Coin(x2, y2)));
-                etagePrimitif.add(new Facade(new Coin(x2,y2),new Coin(x2, this.pos[1])));
-                etagePrimitif.add(new Facade(new Coin(x2, this.pos[1]),new Coin(this.pos[0], this.pos[1])));
+                Coin premierClic = new Coin(this.pos[0], this.pos[1]);
+                Coin premierClicVersSecond = new Coin(this.pos[0], y2);
+                Coin secondClic = new Coin(x2, y2);
+                Coin secondClicVersPremier = new Coin(x2, this.pos[1]);
+                etagePrimitif.add(new Facade(premierClic,premierClicVersSecond));
+                etagePrimitif.add(new Facade(premierClicVersSecond,secondClic));
+                etagePrimitif.add(new Facade(secondClic,secondClicVersPremier));
+                etagePrimitif.add(new Facade(secondClicVersPremier,premierClic));
+                System.out.println("log : création des facades.");
+                System.out.println(etagePrimitif.getListe_mur_facade());
                 this.listeEtage.add(etagePrimitif);
                 //System.out.println("Etage.toString : "+etagePrimitif.toString());
                 this.vue.getModel().getListe_etage().add(etagePrimitif);
@@ -666,8 +760,14 @@ public class Contrôleur {
     }
  
     
-    //GET/SET
+    //GET
 
+    public ArrayList<Mur> getListeMurSélectionné(){
+        return this.listeMurSelectionné;
+    }
+    public ArrayList<Pièce> getListePièceSélectionnée(){
+        return this.listePièceSelectionnée;
+    }
     public MainPane getVue() {
         return vue;
     }
@@ -681,6 +781,8 @@ public class Contrôleur {
     public ArrayList<Etage> getListeEtage() {
         return listeEtage;
     }
+    
+    //SET
     public void setEtageActuel(Etage etageActuel) {
         this.etageActuel = etageActuel;
     }

@@ -6,6 +6,7 @@ package fr.insa.mathieu.architecture_officielle;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 // Modification effectué par Oscar je modifie pour faire fonctionner avec les liste de murs  dnc je mets ce qu'on avait fait avant en commentaire. 
 /**
@@ -199,9 +200,9 @@ public class Pièce {
     public boolean pieceSelect(Coin coinCliqué){
         boolean result;
         double longueurMax=0;
-        double longueurMin=Double.POSITIVE_INFINITY;
+        double longueurMin=Double.POSITIVE_INFINITY; //par récurrence, longueurMin sera réduite dans la boucle plus bas.
         Coin positionCentrale;
-        Mur[] listeMur = new Mur[2];
+        Mur[] listeMur = new Mur[2]; //listeMur est composé du mur le plus lon en 0, et le mur le plus court en [1].
         for (Mur mur : this.getListe_mur()){
             if (mur.longueur()>longueurMax){
                 longueurMax=mur.longueur();
@@ -224,12 +225,12 @@ public class Pièce {
              * Position du point Central de la pièce => marche BIEN
              */
             if (listeMur[0].getDebut().getX()<listeMur[0].getFin().getX()){
-                positionCentrale.setX(listeMur[0].getDebut().getX()+longueurMax/2);
+                positionCentrale.setX(listeMur[0].getDebut().getX()+longueurMax/2); //x du positionCentrale est x du début du mur le lplus long + la moitie de ce mur
             }
             else{
                 positionCentrale.setX(listeMur[0].getFin().getX()+longueurMax/2);
             }
-            if (listeMur[1].getDebut().getY()<listeMur[1].getFin().getY()){
+            if (listeMur[1].getDebut().getY()<listeMur[1].getFin().getY()){ //"Si le coinDebut se trouve au Sud du coinFin"
                 positionCentrale.setY(listeMur[1].getDebut().getY()+longueurMin/2);
             }
             else{
@@ -241,7 +242,7 @@ public class Pièce {
              * 1/6 de la longueur min en y (longueur min est ici verticale)
              */
             
-            System.out.println("Le coin Centrale est : "+positionCentrale.toString());
+            System.out.println("Le coin Central est : "+positionCentrale.toString());
             double voisinSUPX = positionCentrale.getX()+0.2*longueurMax;
             double voisinINFX = positionCentrale.getX()-0.2*longueurMax;
             double voisinSUPY = positionCentrale.getY()+0.2*longueurMin;
@@ -376,11 +377,29 @@ public class Pièce {
           return res+essai+essais+")";
     }
 
+    /**
+     * merci de ne pas faire de changement substanciel dans la syntaxe des toStringSauvegarde()
+     * //////////Attention : cette syntaxe est utilisée dans IDManager.récupérerUnePièce() !!!!
+     * //////////Si on change la syntaxe de pièce.toString(), il faut changer la méthode susdite.
+     * @return String
+     */
     public static String syntaxeToString(){
-        return "\"Pièce;id;nom_pièce;liste_mur(identifiants);revêtementDuSol;revêtementDuPlafond\"";
-//        return "#Syntaxe : \"Pièce;id;nom_pièce;liste_mur(identifiants);revêtementDuSol;revêtementDuPlafond;idDuAppartement \"";
-        //merci de ne pas faire de changement substanciel dans la syntaxe des toString()
+        return "#Syntaxe : \"Pièce;id;nom_pièce;liste_mur(identifiants);revêtementDuSol;revêtementDuPlafond\"";
     }
+    /**ceci est le toString() de sauvegarde.
+    *MERCI DE NE PAS MODIFIER CETTE FONCTION sans me consulter
+    * @return PièceEnString : String
+    */
+    public String toStringSauvegarde() {
+        //#Syntaxe : \"Pièce;id;nom_pièce;liste_mur(identifiants);revêtementDuSol;revêtementDuPlafond\"
+        ArrayList<Integer> listeDesIdDesMurs = new ArrayList<>();
+        for (int i = 0; i < liste_mur.size() ; i++){
+            listeDesIdDesMurs.add(liste_mur.get(i).getId());
+            //créée une liste des identifiants des murs qui forment la pièce
+        }
+        return "Pièce;" + id + ";" + nom_pièce  + ";liste_mur=" + listeDesIdDesMurs + ";" + sol.toString() + ";" + plafond.toString();
+    }
+    
     @Override
     public String toString() {
         //Syntaxe : voir la méthode syntxeToString()
@@ -399,6 +418,12 @@ public class Pièce {
     public void dessine(GraphicsContext context){
         for (Mur mur : this.liste_mur){
             mur.dessine(context);
+        }
+    }
+    public void highlight(GraphicsContext context){
+        System.out.println("HIGHLIGHT de la classe Pièce");
+        for (Mur mur : this.liste_mur){
+            mur.highlight(context);
         }
     }
     
