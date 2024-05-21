@@ -15,10 +15,15 @@ import fr.insa.mathieu.architecture_officielle.Lire;
 import fr.insa.mathieu.architecture_officielle.Mur;
 import fr.insa.mathieu.architecture_officielle.Pièce;
 import fr.insa.mathieu.architecture_officielle.Revêtement;
+import java.io.File;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 /**
  *  VIDEO à reprendre (la 7 et 8)
@@ -42,7 +47,7 @@ public class Contrôleur {
     private ArrayList<Pièce> listePièceSelectionnée;
     public static double DISTMAXCLIQUE=20;
     private Etage etageActuel;
-    private Double hauteurEtage;
+    private double hauteurEtage;
     enum ETAT{
         SELECT,
         SELECT_SURBRILLANCE,
@@ -95,8 +100,10 @@ public class Contrôleur {
         this.listePièceSelectionnée=new ArrayList<>();
     }
     public void changeEtat(ETAT nouvelEtat){//int nouvelEtat => Etat nouvelEtat
+        //this.vue.changeMessage("bonjour"); //affiche le message voulu dans la zone de texte en bas de l'écran.
         switch(nouvelEtat){
             case SELECT://case :Etat.Select:
+                this.vue.changeMessage("clic pour selection ; <shift> + clic : ajouter ; <ctrl> + clic : ajouter/enlever");
                 this.vue.getRbSelect().setDisable(false);
                     //il faut le rallumer car je l'ai éteint dans l'état AJOUT_ETAGEp2.
                 this.vue.getRbidappart().setDisable(false);
@@ -125,6 +132,7 @@ public class Contrôleur {
                 this.vue.getRbcrmur().setDisable(false);
                 break;
             case CREA_MURp1:
+                this.vue.changeMessage("clic pour définir le début du mur");
                 this.vue.getRbidappart().setDisable(true);
                 this.vue.getRbidpiece().setDisable(true);
                 this.vue.getRbfenêtre().setDisable(true);
@@ -134,6 +142,7 @@ public class Contrôleur {
                 this.vue.getRbrevêtement_rap().setDisable(true);
                 break;
             case CREA_MURp2:
+                this.vue.changeMessage("clic pour définir la fin du mur");
                 this.vue.getRbidappart().setDisable(true);
                 this.vue.getRbidpiece().setDisable(true);
                 this.vue.getRbfenêtre().setDisable(true);
@@ -143,6 +152,7 @@ public class Contrôleur {
                 this.vue.getRbrevêtement_rap().setDisable(true);
                 break;
             case CREA_PIECE_2PNT_p1:
+                this.vue.changeMessage("clic pour définir le début de la pièce");
                 this.vue.getRbidappart().setDisable(true);
                 this.vue.getRbidpiece().setDisable(true);
                 this.vue.getRbfenêtre().setDisable(true);
@@ -152,6 +162,7 @@ public class Contrôleur {
                 this.vue.getRbrevêtement_rap().setDisable(true);
                 break;
             case CREA_PIECE_2PNT_p2:
+                this.vue.changeMessage("clic pour définir l'autre extrémité de la diagonale de la pièce");
                 this.vue.getRbidappart().setDisable(true);
                 this.vue.getRbidpiece().setDisable(true);
                 this.vue.getRbfenêtre().setDisable(true);
@@ -161,6 +172,7 @@ public class Contrôleur {
                 this.vue.getRbrevêtement_rap().setDisable(true);
                 break;
             case CREA_PIECE_3PNT_p1:
+                this.vue.changeMessage("clic pour définir le premier point de la pièce");
                 this.vue.getRbidappart().setDisable(true);
                 this.vue.getRbidpiece().setDisable(true);
                 this.vue.getRbfenêtre().setDisable(true);
@@ -170,6 +182,7 @@ public class Contrôleur {
                 this.vue.getRbrevêtement_rap().setDisable(true);
                 break;
             case CREA_PIECE_3PNT_p2:
+                this.vue.changeMessage("clic pour définir le deuxième point de la pièce (c'est une diagonale)");
                 this.vue.getRbidappart().setDisable(true);
                 this.vue.getRbidpiece().setDisable(true);
                 this.vue.getRbfenêtre().setDisable(true);
@@ -179,6 +192,7 @@ public class Contrôleur {
                 this.vue.getRbrevêtement_rap().setDisable(true);
                 break;
             case CREA_PIECE_3PNT_p3:
+                this.vue.changeMessage("clic pour définir le troisième point");
                 this.vue.getRbidappart().setDisable(true);
                 this.vue.getRbidpiece().setDisable(true);
                 this.vue.getRbfenêtre().setDisable(true);
@@ -188,6 +202,7 @@ public class Contrôleur {
                 this.vue.getRbrevêtement_rap().setDisable(true);
                 break;
             case AJOUT_FEN_p1:
+                
                 this.vue.getRbidappart().setDisable(true);
                 this.vue.getRbidpiece().setDisable(true);
                 this.vue.getRbporte().setDisable(true);
@@ -251,9 +266,13 @@ public class Contrôleur {
                 this.vue.getRbrevêtement_rap().setDisable(false);
                 break;
             case AJOUT_ETAGEp1:
+                
                 if (etagePrimitif==null){
+                    this.vue.changeMessage("cliquez pour définir un coin du contour du bâtiment, PUIS ENTREZ LA HAUTEUR DE L'ETAGE");
                     this.vue.getRbSelect().setDisable(true);
                     //lors de la création du premier étage, on ne peut pas encore select.
+                }else{
+                    this.vue.changeMessage("Merci cliquer n'importe où, puis d'entrer la hauteur du nouvel étage.");
                 }
                 this.vue.getRbidappart().setDisable(true);
                 this.vue.getRbidpiece().setDisable(true);
@@ -268,8 +287,8 @@ public class Contrôleur {
                 
                 break;
             case AJOUT_ETAGEp2: //ATTENTION : AJOUT_ETAGEp2 n'est actif que au tout début, à la création du premier étage.
+                this.vue.changeMessage("merci de cliquer pour entrer l'autre extrémité de la diagonale de l'étage (qui est en forme de rectangle)");
                 this.vue.getRbSelect().setDisable(true);
-                
                 this.vue.getRbidappart().setDisable(true);
                 this.vue.getRbidpiece().setDisable(true);
                 this.vue.getRbfenêtre().setDisable(true);
@@ -295,8 +314,8 @@ public class Contrôleur {
         }
         switch (etat){
             case SELECT:
-                
                 System.out.println("Je suis en etat SELECT");
+                this.vue.changeMessage("clic pour selection ; <shift> + clic : ajouter ; <ctrl> + clic : ajouter/enlever");
                 this.pos[0]=t.getX();
                 this.pos[1]=t.getY();
                 double distanceMinimale=Double.POSITIVE_INFINITY; //C'est quoi ça? Merci de mettre un commentaire explicatif svp merci
@@ -503,6 +522,7 @@ public class Contrôleur {
                  * 18/05,brnch de thomas : actuellement elle fonctionne.
                  */
             case CREA_PIECE_3PNT_p1:
+
                 System.out.println("ETAT CREA_PIECE_3PNT_p1 de création de pièce 3 points");
                 System.out.println("EtageActuel : "+this.etageActuel);
                 //CLIC 1
@@ -511,7 +531,7 @@ public class Contrôleur {
                 System.out.println("coordonée du clic 1 : (x,y) => ("+this.pos[0]+","+this.pos[1]+")");
                 this.changeEtat(ETAT.CREA_PIECE_3PNT_p2);
                 break;
-            case CREA_PIECE_3PNT_p2:
+            case CREA_PIECE_3PNT_p2:   
                 System.out.println("ETAT CREA_PIECE_3PNT_p2 de création de pièce 2 points");
                 //CLIC 2
                 this.pos[2]=t.getY();
@@ -541,6 +561,7 @@ public class Contrôleur {
                 this.changeEtat(ETAT.CREA_PIECE_3PNT_p1);
                 break;
             case AJOUT_FEN_p1: //création de fenêtre, p1
+
                 System.out.println("ETAT AJOUT_FENp1 de créationd e fenêtre ");
                 this.pos[0]=t.getX();
                 this.pos[1]=t.getY();
@@ -618,7 +639,7 @@ public class Contrôleur {
                 break;
             case AJOUT_ETAGEp2: //ATTENTION : ajout_Etagep2 n'est active que lors de la création dupremier étage. 
                 //le reste du temps, AJOUT_ETAGEp1 suffit à créer un nouvel étage.
-                System.out.println("AJOUT d'ETAGEp1");
+                System.out.println("AJOUT d'ETAGEp2");
                 x2=t.getX();
                 y2=t.getY();
                 batiment=new Architecture_officielle();
@@ -837,7 +858,81 @@ public class Contrôleur {
                    contrôleur.listeMurSelectionné.add(murLePlusProche);
                }
 
+    }//fin rechercheMurs
+    
+    public void menuSave(ActionEvent t) {
+        //issu du tutoVideoDessin.
+        System.out.println("action \"menuSave\"");
     }
+    /**
+     * A finir
+     * @param t ActionEvent
+     */
+    public void menuSaveAs(ActionEvent t) {
+//        FileChooser chooser = new FileChooser();
+//        File f = chooser.showSaveDialog(this.vue.getInStage());
+//        if (f != null) {
+//            this.realSave(f);
+//        }
+        System.out.println("action \"menuSaveAs\"");
+    }
+    
+    /**
+     * A finir
+     * @param t ActionEvent
+     */
+    public void menuOpen(ActionEvent t) {
+//        FileChooser chooser = new FileChooser();
+//        File f = chooser.showOpenDialog(this.vue.getInStage());
+//        if (f != null) {
+//            try {
+//                Figure lue = Figure.lecture(f);
+//                Groupe glu = (Groupe) lue;
+//                Stage nouveau = new Stage();
+//                nouveau.setTitle(f.getName());
+//                Scene sc = new Scene(new MainPane(nouveau, f, glu), 800, 600);
+//                nouveau.setScene(sc);
+//                nouveau.show();
+//            } catch (Exception ex) {
+//                Alert alert = new Alert(Alert.AlertType.ERROR);
+//                alert.setTitle("Erreur");
+//                alert.setHeaderText("Problème durant la sauvegarde");
+//                alert.setContentText(ex.getLocalizedMessage());
+//
+//                alert.showAndWait();
+//            } finally {
+//                this.changeEtat(20);
+//            }
+//        }
+        System.out.println("action \"menuOpen\"");
+    }
+    
+    /**
+     * A finir
+     * @param t ActionEvent
+     */
+    public void menuNouveau(ActionEvent t) {
+        //issu du tutoVideoDessin.
+//        Stage nouveau = new Stage();
+//        nouveau.setTitle("Nouveau");
+//        Scene sc = new Scene(new MainPane(nouveau), 800, 600);
+//        nouveau.setScene(sc);
+//        nouveau.show();
+        System.out.println("action \"menuNouveau\"");
+    }
+
+    public void menuApropos(ActionEvent t) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("A propos");
+        alert.setHeaderText(null);
+        alert.setContentText("Trop super ce micro-logiciel de dessin vectoriel 2D\n"
+                + "réalisé par MC,OB, et TB\n"
+                + "comme projet pour le semestre2\n"
+                + "à l'INSA de Strasbourg");
+
+        alert.showAndWait();
+    }
+    
     void ajoutPorte(ActionEvent t){
         this.changeEtat(ETAT.AJOUT_PORTE_p1);
     }

@@ -57,6 +57,13 @@ public class MainPane extends BorderPane {
     private Architecture_officielle model;
     
     HashMap<Etage,Button> mapEtage_Button;
+    
+    //issu du projet tutoVideoDessin de Beuvron (à compléter)
+    private TextField tfMessage; //cela pourrait servir à afficher une instruction en bas de l'écran
+    //p.ex : "merci de cliquer, entrer la hauteur de l'étage, et cliquer à nouveau."
+    //ou bien : "merci de cliquer sur boutonRevetement, pour assigner un revetmeent à ce mur
+
+    private MainMenu menu;
 
     //CONSTRUCTOR
     public MainPane(){
@@ -158,7 +165,14 @@ public class MainPane extends BorderPane {
         
         this.dcdessin=new DessinCanvas(this);
         this.setCenter(this.dcdessin);
-    this.contrôleur.changeEtat(ETAT.AJOUT_ETAGEp1);
+        
+        this.menu = new MainMenu(this);
+        this.setTop(this.menu);
+        
+        this.tfMessage = new TextField();
+        this.setBottom(this.tfMessage);
+        
+        this.contrôleur.changeEtat(ETAT.AJOUT_ETAGEp1);
     }
     
     //GET
@@ -213,6 +227,15 @@ public class MainPane extends BorderPane {
     }
     public RevêtementPane getRevêtementPane() {
         return revêtementPane;
+    }
+    /**
+     * @return the menu
+     */
+    public MainMenu getMenu() {
+        return menu;
+    }
+    public void changeMessage(String message) {
+        this.tfMessage.setText(message);
     }
     void redrawAll() {
         this.dcdessin.redrawAll();

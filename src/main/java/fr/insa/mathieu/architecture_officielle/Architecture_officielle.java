@@ -38,6 +38,7 @@ public class Architecture_officielle {
     //Mais ça voudrait dire qu'on ne êut pas fournir de modèle au MainPan dans la méthode start...
     public Architecture_officielle(){
         //this.contrôleur=contrôleur; //19/05/24, T.B. : ceci n'a pas l'air d'être important.
+        donnee_enregistree=lecture("Revêtement_final.txt");
         this.liste_etage=new ArrayList<>();
         //this.étageActuel = new Etage(2.5);
         //TODO : éventuellement, il faudra que l'utilisateur choisisse son étage de début!!
@@ -400,7 +401,7 @@ public class Architecture_officielle {
      * @param donnéesAEnregistrerEnTexte : ArrayList<String>  : une arraylist dont chaque case sera une ligne du fichier texte 
      */
     public static void écriture(String nomDuFichier, ArrayList<String> donnéesAEnregistrerEnTexte){
-        
+        //p.ex: écriture("saveFile.txt", IDManager.imprimerLesObjetsCréés())
         try{
             BufferedWriter out=new BufferedWriter(new FileWriter(nomDuFichier,false)); //"false" : le fichier est écrasé et réécrit entièrement
             for (int i=0 ; i<donnéesAEnregistrerEnTexte.size() ; i++){
