@@ -72,11 +72,11 @@ public class Revêtement {
         return finalvalue;
     }
     
-    public static HashMap<Revêtement,String> rev_mur(){
+public static HashMap<Revêtement,String> rev_mur(){
         HashMap<Revêtement, String> mapRevêtMur=new HashMap<>();
         for (int k =0;k<=donnee_enregistree.size()-1;k++){
             //System.out.println("La taille de la liste donnee_enregistree : "+Architecture_officielle.getDonnee_enregistree().size());
-            String[] info = Architecture_officielle.getDonnee_enregistree().get(k);
+            String[] info = Architecture_officielle.donnee_enregistree.get(k);
             if (info==null){
                 //System.out.println("info est nul");
                 continue; // Cette ligne permet au programme de ne pas faire la suite des conditions car la première n'est pas réalisée. source : chatgpt
@@ -94,9 +94,9 @@ public class Revêtement {
     }
     public static HashMap<Revêtement,String> rev_sol(){
         HashMap<Revêtement, String> mapRevêtSol=new HashMap<>();
-        for (int k =0;k<=donnee_enregistree.size()-1;k++){
+        for (int k =0;k<=Architecture_officielle.donnee_enregistree .size()-1;k++){
             //System.out.println("La taille de la liste donnee_enregistree : "+Architecture_officielle.getDonnee_enregistree().size());
-            String[] info = Architecture_officielle.getDonnee_enregistree().get(k);
+            String[] info = Architecture_officielle.donnee_enregistree.get(k);
             if (info==null){
                 //System.out.println("info est nul");
                 continue; // Cette ligne permet au programme de ne pas faire la suite des conditions car la première n'est pas réalisée. source : chatgpt
@@ -114,9 +114,9 @@ public class Revêtement {
     }
     public static HashMap<Revêtement,String> rev_plafond(){
         HashMap<Revêtement, String> mapRevêtPlafond=new HashMap<>();
-        for (int k =0;k<=donnee_enregistree.size()-1;k++){
+        for (int k =0;k<=Architecture_officielle.donnee_enregistree.size()-1;k++){
             //System.out.println("La taille de la liste donnee_enregistree : "+Architecture_officielle.getDonnee_enregistree().size());
-            String[] info = Architecture_officielle.getDonnee_enregistree().get(k);
+            String[] info = Architecture_officielle.donnee_enregistree.get(k);
             if (info==null){
                 //System.out.println("info est nul");
                 continue; // Cette ligne permet au programme de ne pas faire la suite des conditions car la première n'est pas réalisée. source : chatgpt
@@ -131,6 +131,23 @@ public class Revêtement {
             }
         }
         return mapRevêtPlafond;
+    }
+    public static HashMap<Revêtement,String> rev_Total(){
+        HashMap<Revêtement, String> mapRevêtTotal=new HashMap<>();
+        for (int k =0;k<=Architecture_officielle.donnee_enregistree.size()-1;k++){
+            //System.out.println("La taille de la liste donnee_enregistree : "+Architecture_officielle.getDonnee_enregistree().size());
+            String[] info = Architecture_officielle.donnee_enregistree.get(k);
+            if (info==null){
+                //System.out.println("info est nul");
+                //continue; // Cette ligne permet au programme de ne pas faire la suite des conditions car la première n'est pas réalisée. source : chatgpt
+            }
+            else {
+                Revêtement revêtement = new Revêtement(k);
+                String valeur=revêtement.getId()+" : "+revêtement.getDésignation()+" € : "+revêtement.getPrix_unitaire();
+                mapRevêtTotal.put(revêtement, valeur);
+            }
+        }
+        return mapRevêtTotal;
     }
     /**
      * Pour chaque couple de clé-valeur : on test si la valeur correspond à celle que nous cherchons

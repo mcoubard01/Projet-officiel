@@ -5,10 +5,17 @@
 package fr.insa.mathieu.architecture_officielle.gui;
 import fr.insa.mathieu.architecture_officielle.Architecture_officielle;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 /**
  *
@@ -37,15 +44,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        /*
-        var javaVersion = SystemInfo.javaVersion();
-        var javafxVersion = SystemInfo.javafxVersion();
-        
-        var label = new Label("Hello, JavaFX " + javafxVersion + ", running on Java " + javaVersion + ".");
-        var scene = new Scene(new StackPane(label), 640, 480);
-        */
+       
         Scene scene;
-        
+        Architecture_officielle batiment = new Architecture_officielle();
         GridPane gridPane = new GridPane(); // Ce GridPane composera la fenêtre principale où je disposerai mes autres fenêtres
         MainPane mainPane; // Ce MainPane() sera composé de ma zone de dessin (Canvas) et mes outils
         
@@ -55,31 +56,24 @@ public class Main extends Application {
         gridPane.getRowConstraints().add(new RowConstraints(250));       // ligne à une hauteur de 250
         gridPane.getRowConstraints().add(new RowConstraints(250));       // ligne à une hauteur de 250
         gridPane.getRowConstraints().add(new RowConstraints(100));       // ligne à une hauteur de 100
-        mainPane=new MainPane(Architecture_officielle.Test_batiment());
-        MainPane mainPane2=new MainPane(new Architecture_officielle());
+        
+        mainPane=new MainPane(batiment);
+        
+        
 //Mettre mes Panes dans les différentes cases de mon grid
-        gridPane.add(mainPane2, 0, 0,1, 3); // je mets la fenêtre mainPane à la colonne 0, ligne 0, j'étale mon Pane sur 1 colonne et 3 lignes
+        gridPane.add(mainPane, 0, 0,1, 3); // je mets la fenêtre mainPane à la colonne 0, ligne 0, j'étale mon Pane sur 1 colonne et 3 lignes
         gridPane.add(mainPane.getRevêtementPane(),1,0,1, 2);//je mets la fenêtre mainPane à la colonne 1, ligne 0, j'étale mon Pane sur 1 colonne et 1 lignes
-        gridPane.add(new PrixPane(), 1, 2, 1, 1);//je mets la fenêtre mainPane à la colonne 1, ligne 2, j'étale mon Pane sur 1 colonne et 1 lignes
+        gridPane.add(mainPane.getPrixPane(), 1, 2, 1, 1);//je mets la fenêtre mainPane à la colonne 1, ligne 2, j'étale mon Pane sur 1 colonne et 1 lignes
         scene = new Scene(gridPane,800,600);
         
         scene.widthProperty().addListener((o) -> {
-            System.out.println("taille de GridPane : w = "+gridPane.getWidth()+" , h = "+gridPane.getHeight());
-            
             gridPane.getColumnConstraints().add(0,new ColumnConstraints(0.75*gridPane.getWidth())); // column 0 is 650 wide
-            System.out.println("première colonne : "+gridPane.getColumnConstraints().get(0).getPrefWidth());
             gridPane.getColumnConstraints().add(1,new ColumnConstraints (0.25*gridPane.getWidth()));// colonne à une largeur de 150
-            System.out.println("deuxième colonne : "+gridPane.getColumnConstraints().get(1).getPrefWidth());
         });
-        scene.heightProperty().addListener((o) -> {
-            System.out.println("taille de GridPane : w = "+gridPane.getWidth()+" , h = "+gridPane.getHeight());
-            
+        scene.heightProperty().addListener((o) -> { 
             gridPane.getRowConstraints().set(0, new RowConstraints(0.40*gridPane.getHeight()));      // ligne à une hauteur de 250
-            System.out.println("première ligne : "+gridPane.getRowConstraints().get(0).getPrefHeight());
             gridPane.getRowConstraints().add(1,new RowConstraints(0.40*gridPane.getHeight()));       // ligne à une hauteur de 250
-            System.out.println("deuxième ligne : "+gridPane.getRowConstraints().get(1).getPrefHeight());
             gridPane.getRowConstraints().add(2,new RowConstraints(0.20*gridPane.getHeight()));
-            System.out.println("troisième ligne : "+gridPane.getRowConstraints().get(2).getPrefHeight());
         });
         
         

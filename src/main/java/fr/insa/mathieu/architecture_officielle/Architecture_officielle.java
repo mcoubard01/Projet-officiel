@@ -42,19 +42,13 @@ public class Architecture_officielle {
         //this.étageActuel = new Etage(2.5);
         //TODO : éventuellement, il faudra que l'utilisateur choisisse son étage de début!!
     }
-
+    
     public void add(Etage etage){
-        if (etage.getBatiment()!=this){
-            if (etage.getBatiment()==null){
-                this.liste_etage.add(etage);
-                System.out.println("Le batiment possède dorénavent cet étage");
-            }
-            else{
-                System.out.println("L'étage possède un autre attribut pour le batiment");
-            }
+        if(this.liste_etage.contains(etage)){
+            System.out.println("Le batiment possède déjà l'étage");
         }
-        else {
-            System.out.println("L'étage possède déjà l'attribut de ce batiment");
+        else{
+            this.liste_etage.add(etage);
         }
         
     }
@@ -65,22 +59,9 @@ public class Architecture_officielle {
     public void dessine(GraphicsContext context){
         //System.out.println("etage actuel de la classe Batiment : "+this.étageActuel.toString());
         if(this.étageActuel!=null){
-            System.out.println("Je suis dans la boucle this.etageAcutel!=null donc je dessine l'etageActuel");
             System.out.println("quel est l'etage actuel de la classe Batiment : "+this.étageActuel.toString());
             this.étageActuel.dessine(context);
         }
-        /*
-        if (this.liste_etage==null||this.étageActuel==null){
-            for (Etage etage: this.liste_etage){
-                etage.dessine(context);
-                
-            }
-        }
-        else{
-            System.out.println("etage actuel depuis la classe Bâtiment"+this.étageActuel.toString());
-            this.étageActuel.dessine(context); // L'objectif est seulement d'afficher l'étage actuel. 
-        }
-        */
     }
     
     /**
@@ -97,6 +78,32 @@ public class Architecture_officielle {
         pièceSélectionnée.highlight(context);
     }
 
+    public double surfaceTotalHabitable(){
+        double surfaceTotale=0;
+        for(Etage etage: this.liste_etage){
+            System.out.println("première boucle de la classe batiment");
+            for(Appartement appartement : etage.getListe_appartement()){
+                for(Pièce pièce : appartement.getListe_pièce()){
+                    surfaceTotale = surfaceTotale + pièce.getSol().surface();
+                }
+            }
+            for(Pièce pièce : etage.getListPièceOrpheline()){
+                surfaceTotale = surfaceTotale + pièce.getSol().surface();
+                
+            }
+        }
+        return surfaceTotale;
+    }
+    public double prixTotal(){
+        double prixTotal =0;
+        for (Etage etage : this.liste_etage){
+            prixTotal = prixTotal+ etage.prix();
+        }
+        return prixTotal;
+    }
+
+    
+    ///TEST
     public static Architecture_officielle Test_batiment(){
         
         Architecture_officielle batiment = new Architecture_officielle();
@@ -319,42 +326,42 @@ public class Architecture_officielle {
     
     
     public static ArrayList<String[]> lecture(String nom_fichier){
-    String ligne;                                   //chaîne de caractères pour enregistrer les lignes du document texte
-    ArrayList <String>data = new ArrayList();       //Création de l'ArrayList qui sera utilisé pour récupérer le fichier lu dans la boucle WHILE
-    ArrayList<String[]>ligne_array = new ArrayList<>(); // Création de l'ArrayList de chaîne de caractère qui sera utilisée pour stocker les revêtements
-    int nbr_ligne=0;                                // Compte le nombre de ligne que contiendra le fichier à lire. S'il ne contient rien il retournera 0. 
+        String ligne;                                   //chaîne de caractères pour enregistrer les lignes du document texte
+        ArrayList <String>data = new ArrayList();       //Création de l'ArrayList qui sera utilisé pour récupérer le fichier lu dans la boucle WHILE
+        ArrayList<String[]>ligne_array = new ArrayList<>(); // Création de l'ArrayList de chaîne de caractère qui sera utilisée pour stocker les revêtements
+        int nbr_ligne=0;                                // Compte le nombre de ligne que contiendra le fichier à lire. S'il ne contient rien il retournera 0. 
     
-    try {                                           // Pour gérer les exceptions de fichiers : fichier non trouvé...
-        BufferedReader entre=new BufferedReader(new FileReader(nom_fichier));
-        while ((ligne = entre.readLine())!= null){
-            System.out.println(ligne);            // on écrit la ligne dans le moniteur pour analyser ce que lit le bufferedReader
-            data.add(ligne);                      //on ajoute la ligne lu par le BufferedReader à la liste qui s'appelle data
-            nbr_ligne=nbr_ligne+1;                  //Connaître le nombre de ligne du fichier pour faciliter la gestion de l'ArrayList
-        }
-        entre.close();                              //On ferme le BufferedReader
-        for (int i=0;i<=1126;i++){
-            ligne_array.add(null);
-        }
-        System.out.println("FFnombre de ligne :"+nbr_ligne); // Affichage du nombre de ligne dans le fichier text lu par le BufferedReader
-        for (int k = 1; k <= nbr_ligne; k++) {      // Debut boucle utile pour la réalisation du stockage dans les listes
-            int a=k-1;                            // 1ere ligne du fichier texte correspond à l'indice 0 de la liste data
-            String[] elements =data.get(a).split(";"); //Création d'un tableau pour chaque indice de 'data' avec chaque case du tableau un élèment se situant entre les ";"
-            int index =Integer.parseInt(elements[0]);
-            //System.out.println("index"+index);
-            ligne_array.set(index, elements);// ajout à l'indice a le tableau créé et rempli juste avant.
-            System.out.println("contenue à l'index "+index+" : "+ligne_array.get(index)[1]+" adresse :"+ligne_array.get(index));
-        }
-        return (ligne_array) ;                      // Lorsque toutes les lignes du fichier texte ont été lues, nous retournons l'Arraylist de tableau de String
+        try {                                           // Pour gérer les exceptions de fichiers : fichier non trouvé...
+            BufferedReader entre=new BufferedReader(new FileReader(nom_fichier));
+            while ((ligne = entre.readLine())!= null){
+                System.out.println(ligne);            // on écrit la ligne dans le moniteur pour analyser ce que lit le bufferedReader
+                data.add(ligne);                      //on ajoute la ligne lu par le BufferedReader à la liste qui s'appelle data
+                nbr_ligne=nbr_ligne+1;                  //Connaître le nombre de ligne du fichier pour faciliter la gestion de l'ArrayList
+            }
+            entre.close();                              //On ferme le BufferedReader
+            for (int i=0;i<=1126;i++){
+                ligne_array.add(null);
+            }
+            System.out.println("FFnombre de ligne :"+nbr_ligne); // Affichage du nombre de ligne dans le fichier text lu par le BufferedReader
+            for (int k = 1; k <= nbr_ligne; k++) {      // Debut boucle utile pour la réalisation du stockage dans les listes
+                int a=k-1;                            // 1ere ligne du fichier texte correspond à l'indice 0 de la liste data
+                String[] elements =data.get(a).split(";"); //Création d'un tableau pour chaque indice de 'data' avec chaque case du tableau un élèment se situant entre les ";"
+                int index =Integer.parseInt(elements[0]);
+                //System.out.println("index"+index);
+                ligne_array.set(index, elements);// ajout à l'indice a le tableau créé et rempli juste avant.
+                System.out.println("contenue à l'index "+index+" : "+ligne_array.get(index)[1]+" adresse :"+ligne_array.get(index));
+            }
+            return (ligne_array) ;                      // Lorsque toutes les lignes du fichier texte ont été lues, nous retournons l'Arraylist de tableau de String
             
-    }
-    catch(FileNotFoundException err){
-        System.out.println("Erreur : le fichier n'existe pas !\n"+err);
-        return null;
-    }
-    catch (IOException err){
-        System.out.println("Erreur:\n"+err);
-        return null;
-    }
+        }
+        catch(FileNotFoundException err){
+            System.out.println("Erreur : le fichier n'existe pas !\n"+err);
+            return null;
+        }
+        catch (IOException err){
+            System.out.println("Erreur:\n"+err);
+            return null;
+        }
     }
     
     
@@ -478,11 +485,7 @@ public class Architecture_officielle {
 
 public static void main(String[] args) {
    /////////////LECTURE FICHIER. IL s'appelle Revêtement_test.txt
-   Coin coin1 = new Coin(100,101);
-   System.out.println(coin1.toString());
-   //System.out.println("Donnez le nom de votre fichier :");
-   //String nom_fichier = Lire.S();
-    //donnee_enregistree = lecture(nom_fichier); // lecture est ici une fonction qui renverra une ArrayList de tableau de chaînes de caractères
+   System.out.println("lecture du fichier");
     donnee_enregistree = lecture("Revêtement_test.txt"); // lecture est ici une fonction qui renverra une ArrayList de tableau de chaînes de caractères
     
     //La méthode ci-dessous est utilisée surtout pour vider le main des tests menés.
