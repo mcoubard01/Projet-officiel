@@ -30,6 +30,7 @@ public class Contrôleur {
     private ETAT etat;
     private MainPane vue;    
     private RevêtementPane vueRevetement;
+    private PrixPane vuePrix;
     //private ArrayList<Double> pos=new ArrayList<>();
     private double[] pos = new double[100];
     private ArrayList<Etage> listeEtage;
@@ -39,7 +40,7 @@ public class Contrôleur {
     private ArrayList<Pièce> listePièceSelectionnée;
     public static double DISTMAXCLIQUE=20;
     private Etage etageActuel;
-    
+    private Double hauteurEtage;
     enum ETAT{
         SELECT,
         SELECT_SURBRILLANCE,
@@ -59,7 +60,6 @@ public class Contrôleur {
         AJOUT_REVETEMENT_p1,
         AJOUT_REVETEMENT_p2,
         AJOUT_REVETEMENT_p3,
-        
         //bloc note
     }
     
@@ -68,9 +68,10 @@ public class Contrôleur {
         this.listeMurSelectionné=new ArrayList<>();
         this.listeEtage=new ArrayList<>();
     }
-    public Contrôleur(MainPane vue,RevêtementPane vueRevetement){
+    public Contrôleur(MainPane vue,RevêtementPane vueRevetement, PrixPane vuePrix){
         this.vue=vue;
         this.vueRevetement=vueRevetement;
+        this.vuePrix=vuePrix;
         this.listeEtage=new ArrayList<>();
         this.listeMurSelectionné=new ArrayList<>();
         this.listePièceSelectionnée=new ArrayList<>();
@@ -261,9 +262,7 @@ public class Contrôleur {
                 this.vue.getRbcrpiece3().setDisable(true);
                 this.vue.getRbrevêtement().setDisable(true);
                 this.vue.getRbrevêtement_rap().setDisable(true);
-                break;
-                
-                
+                break;               
         }
         this.etat=nouvelEtat;
     }
@@ -272,6 +271,7 @@ public class Contrôleur {
         
         switch (etat){
             case SELECT:
+                
                 System.out.println("Je suis en etat SELECT");
                 this.pos[0]=t.getX();
                 this.pos[1]=t.getY();
@@ -279,63 +279,32 @@ public class Contrôleur {
                 Coin coinCliq=new Coin();
                 coinCliq.setX(this.pos[0]);
                 coinCliq.setY(this.pos[1]);
-                System.out.println("position du clique : (x,y) : ("+this.pos[0]+","+this.pos[1]+")");
-                //TODO : coinCliq n'ets pas une bonne idée car cela va ajouter un coin au gestionnaire d'identifiant!!
-                Pièce pièceSelectionnée = new Pièce();
-                
-                for(Pièce pièce : etageActuel.getListPièceOrpheline()){
-                    //System.out.println("resultat de la methode pieceSelect"+pièce.pieceSelect(coinCliq));
-                    if(pièce.pieceSelect(coinCliq)==true){
-                        //System.out.println("Selection de pièce dans l'ETAT SELECT de la classe contrôleur ligne 275");
-                        pièceSelectionnée=pièce;
-                    }
-                    
-                }
-                for(Appartement appartement : etageActuel.getListe_appartement()){
-                    for(Pièce pièce:appartement.getListe_pièce()){
-                        if(pièce.pieceSelect(coinCliq)){
-                            pièceSelectionnée=pièce;
-                        }
+                System.out.println("ETAT de liste Pièce SELECTIONNEE :"+this.listePièceSelectionnée.toString());
+                System.out.println("ETAT de liste Mur SELECTIONNE : "+this.listeMurSelectionné.toString());
+                recherchePièces(this,t);
+                System.out.println("taille liste de pièce : "+this.listePièceSelectionnée.size());
+                //rechercheMurs(this, t);
+                /*
+                if (this.listePièceSelectionnée.size()==0){
+                    System.out.println("JE ME TROUVE DANS LA CONDITION ");
+                    rechercheMurs(this, t);
+                    System.out.println("Liste de mur SELECTIONNE : "+listeMurSelectionné.size());
+                    for(int i =0;i<listeMurSelectionné.size();i++){
+                        System.out.println(listeMurSelectionné.get(i).toString());
                     }
                 }
-                
-                if(t.isControlDown()){
-                            if(this.listePièceSelectionnée.contains(pièceSelectionnée)){
-                                this.listePièceSelectionnée.remove(pièceSelectionnée);
-                            }
-                            else{
-                                this.listePièceSelectionnée.add(pièceSelectionnée);
-                            }
-                 } 
-                 else {
-                            this.listePièceSelectionnée.clear();
-                            this.listePièceSelectionnée.add(pièceSelectionnée);
-                        }
-               /*
-               if(t.isControlDown()){
-                   if(this.listeMurSelectionné.contains(murLePlusProche)){
-                       this.listeMurSelectionné.remove(murLePlusProche);
-                   }
-                   else{
-                       this.listeMurSelectionné.add(murLePlusProche);
-                   }
-               } 
-               else {
-                   this.listeMurSelectionné.clear();
-                   this.listeMurSelectionné.add(murLePlusProche);
-               }
-        */
-                
-                System.out.println("Liste de mur SELECTIONNE : "+listeMurSelectionné.size());
-                for(int i =0;i<listeMurSelectionné.size();i++){
-                    System.out.println(listeMurSelectionné.get(i).toString());
+                else {
+                    System.out.println("Liste de pièce SELECTIONNEE: "+this.listePièceSelectionnée.size());
+                    for(int i =0;i<this.listePièceSelectionnée.size();i++){
+                        System.out.println(this.listePièceSelectionnée.get(i).toString());
+                    }
                 }
-                System.out.println("Liste de pièce SELECTIONNEE: "+listePièceSelectionnée.size());
-                for(int i =0;i<listePièceSelectionnée.size();i++){
-                    System.out.println(listePièceSelectionnée.get(i).toString());
-                }
+                */
+                //this.vue.highlight(murLePlusProche);//TODO ne marche pas
                 this.activeBoutonSuivantSelection();
                 break;
+
+
 
             case CREA_MURp1:
                 System.out.println("ETAT CREA_MURp1 de création de mur");
@@ -388,11 +357,11 @@ public class Contrôleur {
                 System.out.println("COORDONEE des points : Coin B ("+coinB.getX()+","+coinB.getY()+")");
                 System.out.println("COORDONEE des points : Coin C ("+coinC.getX()+","+coinC.getY()+")");
                 System.out.println("COORDONEE des points : Coin D ("+coinD.getX()+","+coinD.getY()+")");
-                Mur murAB=new Mur(coinA, coinB);
+                Mur murAB=new Mur(coinA, coinB, this.etageActuel);
                 System.out.println("Je suis entre la création du premier mur et celle du deuxième mur ");
-                Mur murBC=new Mur(coinB, coinC);
-                Mur murCD=new Mur(coinC, coinD);
-                Mur murDA=new Mur(coinD, coinA);
+                Mur murBC=new Mur(coinB, coinC,this.etageActuel);
+                Mur murCD=new Mur(coinC, coinD,this.etageActuel);
+                Mur murDA=new Mur(coinD, coinA,this.etageActuel);
                 System.out.println("Je suis juste AVT le contrôleur de pièce vide");
                 int nbrEtage = this.listeEtage.size();
                 Pièce pièce2 = new Pièce(etageActuel);//TODO essai avec EtageActuel
@@ -409,6 +378,7 @@ public class Contrôleur {
                 //d'après vidéo il fautdrait mettre this.vue.redrawAll()
                 System.out.println("pièce.toString() : "+pièce2.toString());
                 this.vue.redrawAll();
+                this.vuePrix.reCalcule(batiment);
                 this.changeEtat(ETAT.CREA_PIECE_2PNT_p1);
                 System.out.println("RETOUR ETAT CREA_PIECE_2PNT_p2 de création de pièce 2 points");
                 break;
@@ -440,10 +410,10 @@ public class Contrôleur {
                 Coin coinF= new Coin(this.pos[0], this.pos[2]);
                 Coin coinG= new Coin(this.pos[3],this.pos[1]);
                 Coin coinH= new Coin(this.pos[3], this.pos[2]);
-                Mur murEF=new Mur(coinE, coinF);
-                Mur murFH=new Mur(coinF, coinH);
-                Mur murHG=new Mur(coinH, coinG);
-                Mur murGE=new Mur(coinG, coinE);
+                Mur murEF=new Mur(coinE, coinF,this.etageActuel);
+                Mur murFH=new Mur(coinF, coinH,this.etageActuel);
+                Mur murHG=new Mur(coinH, coinG,this.etageActuel);
+                Mur murGE=new Mur(coinG, coinE,this.etageActuel);
                 Pièce pièce3 = new Pièce(etageActuel);
                 pièce3.add(murEF);
                 pièce3.add(murFH);
@@ -451,6 +421,7 @@ public class Contrôleur {
                 pièce3.add(murGE);
                 System.out.println("Pièce.toString(): "+pièce3.toString());
                 this.vue.redrawAll();
+                this.vuePrix.reCalcule(batiment);
                 this.changeEtat(ETAT.CREA_PIECE_3PNT_p1);
                 break;
             case AJOUT_FEN_p1: //création de fenêtre, p1
@@ -501,8 +472,9 @@ public class Contrôleur {
                 System.out.println("AJOUT d'ETAGEp1");
                 if(etagePrimitif!=null){
                     System.out.println("Quel est la hauteur de l'étage que vous vouliez avoir ? supérieur à 2m");
-                    double hauteur=Lire.d();
-                    Etage etageCréé = new Etage(hauteur, this.batiment);
+                    this.vue.entrerHauteurEtage();
+                    //double hauteur=Lire.d();
+                    Etage etageCréé = new Etage(this.hauteurEtage,batiment);
                     for (int i=0;i<this.listeEtage.get(0).getListe_mur_facade().size();i++){
                         etageCréé.add(this.listeEtage.get(0).getListe_mur_facade().get(i));
                     }
@@ -514,6 +486,7 @@ public class Contrôleur {
                     this.changeEtat(ETAT.SELECT);
                 }
                 else{
+                    this.vue.entrerHauteurEtage();
                     System.out.println("On crée actuellement le premier étage, afin di'initialiser le bâtiment.");
                     System.out.println("Veuillez cliquer sur les limites de l'ETAGE (2 cliques)");
                     this.pos[0]=t.getX();
@@ -529,13 +502,14 @@ public class Contrôleur {
                 y2=t.getY();
                 batiment=new Architecture_officielle();
                 System.out.println("coordonée du clic 2 : (x,y) => ("+x2+","+y2+")");
+                //TODO rentrer la valeur de l'étage
                 System.out.println("quelle est la hauteur du premier étage du bâtiment?");
-                double hauteurDuRDC = Lire.d();
+                double hauteurDuRDC = this.hauteurEtage;//TODO rentrer la valeur de l'étage
                 etagePrimitif=new Etage(hauteurDuRDC, batiment);
-                etagePrimitif.add(new Facade(new Coin(this.pos[0], this.pos[1]),new Coin(this.pos[0], y2)));
-                etagePrimitif.add(new Facade(new Coin(this.pos[0], y2),new Coin(x2, y2)));
-                etagePrimitif.add(new Facade(new Coin(x2,y2),new Coin(x2, this.pos[1])));
-                etagePrimitif.add(new Facade(new Coin(x2, this.pos[1]),new Coin(this.pos[0], this.pos[1])));
+                etagePrimitif.add(new Mur(new Coin(this.pos[0], this.pos[1]),new Coin(this.pos[0], y2)));
+                etagePrimitif.add(new Mur(new Coin(this.pos[0], y2),new Coin(x2, y2)));
+                etagePrimitif.add(new Mur(new Coin(x2,y2),new Coin(x2, this.pos[1])));
+                etagePrimitif.add(new Mur(new Coin(x2, this.pos[1]),new Coin(this.pos[0], this.pos[1])));
                 this.listeEtage.add(etagePrimitif);
                 //System.out.println("Etage.toString : "+etagePrimitif.toString());
                 this.vue.getModel().getListe_etage().add(etagePrimitif);
@@ -551,11 +525,14 @@ public class Contrôleur {
         //TODO dans la video il fait model.add(new point) 
         //Je ne peux pas faire ça car je n'ai pas de méthode pour 
 } 
+
+    
     public void activeBoutonSuivantSelection() {
         this.vue.getRbcrmur().setDisable(true);
         this.vue.getRbEtageAj().setDisable(true);
         this.vue.getRbcrpiece3().setDisable(true);
         this.vue.getRbcrpiece2().setDisable(true);
+        this.vue.getRbsupp().setDisable(false);
         System.out.println("taille de la liste de mur selectionné :"+this.listeMurSelectionné.size());
         if (this.listeMurSelectionné.size()>1 || this.listePièceSelectionnée.size()>=1){
             this.vue.getRbporte().setDisable(true);
@@ -574,7 +551,7 @@ public class Contrôleur {
         //System.out.println("Je me trouve dans la méthode AjoutGrpRevêtement");
         if (this.etat==ETAT.SELECT && this.listeMurSelectionné.size()>1){
             System.out.println("Quel revêtement veux tu pour tes murs ? ");
-            //Revêtement revêtement = new Revêtement(Lire.i());//TODO objectif : prendre le revêtement cliqué dans le revêtementPane
+            this.vueRevetement.affichageMur();
             Revêtement revêtementChoisi=new Revêtement();
             while(this.vueRevetement.getRevêtementCliqué()==null){
                 System.out.println("Je suis dans la boucle");
@@ -589,11 +566,19 @@ public class Contrôleur {
                     System.out.println("murSelectionné.toString() : "+murSelectionné.toString());
                 }
             }
-        } 
+        }
+        if (this.etat==ETAT.SELECT && !this.listePièceSelectionnée.isEmpty()){
+            /**
+             * Affichage de deux boutons : un pour le sol, un pour le plafond pour l'ajout de revêtement. 
+             */
+            this.vue.ajoutBtSOL_PLAFOND();
+        }
+        this.vuePrix.reCalcule(batiment);
     }
 
     void boutonIdAppart(ActionEvent t) {
-        if(this.etat==ETAT.SELECT && this.listePièceSelectionnée.size()>1){
+        
+        if(this.etat==ETAT.SELECT && this.listePièceSelectionnée.size()>=1){
             Appartement appartement=new Appartement(etageActuel);
             System.out.println("taille de la liste de pièce selectionnée :"+this.listePièceSelectionnée.size());
         for (Pièce pièce : this.listePièceSelectionnée){
@@ -602,40 +587,127 @@ public class Contrôleur {
             System.out.println("appartement.toString() : "+appartement.toString());
         }
     }
-    
-    public static Mur rechercheMur(Etage etageActuel,Coin coinCliq) {
-        Mur murLePlusProche = new Mur();
-        double distanceMinimale=Double.POSITIVE_INFINITY;
-        for(Pièce pièce:etageActuel.getListPièceOrpheline()){
-            for(Mur mur : pièce.getListe_mur()){
-                if(mur.DistanceMurClique(coinCliq, DISTMAXCLIQUE)<distanceMinimale){
-                    distanceMinimale=mur.DistanceMurClique(coinCliq, DISTMAXCLIQUE);
-                    //TODO enregistrer le mur corespondant à la distance minimale
-                    murLePlusProche=mur;
-                    //System.out.println("mur le plus proche de ta première boucle : "+mur.toString());
-                }
+    void annulerSelection(ActionEvent t) {
+        if (this.etat==ETAT.SELECT){
+            if(!this.getListePièceSelectionnée().isEmpty()){ // pareil que mettre this.getListePièceSelectionnée()>0
+                this.getListePièceSelectionnée().clear();
+            }
+            else{
+                
+            }
+            if(!this.getListeMurSelectionné().isEmpty()){
+                this.getListeMurSelectionné().clear();
+            }
+            else{
+                
             }
         }
-        for (Appartement appartement : etageActuel.getListe_appartement()){
-            for(Pièce pièceAppart:appartement.getListe_pièce()){
-                for(Mur mur1:pièceAppart.getListe_mur()){
-                    if(mur1.DistanceMurClique(coinCliq, DISTMAXCLIQUE)<distanceMinimale){
-                        distanceMinimale=mur1.DistanceMurClique(coinCliq, DISTMAXCLIQUE);
-                        murLePlusProche=mur1;
-                        //System.out.println("mur le plus proche de ta deuxième boucle : "+mur1.toString());
+        System.out.println("ETAT dans fonction ANNULER : ");
+        System.out.println("Pièce [] : "+this.listePièceSelectionnée.toString());
+        System.out.println("Mur [] : "+this.listeMurSelectionné.toString());
+        this.changeEtat(etat.SELECT);
+    }
+
+    public static void recherchePièces(Contrôleur contrôleur,MouseEvent t) {
+        Pièce pièceSelectionnée=new Pièce();
+        Coin coinCliq=new Coin();
+        coinCliq.setX(t.getX());
+        coinCliq.setY(t.getY());
+        for(Pièce pièce : contrôleur.getEtageActuel().getListPièceOrpheline()){
+                    //System.out.println("resultat de la methode pieceSelect"+pièce.pieceSelect(coinCliq));
+                    if(pièce.pieceSelect(coinCliq)==true){
+                        //System.out.println("Selection de pièce dans l'ETAT SELECT de la classe contrôleur ligne 275");
+                        pièceSelectionnée=pièce;
+                    }
+                    
+                }
+                for(Appartement appartement : contrôleur.getEtageActuel().getListe_appartement()){
+                    for(Pièce pièce:appartement.getListe_pièce()){
+                        if(pièce.pieceSelect(coinCliq)){
+                            pièceSelectionnée=pièce;
+                        }
                     }
                 }
-            }
-        }
-        for(Mur mur2 : etageActuel.getListe_mur_facade()){
-            if(mur2.DistanceMurClique(coinCliq, DISTMAXCLIQUE)<distanceMinimale){
-                distanceMinimale=mur2.DistanceMurClique(coinCliq, DISTMAXCLIQUE);
-                murLePlusProche=mur2; 
-                //System.out.println("mur le plus proche de ta troisième boucle : "+mur2.toString());
-            }
-        }
-        System.out.println("mur le plus proche retenu  : "+murLePlusProche.toString());
-        return murLePlusProche;
+                
+                if(t.isControlDown()){
+                            if(contrôleur.getListePièceSelectionnée().contains(pièceSelectionnée)){
+                                contrôleur.getListePièceSelectionnée().remove(pièceSelectionnée);
+                            }
+                            else{
+                                contrôleur.getListePièceSelectionnée().add(pièceSelectionnée);
+                            }
+                 } 
+                 else {
+                            contrôleur.getListePièceSelectionnée().clear();
+                            contrôleur.getListePièceSelectionnée().add(pièceSelectionnée);
+                        }
+    }
+
+    public ArrayList<Mur> getListeMurSelectionné() {
+        return listeMurSelectionné;
+    }
+
+    public ArrayList<Pièce> getListePièceSelectionnée() {
+        return listePièceSelectionnée;
+    }
+    
+    public static void rechercheMurs(Contrôleur contrôleur,MouseEvent t) {
+        contrôleur.pos[0]=t.getX();
+        contrôleur.pos[1]=t.getY();
+        double distanceMinimale=Double.POSITIVE_INFINITY;
+        Coin coinCliq=new Coin();
+        coinCliq.setX(contrôleur.pos[0]);
+        coinCliq.setY(contrôleur.pos[1]);
+        Mur murLePlusProche = new Mur();
+        for(Pièce pièce:contrôleur.etageActuel.getListPièceOrpheline()){
+                        for(Mur mur : pièce.getListe_mur()){
+                            double distanceMurClique = mur.DistanceMurClique(coinCliq, DISTMAXCLIQUE);
+                            if(distanceMurClique<distanceMinimale){
+                                distanceMinimale=distanceMurClique;
+                                //TODO enregistrer le mur corespondant à la distance minimale
+                                murLePlusProche=mur;
+                                System.out.println("mur le plus proche de ta première boucle : "+mur.toString());
+                            }
+                        }
+                    }
+                    for (Appartement appartement :contrôleur.etageActuel.getListe_appartement()){
+                        for(Pièce pièceAppart:appartement.getListe_pièce()){
+                            for(Mur mur1:pièceAppart.getListe_mur()){
+                                double distanceMurClique = mur1.DistanceMurClique(coinCliq, DISTMAXCLIQUE);
+                                if(distanceMurClique<distanceMinimale){
+                                    distanceMinimale=distanceMurClique;
+                                    murLePlusProche=mur1;
+                                    System.out.println("mur le plus proche de ta deuxième boucle : "+mur1.toString());
+                                }
+                            }
+                        }
+                    }
+                    
+                    for(Mur mur : contrôleur.etageActuel.getListe_mur_facade()){
+                        double distanceMurClique = mur.DistanceMurClique(coinCliq, DISTMAXCLIQUE);
+                        if(distanceMurClique<distanceMinimale){
+                            distanceMinimale=distanceMurClique;
+                            murLePlusProche=mur; 
+                            System.out.println("mur le plus proche de ta troisième boucle : "+mur.toString());
+                        }
+                    }
+                    
+                    System.out.println("LE MUR LE PLUS PROCHE : "+murLePlusProche.toString());
+                    
+                
+               if(t.isControlDown()){
+                   if(contrôleur.listeMurSelectionné.contains(murLePlusProche)){
+                       contrôleur.listeMurSelectionné.remove(murLePlusProche);
+                   }
+                   else{
+                       contrôleur.listeMurSelectionné.add(murLePlusProche);
+                   }
+               } 
+               else {
+                   contrôleur.listeMurSelectionné.clear();
+                   contrôleur.listeMurSelectionné.add(murLePlusProche);
+               }
+
     }
     void ajoutPorte(ActionEvent t){
         this.changeEtat(ETAT.AJOUT_PORTE_p1);
@@ -684,4 +756,12 @@ public class Contrôleur {
     public void setEtageActuel(Etage etageActuel) {
         this.etageActuel = etageActuel;
     }
+    public Double getHauteurEtage() {
+        return hauteurEtage;
+    }
+
+    public void setHauteurEtage(Double hauteurEtage) {
+        this.hauteurEtage = hauteurEtage;
+    }
+    
 }

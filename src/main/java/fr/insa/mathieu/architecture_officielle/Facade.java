@@ -25,9 +25,9 @@ public class Facade extends Mur  {
     private ArrayList<Etage> liste_étage; //  TODO recuperer les 4 murs qui servent a redefinir les coins pour redtrouver avec les ouvertures
 
     public Facade(Coin debut, Coin fin) {
-         this.id = IDManager.newId(this);
-         //on de doit créer que quatre facades maximum.
-         this.debut = debut;
+        this.id = IDManager.newId(this);
+        //on de doit créer que quatre facades maximum.
+        this.debut = debut;
         this.fin = fin;
        
         this.liste_ouverture = new ArrayList<>();
@@ -77,6 +77,7 @@ public class Facade extends Mur  {
         
     }
 
+
     //GET
 
     @Override
@@ -88,6 +89,7 @@ public class Facade extends Mur  {
     public Coin getDebut() {
         return debut;
     }
+    
 
     @Override
     public Coin getFin() {
@@ -122,6 +124,14 @@ public class Facade extends Mur  {
     public void setFin(Coin fin) {
         this.fin = fin;
     }
+
+    @Override
+    public String toString() {
+        String résultat = "Mur;" + this.id + ";" + debut.getId() + ";" + fin.getId() ;
+            résultat += ";liste_ouverture=" + liste_ouverture ;
+        return résultat;
+    }
+    
 
     public void setRevêtement_facade(Revêtement revêtement_facade) {
         this.revêtement_facade = revêtement_facade;

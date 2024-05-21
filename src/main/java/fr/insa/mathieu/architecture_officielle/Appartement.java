@@ -6,6 +6,7 @@ package fr.insa.mathieu.architecture_officielle;
 //sx
 import java.util.ArrayList;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -15,6 +16,8 @@ public class Appartement {
     private Etage etage;
     private ArrayList<Pièce> liste_pièce; // avec le même étage
     private int id;
+    private Color paint;
+
     
     //CONSTRUCTOR
     public Appartement(Etage etage) {
@@ -28,10 +31,7 @@ public class Appartement {
     //FUNCTION
     public void add_pièce(Pièce pièce){
         if (pièce.getAppartement()!=this){
-            System.out.println("dans la première boucle l.31");
-            System.out.println("piece.getAppartement()"+pièce.getAppartement());
             if(pièce.getAppartement()==null || this.etage.getListPièceOrpheline().contains(pièce)){
-                System.out.println("dans la deuxième boucle l.34");
                 this.liste_pièce.add(pièce);//On ajoute la pièce à la liste des pièce de cet appartement
                 this.etage.getListPièceOrpheline().remove(pièce);
             }
@@ -46,8 +46,8 @@ public class Appartement {
     }
     public double prix(){
         double prix=0;//initialisation du prix
-        for (int i=0; i<this.liste_pièce.size();i++){
-            prix = prix+this.liste_pièce.get(i).prix(); //le prix de la pièce à l'indice 'i' de l'appartement en question
+        for(Pièce pièce:this.liste_pièce){
+            prix = prix + pièce.prix(); // Pour chaque pièce de l'appartement : je calcule le prix
         }
         return prix;
     }
@@ -68,6 +68,19 @@ public class Appartement {
     public void dessine(GraphicsContext context){
         for (Pièce pièce : this.liste_pièce){
             pièce.dessine(context);
+            context.setFill(paint);
+            Mur[] longMaxMin = pièce.longMaxMin();
+            Coin positionCentrale = pièce.positionCentrale();
+            double longMax = longMaxMin[0].longueur();
+            double longMin = longMaxMin[1].longueur();
+            if (longMaxMin[0].horizontal()){
+                System.out.println("Je suis censé dessiner les carrés des pièces de l'appartemennt");
+                context.fillRect(positionCentrale.getX()-0.2*longMax, positionCentrale.getY()-0.2*longMin, 0.4*longMax, 0.4*longMin);
+            }
+            else {
+                context.fillRect(positionCentrale.getX()-0.2*longMin, positionCentrale.getY()-0.2*longMax, 0.4*longMin, 0.4*longMax);
+            }
+            
         }
     }
     
@@ -92,6 +105,9 @@ public class Appartement {
 
     public void setListe_pièce(ArrayList<Pièce> liste_pièce) {
         this.liste_pièce = liste_pièce;
+    }
+    public void setPaint(Color paint) {
+        this.paint = paint;
     }
     
 }

@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package fr.insa.mathieu.architecture_officielle;
-import static fr.insa.mathieu.architecture_officielle.Architecture_officielle.donnee_enregistree;
 import static fr.insa.mathieu.architecture_officielle.Architecture_officielle.lecture;
 import fr.insa.mathieu.architecture_officielle.gui.Contrôleur;
 import static java.lang.Math.sqrt;
@@ -102,6 +101,8 @@ public class Mur {
     
     public double DistanceMurClique(Coin cliqueSouris, double distMax){
         boolean result=false;
+        //System.out.println("Je suis dans classe distanceMur_clique");
+        //System.out.println("this.getDebut() (Classe mur)"+this.getDebut());
         Double ligne = new Double(this.debut.getX(), this.debut.getY(),this.fin.getX(), this.fin.getY());
         double distanceClique_Mur = ligne.ptSegDist(cliqueSouris.getX(),cliqueSouris.getY());
         return distanceClique_Mur;
@@ -118,8 +119,9 @@ public class Mur {
     
     //la méthode principale du surface
     public double surface(){ //appeler : mur.surface() renvoie la surface de l'objet mur
-        double s = this.longueur()*(this.getÉtage().getHauteur_etage()); //this désigne l'objet instancié (le mur)
-        return s;
+        double surface=0;
+        surface = surface + this.longueur()*this.étage.getHauteur_etage();
+        return surface;
     }
     //TODO controle si ouverture pour recalcul de surface soustraire les surfaces des ouvertures
     /* PAS TRES UTILE vu que tu as déjà le calcul de surface d'avant qui est nickel. A voir si on garde cette fonction ( si on en a besoin)
@@ -195,7 +197,10 @@ public class Mur {
     }
     public void highlight(GraphicsContext context){
         System.out.println("HIGHLIGHT de la classe Mur");
-        context.setStroke(Color.ALICEBLUE);
+        this.debut.dessine(context);
+        this.fin.dessine(context);
+        context.setStroke(Color.RED);
+        context.strokeLine(this.getDebut().getX(), this.getDebut().getY(), this.getFin().getX(), this.getFin().getY());  
     }
     public boolean horizontal() {
         boolean result;
@@ -283,8 +288,7 @@ public class Mur {
     String nom_fichier = Lire.S();
     */
     Architecture_officielle batiment = new Architecture_officielle();
-    donnee_enregistree = lecture("Revêtement_final.txt"); // Lecture est ici une fonction qui renverra une ArrayList de tableau de chaînes de caractères
-
+    ArrayList<String[]> listeRevêt = batiment.getDonnee_enregistree();
     //Création des coins pour faire le mur 
     Coin debut1 , fin1;
     debut1= new Coin(2,4);
