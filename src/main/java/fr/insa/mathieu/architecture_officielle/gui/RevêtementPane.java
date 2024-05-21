@@ -60,8 +60,9 @@ public class RevêtementPane extends BorderPane{
         //DONNEES de base
         
         
-        VBox vbox=new VBox(this.listView);//changer en listViewSol ou ListViewPlafond
-        this.setCenter(vbox);
+        //VBox vbox=new VBox(this.listView);//changer en listViewSol ou ListViewPlafond
+        
+        this.setCenter(this.listView);
         this.listView.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String oldString, String newString) -> {// Changer avec listViewSol ou listViewPlafond
             System.out.println("Revêtement cliqué : "+newString);
             Revêtement revêtementTrouvé = getKeyFromValue(map, newString);
@@ -69,6 +70,7 @@ public class RevêtementPane extends BorderPane{
             System.out.println("revêtementTROUV2.toString() : "+revêtementTrouvé.toString());
             System.out.println("revêtementTROUV2.getPrix_unitaire() : "+revêtementTrouvé.getPrix_unitaire());
             System.out.println("id du revêtement (numéro)"+revêtementTrouvé.getId());
+            this.contrôleur.ClicDansRevêtementPane(revêtementTrouvé);
         });
     }
     
@@ -77,14 +79,17 @@ public class RevêtementPane extends BorderPane{
     public void affichageMur(){
         this.setMap(rev_mur());
         this.listView=listView(map);
+        this.setCenter(this.listView);
     }
     public void affichageSol(){
         this.setMap(rev_sol());
         this.listView=listView(map);
+        this.setCenter(this.listView);
     }
     public void affichagePlafond(){
         this.setMap(rev_plafond());
         this.listView=listView(map);
+        this.setCenter(this.listView);
     }
     
     public Revêtement getRevêtementCliqué() {

@@ -215,7 +215,7 @@ public class Mur {
         context.strokeLine(this.getDebut().getX(), this.getDebut().getY(), this.getFin().getX(), this.getFin().getY());
     }
     public void highlight(GraphicsContext context){
-        System.out.println("HIGHLIGHT de la classe Mur");
+        //System.out.println("HIGHLIGHT de la classe Mur");
         this.debut.dessine(context);
         this.fin.dessine(context);
         context.setStroke(Color.RED);

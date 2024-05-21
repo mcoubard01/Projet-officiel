@@ -67,7 +67,7 @@ public class DessinCanvas extends Pane{
         for (Mur mur : this.main.getContrôleur().getListeMurSélectionné()){
             this.highlight(mur);
         }
-        for (Pièce pièce : this.main.getContrôleur().getListePièceSélectionnée()){
+        for (Pièce pièce : this.main.getContrôleur().getListePièceSelectionnée()){
             this.highlight(pièce);
         }
         /*

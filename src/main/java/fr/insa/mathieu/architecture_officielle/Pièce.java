@@ -198,7 +198,7 @@ public class Pièce {
      * @return 
      */
      public void highlight(GraphicsContext context){
-        System.out.println("HIGHLIGHT de la classe Pièce");
+        //System.out.println("HIGHLIGHT de la classe Pièce");
         for (Mur mur : this.liste_mur){
             mur.highlight(context);
         }

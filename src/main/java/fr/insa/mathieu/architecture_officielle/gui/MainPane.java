@@ -8,6 +8,9 @@ import fr.insa.mathieu.architecture_officielle.Architecture_officielle;
 import fr.insa.mathieu.architecture_officielle.Etage;
 import fr.insa.mathieu.architecture_officielle.Mur;
 import fr.insa.mathieu.architecture_officielle.gui.Contrôleur.ETAT;
+import static fr.insa.mathieu.architecture_officielle.gui.Contrôleur.OBJET_SELECTIONNE.MUR;
+import static fr.insa.mathieu.architecture_officielle.gui.Contrôleur.OBJET_SELECTIONNE.PLAFOND;
+import static fr.insa.mathieu.architecture_officielle.gui.Contrôleur.OBJET_SELECTIONNE.SOL;
 import java.util.HashMap;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -43,7 +46,6 @@ public class MainPane extends BorderPane {
     private RadioButton rbidpiece;    //bouton IDentifier une pièce (en cliquant sur les murs composonts la pièce si possible)
     private RadioButton rbidappart;   //bouton IDentifier un appart (en cliquant sur les pièces contenues si possible)
     private RadioButton rbporte;
-    private RadioButton rbrevêtement_rap;
     private RadioButton rbfenêtre;
     private RadioButton rbrevêtement;
     
@@ -107,11 +109,19 @@ public class MainPane extends BorderPane {
         this.rbfenêtre.setOnAction((t) -> {
             this.contrôleur.ajoutFenetre(t);
         });
-        this.rbrevêtement_rap=new RadioButton("Ajout rapide revêtement");
         
         this.rbrevêtement = new RadioButton("revêtement");
         this.rbrevêtement.setOnAction((t) -> {
-            this.contrôleur.ajoutGrpRevetement(t);
+            if (!this.contrôleur.getListePièceSelectionnée().isEmpty()){
+                    /**
+                    * Affichage de deux boutons : un pour le sol, un pour le plafond pour l'ajout de revêtement. 
+                    */
+                    this.ajoutBtSOL_PLAFOND();
+                }
+            else {
+                this.contrôleur.setObjetSélectionné(MUR);
+            }
+            this.contrôleur.affichageRevêtement();
         });
         this.rbfenêtre=new RadioButton("fenêtre");
         this.rbporte=new RadioButton("porte");
@@ -135,7 +145,6 @@ public class MainPane extends BorderPane {
         this.rbidpiece.setToggleGroup(bgEtat);
         this.rbporte.setToggleGroup(bgEtat);
         this.rbrevêtement.setToggleGroup(bgEtat);
-        this.rbrevêtement_rap.setToggleGroup(bgEtat);
         this.rbEtageAj.setToggleGroup(bgEtat);
         this.rbAnnule.setToggleGroup(bgEtat);
         this.rbEtageAj.setSelected(true);
@@ -146,7 +155,7 @@ public class MainPane extends BorderPane {
         //disposition des éléments node entre eux (les uns au dessus des autres)
         this.vbox= new VBox(this.rbSelect,this.rbcrmur,this.rbcrpiece2,this.rbcrpiece3,
                 this.rbidappart,this.rbidpiece, this.rbfenêtre,this.rbporte,
-                this.rbrevêtement_rap,this.rbrevêtement, this.rbEtageAj, this.rbsupp, this.rbAnnule);
+                this.rbrevêtement, this.rbEtageAj, this.rbsupp, this.rbAnnule);
                 //new Label("Pour le moment, on peut que dessiner en mode plein écran."));TODO à mieux intégrer (pas dans le VBox car pas pratique du tout
                 //TODO : faire en sorte que le message ci-dessus ne prenne pas trop de place.
                 //actuellement, il a doublé la largeur du VBox... BAH OUI il ne noit pas être là. Eventuellement refaire une ligne au grid pane pour mettre ces labels
@@ -192,9 +201,6 @@ public class MainPane extends BorderPane {
     }
     public RadioButton getRbporte() {
         return rbporte;
-    }
-    public RadioButton getRbrevêtement_rap() {
-        return rbrevêtement_rap;
     }
     public RadioButton getRbfenêtre() {
         return rbfenêtre;
@@ -293,12 +299,14 @@ public class MainPane extends BorderPane {
         
         sol.setOnAction((t) -> {
             System.out.print("appui sur bouton Sol");
-            this.revêtementPane.affichageSol();
+            this.contrôleur.setObjetSélectionné(SOL);
+            this.contrôleur.affichageRevêtement();
             hb.getChildren().removeAll(sol);
         });
         plafond.setOnAction((t) -> {
-            System.out.print("appui sur bouton Sol");
-            this.revêtementPane.affichagePlafond();
+            System.out.print("appui sur bouton Plafond");
+            this.contrôleur.setObjetSélectionné(PLAFOND);
+            this.contrôleur.affichageRevêtement();
             hb.getChildren().removeAll(plafond);
         });
     }

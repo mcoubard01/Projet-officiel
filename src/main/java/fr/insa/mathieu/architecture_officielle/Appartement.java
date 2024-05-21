@@ -21,7 +21,6 @@ public class Appartement {
     
     //CONSTRUCTOR
     public Appartement(Etage etage) {
-        
         this.etage = etage;
         etage.getListe_appartement().add(this);
         this.liste_pièce=new ArrayList<>();
