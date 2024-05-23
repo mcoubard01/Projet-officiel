@@ -22,7 +22,7 @@ public class Plafond extends Sol_plafond{
     // FONCTION
     @Override
     public boolean contrôle(Revêtement r){ // Contrôle
-        boolean result=(r.getPourSol()).equals("1");
+        boolean result=(r.getPourPlafond()).equals("1");
         return result;
     }
     public static String indente (String toIndente, String prefix){// présenter dans la vidéo 1 du prof 

@@ -7,6 +7,7 @@ package fr.insa.mathieu.architecture_officielle.gui;
 import fr.insa.mathieu.architecture_officielle.Architecture_officielle;
 import fr.insa.mathieu.architecture_officielle.Etage;
 import fr.insa.mathieu.architecture_officielle.Mur;
+import fr.insa.mathieu.architecture_officielle.Appartement;
 import fr.insa.mathieu.architecture_officielle.gui.Contrôleur.ETAT;
 import static fr.insa.mathieu.architecture_officielle.gui.Contrôleur.OBJET_SELECTIONNE.MUR;
 import static fr.insa.mathieu.architecture_officielle.gui.Contrôleur.OBJET_SELECTIONNE.PLAFOND;
@@ -309,5 +310,5 @@ public class MainPane extends BorderPane {
             this.contrôleur.affichageRevêtement();
             hb.getChildren().removeAll(plafond);
         });
-    }
+    }    
 }

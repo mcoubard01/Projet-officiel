@@ -25,6 +25,7 @@ public class Appartement {
         etage.getListe_appartement().add(this);
         this.liste_pièce=new ArrayList<>();
         this.id = IDManager.newId(this);
+        this.paint=Color.color(Math.random(), Math.random(), Math.random());
     }
     
     //FUNCTION
@@ -88,7 +89,7 @@ public class Appartement {
             double longMax = longMaxMin[0].longueur();
             double longMin = longMaxMin[1].longueur();
             if (longMaxMin[0].horizontal()){
-                System.out.println("Je suis censé dessiner les carrés des pièces de l'appartemennt");
+                //System.out.println("Je suis censé dessiner les carrés des pièces de l'appartemennt");
                 context.fillRect(positionCentrale.getX()-0.2*longMax, positionCentrale.getY()-0.2*longMin, 0.4*longMax, 0.4*longMin);
             }
             else {

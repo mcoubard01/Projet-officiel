@@ -177,7 +177,7 @@ public class Mur {
     public String toString() {
         //Syntaxe : "Mur;id;idDuCoinDebut;idDuCoinFin;idDeEtageDuMur;idDePièce1;idDePièce2;liste_ouverture
         String résultat = "Mur; id :" + this.id + "; coin1: " + debut.getId() + "; coin2: " + fin.getId() ;
-            résultat += ";liste_ouverture=" + liste_ouverture ;
+            résultat += ";liste_ouverture=" + liste_ouverture+" ;Revêtement= "+this.revêtement;
 //        int idDePièce1;
 //        int idDePièce2;
 //        if (pièce1 == null){

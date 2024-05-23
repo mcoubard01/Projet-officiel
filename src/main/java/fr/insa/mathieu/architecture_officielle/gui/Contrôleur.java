@@ -4,21 +4,23 @@
  */
 package fr.insa.mathieu.architecture_officielle.gui;
 
-import fr.insa.mathieu.architecture_officielle.Appartement;
-import fr.insa.mathieu.architecture_officielle.Architecture_officielle;
 import fr.insa.mathieu.architecture_officielle.Coin;
-import fr.insa.mathieu.architecture_officielle.Etage;
-import fr.insa.mathieu.architecture_officielle.Facade;
-import fr.insa.mathieu.architecture_officielle.Fenêtre;
-import fr.insa.mathieu.architecture_officielle.IDManager;
-import fr.insa.mathieu.architecture_officielle.Lire;
 import fr.insa.mathieu.architecture_officielle.Mur;
 import fr.insa.mathieu.architecture_officielle.Pièce;
+import fr.insa.mathieu.architecture_officielle.Plafond;
+import fr.insa.mathieu.architecture_officielle.Sol;
+import fr.insa.mathieu.architecture_officielle.Appartement;
+import fr.insa.mathieu.architecture_officielle.Etage;
+import fr.insa.mathieu.architecture_officielle.Facade;
+import fr.insa.mathieu.architecture_officielle.Porte;
+import fr.insa.mathieu.architecture_officielle.Fenêtre;
+import fr.insa.mathieu.architecture_officielle.Architecture_officielle;
+import fr.insa.mathieu.architecture_officielle.IDManager;
 import fr.insa.mathieu.architecture_officielle.Revêtement;
+import fr.insa.mathieu.architecture_officielle.Sol_plafond;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 
 /**
  *  VIDEO à reprendre (la 7 et 8)
@@ -93,7 +95,9 @@ public class Contrôleur {
     public Contrôleur(MainPane vue,RevêtementPane vueRevetement, PrixPane vuePrix){
         this.vue=vue;
         this.vueRevetement=vueRevetement;
+        this.vueRevetement.setContrôleur(this);
         this.vuePrix=vuePrix;
+        this.vuePrix.setContrôleur(this);
         this.listeEtage=new ArrayList<>();
         this.listeMurSelectionné=new ArrayList<>();
         this.listePièceSelectionnée=new ArrayList<>();
@@ -276,19 +280,21 @@ public class Contrôleur {
                 for (Mur mur : this.getListeMurSelectionné()){
                     System.out.println("AJOUT DU REVETEMENT" );
                     mur.add(revêtementTrouvé);
+                    System.out.println("ID DU MUR POUR VERIFICATION : "+mur.toString());
                 }
                 break;
             case SOL:
                 for(Pièce pièce : this.listePièceSelectionnée){
                     System.out.println("AJOUT DU REVETEMENT" );
                     pièce.getSol().setRevêtement(revêtementTrouvé);
-                    System.out.println("Dernière étape : "+pièce.toString());
+                    System.out.println("pièce.toString()  : "+pièce.toString());
                 }
                 break;
             case PLAFOND:
                 for(Pièce pièce : this.listePièceSelectionnée){
                     System.out.println("AJOUT DU REVETEMENT" );
                     pièce.getPlafond().setRevêtement(revêtementTrouvé);
+                    System.out.println("plafond.toString();"+pièce.toString());
                 }
                 break;
         }
@@ -715,7 +721,6 @@ public class Contrôleur {
     }
 
     void boutonIdAppart(ActionEvent t) {
-        
         if(this.etat==ETAT.SELECT && this.listePièceSelectionnée.size()>=1){
             Appartement appartement = new Appartement(etageActuel);
             System.out.println("taille de la liste de pièce selectionnée :"+this.listePièceSelectionnée.size());

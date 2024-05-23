@@ -32,12 +32,12 @@ public class DessinCanvas extends Pane{
         this.realCanvas.widthProperty().bind(this.widthProperty());
         
         this.realCanvas.heightProperty().addListener((o) -> {
-           System.out.println("w(Canvas) = "+this.realCanvas.getWidth()+" ,h(Canvas) = "+this.realCanvas.getHeight());
+           //System.out.println("w(Canvas) = "+this.realCanvas.getWidth()+" ,h(Canvas) = "+this.realCanvas.getHeight());
            this.redrawAll();
         });
         this.realCanvas.widthProperty().bind(this.widthProperty());
         this.realCanvas.widthProperty().addListener((o) -> {
-           System.out.println("w(Canvas) = "+this.realCanvas.getWidth()+" ,h(Canvas) = "+this.realCanvas.getHeight());
+           //System.out.println("w(Canvas) = "+this.realCanvas.getWidth()+" ,h(Canvas) = "+this.realCanvas.getHeight());
            this.redrawAll();
         });
         

@@ -229,7 +229,7 @@ public class Pièce {
         Mur[] listeMur = this.longMaxMin();
         
         if (listeMur[0].horizontal()){
-            System.out.println("Le mur le plus grand est horizontal");
+            //System.out.println("Le mur le plus grand est horizontal");
             /**
              * Position du point Central de la pièce => marche BIEN
              */
@@ -276,14 +276,14 @@ public class Pièce {
         
         if (listeMur[0].horizontal()){
 
-            System.out.println("Le coin Centrale est : "+positionCentrale.toString());
+            //System.out.println("Le coin Centrale est : "+positionCentrale.toString());
             double voisinSUPX = positionCentrale.getX()+0.2*listeMur[0].longueur();
             double voisinINFX = positionCentrale.getX()-0.2*listeMur[0].longueur();
             double voisinSUPY = positionCentrale.getY()+0.2*listeMur[1].longueur();
             double voisinINFY = positionCentrale.getY()-0.2*listeMur[1].longueur();
 
-            System.out.println("voisinage en x lorsque longueur max horizontal : ["+voisinINFX+","+voisinSUPX+"]");
-            System.out.println("voisinage en y lorsque longueur max horizontal : ["+voisinINFY+","+voisinSUPY+"]");
+            //System.out.println("voisinage en x lorsque longueur max horizontal : ["+voisinINFX+","+voisinSUPX+"]");
+            //System.out.println("voisinage en y lorsque longueur max horizontal : ["+voisinINFY+","+voisinSUPY+"]");
 
             if(coinCliqué.getX()<voisinSUPX && coinCliqué.getX()>voisinINFX){
                 //System.out.println("Le clic se situe dans le bon voisinage du point central en x");
@@ -299,13 +299,13 @@ public class Pièce {
             }
         }
         else {
-            System.out.println("Le coin Centrale est : "+positionCentrale.toString());
+            //System.out.println("Le coin Centrale est : "+positionCentrale.toString());
             double voisinSUPX = positionCentrale.getX()+0.2*listeMur[0].longueur();
             double voisinINFX = positionCentrale.getX()-0.2*listeMur[0].longueur();
             double voisinSUPY = positionCentrale.getY()+0.2*listeMur[1].longueur();
             double voisinINFY = positionCentrale.getY()-0.2*listeMur[1].longueur();
-            System.out.println("voisinage en x lorsque longueur max horizontal : ["+voisinINFX+","+voisinSUPX+"]");
-            System.out.println("voisinage en y lorsque longueur max horizontal : ["+voisinINFY+","+voisinSUPY+"]");
+            //System.out.println("voisinage en x lorsque longueur max horizontal : ["+voisinINFX+","+voisinSUPX+"]");
+            //System.out.println("voisinage en y lorsque longueur max horizontal : ["+voisinINFY+","+voisinSUPY+"]");
             
             if(voisinINFX<coinCliqué.getX() && coinCliqué.getX()<voisinSUPX){
                 if(coinCliqué.getY()<voisinSUPY && coinCliqué.getY()>voisinINFY){
@@ -327,41 +327,6 @@ public class Pièce {
             m.setPièce1(this);
     }
 
-    public ArrayList<Mur> consécutif(){ //TODO cette fonction doit dire si la pièce est fermée ou 
-        ArrayList<Mur> mur_consécutif = new ArrayList();
-        Mur référence = this.getListe_mur().get(0);
-        System.out.println ("donnée du mur de référence : "+référence.toString());
-        int i=1;
-        /*boolean test1 = (référence.getDebut().getX()!=this.getListe_mur().get(i).getDebut().getX());
-        boolean test2 = (référence.getDebut().getY()!=this.getListe_mur().get(i).getDebut().getY());
-        //test1&2 permettent de tester si coinDebut du mur référence est le coinDebut du mur1.
-        
-        boolean test3 = (référence.getDebut().getX()!=this.getListe_mur().get(i).getFin().getX());
-        boolean test4 = (référence.getDebut().getY()!=this.getListe_mur().get(i).getFin().getY());
-        test3&4 permettent de tester si coinDebut du mur référence est le coinFin du mur1.
-
-        
-        boolean test5 = (référence.getFin().getX()!=this.getListe_mur().get(i).getDebut().getX());
-        boolean test6 = (référence.getFin().getY()!=this.getListe_mur().get(i).getDebut().getY());
-        test5&6 permettent de tester si coinFin du mur référence est le coinDebut du mur1.
-
-        
-        boolean test7 = (référence.getFin().getX()!=this.getListe_mur().get(i).getFin().getX());
-        boolean test8 = (référence.getFin().getY()!=this.getListe_mur().get(i).getFin().getY());
-        test7&8 permettent de tester si coinFin du mur référence est le coinFin du mur1.
-
-        
-        while ((test1&&test2)&&(test3&&test4)&&(test5&&test6)&&(test7&&test8))
-            */
-        while (((référence.getDebut().getX()!=this.getListe_mur().get(i).getDebut().getX())&&(référence.getDebut().getY()!=this.getListe_mur().get(i).getDebut().getY()))&&((référence.getDebut().getX()!=this.getListe_mur().get(i).getFin().getX())&&(référence.getDebut().getY()!=this.getListe_mur().get(i).getFin().getY()))&&((référence.getFin().getX()!=this.getListe_mur().get(i).getDebut().getX())&&(référence.getFin().getY()!=this.getListe_mur().get(i).getDebut().getY()))&&((référence.getFin().getX()!=this.getListe_mur().get(i).getFin().getX())&&(référence.getFin().getY()!=this.getListe_mur().get(i).getFin().getY()))){
-            System.out.println("incrémentation : "+i);
-            i=i+1;
-        }
-        mur_consécutif.add(référence);
-        mur_consécutif.add(this.getListe_mur().get(i));
-        return mur_consécutif;
-    }
-    
     public double surface(){
         //double surface = this.consécutif().get(0).longueur()*this.consécutif().get(1).longueur();
         double surface = 0;
