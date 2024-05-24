@@ -91,10 +91,8 @@ public class Pièce {
     this.étage = étage;
     this.étage.getListPièceOrpheline().add(this);
     //this.appartement = new Appartement(étage);
-    String nom = "pièce n°" + this.id;
     this.sol = new Sol(this); //TODO à regarder car pas sûr que ça marche
     this.plafond = new Plafond(this);
-    this.nom_pièce = nom;
     this.id = IDManager.newId(this);
     }
 
@@ -427,7 +425,32 @@ public class Pièce {
         /**
          * ecrire le nom de la pièce
          */
-        context.strokeText(nom_pièce, id,this.positionCentrale().getX(), this.positionCentrale().getY());
+        if (this.appartement!=null){
+            
+        }
+        else{
+            dessineZoneCliquable(context);
+        }
+        if (this.nom_pièce==null){
+            
+        }
+        else{
+            context.strokeText(nom_pièce, id,500, 800);
+        }
+    }
+    public void dessineZoneCliquable(GraphicsContext context){
+        Mur[] listeMur = this.longMaxMin();
+            Coin positionCentrale = this.positionCentrale();
+            double longMax = longueur(listeMur[0].getDebut(),listeMur[0].getFin()); // utilisation de cette fonction plutôt que <Mur>.longueur car <Mur>.longueur fait la conversion en même temps
+            double longMin = longueur(listeMur[1].getDebut(),listeMur[1].getFin()); // utilisation de cette fonction plutôt que <Mur>.longueur car <Mur>.longueur fait la conversion en même temps
+            context.setFill(Color.LIGHTGREY);
+            if (listeMur[0].horizontal()){
+                //System.out.println("Je suis censé dessiner les carrés des pièces de l'appartemennt");
+                context.fillRect(positionCentrale.getX()-0.2*longMax, positionCentrale.getY()-0.2*longMin, 0.4*longMax, 0.4*longMin);
+            }
+            else {
+                context.fillRect(positionCentrale.getX()-0.2*longMin, positionCentrale.getY()-0.2*longMax, 0.4*longMin, 0.4*longMax);
+            }
     }
     
     //GET

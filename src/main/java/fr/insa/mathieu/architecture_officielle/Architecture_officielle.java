@@ -23,11 +23,17 @@ import javafx.scene.paint.Color;
 
 
 public class Architecture_officielle { 
-    public static ArrayList<String[]> donnee_enregistree; // Liste de tableaux de chaines de caractère qui est utilisée pour le stockage des Revêtements
+    public ArrayList<String[]> donnee_enregistree; // Liste de tableaux de chaines de caractère qui est utilisée pour le stockage des Revêtements
     private ArrayList<Etage> liste_etage;
     private Etage étageActuel;
     private Contrôleur contrôleur;
-    public static ArrayList<String[]> getDonnee_enregistree() {
+    public static ArrayList<Revêtement> listeRevêtement;
+
+    public ArrayList<Revêtement> getListeRevêtement() {
+        return listeRevêtement;
+    }
+    
+    public  ArrayList<String[]> getDonnee_enregistree() {
         return donnee_enregistree;
     }
     
@@ -38,8 +44,10 @@ public class Architecture_officielle {
     //Mais ça voudrait dire qu'on ne êut pas fournir de modèle au MainPan dans la méthode start...
     public Architecture_officielle(){
         //this.contrôleur=contrôleur; //19/05/24, T.B. : ceci n'a pas l'air d'être important.
+        listeRevêtement=new ArrayList<>();
         donnee_enregistree=lecture("Revêtement_final.txt");
         this.liste_etage=new ArrayList<>();
+        
         //this.étageActuel = new Etage(2.5);
         //TODO : éventuellement, il faudra que l'utilisateur choisisse son étage de début!!
     }
@@ -77,7 +85,44 @@ public class Architecture_officielle {
     public void highlight(GraphicsContext context, Pièce pièceSélectionnée) {
         pièceSélectionnée.highlight(context);
     }
-
+    /**
+     * CALCUL de surface
+     * @return 
+     */
+    public double surface(Revêtement revêtement){
+        double surfaceRevêtement=0;
+        for(Etage etage: this.getListe_etage()){
+            for(Pièce pièce : etage.getListPièceOrpheline()){
+                for (Mur mur : pièce.getListe_mur()){
+                    if (mur.getRevêtement().equals(revêtement)){
+                        surfaceRevêtement = surfaceRevêtement + mur.surface();
+                    }
+                }
+                if (pièce.getSol().getRevêtement().equals(revêtement)){
+                    surfaceRevêtement = surfaceRevêtement + pièce.getSol().surface();
+                }
+                if (pièce.getPlafond().getRevêtement().equals(revêtement)){
+                    surfaceRevêtement = surfaceRevêtement + pièce.getPlafond().surface();
+                }
+            }
+            for (Appartement appartement : etage.getListe_appartement()){
+                for(Pièce pièce : appartement.getListe_pièce()){
+                    for (Mur mur : pièce.getListe_mur()){
+                        if (mur.getRevêtement().equals(revêtement)){
+                            surfaceRevêtement = surfaceRevêtement + mur.surface();
+                        }
+                    }
+                    if (pièce.getSol().getRevêtement().equals(revêtement)){
+                        surfaceRevêtement = surfaceRevêtement + pièce.getSol().surface();
+                    }
+                    if (pièce.getPlafond().getRevêtement().equals(revêtement)){
+                        surfaceRevêtement = surfaceRevêtement + pièce.getPlafond().surface();
+                    }
+                }
+            }
+        }
+        return surfaceRevêtement;
+    }
     public double surfaceTotalHabitable(){
         double surfaceTotale=0;
         for(Etage etage: this.liste_etage){
@@ -93,6 +138,11 @@ public class Architecture_officielle {
         }
         return surfaceTotale;
     }
+    
+    /**
+     * CALCUL de PRIX
+     * @return 
+     */
     public double prixTotal(){
         double prixTotal =0;
         for (Etage etage : this.liste_etage){
@@ -100,6 +150,40 @@ public class Architecture_officielle {
             prixTotal = prixTotal+ etage.prix();
         }
         return prixTotal;
+    }
+    public double prix(Revêtement revêtement){
+        double prixRevêtement=0;
+        for(Etage etage: this.getListe_etage()){
+            for(Pièce pièce : etage.getListPièceOrpheline()){
+                for (Mur mur : pièce.getListe_mur()){
+                    if (mur.getRevêtement().equals(revêtement)){
+                        prixRevêtement = prixRevêtement + mur.prix();
+                    }
+                }
+                if (pièce.getSol().getRevêtement().equals(revêtement)){
+                    prixRevêtement = prixRevêtement + pièce.getSol().prix();
+                }
+                if (pièce.getPlafond().getRevêtement().equals(revêtement)){
+                    prixRevêtement = prixRevêtement + pièce.getPlafond().prix();
+                }
+            }
+            for (Appartement appartement : etage.getListe_appartement()){
+                for(Pièce pièce : appartement.getListe_pièce()){
+                    for (Mur mur : pièce.getListe_mur()){
+                        if (mur.getRevêtement().equals(revêtement)){
+                            prixRevêtement = prixRevêtement + mur.prix();
+                        }
+                    }
+                    if (pièce.getSol().getRevêtement().equals(revêtement)){
+                        prixRevêtement = prixRevêtement + pièce.getSol().prix();
+                    }
+                    if (pièce.getPlafond().getRevêtement().equals(revêtement)){
+                        prixRevêtement = prixRevêtement + pièce.getPlafond().prix();
+                    }
+                }
+            }
+        }
+        return prixRevêtement;
     }
 
     
@@ -143,12 +227,13 @@ public class Architecture_officielle {
     }
     public static void test_surfacePiece_et_Prix(Pièce pièce){
         //////////////TEST SURFACE PIECE + PRIX
-        Revêtement e = new Revêtement(9999); // gazon normalement
+        Architecture_officielle batiment = new Architecture_officielle();
+        Revêtement e = listeRevêtement.get(0);
         System.out.println("Le nom du revêtement est : "+e.getDésignation());
         System.out.println("Le prix du ce revêtement est : "+ e.getPrix_unitaire());
         
         Sol sol = new Sol(pièce);
-        sol.setRevêtement(e); 
+        //sol.setRevêtement(e); 
         System.out.println("la surface du sol   : "+pièce.surface());
         System.out.println("le prix du sol au m² est  : "+sol.prix());
         System.out.println("hello");
@@ -161,7 +246,7 @@ public class Architecture_officielle {
     fin1 = new Coin(5,1);
         
     Etage etage1 = new Etage(5,batiment);
-    Revêtement test=new Revêtement(2);
+    Revêtement test=listeRevêtement.get(0);
     Mur mur = new Mur(debut1,fin1, etage1);
     mur.setRevêtement(test);
         
@@ -178,6 +263,7 @@ public class Architecture_officielle {
 
     System.out.println("choisi une identité entre 1 et 8");
     int id=Lire.i();
+    /*
     Revêtement a = new Revêtement(id);
     System.out.println("Désignation de a :"+a.getDésignation() );
     System.out.println("Pour mur de a :"+a.getPourMur() );
@@ -185,7 +271,7 @@ public class Architecture_officielle {
     System.out.println("pour plafond de a :"+a.getPourPlafond() );
     System.out.println("prix unitaire de a :"+a.getPrix_unitaire() );
     System.out.println("opération "+a.getPrix_unitaire()/4); // TEST pour la conversion du prix, afin de savoir si on peut manipuler le nombre
-    
+    */
     }
     
     
@@ -325,14 +411,14 @@ public class Architecture_officielle {
    //La méthode lectureGénérale() est plus générale, car simpliste (voir plus bas)
     
     
-    public static ArrayList<String[]> lecture(String nom_fichier){
+    public ArrayList<String[]> lecture(String nom_fichier){
         String ligne;                                   //chaîne de caractères pour enregistrer les lignes du document texte
         ArrayList <String>data = new ArrayList();       //Création de l'ArrayList qui sera utilisé pour récupérer le fichier lu dans la boucle WHILE
         ArrayList<String[]>ligne_array = new ArrayList<>(); // Création de l'ArrayList de chaîne de caractère qui sera utilisée pour stocker les revêtements
         int nbr_ligne=0;                                // Compte le nombre de ligne que contiendra le fichier à lire. S'il ne contient rien il retournera 0. 
     
         try {                                           // Pour gérer les exceptions de fichiers : fichier non trouvé...
-            BufferedReader entre=new BufferedReader(new FileReader(nom_fichier));
+            BufferedReader entre =new BufferedReader(new FileReader(nom_fichier));
             while ((ligne = entre.readLine())!= null){
                 System.out.println(ligne);            // on écrit la ligne dans le moniteur pour analyser ce que lit le bufferedReader
                 data.add(ligne);                      //on ajoute la ligne lu par le BufferedReader à la liste qui s'appelle data
@@ -343,12 +429,19 @@ public class Architecture_officielle {
                 ligne_array.add(null);
             }
             System.out.println("FFnombre de ligne :"+nbr_ligne); // Affichage du nombre de ligne dans le fichier text lu par le BufferedReader
+            int b=0;
             for (int k = 1; k <= nbr_ligne; k++) {      // Debut boucle utile pour la réalisation du stockage dans les listes
-                int a=k-1;                            // 1ere ligne du fichier texte correspond à l'indice 0 de la liste data
+                int a=k-1;                      // 1ere ligne du fichier texte correspond à l'indice 0 de la liste data
                 String[] elements =data.get(a).split(";"); //Création d'un tableau pour chaque indice de 'data' avec chaque case du tableau un élèment se situant entre les ";"
                 int index =Integer.parseInt(elements[0]);
                 //System.out.println("index"+index);
                 ligne_array.set(index, elements);// ajout à l'indice a le tableau créé et rempli juste avant.
+                Revêtement revet = new Revêtement(elements,index);
+                System.out.println("revet.toString()"+revet.toString());
+                listeRevêtement.add(revet);
+                revet.setId(b);
+                b=b+1;
+                System.out.println("REVETEMENT.TOSTRING()"+revet.toString());
                 System.out.println("contenue à l'index "+index+" : "+ligne_array.get(index)[1]+" adresse :"+ligne_array.get(index));
             }
             return (ligne_array) ;                      // Lorsque toutes les lignes du fichier texte ont été lues, nous retournons l'Arraylist de tableau de String
@@ -376,7 +469,7 @@ public class Architecture_officielle {
         ArrayList <String> data = new ArrayList();       //Création de l'ArrayList qui sera utilisé pour récupérer le fichier lu dans la boucle WHILE
  
         try {                                           // Pour gérer les exceptions de fichiers : fichier non trouvé...
-            BufferedReader entre=new BufferedReader(new FileReader(nom_fichier));
+            BufferedReader entre =new BufferedReader(new FileReader(nom_fichier));
             while ((ligne = entre.readLine())!= null){
                 System.out.println(ligne);            // on écrit la ligne dans le moniteur pour analyser ce que lit le bufferedReader
                 data.add(ligne);                      //on ajoute la ligne lu par le BufferedReader à la liste qui s'appelle data
@@ -402,7 +495,7 @@ public class Architecture_officielle {
     public static void écriture(String nomDuFichier, ArrayList<String> donnéesAEnregistrerEnTexte){
         
         try{
-            BufferedWriter out=new BufferedWriter(new FileWriter(nomDuFichier,false)); //"false" : le fichier est écrasé et réécrit entièrement
+            BufferedWriter out =new BufferedWriter(new FileWriter(nomDuFichier,false)); //"false" : le fichier est écrasé et réécrit entièrement
             for (int i=0 ; i<donnéesAEnregistrerEnTexte.size() ; i++){
                 out.write(donnéesAEnregistrerEnTexte.get(i));
                 out.newLine();
@@ -486,7 +579,6 @@ public class Architecture_officielle {
 public static void main(String[] args) {
    /////////////LECTURE FICHIER. IL s'appelle Revêtement_test.txt
    System.out.println("lecture du fichier");
-    donnee_enregistree = lecture("Revêtement_test.txt"); // lecture est ici une fonction qui renverra une ArrayList de tableau de chaînes de caractères
     
     //La méthode ci-dessous est utilisée surtout pour vider le main des tests menés.
     faireDesTests(new Architecture_officielle()); //une méthode qui permet de nettoyer le main. Voir plus haut : elle est utilisée pour regrouper les tests que l'on veut faire.
