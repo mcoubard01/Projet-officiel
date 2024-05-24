@@ -5,6 +5,7 @@
 package fr.insa.mathieu.architecture_officielle.gui;
 
 import fr.insa.mathieu.architecture_officielle.Architecture_officielle;
+import fr.insa.mathieu.architecture_officielle.Coin;
 import fr.insa.mathieu.architecture_officielle.Etage;
 import fr.insa.mathieu.architecture_officielle.Mur;
 import fr.insa.mathieu.architecture_officielle.gui.Contrôleur.ETAT;
@@ -42,9 +43,9 @@ public class MainPane extends BorderPane {
     
     private RadioButton rbidpiece;    //bouton IDentifier une pièce (en cliquant sur les murs composonts la pièce si possible)
     private RadioButton rbidappart;   //bouton IDentifier un appart (en cliquant sur les pièces contenues si possible)
-    private RadioButton rbporte;
+        private RadioButton rbouverture;
     private RadioButton rbrevêtement_rap;
-    private RadioButton rbfenêtre;
+
     private RadioButton rbrevêtement;
     
     private RadioButton rbAnnule;
@@ -59,9 +60,10 @@ public class MainPane extends BorderPane {
     HashMap<Etage,Button> mapEtage_Button;
     
     //issu du projet tutoVideoDessin de Beuvron (à compléter)
-    private TextField tfMessage; //cela pourrait servir à afficher une instruction en bas de l'écran
+    private TextField tfMessage; //cela sert à afficher une instruction en bas de l'écran
     //p.ex : "merci de cliquer, entrer la hauteur de l'étage, et cliquer à nouveau."
     //ou bien : "merci de cliquer sur boutonRevetement, pour assigner un revetmeent à ce mur
+    //voir changeEtat(nouvelEtat^) dans la classe Contrôleur.
 
     private MainMenu menu;
 
@@ -104,24 +106,27 @@ public class MainPane extends BorderPane {
         this.rbcrpiece3.setOnAction((t) -> {
             this.contrôleur.boutonCrpiece3(t);
         });
+        //rbouverture n'est activé QUE si un et un seul mur est sélectionné. (listeMurSlectionnées.size() == 1 )
+
         
-        this.rbporte=new RadioButton("ajout d'une porte");
-        this.rbporte.setOnAction((t) -> {
-            this.contrôleur.ajoutPorte(t);
+        //rbouverture n'est activé QUE si un et un seul mur est sélectionné. (listeMurSlectionnées.size() == 1 )
+        this.rbouverture=new RadioButton("ajout ouverture");
+        this.rbouverture.setOnAction((t) -> {
+            this.contrôleur.ajoutOuverture(t);
         });
+                
+                
+//                .setOnAction((t) -> {
+//            this.contrôleur.ajoutFenetre(t);
+//            this.contrôleur.clicDansZoneDessin(null);});
         
-        this.rbfenêtre=new RadioButton("ajout d'une fenêtre");
-        this.rbfenêtre.setOnAction((t) -> {
-            this.contrôleur.ajoutFenetre(t);
-        });
         this.rbrevêtement_rap=new RadioButton("Ajout rapide revêtement");
         
         this.rbrevêtement = new RadioButton("revêtement");
         this.rbrevêtement.setOnAction((t) -> {
             this.contrôleur.ajoutGrpRevetement(t);
         });
-        this.rbfenêtre=new RadioButton("fenêtre");
-        this.rbporte=new RadioButton("porte");
+        //TODO : les initialiser avec setOnACtion(mouseevent)
         this.rbsupp= new RadioButton("Supprimer Objet");
         this.rbAnnule = new RadioButton("Annuler Selection");
         this.rbAnnule.setOnAction((t) -> {
@@ -137,10 +142,9 @@ public class MainPane extends BorderPane {
         this.rbcrmur.setToggleGroup(bgEtat);
         this.rbcrpiece2.setToggleGroup(bgEtat);
         this.rbcrpiece3.setToggleGroup(bgEtat);
-        this.rbfenêtre.setToggleGroup(bgEtat);
+        this.rbouverture.setToggleGroup(bgEtat);
         this.rbidappart.setToggleGroup(bgEtat);
         this.rbidpiece.setToggleGroup(bgEtat);
-        this.rbporte.setToggleGroup(bgEtat);
         this.rbrevêtement.setToggleGroup(bgEtat);
         this.rbrevêtement_rap.setToggleGroup(bgEtat);
         this.rbEtageAj.setToggleGroup(bgEtat);
@@ -152,7 +156,7 @@ public class MainPane extends BorderPane {
         
         //disposition des éléments node entre eux (les uns au dessus des autres)
         this.vbox= new VBox(this.rbSelect,this.rbcrmur,this.rbcrpiece2,this.rbcrpiece3,
-                this.rbidappart,this.rbidpiece, this.rbfenêtre,this.rbporte,
+                this.rbidappart,this.rbidpiece, this.rbouverture,
                 this.rbrevêtement_rap,this.rbrevêtement, this.rbEtageAj, this.rbsupp, this.rbAnnule);
                 //new Label("Pour le moment, on peut que dessiner en mode plein écran."));TODO à mieux intégrer (pas dans le VBox car pas pratique du tout
                 //TODO : faire en sorte que le message ci-dessus ne prenne pas trop de place.
@@ -204,14 +208,12 @@ public class MainPane extends BorderPane {
     public RadioButton getRbcrpiece3() {
         return rbcrpiece3;
     }
-    public RadioButton getRbporte() {
-        return rbporte;
-    }
+   
     public RadioButton getRbrevêtement_rap() {
         return rbrevêtement_rap;
     }
-    public RadioButton getRbfenêtre() {
-        return rbfenêtre;
+    public RadioButton getRbouverture() {
+        return rbouverture;
     }
     public RadioButton getRbrevêtement() {
         return rbrevêtement;
@@ -295,7 +297,7 @@ public class MainPane extends BorderPane {
         });
         
     }
-
+    
     void ajoutBtSOL_PLAFOND() {
         Button sol = new Button("sol");
         Button plafond = new Button("plafond");
@@ -307,10 +309,9 @@ public class MainPane extends BorderPane {
         this.rbcrmur.setDisable(true);
         this.rbcrpiece2.setDisable(true);
         this.rbcrpiece3.setDisable(true);
-        this.rbfenêtre.setDisable(true);
+        this.rbouverture.setDisable(true);
         this.rbidappart.setDisable(true);
         this.rbidpiece.setDisable(true);
-        this.rbporte.setDisable(true);
         this.rbsupp.setDisable(true);
         this.rbAnnule.setDisable(false);
         
