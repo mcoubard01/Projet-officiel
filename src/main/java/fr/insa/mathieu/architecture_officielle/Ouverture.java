@@ -60,8 +60,12 @@ public abstract class Ouverture {
             mur.getListe_ouverture().add(this);
         }
         else {
+            System.out.println("erreur, l'ouverture n'appartient pas à ce mur.");
             //System.out.println("L'ouverture doit être supprimée");//Juste l'ouverture est ignorée car n'apparait pas dans les liste des ouvertures des murs
         }
+    }
+
+    public Ouverture() {
     }
     
     
@@ -74,6 +78,7 @@ public abstract class Ouverture {
     double max_y = Math.max(mur.getDebut().getY(),mur.getFin().getY());
         //if (this.getEtage().getId()==mur.getÉtage().getId()){ /// TODO A changer "niveau" et "hauteur etage"
             if ( (this.getOri_x()>min_x && this.getOri_x()<max_x && this.getOri_y()==mur.getDebut().getY())||(this.getOri_y()>min_y && this.getOri_y()<max_y && this.getOri_x()==mur.getDebut().getX())){
+                //TODO : faire un long commentaire explicatif.
                 if ((mur.getDebut().getX())-(mur.getFin().getX())==0){//mur est vertical
                     if(this.getOrientation()=='N'||this.getOrientation()=='S'){
                         switch(this.getOrientation()){
@@ -161,7 +166,7 @@ public abstract class Ouverture {
         
     }
 /**
-     * merci de ne pas faire de changement substanciel dans la syntaxe des toStringSauvegarde()
+     * merci de ne pas faire de changement substantiel dans la syntaxe des toStringSauvegarde()
      * //////////Attention : cette syntaxe est utiulisée dans IDManager.récupérerUnCoin() !!!!
      * //////////Si on change la syntaxe de coin.toString(), il faut changer la méthode susdite.
      * @return String
@@ -189,8 +194,12 @@ public abstract class Ouverture {
     }
     
     @Override
-    public String toString() { //Attention à ne pas modifier à la légère le toString()!! mon travail repose dessus . signé thomas. (branche "20-lecture-sauvegarde"
-        return "Ouverture" + ";ori_x=" + ori_x + ";ori_y=" + ori_y + ";orientation=" + orientation + ";longueur=" + longueur + ";id du mur1=" + mur1.getId() + ";id du mur2=" + mur2.getId();
+    public String toString() { 
+        int IdDuMur2;
+        if (mur2==null){
+            IdDuMur2 = 9999;
+        }else{ IdDuMur2 = mur2.getId();}
+        return "Ouverture" + ";ori_x=" + ori_x + ";ori_y=" + ori_y + ";orientation=" + orientation + ";longueur=" + longueur + ";id du mur1=" + mur1.getId() + ";id du mur2=" + IdDuMur2;
 
 //        int idMur2;
 //        if (mur2 == null){

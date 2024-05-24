@@ -411,7 +411,7 @@ public class Pièce {
     }
 
     /**
-     * merci de ne pas faire de changement substanciel dans la syntaxe des toStringSauvegarde()
+     * merci de ne pas faire de changement substantiel dans la syntaxe des toStringSauvegarde()
      * //////////Attention : cette syntaxe est utilisée dans IDManager.récupérerUnePièce() !!!!
      * //////////Si on change la syntaxe de pièce.toString(), il faut changer la méthode susdite.
      * @return String

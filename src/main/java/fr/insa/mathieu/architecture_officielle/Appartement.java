@@ -53,7 +53,7 @@ public class Appartement {
     }
 
     /**
-     * merci de ne pas faire de changement substanciel dans la syntaxe des toStringSauvegarde()
+     * merci de ne pas faire de changement substantiel dans la syntaxe des toStringSauvegarde()
      * //////////Attention : cette syntaxe est utiulisée dans IDManager.récupérerUnCoin() !!!!
      * //////////Si on change la syntaxe de coin.toString(), il faut changer la méthode susdite.
      * @return String

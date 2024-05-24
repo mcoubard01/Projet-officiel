@@ -22,12 +22,15 @@ public class Porte extends Ouverture {
 */
     public Porte(double ori_x, double ori_y, char orientation, Mur mur) {
         super(ori_x, ori_y, orientation, 0.90, mur);
+    }//la longueur 0.90 est utilisée dans MainPane.entrerOrigineFenêtre(). attention à ne pas la modifier.
+    public Porte() {
     }
-    
  
     //FUNCTION
     
   
     // GET
+
+    
     
 }

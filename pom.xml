@@ -11,7 +11,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <exec.mainClass>fr.insa.mathieu.architecture_officielle.gui.Main</exec.mainClass>
         <!-- écrire " <exec.mainClass>fr.insa.mathieu.architecture_officielle.Architecture_officielle</exec.mainClass> " 
-dans la ligne ci-dessus lorsque notre Main de javaFX sera opérationnel-->
+dans la ligne ci-dessus pour éxécuter Architecture_officielle en tant que main (donc SANS l'interface)-->
     </properties>
     
     <dependencies>

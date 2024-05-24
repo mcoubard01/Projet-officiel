@@ -19,12 +19,18 @@ public class Fenêtre extends Ouverture {
     }
 */
     public Fenêtre(double ori_x, double ori_y, char orientation, Mur mur) {
-        super(ori_x, ori_y, orientation, 1.20, mur);
+        super(ori_x, ori_y, orientation,1.20, mur);
+    } //la longueur 1.20 est utilisée dans MainPane.entrerOrigineFenêtre(). attention à ne pas la modifier.
+
+    public Fenêtre() {
     }
     
     //FUNCTION 
     // GET
-
+    public double gethauteur(){
+        return hauteur;
+    }
+    //SET
     
     
 }

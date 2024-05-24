@@ -40,6 +40,7 @@ public class Mur {
         // Solution : Juste un get qui renvoie l'étage du mur selectionné => FAIT
         this.debut = debut;
         this.fin = fin;
+        this.liste_ouverture=new ArrayList<>();
        // this.revêtement=revêtement_standard;
     }
     
@@ -129,7 +130,7 @@ public class Mur {
 }
 
     /**
-     * merci de ne pas faire de changement substanciel dans la syntaxe des toStringSauvegarde()
+     * merci de ne pas faire de changement substantiel dans la syntaxe des toStringSauvegarde()
      * //////////Attention : cette syntaxe est utiulisée dans IDManager.récupérerUnMur() !!!!
      * //////////Si on change la syntaxe de mur.toStringSauvegarde(), il faut changer la méthode susdite.
      * @return String
@@ -186,6 +187,9 @@ public class Mur {
         this.fin.dessine(context);
         context.setStroke(Color.BLACK);
         context.strokeLine(this.getDebut().getX(), this.getDebut().getY(), this.getFin().getX(), this.getFin().getY());
+        for (Ouverture ouverture: this.liste_ouverture){
+            ouverture.dessine(context);
+        }
     }
     public void highlight(GraphicsContext context){
         System.out.println("HIGHLIGHT de la classe Mur");
