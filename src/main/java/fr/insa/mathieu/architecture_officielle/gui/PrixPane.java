@@ -70,13 +70,16 @@ public class PrixPane extends BorderPane{
         this.setTop(presentation);
     }
     
-    public void reCalcule(Architecture_officielle batiment){
-        //this.prixTotal=batiment.prixTotal();
-        //this.affichePrix.setId("Prix total ="+this.prixTotal+" €");
+    public void reCalculeSurface(Architecture_officielle batiment){
+        System.out.println("Je suis dans la boucle de recalcule");
         this.surfaceTotaleHabitable=batiment.surfaceTotalHabitable();
-        this.afficheSurface.setId("surface habitable = "+this.surfaceTotaleHabitable+" UNITE");
-        
-        this.setBottom(this.global);
+        this.afficheSurface.setText("surface habitable = "+this.surfaceTotaleHabitable+" UNITE");
+        System.out.println("prix total : "+this.prixTotal);
+        System.out.println("surface totale au sol : "+this.surfaceTotaleHabitable);
+    }
+    public void reCalculePrix(Architecture_officielle batiment){
+        this.prixTotal=batiment.prixTotal();
+        this.affichePrix.setText("prix total : "+this.prixTotal+" €");
         System.out.println("prix total : "+this.prixTotal);
         System.out.println("surface totale au sol : "+this.surfaceTotaleHabitable);
     }

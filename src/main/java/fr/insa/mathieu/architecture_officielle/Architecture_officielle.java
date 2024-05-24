@@ -96,6 +96,7 @@ public class Architecture_officielle {
     public double prixTotal(){
         double prixTotal =0;
         for (Etage etage : this.liste_etage){
+            System.out.println("je suis dans la fonction prix Total de batiment");
             prixTotal = prixTotal+ etage.prix();
         }
         return prixTotal;

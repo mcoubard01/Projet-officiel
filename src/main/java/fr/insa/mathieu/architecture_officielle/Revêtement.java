@@ -79,7 +79,7 @@ public static HashMap<Revêtement,String> rev_mur(){
             String[] info = Architecture_officielle.donnee_enregistree.get(k);
             if (info==null){
                 //System.out.println("info est nul");
-                continue; // Cette ligne permet au programme de ne pas faire la suite des conditions car la première n'est pas réalisée. source : chatgpt
+                continue; // Cette ligne permet au programme de ne pas faire la suite des conditions car la première n'est pas réalisée.
             }
             else if(info[2].equals("1")){
                 Revêtement revêtementMur = new Revêtement(k);

@@ -4,6 +4,7 @@
  */
 package fr.insa.mathieu.architecture_officielle;
 //sx
+import static fr.insa.mathieu.architecture_officielle.Mur.longueur;
 import java.util.ArrayList;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -84,11 +85,11 @@ public class Appartement {
         for (Pièce pièce : this.liste_pièce){
             pièce.dessine(context);
             context.setFill(paint);
-            Mur[] longMaxMin = pièce.longMaxMin();
+            Mur[] listeMur = pièce.longMaxMin();
             Coin positionCentrale = pièce.positionCentrale();
-            double longMax = longMaxMin[0].longueur();
-            double longMin = longMaxMin[1].longueur();
-            if (longMaxMin[0].horizontal()){
+            double longMax = longueur(listeMur[0].getDebut(),listeMur[0].getFin()); // utilisation de cette fonction plutôt que <Mur>.longueur car <Mur>.longueur fait la conversion en même temps
+            double longMin = longueur(listeMur[1].getDebut(),listeMur[1].getFin()); // utilisation de cette fonction plutôt que <Mur>.longueur car <Mur>.longueur fait la conversion en même temps
+            if (listeMur[0].horizontal()){
                 //System.out.println("Je suis censé dessiner les carrés des pièces de l'appartemennt");
                 context.fillRect(positionCentrale.getX()-0.2*longMax, positionCentrale.getY()-0.2*longMin, 0.4*longMax, 0.4*longMin);
             }

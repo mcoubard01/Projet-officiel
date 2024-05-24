@@ -116,7 +116,9 @@ public class Mur {
     }
     
     public double longueur(){ //appeler "<nom_mur>.longueur()" renvoie la longeueur du mur
-        return sqrt(((this.getFin().getX()-this.getDebut().getX())*(this.getFin().getX()-this.getDebut().getX())+(this.getFin().getY()-this.getDebut().getY())*(this.getFin().getY()-this.getDebut().getY())));
+        double L=sqrt(((this.getFin().getX()-this.getDebut().getX())*(this.getFin().getX()-this.getDebut().getX())+(this.getFin().getY()-this.getDebut().getY())*(this.getFin().getY()-this.getDebut().getY())));
+        L=L*0.02;
+        return L;
     }
     
     public static double longueur(Coin d,Coin f){
