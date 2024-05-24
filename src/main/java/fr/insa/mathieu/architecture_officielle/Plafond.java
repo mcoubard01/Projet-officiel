@@ -10,7 +10,6 @@ package fr.insa.mathieu.architecture_officielle; //test commentaire
  */
 public class Plafond extends Sol_plafond{
  private String id;
-    Revêtement standard = new Revêtement(9999);//Revêtement standard
     
     //CONSTRUCTEUR
     public Plafond(Pièce pièce) {

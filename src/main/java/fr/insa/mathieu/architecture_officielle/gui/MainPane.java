@@ -63,9 +63,6 @@ public class MainPane extends BorderPane {
     HashMap<Etage,Button> mapEtage_Button;
 
     //CONSTRUCTOR
-    public MainPane(){
-        this(new Architecture_officielle());
-    }
     public MainPane(Architecture_officielle model){
         this.mapEtage_Button=new HashMap<>();
         this.model=model;
@@ -286,8 +283,26 @@ public class MainPane extends BorderPane {
             String input = textField.getText();
             try {
                 double hauteur = Double.parseDouble(input);
+                Etage etageCréé = new Etage (hauteur,this.getModel());
+                
+                this.getModel().add(etageCréé); // ajout de l'etage créé à la liste des étages du batiment
+                this.getModel().setEtageActuel(etageCréé); // l'etage actuel du batiment est l'étage créé
+                
+                if(!this.contrôleur.getListeEtage().isEmpty()){
+                    for (int i=0;i<this.getModel().getListe_etage().get(0).getListe_mur_facade().size();i++){
+                        etageCréé.add(this.getModel().getListe_etage().get(0).getListe_mur_facade().get(i));
+                    }
+                }
+                
+                this.contrôleur.getListeEtage().add(etageCréé);
+                this.contrôleur.setEtageActuel(etageCréé); // on met l'étage créé comme etage actuel du contrôleur
+                
+                System.out.println("taille de la liste des étages du contrôleur : "+this.contrôleur.getListeEtage().size());
+                System.out.println("taille de la liste des étages du modèle : "+this.getModel().getListe_etage().size());
+                
+                this.ajoutBtEtage(this.getModel().getListe_etage().size());
                 this.vbox.getChildren().removeAll(label,hbox);
-                this.contrôleur.setHauteurEtage(hauteur);
+                this.redrawAll();
             }
             catch (NumberFormatException e){
                 System.out.println("veuillez entrez un nombre valide");
@@ -300,10 +315,10 @@ public class MainPane extends BorderPane {
     void ajoutBtSOL_PLAFOND() {
         Button sol = new Button("sol");
         Button plafond = new Button("plafond");
-        
+        Button valider = new Button("valider");
         HBox hb = new HBox();
-        hb.setSpacing(20);
-        hb.getChildren().addAll(sol,plafond);
+        hb.setSpacing(5);
+        hb.getChildren().addAll(sol,plafond, valider);
         this.vbox.getChildren().add(hb);
         
         this.rbEtageAj.setDisable(true);
@@ -328,12 +343,13 @@ public class MainPane extends BorderPane {
             this.contrôleur.setObjetSélectionné(PLAFOND);
             this.contrôleur.affichageRevêtement();
         });
+        valider.setOnAction((t) -> {
+            this.vbox.getChildren().removeAll(hb);
+        });
         //remove les bouttons 
     }    
 
     void entrerNomPièce() {
-        
-        VBox vb = new VBox();
         HBox hb = new HBox();
         
         Label nomPièce = new Label ("entrez le nom de la pièce");
@@ -341,13 +357,12 @@ public class MainPane extends BorderPane {
         Button valider = new Button("valider");
         hb.setSpacing(5);
         hb.getChildren().addAll(textField,valider);
-        vb.getChildren().addAll(nomPièce,hb);
-        this.vbox.getChildren().add(vb);
+        this.vbox.getChildren().addAll(nomPièce,hb);
         valider.setOnAction((t) -> {
             String input = textField.getText();
             try {
-                this.contrôleur.getListePièceSelectionnée().get(0).setNom_pièce(input);
-                this.vbox.getChildren().removeAll(vb);
+                this.contrôleur.setNomPièce(input);
+                this.vbox.getChildren().removeAll(nomPièce,hb);
             }
             catch (NumberFormatException e){
                 System.out.println("veuillez entrez un nombre valide");
