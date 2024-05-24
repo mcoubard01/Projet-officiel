@@ -156,7 +156,6 @@ public class Etage {
     //TODO TODO fonction add pour ajouter un appartement à l'étage
     public void dessine(GraphicsContext context){
         for (Appartement appartement : this.liste_appartement){
-            appartement.setPaint(new Color(Math.random(), Math.random(), Math.random(), Math.random()));
             appartement.dessine(context);
         }
         this.dessine_limiteEtage(context);

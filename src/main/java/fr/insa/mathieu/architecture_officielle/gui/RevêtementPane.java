@@ -11,6 +11,9 @@ import static fr.insa.mathieu.architecture_officielle.Revêtement.rev_Total;
 import static fr.insa.mathieu.architecture_officielle.Revêtement.rev_mur;
 import static fr.insa.mathieu.architecture_officielle.Revêtement.rev_plafond;
 import static fr.insa.mathieu.architecture_officielle.Revêtement.rev_sol;
+import fr.insa.mathieu.architecture_officielle.Sol_plafond;
+
+
 import java.util.HashMap;
 import java.util.function.BiConsumer;
 import javafx.beans.value.ChangeListener;
@@ -52,7 +55,7 @@ public class RevêtementPane extends BorderPane{
         this.map=rev_Total();
         this.mainPane=mainPane;
         this.listView=listView(map);
-        this.contrôleur=mainPane.getContrôleur();
+        System.out.println("DONNE MOI LE CONTROLEUR CONNARD : "+this.contrôleur);
         //this.revêtementCliqué=new Revêtement();
         Architecture_officielle.donnee_enregistree=Architecture_officielle.lecture("Revêtement_final.txt");
         //TODO en fonction de notre état : affichier soit la liste des revêtements des murs, ou des sols, ou des plafonds. Je fais donc 3 HashMap pour assigner un String à un Revêtement
@@ -60,8 +63,10 @@ public class RevêtementPane extends BorderPane{
         //DONNEES de base
         
         
-        VBox vbox=new VBox(this.listView);//changer en listViewSol ou ListViewPlafond
-        this.setCenter(vbox);
+        //VBox vbox=new VBox(this.listView);//changer en listViewSol ou ListViewPlafond
+        
+        this.setCenter(this.listView);
+        System.out.println("je suis avant le listener");
         this.listView.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String oldString, String newString) -> {// Changer avec listViewSol ou listViewPlafond
             System.out.println("Revêtement cliqué : "+newString);
             Revêtement revêtementTrouvé = getKeyFromValue(map, newString);
@@ -69,6 +74,7 @@ public class RevêtementPane extends BorderPane{
             System.out.println("revêtementTROUV2.toString() : "+revêtementTrouvé.toString());
             System.out.println("revêtementTROUV2.getPrix_unitaire() : "+revêtementTrouvé.getPrix_unitaire());
             System.out.println("id du revêtement (numéro)"+revêtementTrouvé.getId());
+            this.contrôleur.ClicDansRevêtementPane(revêtementTrouvé);
         });
     }
     
@@ -76,21 +82,27 @@ public class RevêtementPane extends BorderPane{
     //FUNCTION
     public void affichageMur(){
         this.setMap(rev_mur());
-        this.listView=listView(map);
+        this.listView=listView(map);        
+        this.setCenter(this.listView);
+        //System.out.println("Affichage Mur de la classe REVETEMENT PANE");
     }
     public void affichageSol(){
         this.setMap(rev_sol());
         this.listView=listView(map);
+        this.setCenter(this.listView);
+        //System.out.println("Affichage Sol de la classe REVETEMENT PANE");
     }
     public void affichagePlafond(){
         this.setMap(rev_plafond());
         this.listView=listView(map);
+        //System.out.println("Affichage Plafond de la classe REVETEMENT PANE");
+        this.setCenter(this.listView);
     }
     
     public Revêtement getRevêtementCliqué() {
         return revêtementCliqué;
     }
-    public static ListView<String> listView(HashMap<Revêtement,String> map ){
+    public ListView<String> listView(HashMap<Revêtement,String> map ){
         ListView<String> listview = new ListView<>();
         map.forEach(new BiConsumer<Revêtement, String>() { // BiConsumer apparu juste parce que je voulais aps utiliser l'expression lambda
             @Override
@@ -98,8 +110,22 @@ public class RevêtementPane extends BorderPane{
                 listview.getItems().add(u);
             }
         });
-           
+        listview.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newString) -> {
+            if (newString != null) {
+                System.out.println("Revêtement cliqué : "+newString);
+                Revêtement revêtementTrouvé = getKeyFromValue(map, newString);
+                this.revêtementCliqué=revêtementTrouvé;
+                //System.out.println("revêtementTROUV2.toString() : "+revêtementTrouvé.toString());
+                //System.out.println("revêtementTROUV2.getPrix_unitaire() : "+revêtementTrouvé.getPrix_unitaire());
+                //System.out.println("id du revêtement (numéro)"+revêtementTrouvé.getId());
+                this.contrôleur.ClicDansRevêtementPane(revêtementTrouvé);
+            }
+        });
         return listview;
     }
 
+    public void setContrôleur(Contrôleur contrôleur) {
+        this.contrôleur = contrôleur;
+    }
+    
 }

@@ -62,8 +62,8 @@ public class Main extends Application {
         
 //Mettre mes Panes dans les différentes cases de mon grid
         gridPane.add(mainPane, 0, 0,1, 3); // je mets la fenêtre mainPane à la colonne 0, ligne 0, j'étale mon Pane sur 1 colonne et 3 lignes
-        gridPane.add(mainPane.getRevêtementPane(),1,0,1, 2);//je mets la fenêtre mainPane à la colonne 1, ligne 0, j'étale mon Pane sur 1 colonne et 1 lignes
-        gridPane.add(mainPane.getPrixPane(), 1, 2, 1, 1);//je mets la fenêtre mainPane à la colonne 1, ligne 2, j'étale mon Pane sur 1 colonne et 1 lignes
+        gridPane.add(mainPane.getRevêtementPane(),1,0,1, 1);//je mets la fenêtre mainPane à la colonne 1, ligne 0, j'étale mon Pane sur 1 colonne et 1 lignes
+        gridPane.add(mainPane.getPrixPane(), 1, 1, 2, 1);//je mets la fenêtre mainPane à la colonne 1, ligne 2, j'étale mon Pane sur 1 colonne et 1 lignes
         scene = new Scene(gridPane,800,600);
         
         scene.widthProperty().addListener((o) -> {

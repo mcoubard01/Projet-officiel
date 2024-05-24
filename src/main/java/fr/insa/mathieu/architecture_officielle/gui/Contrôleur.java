@@ -4,21 +4,24 @@
  */
 package fr.insa.mathieu.architecture_officielle.gui;
 
-import fr.insa.mathieu.architecture_officielle.Appartement;
-import fr.insa.mathieu.architecture_officielle.Architecture_officielle;
 import fr.insa.mathieu.architecture_officielle.Coin;
-import fr.insa.mathieu.architecture_officielle.Etage;
-import fr.insa.mathieu.architecture_officielle.Facade;
-import fr.insa.mathieu.architecture_officielle.Fenêtre;
-import fr.insa.mathieu.architecture_officielle.IDManager;
-import fr.insa.mathieu.architecture_officielle.Lire;
 import fr.insa.mathieu.architecture_officielle.Mur;
 import fr.insa.mathieu.architecture_officielle.Pièce;
+import fr.insa.mathieu.architecture_officielle.Plafond;
+import fr.insa.mathieu.architecture_officielle.Sol;
+import fr.insa.mathieu.architecture_officielle.Appartement;
+import fr.insa.mathieu.architecture_officielle.Etage;
+import fr.insa.mathieu.architecture_officielle.Facade;
+import fr.insa.mathieu.architecture_officielle.Porte;
+import fr.insa.mathieu.architecture_officielle.Fenêtre;
+import fr.insa.mathieu.architecture_officielle.Architecture_officielle;
+import fr.insa.mathieu.architecture_officielle.IDManager;
+import static fr.insa.mathieu.architecture_officielle.Mur.longueur;
 import fr.insa.mathieu.architecture_officielle.Revêtement;
+import fr.insa.mathieu.architecture_officielle.Sol_plafond;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 
 /**
  *  VIDEO à reprendre (la 7 et 8)
@@ -43,9 +46,11 @@ public class Contrôleur {
     public static double DISTMAXCLIQUE=20;
     private Etage etageActuel;
     private Double hauteurEtage;
+    private Coin[] coinProche = new Coin[3];
+
+    
     enum ETAT{
         SELECT,
-        SELECT_SURBRILLANCE,
         AJOUT_ETAGEp1,
         AJOUT_ETAGEp2,
         CREA_MURp1,
@@ -59,9 +64,6 @@ public class Contrôleur {
         AJOUT_FEN_p2,
         AJOUT_PORTE_p1,
         AJOUT_PORTE_p2,
-        AJOUT_REVETEMENT_p1,
-        AJOUT_REVETEMENT_p2,
-        AJOUT_REVETEMENT_p3,
         //bloc note
     }
     
@@ -78,6 +80,8 @@ public class Contrôleur {
         MUR,
         FACADE, //inutilisé?
         PIECE,
+        SOL,
+        PLAFOND,
         APPARTEMENT, 
     }
         
@@ -89,7 +93,9 @@ public class Contrôleur {
     public Contrôleur(MainPane vue,RevêtementPane vueRevetement, PrixPane vuePrix){
         this.vue=vue;
         this.vueRevetement=vueRevetement;
+        this.vueRevetement.setContrôleur(this);
         this.vuePrix=vuePrix;
+        this.vuePrix.setContrôleur(this);
         this.listeEtage=new ArrayList<>();
         this.listeMurSelectionné=new ArrayList<>();
         this.listePièceSelectionnée=new ArrayList<>();
@@ -97,32 +103,19 @@ public class Contrôleur {
     public void changeEtat(ETAT nouvelEtat){//int nouvelEtat => Etat nouvelEtat
         switch(nouvelEtat){
             case SELECT://case :Etat.Select:
+                this.vue.getRbcrmur().setDisable(false);
+                this.vue.getRbEtageAj().setDisable(false);
+                this.vue.getRbcrpiece3().setDisable(false);
+                this.vue.getRbcrpiece2().setDisable(false);
+                this.vue.getRbidpiece().setDisable(false);
+                this.vue.getRbporte().setDisable(false);
+                this.vue.getRbfenêtre().setDisable(false);
                 this.vue.getRbSelect().setDisable(false);
-                    //il faut le rallumer car je l'ai éteint dans l'état AJOUT_ETAGEp2.
-                this.vue.getRbidappart().setDisable(false);
-                this.vue.getRbidpiece().setDisable(false);
-                this.vue.getRbfenêtre().setDisable(false);
-                this.vue.getRbporte().setDisable(false);
-                this.vue.getRbEtageAj().setDisable(false);
                 this.vue.getRbrevêtement().setDisable(false);
-                this.vue.getRbcrpiece2().setDisable(false);
-                this.vue.getRbcrpiece3().setDisable(false);
-                this.vue.getRbrevêtement_rap().setDisable(false);
-                this.vue.getRbsupp().setDisable(false);
-                this.vue.getRbcrmur().setDisable(false);
-                break;
-            case SELECT_SURBRILLANCE:
                 this.vue.getRbidappart().setDisable(false);
-                this.vue.getRbidpiece().setDisable(false);
-                this.vue.getRbfenêtre().setDisable(false);
-                this.vue.getRbporte().setDisable(false);
-                this.vue.getRbEtageAj().setDisable(false);
-                this.vue.getRbrevêtement().setDisable(false);
-                this.vue.getRbcrpiece2().setDisable(false);
-                this.vue.getRbcrpiece3().setDisable(false);
-                this.vue.getRbrevêtement_rap().setDisable(false);
                 this.vue.getRbsupp().setDisable(false);
-                this.vue.getRbcrmur().setDisable(false);
+                this.vue.getRbAnnule().setDisable(false);
+                this.vue.getModifier().setDisable(false);
                 break;
             case CREA_MURp1:
                 this.vue.getRbidappart().setDisable(true);
@@ -131,7 +124,6 @@ public class Contrôleur {
                 this.vue.getRbporte().setDisable(true);
                 this.vue.getRbEtageAj().setDisable(true);
                 this.vue.getRbrevêtement().setDisable(true);
-                this.vue.getRbrevêtement_rap().setDisable(true);
                 break;
             case CREA_MURp2:
                 this.vue.getRbidappart().setDisable(true);
@@ -140,7 +132,6 @@ public class Contrôleur {
                 this.vue.getRbporte().setDisable(true);
                 this.vue.getRbEtageAj().setDisable(true);
                 this.vue.getRbrevêtement().setDisable(true);
-                this.vue.getRbrevêtement_rap().setDisable(true);
                 break;
             case CREA_PIECE_2PNT_p1:
                 this.vue.getRbidappart().setDisable(true);
@@ -149,7 +140,6 @@ public class Contrôleur {
                 this.vue.getRbporte().setDisable(true);
                 this.vue.getRbEtageAj().setDisable(true);
                 this.vue.getRbrevêtement().setDisable(true);
-                this.vue.getRbrevêtement_rap().setDisable(true);
                 break;
             case CREA_PIECE_2PNT_p2:
                 this.vue.getRbidappart().setDisable(true);
@@ -158,7 +148,6 @@ public class Contrôleur {
                 this.vue.getRbporte().setDisable(true);
                 this.vue.getRbEtageAj().setDisable(true);
                 this.vue.getRbrevêtement().setDisable(true);
-                this.vue.getRbrevêtement_rap().setDisable(true);
                 break;
             case CREA_PIECE_3PNT_p1:
                 this.vue.getRbidappart().setDisable(true);
@@ -167,7 +156,6 @@ public class Contrôleur {
                 this.vue.getRbporte().setDisable(true);
                 this.vue.getRbEtageAj().setDisable(true);
                 this.vue.getRbrevêtement().setDisable(true);
-                this.vue.getRbrevêtement_rap().setDisable(true);
                 break;
             case CREA_PIECE_3PNT_p2:
                 this.vue.getRbidappart().setDisable(true);
@@ -176,7 +164,6 @@ public class Contrôleur {
                 this.vue.getRbporte().setDisable(true);
                 this.vue.getRbEtageAj().setDisable(true);
                 this.vue.getRbrevêtement().setDisable(true);
-                this.vue.getRbrevêtement_rap().setDisable(true);
                 break;
             case CREA_PIECE_3PNT_p3:
                 this.vue.getRbidappart().setDisable(true);
@@ -185,7 +172,6 @@ public class Contrôleur {
                 this.vue.getRbporte().setDisable(true);
                 this.vue.getRbEtageAj().setDisable(true);
                 this.vue.getRbrevêtement().setDisable(true);
-                this.vue.getRbrevêtement_rap().setDisable(true);
                 break;
             case AJOUT_FEN_p1:
                 this.vue.getRbidappart().setDisable(true);
@@ -193,7 +179,6 @@ public class Contrôleur {
                 this.vue.getRbporte().setDisable(true);
                 this.vue.getRbEtageAj().setDisable(true);
                 this.vue.getRbrevêtement().setDisable(true);
-                this.vue.getRbrevêtement_rap().setDisable(true);
 //this.vue.getRbfenêtre().setDisable(true);
                 break;
             case AJOUT_FEN_p2:
@@ -202,7 +187,6 @@ public class Contrôleur {
                 this.vue.getRbporte().setDisable(true);
                 this.vue.getRbEtageAj().setDisable(true);
                 this.vue.getRbrevêtement().setDisable(true);
-                this.vue.getRbrevêtement_rap().setDisable(true);
                 //this.vue.getRbfenêtre().setDisable(true);
                 break;
             case AJOUT_PORTE_p1:
@@ -211,7 +195,6 @@ public class Contrôleur {
                 this.vue.getRbfenêtre().setDisable(true);
                 this.vue.getRbEtageAj().setDisable(true);
                 this.vue.getRbrevêtement().setDisable(true);
-                this.vue.getRbrevêtement_rap().setDisable(true);
                 //this.vue.getRbporte().setDisable(true);
                 break;
             case AJOUT_PORTE_p2:
@@ -221,81 +204,48 @@ public class Contrôleur {
                 //this.vue.getRbporte().setDisable(true);
                 this.vue.getRbEtageAj().setDisable(true);
                 this.vue.getRbrevêtement().setDisable(true);
-                this.vue.getRbrevêtement_rap().setDisable(true);
-                break;
-            case AJOUT_REVETEMENT_p1:
-                this.vue.getRbidappart().setDisable(true);
-                this.vue.getRbidpiece().setDisable(true);
-                this.vue.getRbfenêtre().setDisable(true);
-                this.vue.getRbporte().setDisable(true);
-                this.vue.getRbEtageAj().setDisable(true);
-                //this.vue.getRbrevêtement().setDisable(true);
-                this.vue.getRbrevêtement_rap().setDisable(false);
-                break;
-            case AJOUT_REVETEMENT_p2:
-                this.vue.getRbidappart().setDisable(true);
-                this.vue.getRbidpiece().setDisable(true);
-                this.vue.getRbfenêtre().setDisable(true);
-                this.vue.getRbporte().setDisable(true);
-                this.vue.getRbEtageAj().setDisable(true);
-                //this.vue.getRbrevêtement().setDisable(true);
-                this.vue.getRbrevêtement_rap().setDisable(false);
-                break;
-            case AJOUT_REVETEMENT_p3:
-                this.vue.getRbidappart().setDisable(true);
-                this.vue.getRbidpiece().setDisable(true);
-                this.vue.getRbfenêtre().setDisable(true);
-                this.vue.getRbporte().setDisable(true);
-                this.vue.getRbEtageAj().setDisable(true);
-                //this.vue.getRbrevêtement().setDisable(true);
-                this.vue.getRbrevêtement_rap().setDisable(false);
-                break;
-            case AJOUT_ETAGEp1:
-                if (etagePrimitif==null){
-                    this.vue.getRbSelect().setDisable(true);
-                    //lors de la création du premier étage, on ne peut pas encore select.
-                }
-                this.vue.getRbidappart().setDisable(true);
-                this.vue.getRbidpiece().setDisable(true);
-                this.vue.getRbfenêtre().setDisable(true);
-                this.vue.getRbporte().setDisable(true);
-                this.vue.getRbEtageAj().setDisable(false);
-                this.vue.getRbcrmur().setDisable(true);
-                this.vue.getRbcrpiece2().setDisable(true);
-                this.vue.getRbcrpiece3().setDisable(true);
-                this.vue.getRbrevêtement().setDisable(true);
-                this.vue.getRbrevêtement_rap().setDisable(true);
-                
-                break;
-            case AJOUT_ETAGEp2: //ATTENTION : AJOUT_ETAGEp2 n'est actif que au tout début, à la création du premier étage.
-                this.vue.getRbSelect().setDisable(true);
-                
-                this.vue.getRbidappart().setDisable(true);
-                this.vue.getRbidpiece().setDisable(true);
-                this.vue.getRbfenêtre().setDisable(true);
-                this.vue.getRbporte().setDisable(true);
-                this.vue.getRbEtageAj().setDisable(true);
-                this.vue.getRbcrmur().setDisable(true);
-                this.vue.getRbcrpiece2().setDisable(true);
-                this.vue.getRbcrpiece3().setDisable(true);
-                this.vue.getRbrevêtement().setDisable(true);
-                this.vue.getRbrevêtement_rap().setDisable(true);
-                break;               
+                break;             
         }
         this.etat=nouvelEtat;
     }
+    void ClicDansRevêtementPane(Revêtement revêtementTrouvé) {
+        switch (objetSélectionné){
+            case MUR:
+                for (Mur mur : this.getListeMurSelectionné()){
+                    System.out.println("AJOUT DU REVETEMENT" );
+                    mur.add(revêtementTrouvé);
+                    System.out.println("ID DU MUR POUR VERIFICATION : "+mur.toString());
+                }
+                this.vuePrix.reCalculePrix(batiment);
+                this.objetSélectionné= OBJET_SELECTIONNE.RIEN;
+                this.changeEtat(ETAT.SELECT);
+                break;
+            case SOL:
+                for(Pièce pièce : this.listePièceSelectionnée){
+                    System.out.println("AJOUT DU REVETEMENT" );
+                    pièce.getSol().setRevêtement(revêtementTrouvé);
+                    System.out.println("pièce.toString()  : "+pièce.toString());
+                }
+                this.vuePrix.reCalculePrix(batiment);
+                this.objetSélectionné= OBJET_SELECTIONNE.RIEN;
+                this.changeEtat(ETAT.SELECT);
+                break;
+            case PLAFOND:
+                for(Pièce pièce : this.listePièceSelectionnée){
+                    System.out.println("AJOUT DU REVETEMENT" );
+                    pièce.getPlafond().setRevêtement(revêtementTrouvé);
+                    System.out.println("plafond.toString();"+pièce.toString());
+                }
+                this.vuePrix.reCalculePrix(batiment);
+                this.objetSélectionné= OBJET_SELECTIONNE.RIEN;
+                this.changeEtat(ETAT.SELECT);
+                break;
+        }
+    }
 
     void clicDansZoneDessin(MouseEvent t) {
-        if (etat!= ETAT.SELECT && etat!= ETAT.SELECT_SURBRILLANCE){ //je ne sais pas à quoi SELECT_SURBRILLANCE sert, je le mets au cas où.
-            //le highlight de la sélection fonctionne sur les deux listes ci-dessous. 
-            //tant que ces deux listes sont non-vides, ce qu'elles contiennent sont en mode Highlight.
-            this.listeMurSelectionné.clear();
-            this.listePièceSelectionnée.clear();
-            this.vue.redrawAll(); //cela permet d'enlever le mode Highlight aux objets précedemment sélectionnés.
-        }
         switch (etat){
             case SELECT:
-                
                 System.out.println("Je suis en etat SELECT");
                 this.pos[0]=t.getX();
                 this.pos[1]=t.getY();
@@ -309,14 +259,18 @@ public class Contrôleur {
                 
                 Pièce pièceSelectionnée = new Pièce();
                 Mur murLePlusProche = new Mur();
-                
+                objetSélectionné = OBJET_SELECTIONNE.RIEN;
                 
                     //for(Pièce pièce : IDManager.toutesLesPièces(this.etageActuel)){
                     //la fonction ci dessus pourrait remplacer remplacer la deuxième boucle 
+          /**
+          * Première partie : selection de pièce
+          */
+                
                 for(Pièce pièce : etageActuel.getListPièceOrpheline()){
                     //System.out.println("resultat de la methode pieceSelect"+pièce.pieceSelect(coinCliq));
                     if(pièce.pieceSelect(coinCliq)==true){
-                        //System.out.println("Selection de pièce dans l'ETAT SELECT de la classe contrôleur ligne 275");
+                        System.out.println("Selection de pièce dans l'ETAT SELECT de la classe contrôleur ligne 275");
                         pièceSelectionnée=pièce;
                         this.objetSélectionné=OBJET_SELECTIONNE.PIECE;
                     }
@@ -331,8 +285,16 @@ public class Contrôleur {
 
                     }
                 }
+                
+                //recherchePièces(this,t);
+        /**
+         * Deuxième Partie : touche control poour les pièces à selectionner
+         */       
+                
                 if (objetSélectionné==OBJET_SELECTIONNE.PIECE){
+                    
                     if (! this.listeMurSelectionné.isEmpty()){
+                        
                         //"si je sélectionne une pièce APRES avoir selectionné un mur, plus aucun mur n'est sélectionné.
                         listeMurSelectionné.clear();
                     }
@@ -349,6 +311,10 @@ public class Contrôleur {
                                 this.listePièceSelectionnée.add(pièceSelectionnée);
                             }
                 }
+        /**
+         * Troisième partie : selection de mur
+         */
+                
                 if (objetSélectionné != OBJET_SELECTIONNE.PIECE){
                     //Si on a sélectionné une pièce, notre clic ne sélectionne pas un mur en même temps.
                     for (Etage etage:this.listeEtage){
@@ -386,6 +352,9 @@ public class Contrôleur {
                         System.out.println("mur le plus proche retenu  : "+murLePlusProche.toString());
                     }
                 }//fin de la condition (objSel != OBJ_SEL.PIECE) 
+        /**
+         * Quatrième partie : touche control pour la selection de mur
+         */
                 
                 if (objetSélectionné==OBJET_SELECTIONNE.MUR || objetSélectionné==OBJET_SELECTIONNE.FACADE){
                     //" si l'objet sélectionné est un mur ou une facade, l'ajouter à listeMurSelectionné
@@ -407,7 +376,7 @@ public class Contrôleur {
                     }
                     
                 }
-                
+        
                 System.out.println("l'objet sélectionné par ce clic est : "+ objetSélectionné.name());
                 System.out.println("Liste de mur SELECTIONNE : "+listeMurSelectionné.size());
                 for(int i =0;i<listeMurSelectionné.size();i++){
@@ -415,11 +384,10 @@ public class Contrôleur {
 
                 }
                 
-                //this.vue.highlight(murLePlusProche);//TODO ne marche pas
                 this.activeBoutonSuivantSelection();
                 objetSélectionné = OBJET_SELECTIONNE.RIEN;//réinitialisatioon du type d'objet sélectionné.
                 this.vue.redrawAll(); //permet de faire le highlight de la sélection
-                this.changeEtat(ETAT.SELECT); //il faut le remettre sinon les boutons normalement actifs sont désactivés.
+                //this.changeEtat(ETAT.SELECT); //il faut le remettre sinon les boutons normalement actifs sont désactivés.
                 break;
 
             case CREA_MURp1:
@@ -453,6 +421,19 @@ public class Contrôleur {
                 this.pos[0]=t.getX();
                 this.pos[1]=t.getY();
                 System.out.println("coordonée du clic 1 : (x,y) => ("+this.pos[0]+","+this.pos[1]+")");
+                Coin clic = new Coin();
+                clic.setX(this.pos[0]);
+                clic.setY(this.pos[1]);
+                
+                this.coinProche[0]=this.coinProche(clic);
+                if (this.coinProche[0]!=null){
+                    this.pos[0]= this.coinProche[0].getX();
+                    this.pos[1]= this.coinProche[0].getY();
+                }
+                else {
+                    System.out.println("Il n'y a pas de coin assez proche");
+                    
+                }
                 this.changeEtat(ETAT.CREA_PIECE_2PNT_p2);
                 break;
             case CREA_PIECE_2PNT_p2:
@@ -460,6 +441,22 @@ public class Contrôleur {
                 System.out.println("EtageActuel : "+this.etageActuel);
                 x2=t.getX();
                 y2=t.getY();
+                
+                /**
+                 * Recherche de coin les plus proche pour les utiliser pour dessiner. 
+                 */
+                Coin clic2 = new Coin();
+                clic2.setX(x2);
+                clic2.setY(y2);
+                this.coinProche[1]=this.coinProche(clic2);
+                if (this.coinProche[1]!=null){
+                    x2 = this.coinProche[1].getX();
+                    y2 = this.coinProche[1].getY();
+                }
+                else {
+                    System.out.println("Il n'y a pas de coin assez proche");
+                }
+                
                 //System.out.println("coordonée du clic : (x,y) => ("+this.pos.get(0)+","+this.pos.get(1)+")");
                 System.out.println("coordonée du clic 2 : (x,y) => ("+x2+","+y2+")");
                 //Coin coinA= new Coin(this.pos.get(0), this.pos.get(1));
@@ -494,7 +491,7 @@ public class Contrôleur {
                 //d'après vidéo il fautdrait mettre this.vue.redrawAll()
                 System.out.println("pièce.toString() : "+pièce2.toString());
                 this.vue.redrawAll();
-                this.vuePrix.reCalcule(batiment);
+                this.vuePrix.reCalculeSurface(batiment);
                 this.changeEtat(ETAT.CREA_PIECE_2PNT_p1);
                 System.out.println("RETOUR ETAT CREA_PIECE_2PNT_p2 de création de pièce 2 points");
                 break;
@@ -537,7 +534,7 @@ public class Contrôleur {
                 pièce3.add(murGE);
                 System.out.println("Pièce.toString(): "+pièce3.toString());
                 this.vue.redrawAll();
-                this.vuePrix.reCalcule(batiment);
+                this.vuePrix.reCalculeSurface(batiment);
                 this.changeEtat(ETAT.CREA_PIECE_3PNT_p1);
                 break;
             case AJOUT_FEN_p1: //création de fenêtre, p1
@@ -569,20 +566,6 @@ public class Contrôleur {
             case AJOUT_PORTE_p2:
                 System.out.println("ETAT AJOUT_PORTEp2 de création de fenêtre ");
                 this.changeEtat(ETAT.AJOUT_PORTE_p1);
-                break;
-                
-            case AJOUT_REVETEMENT_p1:
-                System.out.println("ETAT AJOUT_REVETEMENT_p1 d'ajout de revêtement ");
-                this.changeEtat(ETAT.AJOUT_REVETEMENT_p2);
-                break;
-
-            case AJOUT_REVETEMENT_p2:
-                System.out.println("ETAT AJOUT_REVETEMENT_p2 d'ajout de revêtement ");
-                this.changeEtat(ETAT.AJOUT_REVETEMENT_p1);
-                break;
-            case AJOUT_REVETEMENT_p3:
-                System.out.println("ETAT AJOUT_REVETEMENT_p3 d'ajout de revêtement ");
-                this.changeEtat(ETAT.AJOUT_REVETEMENT_p1);
                 break;
                 /**
                  * Lorsque l'étage primitif a déjà été déssiné, nous n'irons jamais dans la partie 2 de création d'étage. 
@@ -656,58 +639,89 @@ public class Contrôleur {
 
     
     public void activeBoutonSuivantSelection() {
-        this.vue.getRbcrmur().setDisable(true);
-        this.vue.getRbEtageAj().setDisable(true);
-        this.vue.getRbcrpiece3().setDisable(true);
-        this.vue.getRbcrpiece2().setDisable(true);
-        this.vue.getRbsupp().setDisable(false);
-        System.out.println("taille de la liste de mur selectionné :"+this.listeMurSelectionné.size());
-        if (this.listeMurSelectionné.size()>1 || this.listePièceSelectionnée.size()>=1){
-            this.vue.getRbporte().setDisable(true);
-            this.vue.getRbfenêtre().setDisable(true);
-            this.vue.getRbrevêtement().setDisable(false);
-            this.vue.getRbidpiece().setDisable(false);
-            this.vue.getRbidappart().setDisable(false);
-            
+        System.out.println("Dans ACTIVE BOUTON SUIVANT");
+        switch (objetSélectionné){
+            case PIECE:
+                //System.out.println("cas SELECTION DE PIECE");
+                this.vue.getRbcrmur().setDisable(true);
+                this.vue.getRbEtageAj().setDisable(true);
+                this.vue.getRbcrpiece3().setDisable(true);
+                this.vue.getRbcrpiece2().setDisable(true);
+                this.vue.getRbidpiece().setDisable(true);
+                this.vue.getRbporte().setDisable(true);
+                this.vue.getRbfenêtre().setDisable(true);
+                this.vue.getRbSelect().setDisable(false);
+                this.vue.getRbrevêtement().setDisable(false);
+                this.vue.getRbidappart().setDisable(false);
+                this.vue.getRbsupp().setDisable(false);
+                this.vue.getRbAnnule().setDisable(false);
+                this.vue.getModifier().setDisable(false);
+                if(this.listePièceSelectionnée.size()==1){
+                    this.vue.entrerNomPièce();
+                }
+                break;
+            case MUR:
+                this.vue.getRbcrmur().setDisable(true);
+                this.vue.getRbEtageAj().setDisable(true);
+                this.vue.getRbcrpiece3().setDisable(true);
+                this.vue.getRbcrpiece2().setDisable(true);
+                this.vue.getRbidpiece().setDisable(false);
+                this.vue.getRbporte().setDisable(false);
+                this.vue.getRbfenêtre().setDisable(false);
+                this.vue.getRbSelect().setDisable(false);
+                this.vue.getRbrevêtement().setDisable(false);
+                this.vue.getRbidappart().setDisable(true);
+                this.vue.getRbsupp().setDisable(false);
+                this.vue.getRbAnnule().setDisable(false);
+                this.vue.getModifier().setDisable(false);
+                
+                if(this.listeMurSelectionné.size()>1){
+                    this.vue.getRbporte().setDisable(true);
+                    this.vue.getRbfenêtre().setDisable(true);
+                }
+                break;    
         }
-        
+    }
+    void apporterModification() {
+        switch (objetSélectionné){
+            case MUR:
+                this.vue.getRbrevêtement().setDisable(false);
+                
+                break;
+        }
     }
     void boutonSelect(ActionEvent t) {
         this.changeEtat(ETAT.SELECT);
     }
-    void ajoutGrpRevetement(ActionEvent t) {
-        //System.out.println("Je me trouve dans la méthode AjoutGrpRevêtement");
-        if (this.etat==ETAT.SELECT && this.listeMurSelectionné.size()>1){
-            System.out.println("Quel revêtement veux tu pour tes murs ? ");
-            this.vueRevetement.affichageMur();
-            Revêtement revêtementChoisi=new Revêtement();
+    void affichageRevêtement() {
+            System.out.println("Le revêtement à selectionner dans le revêtementPane");
+            switch (objetSélectionné){
+                case MUR:
+                    System.out.println("swich Case Mur de afichageRevêtement()");
+                    this.vueRevetement.affichageMur();
+                    break;
+                case SOL:
+                    System.out.println("swich Case Sol de afichageRevêtement()");
+                    this.vueRevetement.affichageSol();
+                    break;
+                case PLAFOND:
+                    System.out.println("swich Case Plafond de afichageRevêtement()");
+                    this.vueRevetement.affichagePlafond();
+                    break;      
+            }
+            /*
             while(this.vueRevetement.getRevêtementCliqué()==null){
                 System.out.println("Je suis dans la boucle");
             }
-            revêtementChoisi=this.vueRevetement.getRevêtementCliqué();
-            System.out.println("revêtementChoisi : "+revêtementChoisi.toString());
-            this.listeMurSelectionné.get(0).add(revêtementChoisi);
-            System.out.println("Mur.toString() : "+this.listeMurSelectionné.get(0).toString());
-            if(this.listeMurSelectionné.size()>1){
-                for(Mur murSelectionné : this.listeMurSelectionné){
-                    murSelectionné.add(revêtementChoisi);//soit on fait un "mur.add(revêtement) ou un mur.set(revêtement) avec avec le mur avec déjà un revêtement standard
-                    System.out.println("murSelectionné.toString() : "+murSelectionné.toString());
-                }
-            }
-        }
-        if (this.etat==ETAT.SELECT && !this.listePièceSelectionnée.isEmpty()){
-            /**
-             * Affichage de deux boutons : un pour le sol, un pour le plafond pour l'ajout de revêtement. 
-             */
-            this.vue.ajoutBtSOL_PLAFOND();
-        }
-        this.vuePrix.reCalcule(batiment);
+            */
+            
+        
+        this.vuePrix.reCalculeSurface(batiment);
     }
 
     void boutonIdAppart(ActionEvent t) {
-        
         if(this.etat==ETAT.SELECT && this.listePièceSelectionnée.size()>=1){
-            Appartement appartement=new Appartement(etageActuel);
+            Appartement appartement = new Appartement(etageActuel);
             System.out.println("taille de la liste de pièce selectionnée :"+this.listePièceSelectionnée.size());
         for (Pièce pièce : this.listePièceSelectionnée){
             appartement.add_pièce(pièce);
@@ -735,48 +749,71 @@ public class Contrôleur {
         System.out.println("Mur [] : "+this.listeMurSelectionné.toString());
         this.changeEtat(etat.SELECT);
     }
+    
+    public Coin coinProche(Coin clic){
+        int distanceMaxClic = 10;
+        for (Appartement appart : this.etageActuel.getListe_appartement()){
+            for (Pièce pièce : appart.getListe_pièce()){
+                for (Mur mur : pièce.getListe_mur()){
+                    if (longueur(mur.getDebut(),clic)<10){
+                        Coin VraiCoin = new Coin(mur.getDebut().getX(), mur.getDebut().getY());
+                        return VraiCoin;
+                    }
+                    if (longueur(mur.getFin(),clic)<10){
+                        Coin VraiCoin = new Coin(mur.getFin().getX(), mur.getFin().getY());
+                        return VraiCoin;
+                    } 
+                }
+            }
+        }
+        for (Pièce pièce : this.etageActuel.getListPièceOrpheline()){
+            for (Mur mur : pièce.getListe_mur()){
+                    if (longueur(mur.getDebut(),clic)<10){
+                        Coin VraiCoin = new Coin(mur.getDebut().getX(), mur.getDebut().getY());
+                        return VraiCoin;
+                    }
+                    if (longueur(mur.getFin(),clic)<10){
+                        Coin VraiCoin = new Coin(mur.getFin().getX(), mur.getFin().getY());
+                        return VraiCoin;
+                    } 
+                }
+        }
+        for(Facade facade : this.etageActuel.getListe_mur_facade()){
+            if (longueur(facade.getDebut(),clic)<10){
+                        Coin VraiCoin = new Coin(facade.getDebut().getX(), facade.getDebut().getY());
+                        return VraiCoin;
+                    }
+                    if (longueur(facade.getFin(),clic)<10){
+                        Coin VraiCoin = new Coin(facade.getFin().getX(), facade.getFin().getY());
+                        return VraiCoin;
+                    }
+        }
+        return null;
+    }
 
-    public static void recherchePièces(Contrôleur contrôleur,MouseEvent t) {
+    public static void recherchePièces(Contrôleur contrôleur, MouseEvent t) {
         Pièce pièceSelectionnée=new Pièce();
         Coin coinCliq=new Coin();
         coinCliq.setX(t.getX());
         coinCliq.setY(t.getY());
-        for(Pièce pièce : contrôleur.getEtageActuel().getListPièceOrpheline()){
+        for(Pièce pièce : contrôleur.etageActuel.getListPièceOrpheline()){
                     //System.out.println("resultat de la methode pieceSelect"+pièce.pieceSelect(coinCliq));
                     if(pièce.pieceSelect(coinCliq)==true){
-                        //System.out.println("Selection de pièce dans l'ETAT SELECT de la classe contrôleur ligne 275");
+                        System.out.println("Selection de pièce dans l'ETAT SELECT de la classe contrôleur methode recherche pièce");
                         pièceSelectionnée=pièce;
+                        contrôleur.objetSélectionné=OBJET_SELECTIONNE.PIECE;
                     }
-                    
                 }
-                for(Appartement appartement : contrôleur.getEtageActuel().getListe_appartement()){
+                //la boucle ci-dessous et celle ci dessus pourrait-être remplacée par une seule boucle itérant sur IDManager.toutesLesPièces(etageActuel) que je viens de créer (T.B., 19/05/24)
+                for(Appartement appartement : contrôleur.etageActuel.getListe_appartement()){
                     for(Pièce pièce:appartement.getListe_pièce()){
                         if(pièce.pieceSelect(coinCliq)){
                             pièceSelectionnée=pièce;
+                            contrôleur.objetSélectionné=OBJET_SELECTIONNE.PIECE;
                         }
+
                     }
                 }
-                
-                if(t.isControlDown()){
-                            if(contrôleur.getListePièceSelectionnée().contains(pièceSelectionnée)){
-                                contrôleur.getListePièceSelectionnée().remove(pièceSelectionnée);
-                            }
-                            else{
-                                contrôleur.getListePièceSelectionnée().add(pièceSelectionnée);
-                            }
-                 } 
-                 else {
-                            contrôleur.getListePièceSelectionnée().clear();
-                            contrôleur.getListePièceSelectionnée().add(pièceSelectionnée);
-                        }
-    }
-
-    public ArrayList<Mur> getListeMurSelectionné() {
-        return listeMurSelectionné;
-    }
-
-    public ArrayList<Pièce> getListePièceSelectionnée() {
-        return listePièceSelectionnée;
     }
     
     public static void rechercheMurs(Contrôleur contrôleur,MouseEvent t) {
@@ -811,7 +848,7 @@ public class Contrôleur {
                         }
                     }
                     
-                    for(Mur mur : contrôleur.etageActuel.getListe_mur_facade()){
+                    for(Facade mur : contrôleur.etageActuel.getListe_mur_facade()){
                         double distanceMurClique = mur.DistanceMurClique(coinCliq, DISTMAXCLIQUE);
                         if(distanceMurClique<distanceMinimale){
                             distanceMinimale=distanceMurClique;
@@ -845,11 +882,6 @@ public class Contrôleur {
         
     }
 
-    void boutonSelect(MouseEvent t) {
-        System.out.println("BoutonSelectMOUSE_EVENT");
-        this.changeEtat(ETAT.SELECT_SURBRILLANCE);
-    }
-
     void boutonCrmur(ActionEvent t) {
         this.changeEtat(ETAT.CREA_MURp1);
     }
@@ -871,9 +903,6 @@ public class Contrôleur {
     public ArrayList<Mur> getListeMurSélectionné(){
         return this.listeMurSelectionné;
     }
-    public ArrayList<Pièce> getListePièceSélectionnée(){
-        return this.listePièceSelectionnée;
-    }
     public MainPane getVue() {
         return vue;
     }
@@ -887,6 +916,13 @@ public class Contrôleur {
     public ArrayList<Etage> getListeEtage() {
         return listeEtage;
     }
+    public ArrayList<Mur> getListeMurSelectionné() {
+        return listeMurSelectionné;
+    }
+
+    public ArrayList<Pièce> getListePièceSelectionnée() {
+        return listePièceSelectionnée;
+    }
     
     //SET
     public void setEtageActuel(Etage etageActuel) {
@@ -899,5 +935,11 @@ public class Contrôleur {
     public void setHauteurEtage(Double hauteurEtage) {
         this.hauteurEtage = hauteurEtage;
     }
+
+
+    public void setObjetSélectionné(OBJET_SELECTIONNE objetSélectionné) {
+        this.objetSélectionné = objetSélectionné;
+    }
+    
     
 }

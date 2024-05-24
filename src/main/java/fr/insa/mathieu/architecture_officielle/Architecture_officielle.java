@@ -38,6 +38,7 @@ public class Architecture_officielle {
     //Mais ça voudrait dire qu'on ne êut pas fournir de modèle au MainPan dans la méthode start...
     public Architecture_officielle(){
         //this.contrôleur=contrôleur; //19/05/24, T.B. : ceci n'a pas l'air d'être important.
+        donnee_enregistree=lecture("Revêtement_final.txt");
         this.liste_etage=new ArrayList<>();
         //this.étageActuel = new Etage(2.5);
         //TODO : éventuellement, il faudra que l'utilisateur choisisse son étage de début!!
@@ -74,14 +75,12 @@ public class Architecture_officielle {
         murSélectionné.highlight(context);
     }
     public void highlight(GraphicsContext context, Pièce pièceSélectionnée) {
-        System.out.println("HIGHLIGHT(context,pièce) de Architecture_Officiel");
         pièceSélectionnée.highlight(context);
     }
 
     public double surfaceTotalHabitable(){
         double surfaceTotale=0;
         for(Etage etage: this.liste_etage){
-            System.out.println("première boucle de la classe batiment");
             for(Appartement appartement : etage.getListe_appartement()){
                 for(Pièce pièce : appartement.getListe_pièce()){
                     surfaceTotale = surfaceTotale + pièce.getSol().surface();
@@ -97,6 +96,7 @@ public class Architecture_officielle {
     public double prixTotal(){
         double prixTotal =0;
         for (Etage etage : this.liste_etage){
+            System.out.println("je suis dans la fonction prix Total de batiment");
             prixTotal = prixTotal+ etage.prix();
         }
         return prixTotal;
