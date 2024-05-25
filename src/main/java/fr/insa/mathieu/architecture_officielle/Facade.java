@@ -102,7 +102,7 @@ public class Facade extends Mur  {
     }
     
     /**
-     * merci de ne pas faire de changement substanciel dans la syntaxe des toStringSauvegarde()
+     * merci de ne pas faire de changement substantiel dans la syntaxe des toStringSauvegarde()
      * //////////Attention : cette syntaxe est utiulisée dans IDManager.récupérerUnMur() !!!!
      * //////////Si on change la syntaxe de mur.toStringSauvegarde(), il faut changer la méthode susdite.
      * @return String

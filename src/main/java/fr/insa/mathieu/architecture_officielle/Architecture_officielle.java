@@ -493,7 +493,7 @@ public class Architecture_officielle {
      * @param donnéesAEnregistrerEnTexte : ArrayList<String>  : une arraylist dont chaque case sera une ligne du fichier texte 
      */
     public static void écriture(String nomDuFichier, ArrayList<String> donnéesAEnregistrerEnTexte){
-        
+        //p.ex: écriture("saveFile.txt", IDManager.imprimerLesObjetsCréés())
         try{
             BufferedWriter out =new BufferedWriter(new FileWriter(nomDuFichier,false)); //"false" : le fichier est écrasé et réécrit entièrement
             for (int i=0 ; i<donnéesAEnregistrerEnTexte.size() ; i++){
@@ -531,7 +531,7 @@ public class Architecture_officielle {
     }
     
     /**
-     * merci de ne pas faire de changement substanciel dans la syntaxe des toStringSauvegarde()
+     * merci de ne pas faire de changement substantiel dans la syntaxe des toStringSauvegarde()
      * //////////Attention : cette syntaxe est utiulisée dans IDManager.récupérerUnMur() !!!!
      * //////////Si on change la syntaxe de mur.toStringSauvegarde(), il faut changer la méthode susdite.
      * @return String

@@ -105,7 +105,7 @@ public class Etage {
     }
     
     /**
-     * merci de ne pas faire de changement substanciel dans la syntaxe des toStringSauvegarde()
+     * merci de ne pas faire de changement substantiel dans la syntaxe des toStringSauvegarde()
      * //////////Attention : cette syntaxe est utiulisée dans IDManager.récupérerUnEtage() !!!!
      * //////////Si on change la syntaxe de etage.toStringSauvegarde(), il faut changer la méthode susdite.
      * @return String
@@ -113,7 +113,7 @@ public class Etage {
     public static String syntaxeToString(){
         return "#Syntaxe : \"Etage;id;hauteur_etage; liste_mur_facade (id);liste_appartement (id) ;listPiècesOrphelines (id);listeMurOrphelin (id)\"";
         // \" permet d'afficher le caractère 'guillemet' dans le String.
-                //merci de ne pas faire de changement substanciel dans la syntaxe des toString()
+                //merci de ne pas faire de changement substantiel dans la syntaxe des toString()
     }
     /**ceci est le toString() de sauvegarde.
     *MERCI DE NE PAS MODIFIER CETTE FONCTION sans me consulter

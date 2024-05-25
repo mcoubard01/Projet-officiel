@@ -19,7 +19,6 @@ public class Mur {
 
     private Pièce pièce1;
     private Etage étage; // pas sur que le mur soit relié à l'étage directement. 
-    private String nom_mur;
     private Pièce pièce2;//a supprimer
     private ArrayList<Ouverture> liste_ouverture;
     
@@ -30,14 +29,26 @@ public class Mur {
     //compteurID++;
     
     //CONSTRUCTOR
-      public Mur(Coin debut, Coin fin) { 
+       public Mur(Coin debut, Coin fin) { 
         this.id = IDManager.newId(this); //l'étage est nécessaire à cette méthode
         //ici on ne crée pas d'ID car on connaît pas l'étage
         //TODO : une fonction qui détecte sur quel étage on se trouve actuellement dans l'éxécution,, afin que the IDManager.newId() fonctionne
         // Solution : Juste un get qui renvoie l'étage du mur selectionné => FAIT
         this.debut = debut;
         this.fin = fin;
+        this.liste_ouverture=new ArrayList<>();
         this.revêtement=Architecture_officielle.listeRevêtement.get(0);
+    }
+    
+     public Mur (Coin debut, Coin fin, Etage étage, Pièce pièce1){//TODO, voir si utilisé
+        this.id = IDManager.newId(this); //renvoie un int. !!! cet int est entre 0 et 999 si c'est au RDC, entre 1000 et 1999 si c'etst au 1er étage...
+        this.debut = debut;
+        this.fin = fin;
+        this.étage =étage;
+        this.pièce1 = pièce1;
+        this.liste_ouverture=new ArrayList<>();
+        this.revêtement=Architecture_officielle.listeRevêtement.get(0);
+
     }
      
 // on utilise celui la 
@@ -49,7 +60,8 @@ public class Mur {
         this.liste_ouverture=new ArrayList<>();
         if (this.pièce1==null){
             this.étage.addOrphelin(this);    
-        } 
+        }
+      this.revêtement = Architecture_officielle.listeRevêtement.get(0);
     }
     public Mur() {  //Constructeur vide servant à faire des tests (p.ex.)
     }   
@@ -116,7 +128,7 @@ public class Mur {
 }
 
     /**
-     * merci de ne pas faire de changement substanciel dans la syntaxe des toStringSauvegarde()
+     * merci de ne pas faire de changement substantiel dans la syntaxe des toStringSauvegarde()
      * //////////Attention : cette syntaxe est utiulisée dans IDManager.récupérerUnMur() !!!!
      * //////////Si on change la syntaxe de mur.toStringSauvegarde(), il faut changer la méthode susdite.
      * @return String
@@ -165,7 +177,7 @@ public class Mur {
     /*  
     @Override
     public String toString2() {
-        return "Mur: "+nom_mur+"{ debut=" + debut + ", fin=" + fin + '}';
+        return "Mur:{ debut=" + debut + ", fin=" + fin + '}';
     }
     */
     public void dessine(GraphicsContext context){
@@ -173,6 +185,9 @@ public class Mur {
         this.fin.dessine(context);
         context.setStroke(Color.BLACK);
         context.strokeLine(this.getDebut().getX(), this.getDebut().getY(), this.getFin().getX(), this.getFin().getY());
+        for (Ouverture ouverture: this.liste_ouverture){
+            ouverture.dessine(context);
+        }
     }
     public void highlight(GraphicsContext context){
         //System.out.println("HIGHLIGHT de la classe Mur");
@@ -214,9 +229,6 @@ public class Mur {
         return pièce1;
     }
     
-    public String getNom_mur() {
-        return nom_mur;
-    }
     public ArrayList<Ouverture> getListe_ouverture() {
         return liste_ouverture;
     }
@@ -237,9 +249,6 @@ public class Mur {
         this.pièce1 = pièce1;
     }
     
-    public void setNom_mur(String nom_mur) {
-        this.nom_mur = nom_mur;
-    }
     public void setRevêtement(Revêtement revêtement) {
         if(this.contrôle(revêtement)==true){
             this.revêtement = revêtement;

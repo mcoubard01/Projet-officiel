@@ -27,7 +27,6 @@ public class Coin {
     private int id; 
     private double x;
     private double y;
-    
 
     //CONSTRUCTOR
     public Coin(double x, double y) {
@@ -48,7 +47,7 @@ public class Coin {
     }
     
     /**
-     * merci de ne pas faire de changement substanciel dans la syntaxe des toStringSauvegarde()
+     * merci de ne pas faire de changement substantiel dans la syntaxe des toStringSauvegarde()
      * //////////Attention : cette syntaxe est utiulisée dans IDManager.récupérerUnCoin() !!!!
      * //////////Si on change la syntaxe de coin.toString(), il faut changer la méthode susdite.
      * @return String
@@ -98,5 +97,7 @@ public class Coin {
     public void setY(double y) {
         this.y = y;
     }
-    
+    public static void main(String[] args){
+         
+    }
 }
