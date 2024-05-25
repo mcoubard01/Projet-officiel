@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package fr.insa.mathieu.architecture_officielle;
+import static fr.insa.mathieu.architecture_officielle.Mur.longueur;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.canvas.GraphicsContext;
@@ -44,7 +45,7 @@ public class Pièce {
 
     //CONSTRUCTOR
     
-    //Constructeur principal
+    //Constructeur principal TODO peut être enlever car non utilisé
     public Pièce(Etage étage, Appartement appartement, String nom_pièce, List<Mur> liste_mur) {
         this.étage = étage;
         this.appartement = appartement;
@@ -90,10 +91,8 @@ public class Pièce {
     this.étage = étage;
     this.étage.getListPièceOrpheline().add(this);
     //this.appartement = new Appartement(étage);
-    String nom = "pièce n°" + this.id;
     this.sol = new Sol(this); //TODO à regarder car pas sûr que ça marche
     this.plafond = new Plafond(this);
-    this.nom_pièce = nom;
     this.id = IDManager.newId(this);
     }
 
@@ -198,7 +197,7 @@ public class Pièce {
      * @return 
      */
      public void highlight(GraphicsContext context){
-        System.out.println("HIGHLIGHT de la classe Pièce");
+        //System.out.println("HIGHLIGHT de la classe Pièce");
         for (Mur mur : this.liste_mur){
             mur.highlight(context);
         }
@@ -210,14 +209,15 @@ public class Pièce {
         Coin positionCentrale;
 
         for (Mur mur : this.getListe_mur()){
-            if (mur.longueur()>longueurMax){
+            double longueur = longueur(mur.getDebut(),mur.getFin());
+            if (longueur>longueurMax){
                 longueurMax=mur.longueur();
                 listeMur[0]=mur;
             }
             else{
                 
             }
-            if(mur.longueur()<longueurMin){
+            if(longueur<longueurMin){
                 longueurMin=mur.longueur();
                 listeMur[1]=mur;
             }
@@ -227,42 +227,40 @@ public class Pièce {
     public Coin positionCentrale(){
         Coin positionCentrale = new Coin();
         Mur[] listeMur = this.longMaxMin();
+        double long0 = longueur(listeMur[0].getDebut(),listeMur[0].getFin()); // utilisation de cette fonction plutôt que <Mur>.longueur car <Mur>.longueur fait la conversion en même temps
+        double long1 = longueur(listeMur[1].getDebut(),listeMur[1].getFin()); // utilisation de cette fonction plutôt que <Mur>.longueur car <Mur>.longueur fait la conversion en même temps
         
         if (listeMur[0].horizontal()){
-            System.out.println("Le mur le plus grand est horizontal");
+            //System.out.println("Le mur le plus grand est horizontal");
             /**
              * Position du point Central de la pièce => marche BIEN
-             */
+             */    
             if (listeMur[0].getDebut().getX()<listeMur[0].getFin().getX()){
-
-                positionCentrale.setX(listeMur[0].getDebut().getX()+listeMur[0].longueur()/2);
-
+            positionCentrale.setX(listeMur[0].getDebut().getX()+long0/2);
             }
             else{
-                positionCentrale.setX(listeMur[0].getFin().getX()+listeMur[0].longueur()/2);
+                positionCentrale.setX(listeMur[0].getFin().getX()+long0/2);
             }
-
             if (listeMur[1].getDebut().getY()<listeMur[1].getFin().getY()){ //"Si le coinDebut se trouve au Sud du coinFin"
-                positionCentrale.setY(listeMur[1].getDebut().getY()+listeMur[1].longueur()/2);
-
+                positionCentrale.setY(listeMur[1].getDebut().getY()+long1/2);
             }
             else{
-                positionCentrale.setY(listeMur[1].getFin().getY()+listeMur[1].longueur()/2);
+                positionCentrale.setY(listeMur[1].getFin().getY()+long1/2);
             }
         }
         else {
             //System.out.println("Le mur le plus grand est Vertical");
             if (listeMur[0].getDebut().getY()<listeMur[0].getFin().getY()){
-                positionCentrale.setY(listeMur[0].getDebut().getY()+listeMur[0].longueur()/2);
+                positionCentrale.setY(listeMur[0].getDebut().getY()+long0/2);
             }
             else{
-                positionCentrale.setY(listeMur[0].getFin().getY()+listeMur[0].longueur()/2);
+                positionCentrale.setY(listeMur[0].getFin().getY()+long0/2);
             }
             if (listeMur[1].getDebut().getX()<listeMur[1].getFin().getX()){
-                positionCentrale.setX(listeMur[1].getDebut().getX()+listeMur[1].longueur()/2);
+                positionCentrale.setX(listeMur[1].getDebut().getX()+long1/2);
             }
             else{
-                positionCentrale.setX(listeMur[1].getFin().getX()+listeMur[1].longueur()/2);
+                positionCentrale.setX(listeMur[1].getFin().getX()+long1/2);
             }
         }
         return positionCentrale;
@@ -273,17 +271,19 @@ public class Pièce {
         
         Coin positionCentrale = this.positionCentrale();
         Mur[] listeMur = this.longMaxMin();
+        double long0 = longueur(listeMur[0].getDebut(),listeMur[0].getFin()); // utilisation de cette fonction plutôt que <Mur>.longueur car <Mur>.longueur fait la conversion en même temps
+        double long1 = longueur(listeMur[1].getDebut(),listeMur[1].getFin()); // utilisation de cette fonction plutôt que <Mur>.longueur car <Mur>.longueur fait la conversion en même temps
         
         if (listeMur[0].horizontal()){
 
-            System.out.println("Le coin Centrale est : "+positionCentrale.toString());
-            double voisinSUPX = positionCentrale.getX()+0.2*listeMur[0].longueur();
-            double voisinINFX = positionCentrale.getX()-0.2*listeMur[0].longueur();
-            double voisinSUPY = positionCentrale.getY()+0.2*listeMur[1].longueur();
-            double voisinINFY = positionCentrale.getY()-0.2*listeMur[1].longueur();
+            //System.out.println("Le coin Centrale est : "+positionCentrale.toString());
+            double voisinSUPX = positionCentrale.getX()+0.2*long0;
+            double voisinINFX = positionCentrale.getX()-0.2*long0;
+            double voisinSUPY = positionCentrale.getY()+0.2*long1;
+            double voisinINFY = positionCentrale.getY()-0.2*long1;
 
-            System.out.println("voisinage en x lorsque longueur max horizontal : ["+voisinINFX+","+voisinSUPX+"]");
-            System.out.println("voisinage en y lorsque longueur max horizontal : ["+voisinINFY+","+voisinSUPY+"]");
+            //System.out.println("voisinage en x lorsque longueur max horizontal : ["+voisinINFX+","+voisinSUPX+"]");
+            //System.out.println("voisinage en y lorsque longueur max horizontal : ["+voisinINFY+","+voisinSUPY+"]");
 
             if(coinCliqué.getX()<voisinSUPX && coinCliqué.getX()>voisinINFX){
                 //System.out.println("Le clic se situe dans le bon voisinage du point central en x");
@@ -299,13 +299,13 @@ public class Pièce {
             }
         }
         else {
-            System.out.println("Le coin Centrale est : "+positionCentrale.toString());
-            double voisinSUPX = positionCentrale.getX()+0.2*listeMur[0].longueur();
-            double voisinINFX = positionCentrale.getX()-0.2*listeMur[0].longueur();
-            double voisinSUPY = positionCentrale.getY()+0.2*listeMur[1].longueur();
-            double voisinINFY = positionCentrale.getY()-0.2*listeMur[1].longueur();
-            System.out.println("voisinage en x lorsque longueur max horizontal : ["+voisinINFX+","+voisinSUPX+"]");
-            System.out.println("voisinage en y lorsque longueur max horizontal : ["+voisinINFY+","+voisinSUPY+"]");
+            //System.out.println("Le coin Centrale est : "+positionCentrale.toString());
+            double voisinSUPX = positionCentrale.getX()+0.2*long0;
+            double voisinINFX = positionCentrale.getX()-0.2*long0;
+            double voisinSUPY = positionCentrale.getY()+0.2*long1;
+            double voisinINFY = positionCentrale.getY()-0.2*long1;
+            //System.out.println("voisinage en x lorsque longueur max horizontal : ["+voisinINFX+","+voisinSUPX+"]");
+            //System.out.println("voisinage en y lorsque longueur max horizontal : ["+voisinINFY+","+voisinSUPY+"]");
             
             if(voisinINFX<coinCliqué.getX() && coinCliqué.getX()<voisinSUPX){
                 if(coinCliqué.getY()<voisinSUPY && coinCliqué.getY()>voisinINFY){
@@ -327,41 +327,6 @@ public class Pièce {
             m.setPièce1(this);
     }
 
-    public ArrayList<Mur> consécutif(){ //TODO cette fonction doit dire si la pièce est fermée ou 
-        ArrayList<Mur> mur_consécutif = new ArrayList();
-        Mur référence = this.getListe_mur().get(0);
-        System.out.println ("donnée du mur de référence : "+référence.toString());
-        int i=1;
-        /*boolean test1 = (référence.getDebut().getX()!=this.getListe_mur().get(i).getDebut().getX());
-        boolean test2 = (référence.getDebut().getY()!=this.getListe_mur().get(i).getDebut().getY());
-        //test1&2 permettent de tester si coinDebut du mur référence est le coinDebut du mur1.
-        
-        boolean test3 = (référence.getDebut().getX()!=this.getListe_mur().get(i).getFin().getX());
-        boolean test4 = (référence.getDebut().getY()!=this.getListe_mur().get(i).getFin().getY());
-        test3&4 permettent de tester si coinDebut du mur référence est le coinFin du mur1.
-
-        
-        boolean test5 = (référence.getFin().getX()!=this.getListe_mur().get(i).getDebut().getX());
-        boolean test6 = (référence.getFin().getY()!=this.getListe_mur().get(i).getDebut().getY());
-        test5&6 permettent de tester si coinFin du mur référence est le coinDebut du mur1.
-
-        
-        boolean test7 = (référence.getFin().getX()!=this.getListe_mur().get(i).getFin().getX());
-        boolean test8 = (référence.getFin().getY()!=this.getListe_mur().get(i).getFin().getY());
-        test7&8 permettent de tester si coinFin du mur référence est le coinFin du mur1.
-
-        
-        while ((test1&&test2)&&(test3&&test4)&&(test5&&test6)&&(test7&&test8))
-            */
-        while (((référence.getDebut().getX()!=this.getListe_mur().get(i).getDebut().getX())&&(référence.getDebut().getY()!=this.getListe_mur().get(i).getDebut().getY()))&&((référence.getDebut().getX()!=this.getListe_mur().get(i).getFin().getX())&&(référence.getDebut().getY()!=this.getListe_mur().get(i).getFin().getY()))&&((référence.getFin().getX()!=this.getListe_mur().get(i).getDebut().getX())&&(référence.getFin().getY()!=this.getListe_mur().get(i).getDebut().getY()))&&((référence.getFin().getX()!=this.getListe_mur().get(i).getFin().getX())&&(référence.getFin().getY()!=this.getListe_mur().get(i).getFin().getY()))){
-            System.out.println("incrémentation : "+i);
-            i=i+1;
-        }
-        mur_consécutif.add(référence);
-        mur_consécutif.add(this.getListe_mur().get(i));
-        return mur_consécutif;
-    }
-    
     public double surface(){
         //double surface = this.consécutif().get(0).longueur()*this.consécutif().get(1).longueur();
         double surface = 0;
@@ -376,11 +341,16 @@ public class Pièce {
    public double prix() {// méthode permettant de calculer le prix total d'une pièce 
         double prix=0;
         for(Mur mur:this.liste_mur){
-            prix = prix + mur.prix();
+            if (mur.getRevêtement()!=null){
+                prix = prix + mur.prix();
+            }
         }
-        prix = prix + this.plafond.prix();
-        prix = prix + this.sol.prix();
-        
+        if (this.sol.getRevêtement()!=null){
+            prix = prix + this.sol.prix();
+        }
+        if (this.plafond.getRevêtement()!=null){
+            prix = prix + this.plafond.prix();
+        }        
         return prix;
     }
    
@@ -452,6 +422,35 @@ public class Pièce {
         for (Mur mur : this.liste_mur){
             mur.dessine(context);
         }
+        /**
+         * ecrire le nom de la pièce
+         */
+        if (this.appartement!=null){
+            
+        }
+        else{
+            dessineZoneCliquable(context);
+        }
+        if (this.nom_pièce==null){
+            
+        }
+        else{
+            context.strokeText(nom_pièce, id,500, 800);
+        }
+    }
+    public void dessineZoneCliquable(GraphicsContext context){
+        Mur[] listeMur = this.longMaxMin();
+            Coin positionCentrale = this.positionCentrale();
+            double longMax = longueur(listeMur[0].getDebut(),listeMur[0].getFin()); // utilisation de cette fonction plutôt que <Mur>.longueur car <Mur>.longueur fait la conversion en même temps
+            double longMin = longueur(listeMur[1].getDebut(),listeMur[1].getFin()); // utilisation de cette fonction plutôt que <Mur>.longueur car <Mur>.longueur fait la conversion en même temps
+            context.setFill(Color.LIGHTGREY);
+            if (listeMur[0].horizontal()){
+                //System.out.println("Je suis censé dessiner les carrés des pièces de l'appartemennt");
+                context.fillRect(positionCentrale.getX()-0.2*longMax, positionCentrale.getY()-0.2*longMin, 0.4*longMax, 0.4*longMin);
+            }
+            else {
+                context.fillRect(positionCentrale.getX()-0.2*longMin, positionCentrale.getY()-0.2*longMax, 0.4*longMin, 0.4*longMax);
+            }
     }
     
     //GET
@@ -488,6 +487,11 @@ public class Pièce {
     public void setÉtage(Etage étage) {
         this.étage = étage;
     }
+
+    public void setNom_pièce(String nom_pièce) {
+        this.nom_pièce = nom_pièce;
+    }
+    
     
 
     

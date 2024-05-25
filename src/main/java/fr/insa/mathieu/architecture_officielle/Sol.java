@@ -10,7 +10,6 @@ package fr.insa.mathieu.architecture_officielle;
 public class Sol extends Sol_plafond {
     
     private String id;
-    Revêtement standard = new Revêtement(9999);//Revêtement standard
     
     //CONSTRUCTEUR
 

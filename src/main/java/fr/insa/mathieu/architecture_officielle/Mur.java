@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package fr.insa.mathieu.architecture_officielle;
-import static fr.insa.mathieu.architecture_officielle.Architecture_officielle.lecture;
 import fr.insa.mathieu.architecture_officielle.gui.Contrôleur;
 import static java.lang.Math.sqrt;
 import java.util.ArrayList;
@@ -30,10 +29,7 @@ public class Mur {
     //compteurID++;
     
     //CONSTRUCTOR
-    
-    
-      public Mur(Coin debut, Coin fin) {  // INCOMPLET TO incorporer l'étage automatiquement
-       
+       public Mur(Coin debut, Coin fin) { 
         this.id = IDManager.newId(this); //l'étage est nécessaire à cette méthode
         //ici on ne crée pas d'ID car on connaît pas l'étage
         //TODO : une fonction qui détecte sur quel étage on se trouve actuellement dans l'éxécution,, afin que the IDManager.newId() fonctionne
@@ -41,20 +37,18 @@ public class Mur {
         this.debut = debut;
         this.fin = fin;
         this.liste_ouverture=new ArrayList<>();
-       // this.revêtement=revêtement_standard;
+        this.revêtement=Architecture_officielle.listeRevêtement.get(0);
     }
     
-     public Mur (Coin debut, Coin fin, Etage étage, Pièce pièce1){
+     public Mur (Coin debut, Coin fin, Etage étage, Pièce pièce1){//TODO, voir si utilisé
         this.id = IDManager.newId(this); //renvoie un int. !!! cet int est entre 0 et 999 si c'est au RDC, entre 1000 et 1999 si c'etst au 1er étage...
         this.debut = debut;
         this.fin = fin;
         this.étage =étage;
         this.pièce1 = pièce1;
-       /*NORMALEMENT nous n'entrons pas directement le revêtement dans le constructeur, on le rajoute après avec un set pour permettre un contrôle de correspondance entre surface et revêtement.
-        Revêtement revêtement_standard = new Revêtement(9999);// le 9999 permet de tester avec le programme que Thomas avit créé quand on veut éviter de lire le fichier 
-        this.revêtement=revêtement_standard;
-        */
         this.liste_ouverture=new ArrayList<>();
+        this.revêtement=Architecture_officielle.listeRevêtement.get(0);
+
     }
      
 // on utilise celui la 
@@ -66,7 +60,8 @@ public class Mur {
         this.liste_ouverture=new ArrayList<>();
         if (this.pièce1==null){
             this.étage.addOrphelin(this);    
-        } 
+        }
+      this.revêtement = Architecture_officielle.listeRevêtement.get(0);
     }
     public Mur() {  //Constructeur vide servant à faire des tests (p.ex.)
     }   
@@ -90,7 +85,9 @@ public class Mur {
     }
     
     public double longueur(){ //appeler "<nom_mur>.longueur()" renvoie la longeueur du mur
-        return sqrt(((this.getFin().getX()-this.getDebut().getX())*(this.getFin().getX()-this.getDebut().getX())+(this.getFin().getY()-this.getDebut().getY())*(this.getFin().getY()-this.getDebut().getY())));
+        double L=sqrt(((this.getFin().getX()-this.getDebut().getX())*(this.getFin().getX()-this.getDebut().getX())+(this.getFin().getY()-this.getDebut().getY())*(this.getFin().getY()-this.getDebut().getY())));
+        L=L*0.02;
+        return L;
     }
     
     public static double longueur(Coin d,Coin f){
@@ -119,6 +116,7 @@ public class Mur {
         boolean result=(r.getPourMur()).equals("1");
         return result;
     }
+    //TODO je ne crois pas qu'il soit utilisé ici
     public void add(Revêtement revêtement){
         if (this.contrôle(revêtement)==true){
             System.out.println("Le revêtement est applicable");
@@ -151,7 +149,7 @@ public class Mur {
     public String toString() {
         //Syntaxe : "Mur;id;idDuCoinDebut;idDuCoinFin;idDeEtageDuMur;idDePièce1;idDePièce2;liste_ouverture
         String résultat = "Mur; id :" + this.id + "; coin1: " + debut.getId() + "; coin2: " + fin.getId() ;
-            résultat += ";liste_ouverture=" + liste_ouverture ;
+            résultat += ";liste_ouverture=" + liste_ouverture+" ;Revêtement= "+this.revêtement;
 //        int idDePièce1;
 //        int idDePièce2;
 //        if (pièce1 == null){
@@ -192,7 +190,7 @@ public class Mur {
         }
     }
     public void highlight(GraphicsContext context){
-        System.out.println("HIGHLIGHT de la classe Mur");
+        //System.out.println("HIGHLIGHT de la classe Mur");
         this.debut.dessine(context);
         this.fin.dessine(context);
         context.setStroke(Color.RED);
@@ -293,14 +291,8 @@ public class Mur {
     //Revêtement test=new Revêtement(9999);  //id=9999 est un raccourci pour mettre définir prix_unitaire à 5.55 et c'est tout (pas de lecture de donnee enregistree
     System.out.println("numéros revêtement : ");
     int id = Lire.i();
-    Revêtement revêtement=new Revêtement(id);
+    Revêtement revêtement=batiment.getListeRevêtement().get(1);
     mur.setRevêtement(revêtement);
-    while (mur.revêtement==null){
-        System.out.println("numéros revêtement : ");
-        id = Lire.i();
-        revêtement=new Revêtement(id);
-        mur.setRevêtement(revêtement);
-    }
     System.out.println("Le revêtement est appliqué");
     System.out.println("mur.getRevêtement"+mur.toString());
     /*  

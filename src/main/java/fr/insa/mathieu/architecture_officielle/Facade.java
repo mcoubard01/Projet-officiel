@@ -30,7 +30,7 @@ public class Facade extends Mur  {
         //on ne doit créer que quatre facades maximum.
         this.debut = debut;
         this.fin = fin;
-       
+        this.revêtement_facade= Architecture_officielle.listeRevêtement.get(20);
         this.liste_ouverture = new ArrayList<>();
         this.liste_étage = new ArrayList<>();
 

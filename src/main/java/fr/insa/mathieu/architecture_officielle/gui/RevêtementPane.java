@@ -6,11 +6,9 @@ package fr.insa.mathieu.architecture_officielle.gui;
 
 import fr.insa.mathieu.architecture_officielle.Architecture_officielle;
 import fr.insa.mathieu.architecture_officielle.Revêtement;
-import static fr.insa.mathieu.architecture_officielle.Revêtement.getKeyFromValue;
-import static fr.insa.mathieu.architecture_officielle.Revêtement.rev_Total;
-import static fr.insa.mathieu.architecture_officielle.Revêtement.rev_mur;
-import static fr.insa.mathieu.architecture_officielle.Revêtement.rev_plafond;
-import static fr.insa.mathieu.architecture_officielle.Revêtement.rev_sol;
+import fr.insa.mathieu.architecture_officielle.Sol_plafond;
+
+
 import java.util.HashMap;
 import java.util.function.BiConsumer;
 import javafx.beans.value.ChangeListener;
@@ -21,6 +19,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import fr.insa.mathieu.architecture_officielle.gui.Contrôleur;
+import java.util.ArrayList;
 
 /**
  *L'objectif ici est de créer la fenêtre en haut à gauche de la liste déroulante des revêtements
@@ -49,48 +48,37 @@ public class RevêtementPane extends BorderPane{
     
 //CONSTRUCTOR
     public RevêtementPane(MainPane mainPane){
-        this.map=rev_Total();
         this.mainPane=mainPane;
-        this.listView=listView(map);
-        this.contrôleur=mainPane.getContrôleur();
-        //this.revêtementCliqué=new Revêtement();
-        Architecture_officielle.donnee_enregistree=Architecture_officielle.lecture("Revêtement_final.txt");
-        //TODO en fonction de notre état : affichier soit la liste des revêtements des murs, ou des sols, ou des plafonds. Je fais donc 3 HashMap pour assigner un String à un Revêtement
-        //Toutes les listView possibles à afficher selon notre mode de fonctionnement
-        //DONNEES de base
+        this.vbox=new VBox();
         
-        
-        VBox vbox=new VBox(this.listView);//changer en listViewSol ou ListViewPlafond
-        this.setCenter(vbox);
-        this.listView.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String oldString, String newString) -> {// Changer avec listViewSol ou listViewPlafond
-            System.out.println("Revêtement cliqué : "+newString);
-            Revêtement revêtementTrouvé = getKeyFromValue(map, newString);
-            this.revêtementCliqué=revêtementTrouvé;
-            System.out.println("revêtementTROUV2.toString() : "+revêtementTrouvé.toString());
-            System.out.println("revêtementTROUV2.getPrix_unitaire() : "+revêtementTrouvé.getPrix_unitaire());
-            System.out.println("id du revêtement (numéro)"+revêtementTrouvé.getId());
-        });
     }
     
     
     //FUNCTION
     public void affichageMur(){
-        this.setMap(rev_mur());
-        this.listView=listView(map);
+        this.setMap(this.rev_Mur());
+        this.listView=listView(map);        
+        this.setCenter(this.listView);
+        //System.out.println("Affichage Mur de la classe REVETEMENT PANE");
+        System.out.println("this.contrôleur :"+this.contrôleur.toString());
     }
     public void affichageSol(){
-        this.setMap(rev_sol());
+        this.setMap(this.rev_Sol());
         this.listView=listView(map);
+        this.setCenter(this.listView);
+        //System.out.println("Affichage Sol de la classe REVETEMENT PANE");
     }
     public void affichagePlafond(){
-        this.setMap(rev_plafond());
+        this.setMap(this.rev_Plafond());
         this.listView=listView(map);
+        //System.out.println("Affichage Plafond de la classe REVETEMENT PANE");
+        this.setCenter(this.listView);
     }
     
     public Revêtement getRevêtementCliqué() {
         return revêtementCliqué;
     }
-    public static ListView<String> listView(HashMap<Revêtement,String> map ){
+    public ListView<String> listView(HashMap<Revêtement,String> map ){
         ListView<String> listview = new ListView<>();
         map.forEach(new BiConsumer<Revêtement, String>() { // BiConsumer apparu juste parce que je voulais aps utiliser l'expression lambda
             @Override
@@ -98,8 +86,112 @@ public class RevêtementPane extends BorderPane{
                 listview.getItems().add(u);
             }
         });
-           
+        listview.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newString) -> {
+            if (newString != null) {
+                System.out.println("Revêtement cliqué : "+newString);
+                Revêtement revêtementTrouvé = getKeyFromValue(map, newString);
+                this.revêtementCliqué=revêtementTrouvé;
+                //System.out.println("revêtementTROUV2.toString() : "+revêtementTrouvé.toString());
+                //System.out.println("revêtementTROUV2.getPrix_unitaire() : "+revêtementTrouvé.getPrix_unitaire());
+                //System.out.println("id du revêtement (numéro)"+revêtementTrouvé.getId());
+                this.contrôleur.ClicDansRevêtementPane(revêtementTrouvé);
+            }
+        });
         return listview;
     }
+    
+    public HashMap<Revêtement,String> rev_Mur(){
+        HashMap<Revêtement, String> mapRevêtMur=new HashMap<>();
+        for (Revêtement revêtement : this.mainPane.getModel().getListeRevêtement()){
+            if(revêtement.getPourMur().equals("1")){
+                String valeur=revêtement.getId()+" : "+revêtement.getDésignation()+" € : "+revêtement.getPrix_unitaire();
+                mapRevêtMur.put(revêtement, valeur);
+            }
+        }
+        
+        return mapRevêtMur;
+    } 
+    public HashMap<Revêtement,String> rev_Sol(){
+        HashMap<Revêtement, String> mapRevêtSol=new HashMap<>();
+        for (Revêtement revêtement : this.mainPane.getModel().getListeRevêtement()){
+            if(revêtement.getPourSol().equals("1")){
+                String valeur=revêtement.getId()+" : "+revêtement.getDésignation()+" € : "+revêtement.getPrix_unitaire();
+                mapRevêtSol.put(revêtement, valeur);
+            }
+        }
+        
+        return mapRevêtSol;
+    } 
+    public HashMap<Revêtement,String> rev_Plafond(){
+        HashMap<Revêtement, String> mapRevêtPlafond=new HashMap<>();
+        for (Revêtement revêtement : this.mainPane.getModel().getListeRevêtement()){
+            if(revêtement.getPourPlafond().equals("1")){
+                String valeur=revêtement.getId()+" : "+revêtement.getDésignation()+" € : "+revêtement.getPrix_unitaire();
+                mapRevêtPlafond.put(revêtement, valeur);
+            }
+        }
+        
+        return mapRevêtPlafond;
+    } 
+    public HashMap<Revêtement,String> rev_Total(){
+        HashMap<Revêtement, String> mapRevêtTotal=new HashMap<>();
+        for (Revêtement revêtement : this.mainPane.getModel().getListeRevêtement()){
+                String valeur=revêtement.getId()+" : "+revêtement.getDésignation()+" € : "+revêtement.getPrix_unitaire();
+                mapRevêtTotal.put(revêtement, valeur);
+            }
+        
+        return mapRevêtTotal;
+    }
+    /**
+     * Pour chaque couple de clé-valeur : on test si la valeur correspond à celle que nous cherchons
+     * @param map
+     * @param value
+     * @return 
+     */
+    public static Revêtement getKeyFromValue(HashMap<Revêtement, String> map, String value) {
+        for (HashMap.Entry<Revêtement, String> entry : map.entrySet()) {//la classe Entry possède par pair : la clé et de la valeur
+            if (entry.getValue().equals(value)) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+    
+    
+    /*
+    //Liste des revêtements par type de surface possible
+    public ArrayList<Revêtement> rev_Mur(){
+        ArrayList<Revêtement> rev_mur = new ArrayList<>();
+        for (Revêtement revêtement : this.mainPane.getModel().getListeRevêtement()){
+            if (revêtement.getPourMur().equals("1")){
+                rev_mur.add(revêtement);
+            }
+        }
+        
+        return rev_mur;
+    }
+    public ArrayList<Revêtement> rev_Sol(){
+        ArrayList<Revêtement> rev_mur = new ArrayList<>();
+        for (Revêtement revêtement : this.mainPane.getModel().getListeRevêtement()){
+            if (revêtement.getPourSol().equals("1")){
+                rev_mur.add(revêtement);
+            }
+        }
+        return rev_mur;
+    }
+    public ArrayList<Revêtement> rev_Plafond(){
+        ArrayList<Revêtement> rev_plafond = new ArrayList<>();
+        for (Revêtement revêtement : this.mainPane.getModel().getListeRevêtement()){
+            if (revêtement.getPourPlafond().equals("1")){
+                rev_plafond.add(revêtement);
+            }
+        }
+        return rev_plafond;
+    }
+*/
 
+    public void setContrôleur(Contrôleur contrôleur) {
+        this.contrôleur = contrôleur;
+    }
+    
 }

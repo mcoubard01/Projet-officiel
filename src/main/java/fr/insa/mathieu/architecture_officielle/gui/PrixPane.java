@@ -5,7 +5,9 @@
 package fr.insa.mathieu.architecture_officielle.gui;
 
 import fr.insa.mathieu.architecture_officielle.Architecture_officielle;
+import fr.insa.mathieu.architecture_officielle.Revêtement;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
@@ -26,12 +28,21 @@ public class PrixPane extends BorderPane{
     private RadioButton rbCroissant;
     private RadioButton rbDecroissant;
     private MainPane mainPane;
+    private VBox global;
+    private VBox particulier;
+    private Contrôleur contrôleur;
     private double prixTotal;
     private double surfaceTotaleHabitable;
+    private Label affichePrixTotal;
+    private Label afficheSurface;
+    
+    
    
     public PrixPane(MainPane mainPane){
         this.mainPane=mainPane;
-        
+        this.prixTotal=0;
+        this.surfaceTotaleHabitable=0;
+
         this.rbAppart=new RadioButton("Appartement");
         this.rbEtage=new RadioButton("Etage");
         this.rbRevêtement=new RadioButton("Revêtement");
@@ -50,25 +61,30 @@ public class PrixPane extends BorderPane{
         this.rbCroissant.setToggleGroup(tg2);
         this.rbDecroissant.setToggleGroup(tg2);
         
-        
         VBox filtre = new VBox(hboxType,hboxEvol);
-        Label titre = new Label("Devis");
-        
         System.out.println("Classe Prix Pane : filtre.toString()"+filtre.toString());
-        HBox presentation = new HBox(titre,filtre);
         
-        Label prixTotal = new Label("Prix total = "+this.prixTotal+" € !");
-        Label surfaceTotaleHabitable = new Label ("surface habitable = "+this.surfaceTotaleHabitable+" UNITE");
-        VBox global = new VBox(prixTotal,surfaceTotaleHabitable);
+        Label titre = new Label("Devis : ça va vous couter cher");
+        VBox presentation = new VBox(titre,filtre);
         
+        this.affichePrixTotal = new Label("Prix total = "+this.prixTotal+" € !");
+        this.afficheSurface= new Label ("surface habitable = "+this.surfaceTotaleHabitable+" UNITE");
+        this.global = new VBox(this.affichePrixTotal,this.afficheSurface);
+       
         this.setBottom(global);
         this.setTop(presentation);
     }
-    
-    public void reCalcule(Architecture_officielle batiment){
-        //this.prixTotal=batiment.prixTotal();
+
+    public void reCalculeSurface(Architecture_officielle batiment){
+        System.out.println("Je suis dans la boucle de recalcule");
         this.surfaceTotaleHabitable=batiment.surfaceTotalHabitable();
-        
+        this.afficheSurface.setText("surface habitable = "+this.surfaceTotaleHabitable+" UNITE");
+        System.out.println("prix total : "+this.prixTotal);
+        System.out.println("surface totale au sol : "+this.surfaceTotaleHabitable);
+    }
+    public void reCalculePrix(Architecture_officielle batiment){
+        this.prixTotal=batiment.prixTotal();
+        this.affichePrixTotal.setText("prix total : "+this.prixTotal+" €");
         System.out.println("prix total : "+this.prixTotal);
         System.out.println("surface totale au sol : "+this.surfaceTotaleHabitable);
     }
@@ -81,7 +97,7 @@ public class PrixPane extends BorderPane{
     public void setPrix_total(double prix_total) {
         this.prixTotal = prix_total;
     }
-    
-     
-    
+    public void setContrôleur(Contrôleur contrôleur) {
+        this.contrôleur = contrôleur;
+    }
 }

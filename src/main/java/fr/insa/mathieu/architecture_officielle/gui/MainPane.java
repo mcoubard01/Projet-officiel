@@ -8,7 +8,11 @@ import fr.insa.mathieu.architecture_officielle.Architecture_officielle;
 import fr.insa.mathieu.architecture_officielle.Coin;
 import fr.insa.mathieu.architecture_officielle.Etage;
 import fr.insa.mathieu.architecture_officielle.Mur;
+import fr.insa.mathieu.architecture_officielle.Appartement;
 import fr.insa.mathieu.architecture_officielle.gui.Contrôleur.ETAT;
+import static fr.insa.mathieu.architecture_officielle.gui.Contrôleur.OBJET_SELECTIONNE.MUR;
+import static fr.insa.mathieu.architecture_officielle.gui.Contrôleur.OBJET_SELECTIONNE.PLAFOND;
+import static fr.insa.mathieu.architecture_officielle.gui.Contrôleur.OBJET_SELECTIONNE.SOL;
 import java.util.HashMap;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -43,14 +47,15 @@ public class MainPane extends BorderPane {
     
     private RadioButton rbidpiece;    //bouton IDentifier une pièce (en cliquant sur les murs composonts la pièce si possible)
     private RadioButton rbidappart;   //bouton IDentifier un appart (en cliquant sur les pièces contenues si possible)
-        private RadioButton rbouverture;
-    private RadioButton rbrevêtement_rap;
 
+    private RadioButton rbouverture;
+    private RadioButton rbrevêtement_rap;
     private RadioButton rbrevêtement;
     
     private RadioButton rbAnnule;
     private RadioButton rbsupp;
     private RadioButton rbEtageAj;
+    private Button modifier;
     
     private Contrôleur contrôleur;
     private RevêtementPane revêtementPane;
@@ -68,9 +73,6 @@ public class MainPane extends BorderPane {
     private MainMenu menu;
 
     //CONSTRUCTOR
-    public MainPane(){
-        this(new Architecture_officielle());
-    }
     public MainPane(Architecture_officielle model){
         this.mapEtage_Button=new HashMap<>();
         this.model=model;
@@ -120,14 +122,28 @@ public class MainPane extends BorderPane {
 //            this.contrôleur.ajoutFenetre(t);
 //            this.contrôleur.clicDansZoneDessin(null);});
         
-        this.rbrevêtement_rap=new RadioButton("Ajout rapide revêtement");
         
         this.rbrevêtement = new RadioButton("revêtement");
         this.rbrevêtement.setOnAction((t) -> {
-            this.contrôleur.ajoutGrpRevetement(t);
+            if (!this.contrôleur.getListePièceSelectionnée().isEmpty()){
+                    /**
+                    * Affichage de deux boutons : un pour le sol, un pour le plafond pour l'ajout de revêtement. 
+                    */
+                    this.ajoutBtSOL_PLAFOND();
+                }
+            else {
+                this.contrôleur.setObjetSélectionné(MUR);
+            }
+            this.contrôleur.affichageRevêtement();
         });
         //TODO : les initialiser avec setOnACtion(mouseevent)
         this.rbsupp= new RadioButton("Supprimer Objet");
+        
+        this.modifier=new Button("Modifier");
+        this.modifier.setOnAction((t) -> {
+            this.contrôleur.apporterModification();
+        });
+        
         this.rbAnnule = new RadioButton("Annuler Selection");
         this.rbAnnule.setOnAction((t) -> {
             this.contrôleur.annulerSelection(t);
@@ -146,7 +162,6 @@ public class MainPane extends BorderPane {
         this.rbidappart.setToggleGroup(bgEtat);
         this.rbidpiece.setToggleGroup(bgEtat);
         this.rbrevêtement.setToggleGroup(bgEtat);
-        this.rbrevêtement_rap.setToggleGroup(bgEtat);
         this.rbEtageAj.setToggleGroup(bgEtat);
         this.rbAnnule.setToggleGroup(bgEtat);
         this.rbEtageAj.setSelected(true);
@@ -156,15 +171,16 @@ public class MainPane extends BorderPane {
         
         //disposition des éléments node entre eux (les uns au dessus des autres)
         this.vbox= new VBox(this.rbSelect,this.rbcrmur,this.rbcrpiece2,this.rbcrpiece3,
+
                 this.rbidappart,this.rbidpiece, this.rbouverture,
-                this.rbrevêtement_rap,this.rbrevêtement, this.rbEtageAj, this.rbsupp, this.rbAnnule);
+                this.rbrevêtement, this.rbEtageAj,this.modifier, this.rbsupp, this.rbAnnule);
                 //new Label("Pour le moment, on peut que dessiner en mode plein écran."));TODO à mieux intégrer (pas dans le VBox car pas pratique du tout
                 //TODO : faire en sorte que le message ci-dessus ne prenne pas trop de place.
                 //actuellement, il a doublé la largeur du VBox... BAH OUI il ne noit pas être là. Eventuellement refaire une ligne au grid pane pour mettre ces labels
       //Pourquoi Faire ???
         //System.out.println("Classe MainePane : vbGauche.toString()"+vbGauche.toString());
         //Position des éléments sur la scene
-       
+        this.vbox.setSpacing(5);
         this.setLeft(this.vbox);
         
         this.dcdessin=new DessinCanvas(this);
@@ -208,10 +224,6 @@ public class MainPane extends BorderPane {
     public RadioButton getRbcrpiece3() {
         return rbcrpiece3;
     }
-   
-    public RadioButton getRbrevêtement_rap() {
-        return rbrevêtement_rap;
-    }
     public RadioButton getRbouverture() {
         return rbouverture;
     }
@@ -230,6 +242,13 @@ public class MainPane extends BorderPane {
     public RevêtementPane getRevêtementPane() {
         return revêtementPane;
     }
+    public RadioButton getRbAnnule() {
+        return rbAnnule;
+    }
+    public Button getModifier() {
+        return modifier;
+    }
+
     /**
      * @return the menu
      */
@@ -238,7 +257,7 @@ public class MainPane extends BorderPane {
     }
     public void changeMessage(String message) {
         this.tfMessage.setText(message);
-    }
+    } 
     void redrawAll() {
         this.dcdessin.redrawAll();
     }
@@ -275,20 +294,40 @@ public class MainPane extends BorderPane {
  */
     public void entrerHauteurEtage() {
         
-        Label label = new Label("Hauteur etage : ");
+        Label label = new Label("Entrez la hauteur de l'étage : ");
         TextField textField = new TextField();
         
         Button valider = new Button("valider");
         
-        HBox hbox = new HBox(textField,valider); // le textField et le bouton valider seront aligné horizontalement
+        HBox hbox = new HBox();
+        hbox.setSpacing(10);
+        hbox.getChildren().addAll(textField,valider);
         this.vbox.getChildren().addAll(label, hbox); // je superpose le label avec le HBox
         
         valider.setOnAction((t) -> {
             String input = textField.getText();
             try {
                 double hauteur = Double.parseDouble(input);
+                Etage etageCréé = new Etage (hauteur,this.getModel());
+                
+                this.getModel().add(etageCréé); // ajout de l'etage créé à la liste des étages du batiment
+                this.getModel().setEtageActuel(etageCréé); // l'etage actuel du batiment est l'étage créé
+                
+                if(!this.contrôleur.getListeEtage().isEmpty()){
+                    for (int i=0;i<this.getModel().getListe_etage().get(0).getListe_mur_facade().size();i++){
+                        etageCréé.add(this.getModel().getListe_etage().get(0).getListe_mur_facade().get(i));
+                    }
+                }
+                
+                this.contrôleur.getListeEtage().add(etageCréé);
+                this.contrôleur.setEtageActuel(etageCréé); // on met l'étage créé comme etage actuel du contrôleur
+                
+                System.out.println("taille de la liste des étages du contrôleur : "+this.contrôleur.getListeEtage().size());
+                System.out.println("taille de la liste des étages du modèle : "+this.getModel().getListe_etage().size());
+                
+                this.ajoutBtEtage(this.getModel().getListe_etage().size());
                 this.vbox.getChildren().removeAll(label,hbox);
-                this.contrôleur.setHauteurEtage(hauteur);
+                this.redrawAll();
             }
             catch (NumberFormatException e){
                 System.out.println("veuillez entrez un nombre valide");
@@ -301,7 +340,10 @@ public class MainPane extends BorderPane {
     void ajoutBtSOL_PLAFOND() {
         Button sol = new Button("sol");
         Button plafond = new Button("plafond");
-        HBox hb = new HBox(sol,plafond);
+        Button valider = new Button("valider");
+        HBox hb = new HBox();
+        hb.setSpacing(5);
+        hb.getChildren().addAll(sol,plafond, valider);
         this.vbox.getChildren().add(hb);
         
         this.rbEtageAj.setDisable(true);
@@ -317,13 +359,40 @@ public class MainPane extends BorderPane {
         
         sol.setOnAction((t) -> {
             System.out.print("appui sur bouton Sol");
-            this.revêtementPane.affichageSol();
-            hb.getChildren().removeAll(sol);
+            this.contrôleur.setObjetSélectionné(SOL);
+            this.contrôleur.affichageRevêtement();
         });
         plafond.setOnAction((t) -> {
-            System.out.print("appui sur bouton Sol");
-            this.revêtementPane.affichagePlafond();
-            hb.getChildren().removeAll(plafond);
+            System.out.print("appui sur bouton Plafond");
+            this.contrôleur.setObjetSélectionné(PLAFOND);
+            this.contrôleur.affichageRevêtement();
         });
+        valider.setOnAction((t) -> {
+            this.vbox.getChildren().removeAll(hb);
+        });
+        //remove les bouttons 
+    }    
+
+    void entrerNomPièce() {
+        HBox hb = new HBox();
+        
+        Label nomPièce = new Label ("entrez le nom de la pièce");
+        TextField textField = new TextField();
+        Button valider = new Button("valider");
+        hb.setSpacing(5);
+        hb.getChildren().addAll(textField,valider);
+        this.vbox.getChildren().addAll(nomPièce,hb);
+        valider.setOnAction((t) -> {
+            String input = textField.getText();
+            try {
+                this.contrôleur.setNomPièce(input);
+                this.vbox.getChildren().removeAll(nomPièce,hb);
+            }
+            catch (NumberFormatException e){
+                System.out.println("veuillez entrez un nombre valide");
+            }
+            
+        });
+        
     }
 }

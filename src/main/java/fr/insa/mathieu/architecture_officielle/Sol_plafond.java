@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package fr.insa.mathieu.architecture_officielle;
 /**
  *
@@ -12,7 +9,7 @@ package fr.insa.mathieu.architecture_officielle;
     private String id;
     private Pièce pièce;
     private Revêtement revêtement;
-    Revêtement standard = new Revêtement(9999);//Revêtement standard
+    //TODO à remettre Revêtement standard = new Revêtement(9999);//Revêtement standard
     
     
     //CONSTRUCTOR
@@ -20,7 +17,7 @@ package fr.insa.mathieu.architecture_officielle;
     public Sol_plafond(){//CONSTRUCTEUR test pour aller plus vite lors des essais   
     }
     public Sol_plafond(Pièce pièce){
-        this.revêtement = standard; //par défaut
+        this.revêtement = Architecture_officielle.listeRevêtement.get(1); //par défaut or il faut réussir à faire un lien entre le batiment et le sol plafond pour dire que le revêtement 1 est le revêtement standard
         this.pièce=pièce;
     }
     
@@ -47,8 +44,7 @@ package fr.insa.mathieu.architecture_officielle;
     }
     @Override
     public String toString() {
-        //Syntacexe : "idDuRevêtement"
-        return "" + revêtement.getId(); //renvoie l'id du revêtement
+        return "idDuRevêtement"+this.revêtement.getId();
     }
     
     

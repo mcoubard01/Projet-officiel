@@ -10,7 +10,6 @@ package fr.insa.mathieu.architecture_officielle; //test commentaire
  */
 public class Plafond extends Sol_plafond{
  private String id;
-    Revêtement standard = new Revêtement(9999);//Revêtement standard
     
     //CONSTRUCTEUR
     public Plafond(Pièce pièce) {
@@ -22,7 +21,7 @@ public class Plafond extends Sol_plafond{
     // FONCTION
     @Override
     public boolean contrôle(Revêtement r){ // Contrôle
-        boolean result=(r.getPourSol()).equals("1");
+        boolean result=(r.getPourPlafond()).equals("1");
         return result;
     }
     public static String indente (String toIndente, String prefix){// présenter dans la vidéo 1 du prof 
