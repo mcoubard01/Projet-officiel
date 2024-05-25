@@ -157,13 +157,18 @@ public abstract class Ouverture {
   
     public void dessine(GraphicsContext context){ ////// TODO  Attention je ne sais pas si ça marche avec le +longueur
         context.setStroke(Color.BEIGE);
+        double rapportMètresVersPixels = 100/2; //100 pixels pour 2 mètres
         switch (this.orientation){
-            case 'N' -> context.strokeLine(this.ori_x, this.ori_y, this.ori_x, this.ori_y+this.longueur);
-            case 'S' -> context.strokeLine(this.ori_x, this.ori_y, this.ori_x, this.ori_y-this.longueur);
-            case 'O' -> context.strokeLine(this.ori_x, this.ori_y, this.ori_x-this.longueur, this.ori_y);
-            case 'E' -> context.strokeLine(this.ori_x, this.ori_y, this.ori_x+this.longueur, this.ori_y);
+            case 'N' -> context.strokeLine(this.ori_x, this.ori_y, this.ori_x, this.ori_y + this.longueur*rapportMètresVersPixels);
+            case 'S' -> context.strokeLine(this.ori_x, this.ori_y, this.ori_x, this.ori_y - this.longueur*rapportMètresVersPixels);
+            case 'O' -> context.strokeLine(this.ori_x, this.ori_y, this.ori_x - this.longueur*rapportMètresVersPixels, this.ori_y);
+            case 'E' -> context.strokeLine(this.ori_x, this.ori_y, this.ori_x + this.longueur*rapportMètresVersPixels, this.ori_y);
         }
         
+    }
+    
+    public double surface(){
+        return mur1.getPièce1().getEtage().getHauteur_etage()*longueur;
     }
 /**
      * merci de ne pas faire de changement substantiel dans la syntaxe des toStringSauvegarde()

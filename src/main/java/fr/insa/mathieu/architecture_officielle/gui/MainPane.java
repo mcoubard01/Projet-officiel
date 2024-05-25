@@ -187,10 +187,10 @@ public class MainPane extends BorderPane {
         this.setCenter(this.dcdessin);
         
         this.menu = new MainMenu(this);
-        this.setTop(this.menu);
+//        this.setTop(this.menu);
         
         this.tfMessage = new TextField();
-        this.setBottom(this.tfMessage);
+//        this.setBottom(this.tfMessage);
         
         this.contrôleur.changeEtat(ETAT.AJOUT_ETAGEp1);
     }
@@ -255,6 +255,11 @@ public class MainPane extends BorderPane {
     public MainMenu getMenu() {
         return menu;
     }
+
+    public TextField getTfMessage() {
+        return tfMessage;
+    }
+    
     public void changeMessage(String message) {
         this.tfMessage.setText(message);
     } 

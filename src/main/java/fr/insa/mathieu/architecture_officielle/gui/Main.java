@@ -53,27 +53,33 @@ public class Main extends Application {
         //Mise en place et initialiser les tailles des colonnes et lignes
         gridPane.getColumnConstraints().add(new ColumnConstraints(650)); // column 0 is 650 wide
         gridPane.getColumnConstraints().add(new ColumnConstraints (150));// colonne à une largeur de 150
+        gridPane.getRowConstraints().add(new RowConstraints(25));
         gridPane.getRowConstraints().add(new RowConstraints(250));       // ligne à une hauteur de 250
         gridPane.getRowConstraints().add(new RowConstraints(250));       // ligne à une hauteur de 250
         gridPane.getRowConstraints().add(new RowConstraints(100));       // ligne à une hauteur de 100
-        
+        gridPane.getRowConstraints().add(new RowConstraints(25));
         mainPane=new MainPane(batiment);
         
         
-//Mettre mes Panes dans les différentes cases de mon grid
-        gridPane.add(mainPane, 0, 0,1, 3); // je mets la fenêtre mainPane à la colonne 0, ligne 0, j'étale mon Pane sur 1 colonne et 3 lignes
-        gridPane.add(mainPane.getRevêtementPane(),1,0,1, 1);//je mets la fenêtre mainPane à la colonne 1, ligne 0, j'étale mon Pane sur 1 colonne et 1 lignes
-        gridPane.add(mainPane.getPrixPane(), 1, 1, 2, 1);//je mets la fenêtre mainPane à la colonne 1, ligne 2, j'étale mon Pane sur 1 colonne et 1 lignes
-        scene = new Scene(gridPane,800,600);
+//Mettre mes Panes dans les différentes cases de mon grid        
+        gridPane.add(mainPane.getMenu(), 0, 0,2,1); ////je mets la menuBar à la colonne 0, ligne 0, j'étale mon Pane sur 2 colonne et 1 ligne
+        gridPane.add(mainPane, 0, 1,1, 3); // je mets la fenêtre mainPane à la colonne 1, ligne 1, j'étale mon Pane sur 1 colonne et 3 lignes
+        gridPane.add(mainPane.getRevêtementPane(),1,1,1, 1);//je mets la fenêtre revêtmentPane à la colonne 1, ligne 1, j'étale mon Pane sur 1 colonne et 1 lignes
+        gridPane.add(mainPane.getPrixPane(), 1, 2, 1, 2);//je mets la fenêtre prixPane à la colonne 1, ligne 2, j'étale mon Pane sur 1 colonne et 2 lignes
+        gridPane.add(mainPane.getTfMessage(),0,4,2,1);//je mets tfMessage à la colonne 0, ligne 4, j'étale mon Pane sur 2 colonne et 1 ligne
+        scene = new Scene(gridPane,800,650);
         
         scene.widthProperty().addListener((o) -> {
             gridPane.getColumnConstraints().add(0,new ColumnConstraints(0.75*gridPane.getWidth())); // column 0 is 650 wide
             gridPane.getColumnConstraints().add(1,new ColumnConstraints (0.25*gridPane.getWidth()));// colonne à une largeur de 150
         });
         scene.heightProperty().addListener((o) -> { 
-            gridPane.getRowConstraints().set(0, new RowConstraints(0.40*gridPane.getHeight()));      // ligne à une hauteur de 250
-            gridPane.getRowConstraints().add(1,new RowConstraints(0.40*gridPane.getHeight()));       // ligne à une hauteur de 250
-            gridPane.getRowConstraints().add(2,new RowConstraints(0.20*gridPane.getHeight()));
+            gridPane.getRowConstraints().set(0, new RowConstraints(25));      // ligne à une hauteur de 250            
+            gridPane.getRowConstraints().set(1, new RowConstraints(0.40*gridPane.getHeight()-25));      // ligne à une hauteur de 250
+            gridPane.getRowConstraints().add(2,new RowConstraints(0.40*gridPane.getHeight()));       // ligne à une hauteur de 250
+            gridPane.getRowConstraints().add(3,new RowConstraints(0.20*gridPane.getHeight()-25));
+            gridPane.getRowConstraints().set(4, new RowConstraints(25));      // ligne à une hauteur de 250
+            
         });
         
         

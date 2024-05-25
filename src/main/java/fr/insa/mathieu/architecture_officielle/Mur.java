@@ -99,6 +99,13 @@ public class Mur {
     public double surface(){ //appeler : mur.surface() renvoie la surface de l'objet mur
         double surface=0;
         surface = surface + this.longueur()*this.étage.getHauteur_etage();
+        System.out.println("surface mur =" + surface);
+        if ( ! this.liste_ouverture.isEmpty()){{
+            for (Ouverture ouverture : this.liste_ouverture)
+                surface = surface - ouverture.surface();
+            }
+        }
+        System.out.println("surface mur =" + surface);
         return surface;
     }
     //TODO controle si ouverture pour recalcul de surface soustraire les surfaces des ouvertures

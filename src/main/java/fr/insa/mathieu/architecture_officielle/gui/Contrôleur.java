@@ -57,7 +57,7 @@ public class Contrôleur {
     private Etage etageActuel;
 
     private double hauteurEtage;// TODO a voir si tuilisé
-    private Mur dernierMurSélectionné
+    private Mur dernierMurSélectionné;
     private Coin[] coinProche = new Coin[3];
     private String nomPièce;//TODO a voir si utilisé
     
@@ -228,7 +228,6 @@ public class Contrôleur {
                 this.vue.getRbcrpiece2().setDisable(true);
                 this.vue.getRbcrpiece3().setDisable(true);
                 this.vue.getRbrevêtement().setDisable(true);
-                this.vue.getRbrevêtement_rap().setDisable(true);
                 
                 break;
             case AJOUT_ETAGEp2: //ATTENTION : AJOUT_ETAGEp2 n'est actif que au tout début, à la création du premier étage.
@@ -242,7 +241,6 @@ public class Contrôleur {
                 this.vue.getRbcrpiece2().setDisable(true);
                 this.vue.getRbcrpiece3().setDisable(true);
                 this.vue.getRbrevêtement().setDisable(true);
-                this.vue.getRbrevêtement_rap().setDisable(true);
                 break;         
         }
         this.etat=nouvelEtat;
@@ -419,17 +417,19 @@ public class Contrôleur {
                 }
         
                 System.out.println("l'objet sélectionné par ce clic est : "+ objetSélectionné.name());
-                System.out.println("Liste de mur SELECTIONNE : "+listeMurSelectionné.size() + "les voici : ");
+                System.out.println("Liste de mur SELECTIONNE : "+listeMurSelectionné.size() + "\nles voici : ");
                 for(int i =0;i<listeMurSelectionné.size();i++){
                     System.out.println(listeMurSelectionné.get(i).toString());
                 }
-
-                this.dernierMurSélectionné = this.listeMurSelectionné.getLast();
+                if ( ! this.listeMurSelectionné.isEmpty()){
+                    this.dernierMurSélectionné = this.listeMurSelectionné.get(this.listeMurSelectionné.size()-1);
+                }
                 //listeMurSélectionné est réinitialisée à l'entrée de SELECT.
                 this.activeBoutonSuivantSelection();
+                System.out.println(this.dernierMurSélectionné.surface());
                 objetSélectionné = OBJET_SELECTIONNE.RIEN;//réinitialisatioon du type d'objet sélectionné.
                 this.vue.redrawAll(); //permet de faire le highlight de la sélection
-                //this.changeEtat(ETAT.SELECT); //il faut le remettre sinon les boutons normalement actifs sont désactivés.
+                this.changeEtat(ETAT.SELECT); //il faut le remettre sinon les boutons normalement actifs sont désactivés.
                 break;
 
             case CREA_MURp1:
@@ -708,8 +708,6 @@ public class Contrôleur {
                 this.vue.getRbcrpiece3().setDisable(true);
                 this.vue.getRbcrpiece2().setDisable(true);
                 this.vue.getRbidpiece().setDisable(false);
-                this.vue.getRbporte().setDisable(false);
-                this.vue.getRbfenêtre().setDisable(false);
                 this.vue.getRbSelect().setDisable(false);
                 this.vue.getRbrevêtement().setDisable(false);
                 this.vue.getRbidappart().setDisable(true);
@@ -718,7 +716,7 @@ public class Contrôleur {
                 this.vue.getModifier().setDisable(false);
                 
                 if(this.listeMurSelectionné.size()>1){
-                    this.vue.getRbouverture.setDisable(true);
+                    this.vue.getRbouverture().setDisable(true);
                 }
                 break;    
         }
@@ -745,7 +743,8 @@ public class Contrôleur {
             System.out.println("Quel revêtement veux tu pour tes murs ? ");
             this.vueRevetement.affichageMur();
             Revêtement revêtementChoisi=new Revêtement();
-
+        }
+    }
     void affichageRevêtement() {
             System.out.println("Le revêtement à selectionner dans le revêtementPane");
             switch (objetSélectionné){
@@ -775,10 +774,6 @@ public class Contrôleur {
             System.out.println("appartement.toString() : "+appartement.toString());
         }
     }
-    void boutonSelect(MouseEvent t) { //pourqy=uoi y en a t'il deux?
-        System.out.println("BoutonSelectMOUSE_EVENT");
-        this.changeEtat(ETAT.SELECT_SURBRILLANCE);
-    }
 
     void boutonCrmur(ActionEvent t) {
         this.changeEtat(ETAT.CREA_MURp1);
@@ -793,15 +788,11 @@ public class Contrôleur {
     }
     void boutonAjEtage(ActionEvent t) {
         this.changeEtat(ETAT.AJOUT_ETAGEp1);
-    } 
-    void boutonCrmur(ActionEvent t) {
-        this.changeEtat(ETAT.CREA_MURp1);
-
     }
     void annulerSelection(ActionEvent t) {
         if (this.etat==ETAT.SELECT){
-            if(!this.getListePièceSélectionnée().isEmpty()){ // pareil que mettre this.getListePièceSélectionnée()>0
-                this.getListePièceSélectionnée().clear();
+            if(!this.listePièceSelectionnée.isEmpty()){ // pareil que mettre this.listePièceSelectionnée>0
+                this.listePièceSelectionnée.clear();
             }
             else{
                 
@@ -888,16 +879,16 @@ public class Contrôleur {
                 }
                 
                 if(t.isControlDown()){
-                            if(contrôleur.getListePièceSélectionnée().contains(pièceSelectionnée)){
-                                contrôleur.getListePièceSélectionnée().remove(pièceSelectionnée);
+                            if(contrôleur.listePièceSelectionnée.contains(pièceSelectionnée)){
+                                contrôleur.listePièceSelectionnée.remove(pièceSelectionnée);
                             }
                             else{
-                                contrôleur.getListePièceSélectionnée().add(pièceSelectionnée);
+                                contrôleur.listePièceSelectionnée.add(pièceSelectionnée);
                             }
                  } 
                  else {
-                            contrôleur.getListePièceSélectionnée().clear();
-                            contrôleur.getListePièceSélectionnée().add(pièceSelectionnée);
+                            contrôleur.listePièceSelectionnée.clear();
+                            contrôleur.listePièceSelectionnée.add(pièceSelectionnée);
                         }
     }
 
@@ -1037,7 +1028,7 @@ public class Contrôleur {
 //        nouveau.setScene(sc);
 //        nouveau.show();
         System.out.println("action \"menuNouveau\"");
-
+    }
     public void menuApropos(ActionEvent t) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("A propos");

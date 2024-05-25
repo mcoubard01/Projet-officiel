@@ -51,7 +51,7 @@ public class EnterOuvertureDialog extends Dialog<Ouverture> {
         this.intervalleCoordOrigine = this.setIntervalle(mur1, mur2);
         //intervalleCoordOrigine est l'intervalle dans lequel il est sécurisé 
         //(vis à vis de l'apparteneance au mur) de mettre l'origine du point
-        Label lInstructions = new Label("merci d'entrer entre" + this.intervalleCoordOrigine[0] + "et" + this.intervalleCoordOrigine[1] + "ça");
+        Label lInstructions = new Label("merci d'entrer entre " + this.intervalleCoordOrigine[0] + " et " + this.intervalleCoordOrigine[1] + ".");
         Label lCoordOrigine = new Label("coord origine:");
         this. tfCoordOrigine = new TextField("");
         
@@ -156,12 +156,13 @@ public class EnterOuvertureDialog extends Dialog<Ouverture> {
              }
             //L'ouverture, si elle a deux murs, doit être comprise dans le mur le plus petit des deux.
         }
-        double décalage = 2;
+        double rapportMètresVersPixel = 100/2;// 100 pixels = 2 mètres
+        double décalage = 2*rapportMètresVersPixel;
         double[] intervalle = new double[2];
         if (typeDeOuvertureCréée == TYPE_OUVERTURE.FENÊTRE){
-            décalage=1.20; //l'ouverture est orientée EST ou NORD: on ne doit donc pas entrer une origine trop proche du coin le plus à droite ou le plus en haut.
+            décalage=1.20*rapportMètresVersPixel; //l'ouverture est orientée EST ou NORD: on ne doit donc pas entrer une origine trop proche du coin le plus à droite ou le plus en haut.
         }else if(typeDeOuvertureCréée == TYPE_OUVERTURE.PORTE){
-            décalage = 0.90;
+            décalage = 0.90*rapportMètresVersPixel;
         }
         
         if(murMin.horizontal()){
