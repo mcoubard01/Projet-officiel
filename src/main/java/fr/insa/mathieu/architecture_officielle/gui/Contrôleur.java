@@ -252,7 +252,7 @@ public class Contrôleur {
             case MUR:
                 for (Mur mur : this.getListeMurSelectionné()){
                     System.out.println("AJOUT DU REVETEMENT" );
-                    mur.add(revêtementTrouvé);
+                    mur.setRevêtement(revêtementTrouvé);
                     System.out.println("ID DU MUR POUR VERIFICATION : "+mur.toString());
                 }
                 this.vuePrix.reCalculePrix(this.vue.getModel());
