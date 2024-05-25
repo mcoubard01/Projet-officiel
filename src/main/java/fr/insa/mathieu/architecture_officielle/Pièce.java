@@ -38,7 +38,7 @@ public class Pièce {
     private Appartement appartement;
     private String nom_pièce; // l'utilisateur peut renommer ses pièces
     private int id;
-    private List<Mur> liste_mur;
+    private ArrayList<Mur> liste_mur;
     private Sol sol;
     private Plafond plafond;
 
@@ -46,7 +46,7 @@ public class Pièce {
     //CONSTRUCTOR
     
     //Constructeur principal TODO peut être enlever car non utilisé
-    public Pièce(Etage étage, Appartement appartement, String nom_pièce, List<Mur> liste_mur) {
+    public Pièce(Etage étage, Appartement appartement, String nom_pièce, ArrayList<Mur> liste_mur) {
         this.étage = étage;
         this.appartement = appartement;
         this.nom_pièce = nom_pièce;
@@ -522,7 +522,7 @@ public class Pièce {
         pièce1.add(m3);
         pièce1.add(m4);
         
-        System.out.println("surface de la putin de pièce : "+pièce1.surface());
+        System.out.println("surface de la pièce : "+pièce1.surface());
     }
 
     Etage getEtage() {

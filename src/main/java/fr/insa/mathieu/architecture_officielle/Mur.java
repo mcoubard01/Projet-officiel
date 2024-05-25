@@ -141,7 +141,7 @@ public class Mur {
      * @return String
      */
     public static String syntaxeToString(){
-        return "#Syntaxe  : \"Mur;id;idDuCoinDebut;idDuCoinFin;idDuRevêtement";
+        return "#Syntaxe  : \"Mur;id;idDuCoinDebut;idDuCoinFin;idDuRevêtement;liste_ouverture";
     }
     /**ceci est le toString() de sauvegarde.
     *MERCI DE NE PAS MODIFIER CETTE FONCTION sans me consulter
@@ -149,7 +149,21 @@ public class Mur {
     */
     public String toStringSauvegarde() {
         //Syntaxe : "Mur;id;idCoinDebut;idCoinFin"
-        return "Mur;" + this.id + ";" + debut.getId() + ";" + fin.getId() + ";" + this.revêtement.getId() ;
+        int idRevêtement;
+        if (this.revêtement == null){
+            idRevêtement = 9999;
+        }else{
+            idRevêtement = this.revêtement.getId();
+        }
+        String listeOuvertures = "[";
+        if (! liste_ouverture.isEmpty()){
+            for (Ouverture ouverture : this.liste_ouverture){
+                listeOuvertures = listeOuvertures + ouverture.toStringSauvegarde() + ", ";
+            }
+        }
+        listeOuvertures += "]";
+        
+        return "Mur;" + this.id + ";" + debut.getId() + ";" + fin.getId() + ";" + idRevêtement + ";" + listeOuvertures ;
     }
     
     @Override
@@ -257,7 +271,7 @@ public class Mur {
     }
     
     public void setRevêtement(Revêtement revêtement) {
-        if(this.contrôle(revêtement)==true){
+        if(this.contrôle(revêtement) == true){
             this.revêtement = revêtement;
             revêtement.getListe_mur().add(this);
         }

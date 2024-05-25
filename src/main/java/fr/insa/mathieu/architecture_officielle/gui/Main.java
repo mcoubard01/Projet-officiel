@@ -4,6 +4,7 @@
  */
 package fr.insa.mathieu.architecture_officielle.gui;
 import fr.insa.mathieu.architecture_officielle.Architecture_officielle;
+import fr.insa.mathieu.architecture_officielle.gui.Contrôleur.ETAT;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -41,12 +42,13 @@ import javafx.stage.Stage;
  * JavaFX App
  */
 public class Main extends Application {
+    private static Architecture_officielle model ;
 
     @Override
     public void start(Stage stage) {
        
         Scene scene;
-        Architecture_officielle batiment = new Architecture_officielle();
+//        Architecture_officielle batiment = new Architecture_officielle();
         GridPane gridPane = new GridPane(); // Ce GridPane composera la fenêtre principale où je disposerai mes autres fenêtres
         MainPane mainPane; // Ce MainPane() sera composé de ma zone de dessin (Canvas) et mes outils
         
@@ -58,8 +60,12 @@ public class Main extends Application {
         gridPane.getRowConstraints().add(new RowConstraints(250));       // ligne à une hauteur de 250
         gridPane.getRowConstraints().add(new RowConstraints(100));       // ligne à une hauteur de 100
         gridPane.getRowConstraints().add(new RowConstraints(25));
-        mainPane=new MainPane(batiment);
-        
+//        mainPane=new MainPane(batiment);
+                mainPane=new MainPane(model);
+                mainPane.getRbEtageAj().setSelected(true);
+                mainPane.getContrôleur().changeEtat(ETAT.AJOUT_ETAGEp1);
+
+
         
 //Mettre mes Panes dans les différentes cases de mon grid        
         gridPane.add(mainPane.getMenu(), 0, 0,2,1); ////je mets la menuBar à la colonne 0, ligne 0, j'étale mon Pane sur 2 colonne et 1 ligne
@@ -87,9 +93,24 @@ public class Main extends Application {
         stage.setTitle("LE MEILLEUR LOGICIEL D'ARCHITECTURE ! (made by Mathieu, Thomas, Oscar )");
         stage.show(); // Affichage de la fenêtre
     }
-
-    public static void main(String[] args) {
+    
+    public static void customLaunch(Architecture_officielle nouveauModèle){
+        model = nouveauModèle;
         launch();
+    }
+
+    public Architecture_officielle getModel() {
+        return model;
+    }
+
+    public static void setModel(Architecture_officielle newModel) {
+        model = newModel;
+    }
+    
+    
+    public static void main(String[] args) {
+//        launch();
+            customLaunch(new Architecture_officielle());
         
     }
 

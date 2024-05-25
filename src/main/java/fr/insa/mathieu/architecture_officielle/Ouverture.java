@@ -177,8 +177,8 @@ public abstract class Ouverture {
      * @return String
      */
     public static String syntaxeToString(){
-        String result = "#Syntaxe : \"Ouverture;ori_x;ori_y;orientation(char);longueur;idDuMur1;idDuMur2 \"";
-        result += "\nun 'F' avant l'id d'un mur signifie que c'est une façade";
+        String result = "#Syntaxe : \"Ouverture;ori_x;ori_y;orientation(char);longueur;idDuMur1\"";
+        result += "\n#un 'F' avant l'id d'un mur signifie que c'est une façade";
         return result;
     }
     /**ceci est le toString() de sauvegarde.
@@ -188,23 +188,16 @@ public abstract class Ouverture {
     public String toStringSauvegarde() {
         //"#Syntaxe : \"Ouverture;ori_x;ori_y;orientation(char);longueur;idDuMur1;idDuMur2 \""
         String idMur1;
-        String idMur2;
         if (mur1 instanceof Facade) { //le instanceOf fonctionne uniquement car Facade hérite de Mur.
             idMur1 = "F" + String.valueOf(mur1.getId()); //String.valueOf(int) permet de convertir un int en String.
         }else{idMur1=String.valueOf(mur1.getId());}
-        if (mur2 instanceof Facade) {
-            idMur2 = "F" + String.valueOf(mur2.getId()); //String.valueOf(int) permet de convertir un int en String.
-        }else{idMur2 = String.valueOf(mur2.getId());}
-        return "Ouverture" + ";" + ori_x + ";" + ori_y + ";" + orientation + ";" + longueur + ";" + idMur1 + ";" + idMur2;
+        
+        return "Ouverture" + ":" + ori_x + ":" + ori_y + ":" + orientation + ":" + longueur + ":" + idMur1;
     }
     
     @Override
-    public String toString() { 
-        int IdDuMur2;
-        if (mur2==null){
-            IdDuMur2 = 9999;
-        }else{ IdDuMur2 = mur2.getId();}
-        return "Ouverture" + ";ori_x=" + ori_x + ";ori_y=" + ori_y + ";orientation=" + orientation + ";longueur=" + longueur + ";id du mur1=" + mur1.getId() + ";id du mur2=" + IdDuMur2;
+    public String toString() {
+        return "Ouverture" + ";ori_x=" + ori_x + ";ori_y=" + ori_y + ";orientation=" + orientation + ";longueur=" + longueur + ";id du mur1=" + mur1.getId();
 
 //        int idMur2;
 //        if (mur2 == null){

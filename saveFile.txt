@@ -1,22 +1,42 @@
 === liste des Coins ===
 #Syntaxe  : "Coin;id;x;y"
-Coin;0;100;101
-Coin;1;0;0
-Coin;2;3;0
-Coin;3;3;3
-Coin;4;0;3
-=== liste des Etages ===
-#Syntaxe : "Etage;id;hauteur_etage;liste_appartement"
-Etage;0;5;liste_appartement=[]
+Coin;0;75.60000000000002;511.59999999999997
+Coin;1;75.60000000000002;59.2
+Coin;2;367.59999999999997;59.2
+Coin;3;367.59999999999997;511.59999999999997
+Coin;4;100.40000000000003;80.39999999999999
+Coin;5;100.40000000000003;198.8
+Coin;6;331.2;198.8
+Coin;7;331.2;80.39999999999999
+Coin;8;94.80000000000001;222.8
+Coin;9;94.80000000000001;344.0
+Coin;10;334.8;344.0
+Coin;11;334.8;222.8
+=== liste des Facades ===
+#Syntaxe  : "Facade;id;idDuCoinDebut;idDuCoinFin;idDuRevêtement;liste_ouverture
+Facade;0;0;1;20;[]
+Facade;1;1;2;20;[]
+Facade;2;2;3;20;[]
+Facade;3;3;0;20;[]
 === liste des Murs ===
-#Syntaxe  : "Mur;id;idDuCoinDebut;idDuCoinFin;idDeEtageDuMur;idDePièce1;idDePièce2;liste_ouverture"
-Mur;0;1;2;0;9999;9999;liste_ouverture=[Ouverture;1.5;0.0;E;0.9;0;9999, Ouverture;1.4;0.0;O;1.2;0;9999]
-Mur;1;2;3;0;9999;9999;liste_ouverture=[]
-Mur;2;3;4;0;9999;9999;liste_ouverture=[]
-Mur;3;4;1;0;9999;9999;liste_ouverture=[]
+#Syntaxe  : "Mur;id;idDuCoinDebut;idDuCoinFin;idDuRevêtement;liste_ouverture
+Mur;0;4;5;0;[]
+Mur;1;5;6;0;[]
+Mur;2;6;7;0;[]
+Mur;3;7;4;0;[]
+Mur;4;8;9;0;[Ouverture:94.80000000000001:324.0:N:0.9:4, Ouverture:94.80000000000001:324.0:N:0.9:4, ]
+Mur;5;9;10;0;[]
+Mur;6;10;11;0;[]
+Mur;7;11;8;0;[Ouverture:234.0:222.8:E:0.9:7, Ouverture:234.0:222.8:E:0.9:7, ]
 === liste des Pièces ===
-#Syntaxe : "Pièce;id;nom_pièce;liste_mur(identifiants);revêtementDuSol;revêtementDuPlafond;idDuAppartement "
-Pièce;0;pièce n°0;liste_mur=[0, 1, 2, 3];9999;9999;0
+#Syntaxe : "Pièce;id;nom_pièce;liste_mur(identifiants);revêtementDuSol;revêtementDuPlafond"
+Pièce;0;null;liste_mur=[0, 1, 2, 3];0;0
+Pièce;1;null;liste_mur=[4, 5, 6, 7];0;0
 === liste des Appartements ===
-#Syntaxe : "Appartement;id;IdDUEtage;liste_pièce(identifiants)"
-Appartement;0;0;liste_pièce=[]
+#Syntaxe : "Appartement;id;liste_pièce(identifiants)"
+Appartement;0;liste_pièce=[0]
+=== liste des Etages ===
+#Syntaxe : "Etage;id;hauteur_etage; liste_mur_facade (id);liste_appartement (id) ;listPiècesOrphelines (id);listeMurOrphelin (id)"
+Etage;0;54.0;[0, 1, 2, 3];[0];[1];[]
+===Le bâtiment===
+Bâtiment;[0]
