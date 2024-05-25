@@ -17,7 +17,7 @@ package fr.insa.mathieu.architecture_officielle;
     public Sol_plafond(){//CONSTRUCTEUR test pour aller plus vite lors des essais   
     }
     public Sol_plafond(Pièce pièce){
-        this.revêtement = Architecture_officielle.listeRevêtement.get(1); //par défaut or il faut réussir à faire un lien entre le batiment et le sol plafond pour dire que le revêtement 1 est le revêtement standard
+        this.revêtement = Architecture_officielle.listeRevêtement.get(0); //par défaut or il faut réussir à faire un lien entre le batiment et le sol plafond pour dire que le revêtement 1 est le revêtement standard
         this.pièce=pièce;
     }
     
