@@ -28,12 +28,26 @@ public class Appartement {
         this.id = IDManager.newId(this);
         this.paint=Color.color(Math.random(), Math.random(), Math.random(),0.30);
     }
+    public Appartement(ArrayList<Pièce> liste_pièce){
+        //il faut ajouter manuellement l'étage
+        this.liste_pièce=liste_pièce;
+        this.id = IDManager.newId(this);
+        this.paint=Color.color(Math.random(), Math.random(), Math.random());
+
+    }
     
     //FUNCTION
     public void add_pièce(Pièce pièce){
-        if (pièce.getAppartement()!=this){
-            if(pièce.getAppartement()==null || this.etage.getListPièceOrpheline().contains(pièce)){
-                this.liste_pièce.add(pièce);//On ajoute la pièce à la liste des pièce de cet appartement
+        System.out.println("entrée dans add_pièce");
+        this.liste_pièce.add(pièce);
+                System.out.println("l'appartment : " + this);
+
+
+        if (pièce.getAppartement()!=this || pièce.getAppartement()==null){
+            if(this.etage.getListPièceOrpheline().contains(pièce)){
+                        System.out.println("ajout dans ans add_pièce");
+
+                //this.liste_pièce.add(pièce);//On ajoute la pièce à la liste des pièce de cet appartement
                 this.etage.getListPièceOrpheline().remove(pièce);
             }
             else{
@@ -44,6 +58,7 @@ public class Appartement {
         else {
             System.out.println("La pièce est déjà dans l'appartement");
         }   
+        System.out.println("la pièce "+ pièce.toString() + "a été ajouté à " + this.toString());
     }
     public double prix(){
         double prix=0;//initialisation du prix
@@ -69,7 +84,7 @@ public class Appartement {
     public String toStringSauvegarde() {
         //#Syntaxe : \"Appartement;id;IdDUEtage;liste_pièce(identifiants)\" 
         ArrayList<Integer> listeDesIdDesPièces = new ArrayList<>();
-        for (int i=0 ; i< listeDesIdDesPièces.size() ; i++){
+        for (int i=0 ; i< liste_pièce.size() ; i++){
             listeDesIdDesPièces.add(liste_pièce.get(i).getId());
         }
         return "Appartement;" + id + ";liste_pièce=" + listeDesIdDesPièces;
@@ -77,8 +92,13 @@ public class Appartement {
     
     @Override
     public String toString() {
-        
-        return "Appartement; id :" + id + ";id de l'étage :" + etage.getId() + ";liste_pièce=" + this.liste_pièce;
+        int idEtage;
+        if (etage == null){
+            idEtage = 9999;
+        }else{
+            idEtage = etage.getId();
+        }
+        return "Appartement; id :" + id + ";id de l'étage :" + idEtage + ";liste_pièce=" + this.liste_pièce;
         //éventuellement il  n'y aura pas besoin de etage.getId(), puisque l'id de l'appartement intègre déjà l'id de l'étage.
     }
     public void dessine(GraphicsContext context){

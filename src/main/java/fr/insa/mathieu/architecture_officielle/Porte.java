@@ -27,7 +27,10 @@ public class Porte extends Ouverture {
     }
  
     //FUNCTION
-    
+     @Override
+    public double surface(){
+        return hauteur*this.getLongueur();
+    }
   
     // GET
 

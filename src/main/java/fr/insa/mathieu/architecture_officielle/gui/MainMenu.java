@@ -17,25 +17,26 @@ public class MainMenu extends MenuBar{
     private MainPane main;
     
     public MainMenu(MainPane main) {
+        //Posiibilité d'expansion : ajouter les actions "saveAs" et "Nouveau"
         this.main = main;
         Menu file = new Menu("Fichier");
-        MenuItem nouveau = new MenuItem("Nouveau");
-        nouveau.setOnAction((t) -> {
-            this.main.getContrôleur().menuNouveau(t);
-        });
+//        MenuItem nouveau = new MenuItem("Nouveau");
+//        nouveau.setOnAction((t) -> {
+//            this.main.getContrôleur().menuNouveau(t);
+//        });
         MenuItem save = new MenuItem("Sauvegarder");
         save.setOnAction((t) -> {
             this.main.getContrôleur().menuSave(t);
         });
-        MenuItem saveAs = new MenuItem("Sauvegarder sous...");
-        saveAs.setOnAction((t) -> {
-            this.main.getContrôleur().menuSaveAs(t);
-        });
+//        MenuItem saveAs = new MenuItem("Sauvegarder sous...");
+//        saveAs.setOnAction((t) -> {
+//            this.main.getContrôleur().menuSaveAs(t);
+//        });
         MenuItem load = new MenuItem("Ouvrir");
         load.setOnAction((t) -> {
             this.main.getContrôleur().menuOpen(t);
         });        
-        file.getItems().addAll(nouveau,save,saveAs,load);
+        file.getItems().addAll(save,load);
         Menu help = new Menu("Aide");
         MenuItem apropos = new MenuItem("A propos");
         apropos.setOnAction((t) -> {

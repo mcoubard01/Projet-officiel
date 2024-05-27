@@ -26,6 +26,11 @@ public class Fenêtre extends Ouverture {
     }
     
     //FUNCTION 
+    @Override
+    public double surface(){
+        return hauteur*this.getLongueur();
+    }
+    
     // GET
     public double gethauteur(){
         return hauteur;
