@@ -42,7 +42,7 @@ public class Facade extends Mur  {
     
     @Override
     public double prix() {
-                return super.prix(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+        return super.prix(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
 
     }
 

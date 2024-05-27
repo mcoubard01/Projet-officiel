@@ -175,8 +175,8 @@ public class EnterOuvertureDialog extends Dialog<Ouverture> {
             intervalle[1] = Math.max(murMin.getDebut().getX(), murMin.getFin().getX()) - décalage - 3; //le coin le plus à droite
             //l'Ouverture étant orientée EST, l'ouverture ne doit pas dépasser des limites du mur. d'où le décalage.
         }else{
-            intervalle[0] = Math.min(murMin.getDebut().getY(),murMin.getDebut().getY()) + décalage + 3; //le coin le plus haut (origine du repère en haut à gauche de l'écran)
-            intervalle[1] = Math.max(murMin.getFin().getY(),murMin.getDebut().getY()); //le coin le plus bas.
+            intervalle[0] = Math.min(murMin.getDebut().getY(),murMin.getFin().getY()) + décalage + 3; //le coin le plus haut (origine du repère en haut à gauche de l'écran)
+            intervalle[1] = Math.max(murMin.getDebut().getY(),murMin.getFin().getY()); //le coin le plus bas.
             //l'Ouverture étant orientée NORD, l'uverture ne doit pas dépasser des limites du mur. d'ooù le décalage.
         }
         intervalle[0] = Math.round(intervalle[0]);

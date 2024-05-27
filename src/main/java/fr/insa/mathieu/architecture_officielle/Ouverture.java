@@ -156,11 +156,11 @@ public abstract class Ouverture {
   
   
     public void dessine(GraphicsContext context){ ////// TODO  Attention je ne sais pas si ça marche avec le +longueur
-        context.setStroke(Color.BEIGE);
+        context.setStroke(Color.YELLOW);
         double rapportMètresVersPixels = 100/2; //100 pixels pour 2 mètres
         switch (this.orientation){
-            case 'N' -> context.strokeLine(this.ori_x, this.ori_y, this.ori_x, this.ori_y + this.longueur*rapportMètresVersPixels);
-            case 'S' -> context.strokeLine(this.ori_x, this.ori_y, this.ori_x, this.ori_y - this.longueur*rapportMètresVersPixels);
+            case 'N' -> context.strokeLine(this.ori_x, this.ori_y, this.ori_x, this.ori_y - this.longueur*rapportMètresVersPixels);
+            case 'S' -> context.strokeLine(this.ori_x, this.ori_y, this.ori_x, this.ori_y + this.longueur*rapportMètresVersPixels);
             case 'O' -> context.strokeLine(this.ori_x, this.ori_y, this.ori_x - this.longueur*rapportMètresVersPixels, this.ori_y);
             case 'E' -> context.strokeLine(this.ori_x, this.ori_y, this.ori_x + this.longueur*rapportMètresVersPixels, this.ori_y);
         }

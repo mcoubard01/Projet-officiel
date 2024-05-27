@@ -400,7 +400,7 @@ public class Contrôleur {
                 }
                 //listeMurSélectionné est réinitialisée à l'entrée de SELECT, et on réentre dans SELECT plusieurs fois, apparemment...
                 this.activeBoutonSuivantSelection();
-                System.out.println(this.dernierMurSélectionné.surface());
+                //System.out.println(this.dernierMurSélectionné.surface());
                 objetSélectionné = OBJET_SELECTIONNE.RIEN;//réinitialisatioon du type d'objet sélectionné.
                 this.vue.redrawAll(); //permet de faire le highlight de la sélection
                 this.changeEtat(ETAT.SELECT); //il faut le remettre sinon les boutons normalement actifs sont désactivés.
