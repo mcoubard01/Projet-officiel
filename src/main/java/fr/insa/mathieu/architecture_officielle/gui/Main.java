@@ -90,7 +90,7 @@ public class Main extends Application {
         
         
         stage.setScene(scene);
-        stage.setTitle("LE MEILLEUR LOGICIEL D'ARCHITECTURE ! (made by Mathieu, Thomas, Oscar )");
+        stage.setTitle("logiciel d'architecture (Mathieu, Thomas, Oscar)");
         stage.show(); // Affichage de la fenêtre
     }
     
