@@ -39,6 +39,13 @@ public class Facade extends Mur  {
     
     
     //FUNCTIONS
+    
+    @Override
+    public double prix() {
+                return super.prix(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+
+    }
+
     public double surface() {
         int i;
         double hauteur_bat = 0;
@@ -53,17 +60,16 @@ public class Facade extends Mur  {
             // TODO rajoutez une vérification d'appartenance a la facade mais je ne sait pas commment rédiger ça 
             if (liste_ouverture.get(j).getLongueur()==0.90){
                 surface_ouverture= surface_ouverture + (liste_ouverture.get(j).getLongueur()*2.10);
-         System.out.println("c'est une porte");
+                System.out.println("c'est une porte");
             }else{
-                 surface_ouverture= surface_ouverture + (liste_ouverture.get(j).getLongueur()*1.20);
+                surface_ouverture= surface_ouverture + (liste_ouverture.get(j).getLongueur()*1.20);
                 System.out.println("c'est une fenetre");
             }
-         }
-                double s = (longueur(debut,fin)*hauteur_bat)-surface_ouverture ;
-
-                return s;
-
-    }//fin surface()
+        }
+        double s = (longueur(debut,fin)*hauteur_bat)-surface_ouverture ;
+        
+        return s;
+    } //fin surface()
     
     /**
      *dessine une facade. Il faut donc appeler quatre fois cette méthode pour dessiner le contour de tous les étages.
@@ -146,8 +152,8 @@ public class Facade extends Mur  {
     public Coin getFin() {
         return fin;
     }
-
-    public Revêtement getRevêtement_facade() {
+    @Override
+    public Revêtement getRevêtement() {
         return revêtement_facade;
     }
 

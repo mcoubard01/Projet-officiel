@@ -26,7 +26,7 @@ public class Appartement {
         etage.getListe_appartement().add(this);
         this.liste_pièce=new ArrayList<>();
         this.id = IDManager.newId(this);
-        this.paint=Color.color(Math.random(), Math.random(), Math.random());
+        this.paint=Color.color(Math.random(), Math.random(), Math.random(),0.30);
     }
     
     //FUNCTION

@@ -121,6 +121,7 @@ public class Architecture_officielle {
                 }
             }
         }
+        surfaceRevêtement=(double)Math.round(surfaceRevêtement*100)/100;
         return surfaceRevêtement;
     }
     public double surfaceTotalHabitable(){
@@ -136,6 +137,7 @@ public class Architecture_officielle {
                 
             }
         }
+        surfaceTotale=(double)Math.round(surfaceTotale*100)/100;
         return surfaceTotale;
     }
     
@@ -149,6 +151,7 @@ public class Architecture_officielle {
             System.out.println("je suis dans la fonction prix Total de batiment");
             prixTotal = prixTotal+ etage.prix();
         }
+        prixTotal=(double)Math.round(prixTotal*100)/100;
         return prixTotal;
     }
     public double prix(Revêtement revêtement){
@@ -183,6 +186,7 @@ public class Architecture_officielle {
                 }
             }
         }
+        prixRevêtement=(double)Math.round(prixRevêtement*100)/100;
         return prixRevêtement;
     }
 

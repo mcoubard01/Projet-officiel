@@ -41,11 +41,9 @@ public class MainPane extends BorderPane {
 
     private VBox vbox;
     private RadioButton rbSelect;   // bouton Selectionner
-    private RadioButton rbcrmur;      // bouton CRer un mur
     private RadioButton rbcrpiece2;   //bouton CRer une pièce avec 2 points
     private RadioButton rbcrpiece3;   //bouton CRer une pièce avec 3 points
-    
-    private RadioButton rbidpiece;    //bouton IDentifier une pièce (en cliquant sur les murs composonts la pièce si possible)
+   
     private RadioButton rbidappart;   //bouton IDentifier un appart (en cliquant sur les pièces contenues si possible)
 
     private RadioButton rbouverture;
@@ -55,7 +53,6 @@ public class MainPane extends BorderPane {
     private RadioButton rbAnnule;
     private RadioButton rbsupp;
     private RadioButton rbEtageAj;
-    private Button modifier;
     
     private Contrôleur contrôleur;
     private RevêtementPane revêtementPane;
@@ -85,14 +82,6 @@ public class MainPane extends BorderPane {
         this.rbSelect.setOnAction((t) -> {
             this.contrôleur.boutonSelect(t);
         });
-        
-     
-        this.rbcrmur=new RadioButton("créer mur");
-        this.rbcrmur.setOnAction((t) -> {
-            this.contrôleur.boutonCrmur(t);
-        });
-        
-        this.rbidpiece=new RadioButton("identifier une pièce");
         
         this.rbidappart=new RadioButton("identifier un appart");
         this.rbidappart.setOnAction((t) -> {
@@ -139,11 +128,6 @@ public class MainPane extends BorderPane {
         //TODO : les initialiser avec setOnACtion(mouseevent)
         this.rbsupp= new RadioButton("Supprimer Objet");
         
-        this.modifier=new Button("Modifier");
-        this.modifier.setOnAction((t) -> {
-            this.contrôleur.apporterModification();
-        });
-        
         this.rbAnnule = new RadioButton("Annuler Selection");
         this.rbAnnule.setOnAction((t) -> {
             this.contrôleur.annulerSelection(t);
@@ -155,12 +139,10 @@ public class MainPane extends BorderPane {
         
         ToggleGroup bgEtat = new ToggleGroup();
         this.rbSelect.setToggleGroup(bgEtat);
-        this.rbcrmur.setToggleGroup(bgEtat);
         this.rbcrpiece2.setToggleGroup(bgEtat);
         this.rbcrpiece3.setToggleGroup(bgEtat);
         this.rbouverture.setToggleGroup(bgEtat);
         this.rbidappart.setToggleGroup(bgEtat);
-        this.rbidpiece.setToggleGroup(bgEtat);
         this.rbrevêtement.setToggleGroup(bgEtat);
         this.rbEtageAj.setToggleGroup(bgEtat);
         this.rbAnnule.setToggleGroup(bgEtat);
@@ -170,10 +152,10 @@ public class MainPane extends BorderPane {
         //clic1 -->ETAT.AJOUT_ETAGEp2, puis clic2, puis dans la console, donner la ahuteur de étagePrimitif.
         
         //disposition des éléments node entre eux (les uns au dessus des autres)
-        this.vbox= new VBox(this.rbSelect,this.rbcrmur,this.rbcrpiece2,this.rbcrpiece3,
+        this.vbox= new VBox(this.rbSelect,this.rbcrpiece2,this.rbcrpiece3,
 
-                this.rbidappart,this.rbidpiece, this.rbouverture,
-                this.rbrevêtement, this.rbEtageAj,this.modifier, this.rbsupp, this.rbAnnule);
+                this.rbidappart, this.rbouverture,
+                this.rbrevêtement, this.rbEtageAj,this.rbsupp, this.rbAnnule);
                 //new Label("Pour le moment, on peut que dessiner en mode plein écran."));TODO à mieux intégrer (pas dans le VBox car pas pratique du tout
                 //TODO : faire en sorte que le message ci-dessus ne prenne pas trop de place.
                 //actuellement, il a doublé la largeur du VBox... BAH OUI il ne noit pas être là. Eventuellement refaire une ligne au grid pane pour mettre ces labels
@@ -209,12 +191,6 @@ public class MainPane extends BorderPane {
     public RadioButton getRbSelect() {
         return rbSelect;
     }
-    public RadioButton getRbcrmur() {
-        return rbcrmur;
-    }
-    public RadioButton getRbidpiece() {
-        return rbidpiece;
-    }
     public RadioButton getRbidappart() {
         return rbidappart;
     }
@@ -245,9 +221,6 @@ public class MainPane extends BorderPane {
     public RadioButton getRbAnnule() {
         return rbAnnule;
     }
-    public Button getModifier() {
-        return modifier;
-    }
 
     /**
      * @return the menu
@@ -273,7 +246,6 @@ public class MainPane extends BorderPane {
         butonEtage.setOnAction((t) -> {
             this.contrôleur.setEtageActuel(getKeyFromValue(mapEtage_Button, butonEtage));
             this.model.setEtageActuel(getKeyFromValue(mapEtage_Button, butonEtage));
-            System.out.println("Etage selectionné : "+ this.contrôleur.getEtageActuel().toString());
             System.out.println("Etage actuel du batiment : "+ this.model.getEtageActuel().toString());
             GraphicsContext context  = this.dcdessin.getRealCanvas().getGraphicsContext2D();
             context.clearRect(0, 0, this.dcdessin.getRealCanvas().getWidth(), this.dcdessin.getRealCanvas().getHeight());
@@ -293,7 +265,7 @@ public class MainPane extends BorderPane {
  * fonction appelé par le contrôleur au moment de rentrer la hauteur de l'étage grâce à un textField
  */
     public void entrerHauteurEtage() {
-        
+        this.changeMessage("Entrer la hauteur de l'étage");
         Label label = new Label("Entrez la hauteur de l'étage : ");
         TextField textField = new TextField();
         
@@ -305,6 +277,7 @@ public class MainPane extends BorderPane {
         this.vbox.getChildren().addAll(label, hbox); // je superpose le label avec le HBox
         
         valider.setOnAction((t) -> {
+            this.changeMessage("cliquer sur la zone de dessin pour définir les limites de l'étage");
             String input = textField.getText();
             try {
                 double hauteur = Double.parseDouble(input);
@@ -327,7 +300,9 @@ public class MainPane extends BorderPane {
                 
                 this.ajoutBtEtage(this.getModel().getListe_etage().size());
                 this.vbox.getChildren().removeAll(label,hbox);
-                this.redrawAll();
+                GraphicsContext context  = this.dcdessin.getRealCanvas().getGraphicsContext2D();
+                context.clearRect(0, 0, this.dcdessin.getRealCanvas().getWidth(), this.dcdessin.getRealCanvas().getHeight());
+                this.model.dessine(context);
             }
             catch (NumberFormatException e){
                 System.out.println("veuillez entrez un nombre valide");
@@ -338,6 +313,7 @@ public class MainPane extends BorderPane {
     }
     
     void ajoutBtSOL_PLAFOND() {
+        this.changeMessage("cliquer sur SOIT SOL ou PLAFOND");
         Button sol = new Button("sol");
         Button plafond = new Button("plafond");
         Button valider = new Button("valider");
@@ -348,33 +324,35 @@ public class MainPane extends BorderPane {
         
         this.rbEtageAj.setDisable(true);
         this.rbSelect.setDisable(true);
-        this.rbcrmur.setDisable(true);
         this.rbcrpiece2.setDisable(true);
         this.rbcrpiece3.setDisable(true);
         this.rbouverture.setDisable(true);
         this.rbidappart.setDisable(true);
-        this.rbidpiece.setDisable(true);
         this.rbsupp.setDisable(true);
         this.rbAnnule.setDisable(false);
         
         sol.setOnAction((t) -> {
+            this.changeMessage("cliquer sur le revêtement souhaité dans la fenêtre à droite");
             System.out.print("appui sur bouton Sol");
             this.contrôleur.setObjetSélectionné(SOL);
             this.contrôleur.affichageRevêtement();
         });
         plafond.setOnAction((t) -> {
+            this.changeMessage("cliquer sur le revêtement souhaité dans la fenêtre à droite");
             System.out.print("appui sur bouton Plafond");
             this.contrôleur.setObjetSélectionné(PLAFOND);
             this.contrôleur.affichageRevêtement();
         });
         valider.setOnAction((t) -> {
             this.vbox.getChildren().removeAll(hb);
+            this.contrôleur.changeEtat(ETAT.SELECT);
         });
         //remove les bouttons 
     }    
 
     void entrerNomPièce() {
         HBox hb = new HBox();
+        this.changeMessage("entrez le nom de la pièce"); // marche pour l'étage primitif
         
         Label nomPièce = new Label ("entrez le nom de la pièce");
         TextField textField = new TextField();
@@ -383,6 +361,7 @@ public class MainPane extends BorderPane {
         hb.getChildren().addAll(textField,valider);
         this.vbox.getChildren().addAll(nomPièce,hb);
         valider.setOnAction((t) -> {
+            this.changeMessage("cliquer sur la deuxième coin limite de la pièce");
             String input = textField.getText();
             try {
                 this.contrôleur.setNomPièce(input);
