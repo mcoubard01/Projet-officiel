@@ -6,8 +6,11 @@ package fr.insa.mathieu.architecture_officielle;
 import static fr.insa.mathieu.architecture_officielle.Mur.longueur;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.geometry.VPos;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 
 // Modification effectué par Oscar je modifie pour faire fonctionner avec les liste de murs  dnc je mets ce qu'on avait fait avant en commentaire. 
 /**
@@ -90,7 +93,6 @@ public class Pièce {
     this.liste_mur =new ArrayList<>();   
     this.étage = étage;
     this.étage.getListPièceOrpheline().add(this);
-    //this.appartement = new Appartement(étage);
     this.sol = new Sol(this); //TODO à regarder car pas sûr que ça marche
     this.plafond = new Plafond(this);
     this.id = IDManager.newId(this);
@@ -431,16 +433,15 @@ public class Pièce {
         else{
             dessineZoneCliquable(context);
         }
-        if (this.nom_pièce==null){
-            
-        }
-        else{
-            context.strokeText(nom_pièce, id,500, 800);
-        }
+        context.setStroke(Color.BLACK);
+        context.strokeText(nom_pièce, this.positionCentrale().getX(),this.positionCentrale().getY());
+        context.setTextAlign(TextAlignment.CENTER);
+        context.setTextBaseline(VPos.CENTER);
     }
     public void dessineZoneCliquable(GraphicsContext context){
         Mur[] listeMur = this.longMaxMin();
             Coin positionCentrale = this.positionCentrale();
+            
             double longMax = longueur(listeMur[0].getDebut(),listeMur[0].getFin()); // utilisation de cette fonction plutôt que <Mur>.longueur car <Mur>.longueur fait la conversion en même temps
             double longMin = longueur(listeMur[1].getDebut(),listeMur[1].getFin()); // utilisation de cette fonction plutôt que <Mur>.longueur car <Mur>.longueur fait la conversion en même temps
             context.setFill(Color.LIGHTGREY);

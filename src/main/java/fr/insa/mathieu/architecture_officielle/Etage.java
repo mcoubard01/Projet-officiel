@@ -81,6 +81,9 @@ public class Etage {
         for (Pièce pièce : this.getListPièceOrpheline()){
             prix = prix + pièce.prix();
         }
+        for (Facade facade : this.liste_mur_facade){
+            prix = prix+ facade.prix();
+        }
         return prix;
     }
     

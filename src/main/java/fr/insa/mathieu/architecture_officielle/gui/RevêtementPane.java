@@ -87,6 +87,7 @@ public class RevêtementPane extends BorderPane{
             }
         });
         listview.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newString) -> {
+            this.mainPane.changeMessage("cliquer sur Valider");
             if (newString != null) {
                 System.out.println("Revêtement cliqué : "+newString);
                 Revêtement revêtementTrouvé = getKeyFromValue(map, newString);
