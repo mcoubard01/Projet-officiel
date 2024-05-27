@@ -108,7 +108,7 @@ public class Facade extends Mur  {
      * @return String
      */
     public static String syntaxeToString(){
-        return "#Syntaxe  : \"Mur;id;idDuCoinDebut;idDuCoinFin;idDuRevêtement";
+        return "#Syntaxe  : \"Facade;id;idDuCoinDebut;idDuCoinFin;idDuRevêtement;liste_ouverture";
     }
     /**ceci est le toString() de sauvegarde.
     *MERCI DE NE PAS MODIFIER CETTE FONCTION sans me consulter
@@ -116,8 +116,8 @@ public class Facade extends Mur  {
     */
     @Override
     public String toStringSauvegarde() {
-        //Syntaxe : "Mur;id;idCoinDebut;idCoinFin"
-        return "Mur;" + this.id + ";" + debut.getId() + ";" + fin.getId() + ";" + this.revêtement_facade.getId() ;
+        //Syntaxe : "Facade;id;idCoinDebut;idCoinFin"
+        return "Facade;" + this.id + ";" + debut.getId() + ";" + fin.getId() + ";" + this.revêtement_facade.getId() + ";" + liste_ouverture;
     }
     
     @Override

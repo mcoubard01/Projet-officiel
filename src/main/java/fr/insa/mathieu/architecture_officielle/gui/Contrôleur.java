@@ -22,12 +22,16 @@ import java.io.File;//TODO à voir si utilisé
 import static fr.insa.mathieu.architecture_officielle.Mur.longueur;
 import fr.insa.mathieu.architecture_officielle.Revêtement;
 import fr.insa.mathieu.architecture_officielle.Sol_plafond;
+import static fr.insa.mathieu.architecture_officielle.gui.Main.customLaunch;
 import java.util.ArrayList;
 import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
@@ -42,7 +46,7 @@ import javafx.stage.Stage;
  * @author mathieu
  */
 public class Contrôleur {
-    private ETAT etat;
+    ETAT etat;
     private OBJET_SELECTIONNE objetSélectionné;
     private MainPane vue;    
     private RevêtementPane vueRevetement;
@@ -57,11 +61,11 @@ public class Contrôleur {
     private Etage etageActuel;
 
     private double hauteurEtage;// TODO a voir si tuilisé
-    private Mur dernierMurSélectionné
+    private Mur dernierMurSélectionné;
     private Coin[] coinProche = new Coin[3];
     private String nomPièce;//TODO a voir si utilisé
     
-    enum ETAT{
+    public enum ETAT{
         SELECT,
         AJOUT_ETAGEp1,
         AJOUT_ETAGEp2,
@@ -218,7 +222,7 @@ public class Contrôleur {
                     this.vue.getRbSelect().setDisable(true);
                     //lors de la création du premier étage, on ne peut pas encore select.
                 }else{
-                    this.vue.changeMessage("Merci cliquer n'importe où, puis d'entrer la hauteur du nouvel étage.");
+                    this.vue.changeMessage("Merci de cliquer n'importe où, puis d'entrer la hauteur du nouvel étage.");
                 }
                 this.vue.getRbidappart().setDisable(true);
                 this.vue.getRbidpiece().setDisable(true);
@@ -228,7 +232,6 @@ public class Contrôleur {
                 this.vue.getRbcrpiece2().setDisable(true);
                 this.vue.getRbcrpiece3().setDisable(true);
                 this.vue.getRbrevêtement().setDisable(true);
-                this.vue.getRbrevêtement_rap().setDisable(true);
                 
                 break;
             case AJOUT_ETAGEp2: //ATTENTION : AJOUT_ETAGEp2 n'est actif que au tout début, à la création du premier étage.
@@ -242,7 +245,6 @@ public class Contrôleur {
                 this.vue.getRbcrpiece2().setDisable(true);
                 this.vue.getRbcrpiece3().setDisable(true);
                 this.vue.getRbrevêtement().setDisable(true);
-                this.vue.getRbrevêtement_rap().setDisable(true);
                 break;         
         }
         this.etat=nouvelEtat;
@@ -419,17 +421,20 @@ public class Contrôleur {
                 }
         
                 System.out.println("l'objet sélectionné par ce clic est : "+ objetSélectionné.name());
-                System.out.println("Liste de mur SELECTIONNE : "+listeMurSelectionné.size() + "les voici : ");
+                System.out.println("Liste de mur SELECTIONNE : "+listeMurSelectionné.size() + "\nles voici : ");
                 for(int i =0;i<listeMurSelectionné.size();i++){
                     System.out.println(listeMurSelectionné.get(i).toString());
                 }
+                if ( ! this.listeMurSelectionné.isEmpty()){
+                    this.dernierMurSélectionné = this.listeMurSelectionné.get(this.listeMurSelectionné.size()-1);
+                }
+                //listeMurSélectionné est réinitialisée à l'entrée de SELECT, et on réentre dans SELECT plusieurs fois, apparemment...
 
-                this.dernierMurSélectionné = this.listeMurSelectionné.getLast();
-                //listeMurSélectionné est réinitialisée à l'entrée de SELECT.
                 this.activeBoutonSuivantSelection();
+                System.out.println(this.dernierMurSélectionné.surface());
                 objetSélectionné = OBJET_SELECTIONNE.RIEN;//réinitialisatioon du type d'objet sélectionné.
                 this.vue.redrawAll(); //permet de faire le highlight de la sélection
-                //this.changeEtat(ETAT.SELECT); //il faut le remettre sinon les boutons normalement actifs sont désactivés.
+                this.changeEtat(ETAT.SELECT); //il faut le remettre sinon les boutons normalement actifs sont désactivés.
                 break;
 
             case CREA_MURp1:
@@ -708,8 +713,6 @@ public class Contrôleur {
                 this.vue.getRbcrpiece3().setDisable(true);
                 this.vue.getRbcrpiece2().setDisable(true);
                 this.vue.getRbidpiece().setDisable(false);
-                this.vue.getRbporte().setDisable(false);
-                this.vue.getRbfenêtre().setDisable(false);
                 this.vue.getRbSelect().setDisable(false);
                 this.vue.getRbrevêtement().setDisable(false);
                 this.vue.getRbidappart().setDisable(true);
@@ -718,7 +721,7 @@ public class Contrôleur {
                 this.vue.getModifier().setDisable(false);
                 
                 if(this.listeMurSelectionné.size()>1){
-                    this.vue.getRbouverture.setDisable(true);
+                    this.vue.getRbouverture().setDisable(true);
                 }
                 break;    
         }
@@ -745,7 +748,8 @@ public class Contrôleur {
             System.out.println("Quel revêtement veux tu pour tes murs ? ");
             this.vueRevetement.affichageMur();
             Revêtement revêtementChoisi=new Revêtement();
-
+        }
+    }
     void affichageRevêtement() {
             System.out.println("Le revêtement à selectionner dans le revêtementPane");
             switch (objetSélectionné){
@@ -775,10 +779,6 @@ public class Contrôleur {
             System.out.println("appartement.toString() : "+appartement.toString());
         }
     }
-    void boutonSelect(MouseEvent t) { //pourqy=uoi y en a t'il deux?
-        System.out.println("BoutonSelectMOUSE_EVENT");
-        this.changeEtat(ETAT.SELECT_SURBRILLANCE);
-    }
 
     void boutonCrmur(ActionEvent t) {
         this.changeEtat(ETAT.CREA_MURp1);
@@ -793,15 +793,11 @@ public class Contrôleur {
     }
     void boutonAjEtage(ActionEvent t) {
         this.changeEtat(ETAT.AJOUT_ETAGEp1);
-    } 
-    void boutonCrmur(ActionEvent t) {
-        this.changeEtat(ETAT.CREA_MURp1);
-
     }
     void annulerSelection(ActionEvent t) {
         if (this.etat==ETAT.SELECT){
-            if(!this.getListePièceSélectionnée().isEmpty()){ // pareil que mettre this.getListePièceSélectionnée()>0
-                this.getListePièceSélectionnée().clear();
+            if(!this.listePièceSelectionnée.isEmpty()){ // pareil que mettre this.listePièceSelectionnée>0
+                this.listePièceSelectionnée.clear();
             }
             else{
                 
@@ -888,16 +884,16 @@ public class Contrôleur {
                 }
                 
                 if(t.isControlDown()){
-                            if(contrôleur.getListePièceSélectionnée().contains(pièceSelectionnée)){
-                                contrôleur.getListePièceSélectionnée().remove(pièceSelectionnée);
+                            if(contrôleur.listePièceSelectionnée.contains(pièceSelectionnée)){
+                                contrôleur.listePièceSelectionnée.remove(pièceSelectionnée);
                             }
                             else{
-                                contrôleur.getListePièceSélectionnée().add(pièceSelectionnée);
+                                contrôleur.listePièceSelectionnée.add(pièceSelectionnée);
                             }
                  } 
                  else {
-                            contrôleur.getListePièceSélectionnée().clear();
-                            contrôleur.getListePièceSélectionnée().add(pièceSelectionnée);
+                            contrôleur.listePièceSelectionnée.clear();
+                            contrôleur.listePièceSelectionnée.add(pièceSelectionnée);
                         }
     }
 
@@ -981,6 +977,7 @@ public class Contrôleur {
     public void menuSave(ActionEvent t) {
         //issu du tutoVideoDessin.
         System.out.println("action \"menuSave\"");
+        Architecture_officielle.sauvegardeParDéfaut();
     }
     /**
      * A finir
@@ -1000,6 +997,9 @@ public class Contrôleur {
      * @param t ActionEvent
      */
     public void menuOpen(ActionEvent t) {
+        
+        //on a pas eu le temps de faire un FileChooser();
+        
 //        FileChooser chooser = new FileChooser();
 //        File f = chooser.showOpenDialog(this.vue.getInStage());
 //        if (f != null) {
@@ -1023,6 +1023,66 @@ public class Contrôleur {
 //            }
 //        }
         System.out.println("action \"menuOpen\"");
+        Architecture_officielle nouveauModèle = IDManager.récupérerLesDonnéesEnregistrées("saveFile.txt");
+        this.etagePrimitif = IDManager.getObjetEtage(0);
+        nouveauModèle.setEtageActuel(this.etagePrimitif);
+        this.etageActuel = etagePrimitif;
+        try {
+            
+            Scene scene;
+            Stage stage = new Stage();
+    //        Architecture_officielle batiment = new Architecture_officielle();
+            GridPane gridPane = new GridPane(); // Ce GridPane composera la fenêtre principale où je disposerai mes autres fenêtres
+            MainPane mainPane; // Ce MainPane() sera composé de ma zone de dessin (Canvas) et mes outils
+
+            //Mise en place et initialiser les tailles des colonnes et lignes
+            gridPane.getColumnConstraints().add(new ColumnConstraints(650)); // column 0 is 650 wide
+            gridPane.getColumnConstraints().add(new ColumnConstraints (150));// colonne à une largeur de 150
+            gridPane.getRowConstraints().add(new RowConstraints(25));
+            gridPane.getRowConstraints().add(new RowConstraints(250));       // ligne à une hauteur de 250
+            gridPane.getRowConstraints().add(new RowConstraints(250));       // ligne à une hauteur de 250
+            gridPane.getRowConstraints().add(new RowConstraints(100));       // ligne à une hauteur de 100
+            gridPane.getRowConstraints().add(new RowConstraints(25));
+    //        mainPane=new MainPane(batiment);
+                    mainPane=new MainPane(nouveauModèle);
+                    this.changeEtat(ETAT.SELECT);
+                    this.vue.getRbSelect().setSelected(true);
+            
+
+    //Mettre mes Panes dans les différentes cases de mon grid        
+            gridPane.add(mainPane.getMenu(), 0, 0,2,1); ////je mets la menuBar à la colonne 0, ligne 0, j'étale mon Pane sur 2 colonne et 1 ligne
+            gridPane.add(mainPane, 0, 1,1, 3); // je mets la fenêtre mainPane à la colonne 1, ligne 1, j'étale mon Pane sur 1 colonne et 3 lignes
+            gridPane.add(mainPane.getRevêtementPane(),1,1,1, 1);//je mets la fenêtre revêtmentPane à la colonne 1, ligne 1, j'étale mon Pane sur 1 colonne et 1 lignes
+            gridPane.add(mainPane.getPrixPane(), 1, 2, 1, 2);//je mets la fenêtre prixPane à la colonne 1, ligne 2, j'étale mon Pane sur 1 colonne et 2 lignes
+            gridPane.add(mainPane.getTfMessage(),0,4,2,1);//je mets tfMessage à la colonne 0, ligne 4, j'étale mon Pane sur 2 colonne et 1 ligne
+            scene = new Scene(gridPane,800,650);
+
+            scene.widthProperty().addListener((o) -> {
+                gridPane.getColumnConstraints().add(0,new ColumnConstraints(0.75*gridPane.getWidth())); // column 0 is 650 wide
+                gridPane.getColumnConstraints().add(1,new ColumnConstraints (0.25*gridPane.getWidth()));// colonne à une largeur de 150
+            });
+            scene.heightProperty().addListener((o) -> { 
+                gridPane.getRowConstraints().set(0, new RowConstraints(25));      // ligne à une hauteur de 250            
+                gridPane.getRowConstraints().set(1, new RowConstraints(0.40*gridPane.getHeight()-25));      // ligne à une hauteur de 250
+                gridPane.getRowConstraints().add(2,new RowConstraints(0.40*gridPane.getHeight()));       // ligne à une hauteur de 250
+                gridPane.getRowConstraints().add(3,new RowConstraints(0.20*gridPane.getHeight()-25));
+                gridPane.getRowConstraints().set(4, new RowConstraints(25));      // ligne à une hauteur de 250
+
+            });
+
+            
+            
+            stage.setScene(scene);
+            stage.setTitle("LE MEILLEUR LOGICIEL D'ARCHITECTURE ! (made by Mathieu, Thomas, Oscar )");
+            stage.show(); // Affichage de la fenêtre
+        } catch (Exception ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText("Problème durant la sauvegarde");
+            alert.setContentText(ex.getLocalizedMessage());
+            alert.showAndWait();
+        } 
+        System.out.println("l'ouverture est réussie.");
     }
     
     /**
@@ -1037,7 +1097,7 @@ public class Contrôleur {
 //        nouveau.setScene(sc);
 //        nouveau.show();
         System.out.println("action \"menuNouveau\"");
-
+    }
     public void menuApropos(ActionEvent t) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("A propos");
@@ -1079,6 +1139,10 @@ public class Contrôleur {
     public ArrayList<Pièce> getListePièceSelectionnée() {
         return listePièceSelectionnée;
     }
+
+    public ETAT getEtat(String nomEtat) {
+        return ETAT.valueOf(nomEtat);
+    }
     
     //SET
     public void setEtageActuel(Etage etageActuel) {
@@ -1096,6 +1160,11 @@ public class Contrôleur {
     public void setObjetSélectionné(OBJET_SELECTIONNE objetSélectionné) {
         this.objetSélectionné = objetSélectionné;
     }
+
+    public void setEtat(String nomEtat){
+        this.etat = ETAT.valueOf(nomEtat);
+    }
+    
     
     
 }

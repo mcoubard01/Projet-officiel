@@ -29,14 +29,9 @@ public class Architecture_officielle {
     private Contrôleur contrôleur;
     public static ArrayList<Revêtement> listeRevêtement;
 
-    public ArrayList<Revêtement> getListeRevêtement() {
-        return listeRevêtement;
-    }
     
-    public  ArrayList<String[]> getDonnee_enregistree() {
-        return donnee_enregistree;
-    }
-    
+
+        
     //TODO : l'utilsatuer doit pouvoir spécifier la hauteur de son premier étage.
     //Cela pourrait être un paramètre du constructeur ci-dessous. 
     //On ne créérait m^me pas le bâtiment tout de suite, 
@@ -47,7 +42,8 @@ public class Architecture_officielle {
         listeRevêtement=new ArrayList<>();
         donnee_enregistree=lecture("Revêtement_final.txt");
         this.liste_etage=new ArrayList<>();
-        
+        IDManager.setBâtiment(this);
+        //IDManager a aussi un attribut bâtiment
         //this.étageActuel = new Etage(2.5);
         //TODO : éventuellement, il faudra que l'utilisateur choisisse son étage de début!!
     }
@@ -574,7 +570,13 @@ public class Architecture_officielle {
     public void setContrôleur(Contrôleur contrôleur) {
         this.contrôleur = contrôleur;
     }
-
+    public ArrayList<Revêtement> getListeRevêtement() {
+        return listeRevêtement;
+    }
+    
+    public  ArrayList<String[]> getDonnee_enregistree() {
+        return donnee_enregistree;
+    }
 
 public static void main(String[] args) {
    /////////////LECTURE FICHIER. IL s'appelle Revêtement_test.txt

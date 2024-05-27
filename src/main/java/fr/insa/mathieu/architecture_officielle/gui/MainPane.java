@@ -9,6 +9,7 @@ import fr.insa.mathieu.architecture_officielle.Coin;
 import fr.insa.mathieu.architecture_officielle.Etage;
 import fr.insa.mathieu.architecture_officielle.Mur;
 import fr.insa.mathieu.architecture_officielle.Appartement;
+import fr.insa.mathieu.architecture_officielle.Facade;
 import fr.insa.mathieu.architecture_officielle.gui.Contrôleur.ETAT;
 import static fr.insa.mathieu.architecture_officielle.gui.Contrôleur.OBJET_SELECTIONNE.MUR;
 import static fr.insa.mathieu.architecture_officielle.gui.Contrôleur.OBJET_SELECTIONNE.PLAFOND;
@@ -164,7 +165,7 @@ public class MainPane extends BorderPane {
         this.rbrevêtement.setToggleGroup(bgEtat);
         this.rbEtageAj.setToggleGroup(bgEtat);
         this.rbAnnule.setToggleGroup(bgEtat);
-        this.rbEtageAj.setSelected(true);
+        //this.rbEtageAj.setSelected(true);
         //ANCIEN : this.rbSelect.setSelected(true);
         //désormais, quand on ouvre le programme, il faut créer le premier étage : 
         //clic1 -->ETAT.AJOUT_ETAGEp2, puis clic2, puis dans la console, donner la ahuteur de étagePrimitif.
@@ -187,12 +188,12 @@ public class MainPane extends BorderPane {
         this.setCenter(this.dcdessin);
         
         this.menu = new MainMenu(this);
-        this.setTop(this.menu);
+//        this.setTop(this.menu);
         
         this.tfMessage = new TextField();
-        this.setBottom(this.tfMessage);
+//        this.setBottom(this.tfMessage);
         
-        this.contrôleur.changeEtat(ETAT.AJOUT_ETAGEp1);
+        //this.contrôleur.changeEtat(ETAT.AJOUT_ETAGE_p1);
     }
     
     //GET
@@ -255,6 +256,11 @@ public class MainPane extends BorderPane {
     public MainMenu getMenu() {
         return menu;
     }
+
+    public TextField getTfMessage() {
+        return tfMessage;
+    }
+    
     public void changeMessage(String message) {
         this.tfMessage.setText(message);
     } 

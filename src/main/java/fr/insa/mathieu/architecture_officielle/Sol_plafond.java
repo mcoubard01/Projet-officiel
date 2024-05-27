@@ -44,7 +44,14 @@ package fr.insa.mathieu.architecture_officielle;
     }
     @Override
     public String toString() {
-        return "idDuRevêtement"+this.revêtement.getId();
+        //Syntacexe : "idDuRevêtement"
+        int idDuRevêtement;
+        if (this.revêtement == null){
+            idDuRevêtement = 9999;
+        }else{
+            idDuRevêtement = this.revêtement.getId();
+        }
+        return "" + idDuRevêtement; //renvoie l'id du revêtement
     }
     
     
