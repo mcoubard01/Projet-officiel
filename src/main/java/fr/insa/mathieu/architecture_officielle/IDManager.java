@@ -308,10 +308,7 @@ public class IDManager {
         Mur nouveauMur = new Mur(coinDebut, coinFin);
         nouveauMur.setRevêtement(rev);
         
-        //PUNAISE DE REGEX IL FAUT SEPARER MURENSTRING[5] mais il faut aussi lui ajouter les autres éléements...
-        //car ouverture.toStringSauvegarde sépare les éléments avec des ";", donc le "split" dans "récupérerLesDonnéesEnregistrées"
-        //ne marche pas. 
-        //IDEE DE SOLUTION : remplacer dans ouverrture.toStringSauvegarde() les ";" par des ":" ou des "-", que sais-je....
+//Les attributs des ouvertures sont séparés par des ":" car sinon le regex dans récupérerLesDonnéesEnregistrées sépare ces attributs.
         System.out.println("murEnString[5] : " + murEnString[5]);
         
         murEnString[5] = murEnString[5].replaceAll("\\[", "");
@@ -334,7 +331,7 @@ public class IDManager {
             System.out.println("mur créé : " + nouveauMur);
         }
         
-        //ATTENTION! il faudra fait un mur.setEtage dans la fonction récupérerUnEtage pour tous les étages!!
+        //ATTENTION! il faudra faire un mur.setEtage dans la fonction récupérerUnEtage pour tous les étages!!
     }
     
     /**
