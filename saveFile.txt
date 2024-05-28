@@ -1,4 +1,5 @@
 === DEVIS GENERAL===
+#PRIX TOTAL : 56073.39
 #5 : Crepi € : 67.8
 #6 : Papier peint € : 32.9
 #8 : Peinture € : 77.3
@@ -25,45 +26,60 @@
 
 === liste des Coins ===
 #Syntaxe  : "Coin;id;x;y"
-Coin;0;77.20000000000002;456.8
-Coin;1;77.20000000000002;67.2
-Coin;2;343.2;67.2
-Coin;3;343.2;456.8
-Coin;4;126.40000000000003;101.2
-Coin;5;126.40000000000003;270.40000000000003
-Coin;6;4.0;270.40000000000003
-Coin;7;4.0;101.2
-Coin;8;259.2;251.2
-Coin;9;259.2;269.6
-Coin;10;262.40000000000003;269.6
-Coin;11;262.40000000000003;251.2
+Coin;0;94.80000000000001;449.6
+Coin;1;94.80000000000001;50.0
+Coin;2;391.2;50.0
+Coin;3;391.2;449.6
+Coin;4;94.80000000000001;50.0
+Coin;5;94.80000000000001;50.0
+Coin;6;94.80000000000001;234.8
+Coin;7;243.2;234.8
+Coin;8;243.2;50.0
+Coin;9;243.2;234.8
+Coin;10;391.2;50.0
+Coin;11;243.2;234.8
+Coin;12;243.2;50.0
+Coin;13;391.2;50.0
+Coin;14;391.2;234.8
+Coin;15;94.80000000000001;50.0
+Coin;16;94.80000000000001;50.0
+Coin;17;94.80000000000001;280.40000000000003
+Coin;18;317.6;280.40000000000003
+Coin;19;317.6;50.0
 
 === liste des Facades ===
 #Syntaxe  : "Facade;id;idDuCoinDebut;idDuCoinFin;idDuRevêtement;liste_ouverture
-Facade;0;0;1;20;[]
-Facade;1;1;2;20;[]
+Facade;0;0;1;20;[Ouverture;ori_x=94.80000000000001;ori_y=300.0;orientation=N;longueur=1.2;id du mur1=0, Ouverture;ori_x=94.80000000000001;ori_y=300.0;orientation=N;longueur=1.2;id du mur1=0]
+Facade;1;1;2;20;[Ouverture;ori_x=260.0;ori_y=50.0;orientation=E;longueur=0.9;id du mur1=1, Ouverture;ori_x=260.0;ori_y=50.0;orientation=E;longueur=0.9;id du mur1=1, Ouverture;ori_x=100.0;ori_y=50.0;orientation=E;longueur=0.9;id du mur1=1, Ouverture;ori_x=100.0;ori_y=50.0;orientation=E;longueur=0.9;id du mur1=1]
 Facade;2;2;3;20;[]
 Facade;3;3;0;20;[]
 
 === liste des Murs ===
 #Syntaxe  : "Mur;id;idDuCoinDebut;idDuCoinFin;idDuRevêtement;liste_ouverture
-Mur;0;4;5;0;[]
-Mur;1;5;6;0;[]
-Mur;2;6;7;0;[]
-Mur;3;7;4;0;[]
-Mur;4;8;9;0;[]
-Mur;5;9;10;0;[]
-Mur;6;10;11;0;[]
-Mur;7;11;8;0;[]
+Mur;0;5;6;0;[]
+Mur;1;6;7;0;[]
+Mur;2;7;8;0;[]
+Mur;3;8;5;0;[]
+Mur;4;11;12;0;[]
+Mur;5;12;13;0;[]
+Mur;6;13;14;0;[]
+Mur;7;14;11;0;[]
+Mur;8;16;17;0;[Ouverture:94.80000000000001:156.0:N:1.2:8, Ouverture:94.80000000000001:156.0:N:1.2:8, Ouverture:94.80000000000001:270.0:N:0.9:8, Ouverture:94.80000000000001:270.0:N:0.9:8, ]
+Mur;9;17;18;0;[]
+Mur;10;18;19;0;[]
+Mur;11;19;16;0;[]
 
 === liste des Pièces ===
 #Syntaxe : "Pièce;id;nom_pièce;liste_mur(identifiants);revêtementDuSol;revêtementDuPlafond"
-Pièce;0;null;liste_mur=[0, 1, 2, 3];0;0
-Pièce;1;dzqzd;liste_mur=[4, 5, 6, 7];0;0
+Pièce;0;dzqd;liste_mur=[0, 1, 2, 3];0;0
+Pièce;1;dzqdzdddd;liste_mur=[4, 5, 6, 7];0;0
+Pièce;2;cuisine;liste_mur=[8, 9, 10, 11];0;0
 
 === liste des Etages ===
 #Syntaxe : "Etage;id;hauteur_etage; liste_mur_facade (id);liste_appartement (id) ;listPiècesOrphelines (id);listeMurOrphelin (id)"
 Etage;0;5.0;[0, 1, 2, 3];[];[0, 1];[]
+Etage;1;56.0;[0, 1, 2, 3];[];[2];[]
+Etage;2;56.0;[0, 1, 2, 3];[];[];[]
 
 ===Le bâtiment===
-Bâtiment;[0]
+Bâtiment;[0, 1, 2]
