@@ -102,6 +102,8 @@ public class IDManager {
     public static ArrayList<String> imprimerLeDevis(){
         ArrayList<String> listeARenvoyer = new ArrayList<>();
         listeARenvoyer.add("=== DEVIS GENERAL===");
+        String prixDuBat = String.valueOf(bâtiment.prixTotal());
+        listeARenvoyer.add("#PRIX TOTAL : " + prixDuBat + "€");
         for (String text : bâtiment.prixParRevêtement()){
             listeARenvoyer.add("#" + text);
         }
