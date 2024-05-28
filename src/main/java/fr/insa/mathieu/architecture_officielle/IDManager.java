@@ -88,13 +88,31 @@ public class IDManager {
     
     
     //FUNCTIONS
-    
-    
-    
+    /**
+     * Cette fonction nécessite qu'un objet contrôleur ait été créé.
+     * @return 
+     */
+    public static ArrayList<String> imprimerLaSauvegarde(){
+        //DEVIS + SAUVEGARDE
+        ArrayList<String> newList = new ArrayList<>();
+        newList= imprimerLeDevis();
+        newList.addAll(imprimerLesObjetsCréés());
+        return newList;
+    }
+    public static ArrayList<String> imprimerLeDevis(){
+        ArrayList<String> listeARenvoyer = new ArrayList<>();
+        listeARenvoyer.add("=== DEVIS GENERAL===");
+        for (String text : bâtiment.prixParRevêtement()){
+            listeARenvoyer.add("#" + text);
+        }
+        return listeARenvoyer;
+    }
     public static ArrayList<String> imprimerLesObjetsCréés(){
         ArrayList<String> listeARenvoyer = new ArrayList<>();
+        
+        listeARenvoyer.add("\n===DONNEES SAUVEGARDEES===");
         if (! mapIdVersCoin.isEmpty()){ //si la map n'est PAS vide, alors:
-            listeARenvoyer.add("=== liste des Coins ===");
+            listeARenvoyer.add("\n=== liste des Coins ===");
             listeARenvoyer.add(Coin.syntaxeToString());
             // \" permet de mettre des guillemets dans le System.out.print()
             for (int i = 0;i<=mapIdVersCoin.lastKey();i++){
@@ -105,7 +123,7 @@ public class IDManager {
         }
         
         if (!mapIdVersFacade.isEmpty()){
-            listeARenvoyer.add("=== liste des Facades ===");
+            listeARenvoyer.add("\n=== liste des Facades ===");
             listeARenvoyer.add(Facade.syntaxeToString());
 
             for (int i = 0;i<=mapIdVersFacade.lastKey();i++){
@@ -115,7 +133,7 @@ public class IDManager {
             } //cete boucle "for" ajoute à listeARenvoyer tous les objets Mur qui ont été créés.
         }
         if (! mapIdVersMur.isEmpty()){ //si la map n'est PAS vide, alors:
-            listeARenvoyer.add("=== liste des Murs ===");
+            listeARenvoyer.add("\n=== liste des Murs ===");
             listeARenvoyer.add(Mur.syntaxeToString());
 
             for (int i = 0;i<=mapIdVersMur.lastKey();i++){
@@ -125,7 +143,7 @@ public class IDManager {
             } //cete boucle "for" ajoute à listeARenvoyer tous les objets Mur qui ont été créés.
         }
         if (! mapIdVersPièce.isEmpty()){ //si la map n'est PAS vide, alors:
-            listeARenvoyer.add("=== liste des Pièces ===");
+            listeARenvoyer.add("\n=== liste des Pièces ===");
             listeARenvoyer.add(Pièce.syntaxeToString()); //syntaxe que l'on peut mettre à jour
             //Syntaxe actuelle : "\"Pièce;id;nom_pièce;liste_mur(identifiants);revêtementDuSol;revêtementDuPlafond;idDuAppartement \""
             for (int i = 0;i<=mapIdVersPièce.lastKey();i++){
@@ -136,7 +154,7 @@ public class IDManager {
         }
         
         if (! mapIdVersAppartement.isEmpty()){ //si on a effectivement créé des étages
-             listeARenvoyer.add("=== liste des Appartements ===");
+             listeARenvoyer.add("\n=== liste des Appartements ===");
              listeARenvoyer.add(Appartement.syntaxeToString());
              //actuellement : "Syntaxe : \"Appartement;id;IdDuEtage;liste_pièce\""
             for (int i = 0;i<=mapIdVersAppartement.lastKey();i++){
@@ -147,7 +165,7 @@ public class IDManager {
         }
         
         if (! mapIdVersEtage.isEmpty()){ //si on a effectivement créé des étages
-            listeARenvoyer.add("=== liste des Etages ===");
+            listeARenvoyer.add("\n=== liste des Etages ===");
             listeARenvoyer.add(Etage.syntaxeToString());
             //actuellemnt : "Syntaxe : \"Etage;id;hauteur_etage;liste_appartement\""
             for (int i = 0;i<=mapIdVersEtage.lastKey();i++){
@@ -156,7 +174,7 @@ public class IDManager {
                 listeARenvoyer.add(étageAEnregistrer);
             } //cete boucle "for" ajoute à listeARenvoyer tous les objets Etage qui ont été créés.
         }
-        listeARenvoyer.add("===Le bâtiment===");
+        listeARenvoyer.add("\n===Le bâtiment===");
         listeARenvoyer.add(IDManager.bâtiment.toStringSauvegarde());
         
         //j'imaginais le fichier txt de sauvegarde ainsi : 
@@ -178,7 +196,7 @@ public class IDManager {
         //le construcuteur de Archit_offi lis automatiquement "Revêtement_final.txt" et le met dans Architecture_officielle.donnee_enregistree (publique, static)
         ArrayList<String> donnéesATraiter = Architecture_officielle.lectureGénérale(nom_fichier);
         for (String ligneATraiter : donnéesATraiter){
-            if ( ! (ligneATraiter.startsWith("#")) && ( ! ligneATraiter.startsWith("=")) ){
+            if ( ! (ligneATraiter.startsWith("#")) && ( ! ligneATraiter.startsWith("="))  && ( ! ligneATraiter.isEmpty())){ //isEmpty pour traiter les retous à la ligne
                 //"si la ligne est une ligne de sauvegarde et non d'information"
                 String[] objetEnString =  ligneATraiter.split(";");
                 String typeDeObjet = objetEnString[0];
@@ -840,10 +858,12 @@ public class IDManager {
 
         batiment.add(e1);
         Architecture_officielle.sauvegardeParDéfaut();
-        IDManager.récupérerLesDonnéesEnregistrées("saveFile.txt");
+        /*IDManager.récupérerLesDonnéesEnregistrées("saveFile.txt");
         for (String texte : imprimerLesObjetsCréés()){
             System.out.println(texte);
-        }
+        }*/
+         String test = " : boNjour 12 € : 133";
+         System.out.println(test.replaceAll(("[0-9]?\\w|\\ |\\€|[a-z]|[A-Z]|\\:"), ""));
         
     }
     

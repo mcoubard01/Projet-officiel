@@ -142,7 +142,7 @@ public class RevêtementPane extends BorderPane{
             }
         
         return mapRevêtTotal;
-    }
+    }    
     /**
      * Pour chaque couple de clé-valeur : on test si la valeur correspond à celle que nous cherchons
      * @param map

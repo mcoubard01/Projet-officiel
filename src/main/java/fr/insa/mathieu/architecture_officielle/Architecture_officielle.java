@@ -17,7 +17,9 @@ import static fr.insa.mathieu.architecture_officielle.Revêtement.todouble;
 import fr.insa.mathieu.architecture_officielle.gui.Contrôleur;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map.Entry;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
@@ -184,6 +186,16 @@ public class Architecture_officielle {
         }
         prixRevêtement=(double)Math.round(prixRevêtement*100)/100;
         return prixRevêtement;
+    }
+    
+    public ArrayList<String> prixParRevêtement(){
+         ArrayList<String> prixParRev = new  ArrayList<>();
+        HashMap<Revêtement,String> mapRev = this.contrôleur.getVueRevetement().rev_Total();
+        for (Entry entry : mapRev.entrySet()){
+            prixParRev.add((String) entry.getValue());
+            //renvoie le String du prix d'un revêtement
+        }
+        return prixParRev;
     }
 
     
@@ -517,7 +529,7 @@ public class Architecture_officielle {
         Coin coin4 = new Coin(301,30);
         Coin coin5 = new Coin(302,28); 
         */ //c'était des tests
-        ArrayList<String> listeDesObjetsCréés = IDManager.imprimerLesObjetsCréés();
+        ArrayList<String> listeDesObjetsCréés = IDManager.imprimerLaSauvegarde();
         écriture("saveFile.txt", listeDesObjetsCréés);
         //imprimerLesObjetsCréés() est une méthode qui lit toutes les valeurs (objets créés) de chaque clé (identifiants) de chaque mapIdVersTypeDeObjet dans IDManager.
         //elle place dans chaque case de l'ArrayList l'objet.toString() .
