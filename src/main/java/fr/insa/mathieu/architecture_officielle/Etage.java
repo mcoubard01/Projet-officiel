@@ -14,7 +14,7 @@ import java.util.HashMap;
 /*
 
 */
-public class Etage {
+public class Etage {   //
     private int hauteur_etage;
     private ArrayList<Appartement> liste_appartement;
     private int niveau; //niveau ne sert à rien? on supprime?  signé thomas
